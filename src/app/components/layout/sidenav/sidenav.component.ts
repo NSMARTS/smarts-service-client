@@ -5,8 +5,8 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { SidenavItemComponent } from './sidenav-item/sidenav-item.component';
 import { RouterModule } from '@angular/router';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
+import { NavigationService } from 'src/app/stores/layout/navigation.service';
 import { SidenavViewPolicy } from 'src/app/interfaces/navigation-item.interface';
-import { NavigationService } from 'src/app/stores/layout/navigiation.service';
 
 @Component({
     selector: 'app-sidenav',

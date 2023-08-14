@@ -2,13 +2,14 @@ import { Component, DestroyRef, HostBinding, Input, OnChanges, OnDestroy, OnInit
 import { CommonModule } from '@angular/common';
 import { dropdownAnimation } from 'src/app/animations/dropdown.animation';
 import { NavigationDropdown, NavigationItem, SidenavViewPolicy } from 'src/app/interfaces/navigation-item.interface';
-import { NavigationService } from 'src/app/stores/layout/navigiation.service';
+
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription, filter, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationService } from 'src/app/stores/layout/navigation.service';
 
 @Component({
     selector: 'app-sidenav-item',
@@ -18,7 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     styleUrls: ['./sidenav-item.component.scss'],
     animations: [dropdownAnimation],
 })
-export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
+export class SidenavItemComponent implements OnInit, OnChanges {
     @Input() item!: NavigationItem;
     @Input() level: number = 0;
     @Input() flag!: SidenavViewPolicy;
@@ -117,9 +118,7 @@ export class SidenavItemComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    ngOnDestroy() {
-        // this.subscription.unsubscribe();
-    }
+
     /**
         * dropdown state 변경이 발생한 item이 현재 dropdown menu의 child (하위 모두 포함)인가?
         *  --> ok : true 반환
