@@ -13,8 +13,7 @@ export class NavigationService {
     // signal 값을 초기화 하기위해 값을 넣어야하나
     // 넣을 값이 없어 as 로 빈 배열에 강제로 타입을 추가했다.
     // 이렇게 하면 안되는데 해결법을 몰라 어쩔 수 없이 했다.
-    // item을 쓰는 함수에는 전부 타입 체크를 하니 에러는
-    // 나지 않을 것이다.
+    // item을 쓰는 함수에는 전부 타입 체크를 하니 에러는 나지 않을 것이다.
     selectedDropDownItem = signal<NavigationDropdown>({} as NavigationDropdown)
     constructor() { }
 
