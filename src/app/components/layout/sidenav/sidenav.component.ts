@@ -35,8 +35,7 @@ export class SidenavComponent {
 
     // 나중에 타입을 알면 추가
     flag: SidenavViewPolicy = {
-        isReplacementDay: false,
-        isManager: false,
+        isNsAdmin: false,
     };
 
 

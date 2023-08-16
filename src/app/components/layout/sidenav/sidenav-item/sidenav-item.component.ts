@@ -215,7 +215,6 @@ export class SidenavItemComponent implements OnInit, OnChanges {
             }
 
             if (this.isLink(child)) {
-                console.log('!!!!')
                 const matchOptions: IsActiveMatchOptions = {
                     paths: 'exact',
                     matrixParams: 'exact',
