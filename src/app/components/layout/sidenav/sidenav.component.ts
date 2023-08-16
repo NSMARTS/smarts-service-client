@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
@@ -17,7 +17,9 @@ import { SidenavViewPolicy } from 'src/app/interfaces/navigation-item.interface'
         RouterModule
     ],
     templateUrl: './sidenav.component.html',
-    styleUrls: ['./sidenav.component.scss']
+    styleUrls: ['./sidenav.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class SidenavComponent {
 

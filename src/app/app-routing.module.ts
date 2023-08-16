@@ -1,3 +1,5 @@
+import { SignUpComponent } from './pages/auth/sign-up/sign-up.component';
+import { SignInComponent } from './pages/auth/sign-in/sign-in.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
@@ -14,21 +16,23 @@ const routes: Routes = [
     // component: IndexComponent,
     // canActivate: [SignInGuard]
     // },
-    // {
-    //     path: 'sign-in',
-    //     loadChildren: () =>
-    //         import(`./pages/auth/auth.module`).then(m => m.AuthModule),
-    // },
-    // {
-    //     path: 'sign-up',
-    //     loadChildren: () =>
-    //         import(`./pages/auth/auth.module`).then(m => m.AuthModule),
-    // },
-    // {
-    //     path: 'find-pw',
-    //     loadChildren: () =>
-    //         import(`./pages/auth/auth.module`).then(m => m.AuthModule),
-    // },
+    {
+        path: 'sign-in',
+        loadComponent: () =>
+            import('./pages/auth/sign-in/sign-in.component').then(m => m.SignInComponent),
+
+    },
+    {
+        path: 'sign-up',
+        loadComponent: () =>
+            import('./pages/auth/sign-up/sign-up.component').then(m => m.SignUpComponent),
+
+    },
+    {
+        path: 'find-pw',
+        loadChildren: () =>
+            import(`./pages/auth/find-pw/find-pw.component`).then(m => m.FindPwComponent),
+    },
     {
         path: '',
         component: LayoutComponent,
@@ -69,7 +73,7 @@ const routes: Routes = [
     {
         path: '**',
         // redirectTo: 'welcome',
-        redirectTo: '',
+        redirectTo: 'sign-in',
         pathMatch: 'full'
     },
 ];

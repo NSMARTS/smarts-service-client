@@ -1,0 +1,64 @@
+<div class="card-container" fxLayoutAlign="center center" fxLayout="column">
+    <mat-card class="cardBox">
+        <mat-card-header fxLayoutAlign="center center" fxLayout="column">
+            <div>
+                <img src="assets/logo/logo-title2-rm.png" alt="">
+            </div>
+            <div>
+                <mat-card-title>
+                    Register for an account
+                </mat-card-title>
+            </div>
+            <div class="cardSubTitle">
+                Simply fill out the form below
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="signUpForm" class="example-form">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <input matInput type="text" placeholder="E-Mail *" name="email" formControlName="email"
+                        autocomplete="email">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput type="text" placeholder="Name *" formControlName="username" autocomplete="name"
+                        required>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password" name="password" autocomplete="password">
+                    <mat-error
+                        *ngIf="signUpForm.controls['password'].hasError('minlength') || signUpForm.controls['password'].hasError('maxlength') && !signUpForm.controls['password'].hasError('required')">
+                        The password should be between 6 and 15 characters
+                    </mat-error>
+                    <mat-error *ngIf="signUpForm.controls['password'].hasError('required')">
+                        Password is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <!-- <mat-error *ngIf="(signUpFormData.password != signUpFormData.confirmedPassword)">password must be match with Confirmed Password</mat-error> -->
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Password(Confirm)</mat-label>
+                    <input matInput type="password" formControlName="confirmedPassword" name="confirmedPassword"
+                        autocomplete="confirmedPassword">
+                    <mat-error
+                        *ngIf="(signUpForm.controls['password'] != signUpForm.controls['confirmedPassword']) && !signUpForm.controls['password'].hasError('required')">
+                        Password must be match with Confirmed Password
+                    </mat-error>
+                    <mat-error *ngIf="signUpForm.controls['password'].hasError('required')">
+                        PasswordConfirm is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <div fxLayoutAlign="center" fxLayout="column wrap">
+                    <button type="submit" mat-raised-button (click)="signUp()" class="signupBtn"
+                        [disabled]="!signUpForm.valid">SIGN
+                        UP</button>
+                </div>
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
