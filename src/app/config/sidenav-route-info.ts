@@ -8,44 +8,70 @@ export const sidenavRouteInfo: NavigationItem[] = [
         label: 'Dashboard',
         route: '/main',
         icon: 'dashboard',
-        isNsAdmin: true
+        // isNsAdmin: true
     },
     // company
     {
         type: 'subheading',
-        label: 'corporation',
+        label: 'COMPANY',
         children: [
             {
                 type: 'link',
                 label: 'Company List',
-                route: '/company-mngmt/company-list',
+                route: '/company/',
                 icon: 'update',
                 isNsAdmin: true
             },
             {
                 type: 'link',
-                label: 'Admin List',
-                route: '/company-mngmt/admin-list',
+                label: 'Company Holiday Management',
+                route: '/company-holiday/',
                 icon: 'groups',
                 isNsAdmin: true
             },
         ]
     },
-    // National Holiday Management
+    // EMPLOYEE
     {
         type: 'subheading',
-        label: 'holiday management',
+        label: 'EMPLOYEE',
         children: [
             {
                 type: 'link',
-                label: 'Country List',
-                route: '/holiday-mngmt/country-list',
+                label: 'Employee List',
+                route: '/employee/',
+                icon: 'holiday_village',
+                isNsAdmin: true
+            },
+            {
+                type: 'link',
+                label: 'Employee Leave Status',
+                route: '/employee/',
+                icon: 'holiday_village',
+                isNsAdmin: true
+            },
+            {
+                type: 'link',
+                label: 'Retired Employee List',
+                route: '/employee/',
                 icon: 'holiday_village',
                 isNsAdmin: true
             },
         ]
     },
-
+    {
+        type: 'subheading',
+        label: 'HOLIDAY MANAGEMENT',
+        children: [
+            {
+                type: 'link',
+                label: 'County List',
+                route: '',
+                icon: 'holiday_village',
+                isNsAdmin: true
+            },
+        ]
+    },
     // // project
     // {
     // 	type: 'subheading',
