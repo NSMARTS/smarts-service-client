@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { dropdownAnimation } from 'src/app/animations/dropdown.animation';
 import { NavigationDropdown, NavigationItem, SidenavViewPolicy } from 'src/app/interfaces/navigation-item.interface';
 
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { IsActiveMatchOptions, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,6 +28,8 @@ export class SidenavItemComponent implements OnInit, OnChanges {
 
     isOpen: boolean = false;
     isActive: boolean = false;
+    router = inject(Router)
+
     navigationService = inject(NavigationService)
     selectedDropDownItem = this.navigationService.selectedDropDownItem
 
@@ -52,7 +54,6 @@ export class SidenavItemComponent implements OnInit, OnChanges {
         return `item-level-${this.level}`;
     }
     constructor(
-        private router: Router,
         public dialog2: MatDialog,
     ) {
 
@@ -214,10 +215,17 @@ export class SidenavItemComponent implements OnInit, OnChanges {
             }
 
             if (this.isLink(child)) {
+                console.log('!!!!')
+                const matchOptions: IsActiveMatchOptions = {
+                    paths: 'exact',
+                    matrixParams: 'exact',
+                    queryParams: 'subset',
+                    fragment: 'ignored'
+                }
                 // https://angular.io/api/router/Router
                 // isActive(url: string | UrlTree, exact: boolean): boolean
                 // TO CHECK : exact parameter 영향
-                return this.router.isActive(child.route as string, false);
+                return this.router.isActive(child.route as string, matchOptions);
             }
         });
     }
