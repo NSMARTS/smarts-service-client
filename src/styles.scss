@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+$sidenav-width: 279px;
+$sidenav-toolbar-height: 64px; // material default
+$sidenav-toolbar-height-mobile: 56px; // material default <599px
+//$sidenav-bgColor: #1a202e;
+$sidenav-bgColor: #00154F;
+//$sidenav-active-color: #141924;
+$sidenav-active-color: #F4AF1B;
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
