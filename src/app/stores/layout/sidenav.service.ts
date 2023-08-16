@@ -28,6 +28,6 @@ export class SidenavService {
     }
 
     openSidenav() {
-        this.isSideNavOpen.set(true);
+        this.isSideNavOpen.update((prev) => !prev)
     }
 }

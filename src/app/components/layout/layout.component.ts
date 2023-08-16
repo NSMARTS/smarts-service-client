@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ElementRef, ViewChild, computed, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewChild, computed, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MaterialsModule } from 'src/app/materials/materials.module';
@@ -24,7 +24,9 @@ import { NavigationService } from 'src/app/stores/layout/navigation.service';
         RouterModule
     ],
     templateUrl: './layout.component.html',
-    styleUrls: ['./layout.component.scss']
+    styleUrls: ['./layout.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class LayoutComponent {
     private sidenavService = inject(SidenavService);
@@ -122,9 +124,7 @@ export class LayoutComponent {
         */
         effect(() => {
             console.log('isSideNavOpen() : ', this.isSideNavOpen())
-            if (this.isSideNavOpen()) {
-                this.sidenav.open();
-            }
+            this.sidenav.open();
         })
     }
 

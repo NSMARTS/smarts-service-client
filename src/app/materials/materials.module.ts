@@ -10,8 +10,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 @NgModule({
     exports: [
+        MatInputModule,
+        MatFormFieldModule,
         CommonModule,
         MatToolbarModule,
         MatSidenavModule,
@@ -22,6 +28,9 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatTooltipModule, // 툴팁 모듈
         MatBadgeModule, // 알림 몇개 왔는지 숫자 표식용 모듈
         MatDialogModule,
+        MatCardModule,
+
+
     ]
 })
 export class MaterialsModule { }

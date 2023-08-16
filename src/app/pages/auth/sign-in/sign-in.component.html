@@ -1,0 +1,67 @@
+<div class="card-container" fxLayoutAlign="center center" fxLayout="column">
+    <mat-card class="cardBox">
+        <mat-card-header fxLayoutAlign="center center" fxLayout="column">
+            <div>
+                <img src="assets/logo/logo-title2-rm.png" alt="">
+            </div>
+            <div>
+                <mat-card-title>
+                    Welcome
+                </mat-card-title>
+            </div>
+            <div class="cardSubTitle">
+                Sign in with your credentials below
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <!-- 
+            이메일 입력창, 여기 이메일을 적습니다.
+            1. 빈 값을 입력했을 경우 'Email is required' 경고 문구 출력
+            2. 이메일에 해당하지 않는 값을 입력했을 경우 'Please enter a valid email address' 경고 문구 출력 
+            -->
+            <form [formGroup]="signInForm" class="example-form">
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="E-Mail" name="email" formControlName="email"
+                        autocomplete="email" required>
+                    <mat-error
+                        *ngIf="signInForm.controls['email'].hasError('email') && !signInForm.controls['email'].hasError('required')">
+                        Please enter a valid email address
+                    </mat-error>
+                    <mat-error *ngIf="signInForm.controls['email'].hasError('required')">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+
+
+                <!-- 
+                비밀번호 입력창, 여기 비밀번호를 적습니다. 비밀번호는 6 ~ 15 사이의 문자 입니다.
+                1. 빈 값을 입력했을 경우 'Password is required' 경고 문구 출력
+                2. 비밀번호가 6개 보다 작은 문자열이거나 15개 보다 긴 문자열인 경우 'The password should be between 6 and 15 characters' 경고 문구 출력  
+                -->
+                <mat-form-field class="example-full-width">
+                    <input matInput type="password" placeholder="Password" name="password" minlength="4" maxlength="15"
+                        formControlName="password" required>
+                    <mat-error
+                        *ngIf="signInForm.controls['password'].hasError('minlength') || signInForm.controls['password'].hasError('maxlength') && !signInForm.controls['password'].hasError('required')">
+                        The password should be between 6 and 15 characters
+                    </mat-error>
+                    <mat-error *ngIf="signInForm.controls['password'].hasError('required')">
+                        Password is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <div fxLayoutAlign="center" fxLayout="column wrap">
+                    <button type="submit" mat-raised-button class="signinBtn" (click)="signIn()"
+                        [disabled]="!signInForm.valid">SIGN
+                        IN</button>
+                </div>
+            </form>
+        </mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div class="findPwBox" [routerLink]="['/find-pw']">
+                Forgot password?
+            </div>
+        </div>
+    </mat-card>
+</div>

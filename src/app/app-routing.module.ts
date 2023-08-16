@@ -1,38 +1,37 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
-import { AppComponent } from './app.component';
-// import { IndexComponent } from './pages/index/index.component';
-// import { SignInGuard } from '../@dw/guard/signIn.guard';
-// import { CollaborationComponent } from './@layout/collaboration.component';
-// import { MngGuard } from 'src/@dw/services/leave/employee-mngmt/mng.guard';
+import { isLoggedInGuard } from './guards/is-logged-in.guard';
+import { IndexComponent } from './pages/index/index.component';
+
 
 const routes: Routes = [
-    // {
-    // path: '',
-    // component: AppComponent
-    // component: IndexComponent,
-    // canActivate: [SignInGuard]
-    // },
-    // {
-    //     path: 'sign-in',
-    //     loadChildren: () =>
-    //         import(`./pages/auth/auth.module`).then(m => m.AuthModule),
-    // },
-    // {
-    //     path: 'sign-up',
-    //     loadChildren: () =>
-    //         import(`./pages/auth/auth.module`).then(m => m.AuthModule),
-    // },
-    // {
-    //     path: 'find-pw',
-    //     loadChildren: () =>
-    //         import(`./pages/auth/auth.module`).then(m => m.AuthModule),
-    // },
+    {
+        path: 'welcome',
+        component: IndexComponent,
+        canActivate: [isLoggedInGuard]
+    },
+    {
+        path: 'sign-in',
+        loadComponent: () =>
+            import('./pages/auth/sign-in/sign-in.component').then(m => m.SignInComponent),
+
+    },
+    {
+        path: 'sign-up',
+        loadComponent: () =>
+            import('./pages/auth/sign-up/sign-up.component').then(m => m.SignUpComponent),
+
+    },
+    {
+        path: 'find-pw',
+        loadChildren: () =>
+            import(`./pages/auth/find-pw/find-pw.component`).then(m => m.FindPwComponent),
+    },
     {
         path: '',
         component: LayoutComponent,
-        // canActivate: [SignInGuard],
+        canActivate: [isLoggedInGuard],
         children: [
             {
                 path: 'main',
@@ -58,18 +57,18 @@ const routes: Routes = [
             //     path: 'approval-mngmt', canActivate: [MngGuard],
             //     loadChildren: () => import('./pages/approval-management/approval-management.module').then(m => m.ApprovalManagementModule)
             // },
-            // {
-            //     path: '',
-            //     redirectTo: 'main',
-            //     pathMatch: 'full'
-            // },
+            {
+                path: '',
+                redirectTo: 'main',
+                pathMatch: 'full'
+            },
         ]
     },
     // 잘못된 URL을 사용했을때 메인으로 보냄
     {
         path: '**',
         // redirectTo: 'welcome',
-        redirectTo: '',
+        redirectTo: 'welcome',
         pathMatch: 'full'
     },
 ];
