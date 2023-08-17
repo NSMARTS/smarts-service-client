@@ -41,33 +41,25 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/main/routes').then((m) => m.MAIN_ROUTES),
       },
-      {
-        path: 'company-mngmt',
-        loadChildren: () =>
-          import('./pages/company-mngmt/routes').then(
-            (m) => m.COMPANY_MNGMT_ROUTES
-          ),
-      },
       // {
       //     path: 'profile',
       //     loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
       // },
-      // {
-      //     path: 'collab',
-      //     loadChildren: () => import(`./pages/space/space.module`).then(m => m.SpaceModule),
-      // },
-      // {
-      //     path: 'leave',
-      //     loadChildren: () => import('./pages/leave-mngmt/leave-mngmt.module').then(m => m.LeaveMngmtModule),
-      // },
-      // {
-      //     path: 'employee-mngmt', canActivate: [MngGuard],
-      //     loadChildren: () => import('./pages/employee-management/employee-management.module').then(m => m.EmployeeManagementModule)
-      // },
-      // {
-      //     path: 'approval-mngmt', canActivate: [MngGuard],
-      //     loadChildren: () => import('./pages/approval-management/approval-management.module').then(m => m.ApprovalManagementModule)
-      // },
+      {
+        path: 'company',
+        loadChildren: () =>
+          import('./pages/company/routes').then((m) => m.COMPANY_ROUTES),
+      },
+      {
+        path: 'employee',
+        loadChildren: () =>
+          import('./pages/employee/routes').then((m) => m.EMPLOYEE_ROUTES),
+      },
+      {
+        path: 'holiday',
+        loadChildren: () =>
+          import('./pages/holiday/routes').then((m) => m.HOLIDAY_ROUTES),
+      },
       {
         path: '',
         redirectTo: 'main',

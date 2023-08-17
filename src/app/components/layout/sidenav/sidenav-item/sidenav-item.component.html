@@ -6,7 +6,7 @@
 
 <!-- route link -->
 <div *ngIf="isLink(item)">
-    <a *ngIf="(item.isManager == flag.isManager || flag.isManager) && (item.isReplacementDay == flag.isReplacementDay || flag.isReplacementDay) "
+    <a *ngIf="(item.isNsAdmin == flag.isNsAdmin || flag.isNsAdmin)"
         [routerLinkActiveOptions]="item.routerLinkActive || { exact: false }" [routerLink]="item.route" class="item"
         fxLayout="row" fxLayoutAlign="start center" matRipple routerLinkActive="active">
         <mat-icon *ngIf="level === 0" class="item-icon" fxFlex="none"> {{item.icon}} </mat-icon>
@@ -19,7 +19,7 @@
 
 <!-- drop down menu -->
 <ng-container *ngIf="isDropdown(item)">
-    <div *ngIf="(item.isManager == flag.isManager || flag.isManager)">
+    <div *ngIf="(item.isNsAdmin == flag.isNsAdmin || flag.isNsAdmin)">
 
         <div (click)="toggleOpen()" [class.active]="isOpen || isActive" [class.open]="isOpen" class="item"
             fxLayout="row" fxLayoutAlign="start center" matRipple>
@@ -47,14 +47,3 @@
     <app-sidenav-item *ngFor="let subItem of item.children" [item]="subItem" [flag]="flag"
         [level]="0"></app-sidenav-item>
 </ng-container>
-
-<!-- Create Space -->
-<a *ngIf="isCreateSpace(item)" class="item creatingSpace" fxLayout="row" fxLayoutAlign="start center" matRipple
-    (click)="createSpaceDialog()"> <!-- routelink가 active인 상태에 추가할 class : 'active'-->
-
-    <!-- icon은 level 0인 경우만 있음,
-      fxFlex="none" : flex: 0 0 auto -->
-    <mat-icon *ngIf="level === 0" class="item-icon" fxFlex="none"> {{item.icon}} </mat-icon>
-    <span class="item-label" fxFlex="auto">{{ item.label }}</span>
-
-</a>

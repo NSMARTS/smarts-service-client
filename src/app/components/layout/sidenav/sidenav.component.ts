@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
 import { NavigationService } from 'src/app/stores/layout/navigation.service';
 import { SidenavViewPolicy } from 'src/app/interfaces/navigation-item.interface';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-sidenav',
@@ -31,13 +32,10 @@ export class SidenavComponent {
     // 사이드 내비 구성 데이터
     navItems = this.navigationService.navItems;
 
-
-
+    private authService = inject(AuthService);
+    userInfo = this.authService.userInfoStore
     // 나중에 타입을 알면 추가
-    flag: SidenavViewPolicy = {
-        isReplacementDay: false,
-        isManager: false,
-    };
+
 
 
 

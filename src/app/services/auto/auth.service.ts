@@ -21,7 +21,7 @@ interface SignUp {
     confirmedPassword: string,
 }
 
-interface UserInfo {
+export interface UserInfo {
     _id: string,
     email: string,
     username: string,
@@ -43,7 +43,7 @@ const initUserInfo: UserInfo = {
 export class AuthService {
     private baseUrl = environment.apiUrl;
     accessToken = signal<AccessToken>({ accessToken: '' });
-    userInfoStore = signal<UserInfo | undefined>(initUserInfo);
+    userInfoStore = signal<UserInfo>(initUserInfo);
     isLoggedIn = signal<boolean>(false);
 
     destroyRef = inject(DestroyRef);

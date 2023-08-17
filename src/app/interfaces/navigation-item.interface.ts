@@ -15,18 +15,18 @@ export interface NavigationSubheading {
     type: 'subheading';
     label: string;
     children: Array<NavigationLink | NavigationDropdown | NavigationCreatSpace>;
-    isManager?: boolean
+    isNsAdmin?: boolean
 }
 
 /**
  * Drop Down item (no link)
  */
 export interface NavigationDropdown {
-    type?: 'dropdown';
-    label?: string;
+    type: 'dropdown';
+    label: string;
     icon?: string;
     children: Array<NavigationLink | NavigationDropdown>;
-    isManager?: boolean
+    isNsAdmin?: boolean
 }
 
 /**
@@ -39,8 +39,7 @@ export interface NavigationLink {
     label: string;
     icon?: string;
     routerLinkActive?: { exact: boolean };
-    isManager?: boolean;
-    isReplacementDay?: boolean;
+    isNsAdmin?: boolean;
 }
 
 /**
@@ -53,31 +52,12 @@ export interface NavigationCreatSpace {
     label: string;
     icon?: string;
     // routerLinkActive?: { exact: boolean };
-    isManager?: boolean;
+    isNsAdmin?: boolean;
+
 }
 
-/**
- *  일반 Click item (no child)
- */
+
 export interface SidenavViewPolicy {
-    isReplacementDay?: boolean;
-    isManager?: boolean;
+    isNsAdmin?: boolean
 }
-
-/**
- * nsmarts 사이드바 라우트 정보 타입
- */
-export interface SidenavRouteInfo {
-    type: string;
-    label: string,
-    route?: string,
-    icon?: string, // 아이콘 
-    isNsAdmin?: boolean, // 어드민 권한
-    isManager?: boolean, // 매니저 권한
-    isReplacementDay?: boolean, // 대체휴가 유무에 따른 메뉴
-    children?: Array<SidenavRouteInfo> //뎁스가 더 들어간다.
-}
-
-
-
 
