@@ -1,19 +1,38 @@
+/**
+ * Version: 1.0
+ * 파일명: pages/employee/routes.ts
+ * 작성일자: 2023-08-17
+ * 작성자: 이정운
+ * @See File routes.ts
+ * 설명: route 파일 
+ * 수정일자: 2023-08-17
+ * 수정자: 이정운
+ * 수정내역: routes.ts 생성
+ */
+
 import { Route } from '@angular/router';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
+import { EmployeeAddComponent } from './employee-add/employee-add.component';
+import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
+import { EmployeeViewComponent } from './employee-view/employee-view.component';
 
-
-// In admin/routes.ts:
-export const EMPLOYEE_ROUTES: Route[] = [{
-    // localhost:4200/users
-    // UserListComponent를 보여줌
-    path: '',
-    component: EmployeeListComponent,
-    // loadComponent: () =>
-    //     import(`./user-list/user-list.component`).then(m => m.UserListComponent),
-    // canActivate는 현재 컴포넌트에 적용
-    // 로그인 시 접속 가능
-    // canActivate: [authGuard],
-    // canActivateChild는 자식 컴포넌트만 가능
-    // usersGuard를 사용해 userList는 누구나 보는게 가능한데
-    // 상세보기나 수정은 admin Role만 가능
-}];
+export const EMPLOYEE_ROUTES: Route[] = [
+    {
+        path: '',
+        component: EmployeeListComponent,
+        children: [
+            {
+                path: 'edit/:id',
+                component: EmployeeEditComponent
+            },
+            {
+                path: 'view/:id',
+                component: EmployeeViewComponent
+            }
+        ]
+    },
+    {
+        path: 'add',
+        component: EmployeeAddComponent,
+    },
+];
