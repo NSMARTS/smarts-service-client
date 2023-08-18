@@ -119,20 +119,22 @@ export class CompanyEditComponent implements OnInit {
 
     /////////////////////////////////////////////////////////////////////////////
     this.editCompanyId = this.route.snapshot.params['id'];
-
     this.companyService
       .getCompanyInfo(this.editCompanyId)
       .subscribe((data: any) => {
         // 불러온 회사 정보
         this.companyData = data.getCompany;
-
+        console.log(data);
+        this.editCompanyForm.patchValue(data.getCompany);
         this.leave_standard = this.editCompanyForm.get(
           'leave_standard'
         ) as FormArray;
-        for (let i = 0; i < this.companyData.leave_standard.length - 1; i++) {
+        this.leave_standard.clear(); // 기존 컨트롤 제거
+
+        // 새로운 컨트롤 추가
+        for (let i = 0; i < this.companyData.leave_standard.length; i++) {
           this.leave_standard.push(this.createItem());
         }
-
         //   console.log(this.companyData?.isMinusAnnualLeave);
       });
     /////////////////////////////////////////////////////////////////////////////

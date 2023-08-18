@@ -19,7 +19,7 @@
                             <mat-form-field appearance="outline" class="companyFormFieldBox">
                                 <mat-label>Company Name</mat-label>
                                 <input matInput type="text" formControlName="company_name"
-                                    [ngModel]="companyData?.company_name" />
+                                    />
                             </mat-form-field>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                                 <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center"
                                     fxLayoutGap="20px">
                                     <div>
-                                        <input id="year" type="hidden" formControlName="year" [ngModel]="i+1" />
+                                        <input id="year" type="hidden" formControlName="year" [value]="i+1" />
                                         <div class="yearLabel"> {{i+1}} year</div>
                                     </div>
 
@@ -54,31 +54,17 @@
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Annual Leave</mat-label>
                                             <input id="annual_leave" matInput type="text" formControlName="annual_leave"
-                                                [ngModel]="companyData?.leave_standard[i]?.annual_leave" />
+                                                 />
                                         </mat-form-field>
                                     </div>
                                     <div fxFlex="column" fxFlexAlign="center">
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Sick Leave</mat-label>
                                             <input id="sick_leave" matInput type="text" formControlName="sick_leave"
-                                                [ngModel]="companyData?.leave_standard[i]?.sick_leave" />
+                                               />
                                         </mat-form-field>
                                     </div>
-                                    <div fxFlex="column" fxFlexAlign="center">
-                                        <mat-form-field appearance="outline" class="formFieldBox">
-                                            <mat-label>Replacement Day</mat-label>
-                                            <input id="replacement_leave" matInput type="text"
-                                                formControlName="replacement_leave"
-                                                [ngModel]="companyData?.leave_standard[i]?.replacement_leave" />
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="column" fxFlexAlign="center">
-                                        <mat-form-field appearance="outline" class="formFieldBox">
-                                            <mat-label>Rollover</mat-label>
-                                            <input id="rollover" matInput type="text" formControlName="rollover"
-                                                [ngModel]="companyData?.leave_standard[i]?.rollover" />
-                                        </mat-form-field>
-                                    </div>
+                                 
                                     <div *ngIf="i <= 0" class="clickBtn" (click)="addItem()">
                                         <mat-icon class="addMark">add</mat-icon>
                                     </div>
@@ -87,54 +73,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-
-                            <!-- <tr id="leave_standard_{{i+1}}" formArrayName="leave_standard" class="leave_standard" *ngFor="let row of editCompanyForm.get('leave_standard')['controls']; let i = index">
-                                <td class="leave_standard_container" [formGroupName]="i"> 
-                                    <ul>
-                                        <li>
-                                            <input id="year" type="hidden" formControlName="year" placeholder="year" [ngModel]="i+1"/>
-                                                {{i+1}} year
-                                        
-                                        </li>
-                                        <li>
-                                            <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                                                <input id="annual_leave" matInput type="text"
-                                                    formControlName="annual_leave" placeholder="annual_leave"
-                                                    [ngModel]="companyData?.leave_standard[i]?.annual_leave" />
-                                            </mat-form-field>
-                                        </li>
-                                        <li>
-                                            <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                                                <input id="sick_leave" matInput type="text" formControlName="sick_leave"
-                                                    placeholder="sick_leave"
-                                                    [ngModel]="companyData?.leave_standard[i]?.sick_leave" />
-                                            </mat-form-field>
-                                        </li>
-                                        <li>
-                                            <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                                                <input id="replacement_leave" matInput type="text"
-                                                    formControlName="replacement_leave" placeholder="replacement_leave"
-                                                    [ngModel]="companyData?.leave_standard[i]?.replacement_leave" />
-                                            </mat-form-field>
-                                        </li>
-                                        <li>
-                                            <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                                                <input id="rollover" matInput type="text" formControlName="rollover"
-                                                    placeholder="rollover"
-                                                    [ngModel]="companyData?.leave_standard[i]?.rollover" />
-                                            </mat-form-field>
-                                        </li>
-                                    </ul>
-
-                                </td>
-                                <td *ngIf="i > 0">
-                                    <button type='button' (click)="cancelItem(i)">-</button>
-                                </td>
-                            </tr> -->
                         </div>
                     </div>
 
@@ -149,9 +87,9 @@
                         <div class="rightTable" fxFlex>
                             <mat-radio-group mat-radio-group name="grpName">
                                 <input type="radio" formControlName="isRollover" [value]="true"
-                                    [ngModel]="companyData?.rollover" [checked]="companyData?.rollover == true" />Yes
+                                     [checked]="companyData?.rollover == true" />Yes
                                 <input type="radio" formControlName="isRollover" [value]="false"
-                                    [ngModel]="companyData?.rollover" [checked]="companyData?.rollover == false" />No
+                                     [checked]="companyData?.rollover == false" />No
                             </mat-radio-group>
                         </div>
                     </div>
@@ -166,7 +104,7 @@
                             <div class="rightTable" fxFlex>
                                 <mat-form-field appearance="outline" class="formFieldBox formSpacer">
                                     <input matInput type="text" formControlName="rollover_max_month"
-                                        placeholder="Rollover Max Month" [ngModel]="companyData?.rollover_max_month" />
+                                        placeholder="Rollover Max Month"  />
                                 </mat-form-field>
                             </div>
                         </div>
@@ -180,7 +118,7 @@
                             <div class="rightTable" fxFlex>
                                 <mat-form-field appearance="outline" class="formFieldBox formSpacer">
                                     <input matInput type="text" formControlName="rollover_max_day"
-                                        placeholder="Rollover Max Day" [ngModel]="companyData?.rollover_max_day" />
+                                        placeholder="Rollover Max Day"  />
                                 </mat-form-field>
                             </div>
                         </div>
@@ -195,10 +133,8 @@
                         <div class="rightTable" fxFlex>
                             <mat-radio-group mat-radio-group name="grpName">
                                 <input type="radio" formControlName="isReplacementDay" [value]="true"
-                                    [ngModel]="companyData?.isReplacementDay"
                                     [checked]="companyData?.isReplacementDay == true" />Yes
                                 <input type="radio" formControlName="isReplacementDay" [value]="false"
-                                    [ngModel]="companyData?.isReplacementDay"
                                     [checked]="companyData?.isReplacementDay == false" />No
                             </mat-radio-group>
                         </div>
@@ -225,10 +161,8 @@
                         <div class="rightTable" fxFlex>
                             <mat-radio-group mat-radio-group name="grpName">
                                 <input type="radio" formControlName="isMinusAnnualLeave" [value]="true"
-                                    [ngModel]="companyData?.isMinusAnnualLeave"
                                     [checked]="companyData?.isMinusAnnualLeave == true" />Yes
                                 <input type="radio" formControlName="isMinusAnnualLeave" [value]="false"
-                                    [ngModel]="companyData?.isMinusAnnualLeave"
                                     [checked]="companyData?.isMinusAnnualLeave === undefined" />No
                             </mat-radio-group>
                         </div>
@@ -244,7 +178,7 @@
                             <div class="rightTable" fxFlex>
                                 <mat-form-field appearance="outline" class="formFieldBox formSpacer">
                                     <input matInput type="text" formControlName="rd_validity_term"
-                                        placeholder="RD Validity Term" [ngModel]="companyData?.rd_validity_term" />
+                                        placeholder="RD Validity Term" />
                                 </mat-form-field> month(s)
                             </div>
                         </div>
@@ -260,10 +194,8 @@
                         <div class="rightTable" fxFlex>
                             <mat-radio-group mat-radio-group name="grpName">
                                 <input type="radio" value="byYear" formControlName="annual_policy"
-                                    [ngModel]="companyData?.annual_policy"
                                     [checked]="companyData?.annual_policy == 'byYear'" />by year
                                 <input type="radio" value="byContract" formControlName="annual_policy"
-                                    [ngModel]="companyData?.annual_policy"
                                     [checked]="companyData?.annual_policy == 'byContract'" />by contract
                             </mat-radio-group>
                         </div>
