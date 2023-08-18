@@ -4,74 +4,81 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { isLoggedInGuard } from './guards/is-logged-in.guard';
 import { IndexComponent } from './pages/index/index.component';
 
-
 const routes: Routes = [
-    {
-        path: 'welcome',
-        component: IndexComponent,
-        canActivate: [isLoggedInGuard]
-    },
-    {
-        path: 'sign-in',
-        loadComponent: () =>
-            import('./pages/auth/sign-in/sign-in.component').then(m => m.SignInComponent),
-
-    },
-    {
-        path: 'sign-up',
-        loadComponent: () =>
-            import('./pages/auth/sign-up/sign-up.component').then(m => m.SignUpComponent),
-
-    },
-    {
-        path: 'find-pw',
+  {
+    path: 'welcome',
+    component: IndexComponent,
+    canActivate: [isLoggedInGuard],
+  },
+  {
+    path: 'sign-in',
+    loadComponent: () =>
+      import('./pages/auth/sign-in/sign-in.component').then(
+        (m) => m.SignInComponent
+      ),
+  },
+  {
+    path: 'sign-up',
+    loadComponent: () =>
+      import('./pages/auth/sign-up/sign-up.component').then(
+        (m) => m.SignUpComponent
+      ),
+  },
+  {
+    path: 'find-pw',
+    loadChildren: () =>
+      import(`./pages/auth/find-pw/find-pw.component`).then(
+        (m) => m.FindPwComponent
+      ),
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    canActivate: [isLoggedInGuard],
+    children: [
+      {
+        path: 'main',
         loadChildren: () =>
-            import(`./pages/auth/find-pw/find-pw.component`).then(m => m.FindPwComponent),
-    },
-    {
+          import('./pages/main/routes').then((m) => m.MAIN_ROUTES),
+      },
+      // {
+      //     path: 'profile',
+      //     loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
+      // },
+      {
+        path: 'company',
+        loadChildren: () =>
+          import('./pages/company/routes').then((m) => m.COMPANY_ROUTES),
+      },
+      {
+        path: 'employee',
+        loadChildren: () =>
+          import('./pages/employee/routes').then((m) => m.EMPLOYEE_ROUTES),
+      },
+      {
+        path: 'holiday',
+        loadChildren: () =>
+          import('./pages/holiday/routes').then((m) => m.HOLIDAY_ROUTES),
+      },
+      {
         path: '',
-        component: LayoutComponent,
-        canActivate: [isLoggedInGuard],
-        children: [
-            {
-                path: 'main',
-                loadChildren: () => import('./pages/main/routes').then(m => m.MAIN_ROUTES),
-            },
-            // {
-            //     path: 'profile',
-            //     loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
-            // },
-            {
-                path: 'company',
-                loadChildren: () => import('./pages/company/routes').then(m => m.COMPANY_ROUTES),
-            },
-            {
-                path: 'employee',
-                loadChildren: () => import('./pages/employee/routes').then(m => m.EMPLOYEE_ROUTES),
-            },
-            {
-                path: 'holiday',
-                loadChildren: () => import('./pages/holiday/routes').then(m => m.HOLIDAY_ROUTES),
-            },
-            {
-                path: '',
-                redirectTo: 'main',
-                pathMatch: 'full'
-            },
-        ]
-    },
-    // 잘못된 URL을 사용했을때 메인으로 보냄
-    {
-        path: '**',
-        // redirectTo: 'welcome',
-        redirectTo: 'welcome',
-        pathMatch: 'full'
-    },
+        redirectTo: 'main',
+        pathMatch: 'full',
+      },
+    ],
+  },
+  // 잘못된 URL을 사용했을때 메인으로 보냄
+  {
+    path: '**',
+    // redirectTo: 'welcome',
+    redirectTo: 'welcome',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
-    // imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload'})],
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule],
+  // imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class ApproutingModule { }
+export class ApproutingModule {}
