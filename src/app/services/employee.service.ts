@@ -36,19 +36,19 @@ export class EmployeeService {
 
     // 나중에 타입 추가
     createEmployee(data: any) {
-        return this.http.post<EmployeeTakenVacation[]>(this.baseUrl + '/employee/employees', data).pipe(takeUntilDestroyed(this.destroyRef))
+        return this.http.post<EmployeeTakenVacation[]>(this.baseUrl + '/employee/employee', data).pipe(takeUntilDestroyed(this.destroyRef))
     }
 
     // 나중에 타입 추가
     updateEmployee(id: string, data: any) {
-        return this.http.patch<EmployeeTakenVacation[]>(this.baseUrl + '/employee/employees/' + id, data)
+        return this.http.patch<EmployeeTakenVacation[]>(this.baseUrl + '/employee/employee/' + id, data)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe()
     }
 
     // 나중에 타입 추가
     retireEmployee(id: string, data: any) {
-        return this.http.delete<EmployeeTakenVacation[]>(this.baseUrl + '/employee/employees/' + id, data)
+        return this.http.delete<EmployeeTakenVacation[]>(this.baseUrl + '/employee/employee/' + id, data)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe()
     }
