@@ -1,4 +1,4 @@
-export interface Employee {
+export interface Employee extends EmployeeTakenVacation {
     _id: string,
     email: string, // 이메일
     username: string, // 사용자 이름
@@ -7,7 +7,7 @@ export interface Employee {
 }
 
 // 사용한 휴가
-export interface EmployeeTakenVacation extends Employee {
+export interface EmployeeTakenVacation {
     entitlement: number, // 갖고 있던 연차 휴가 갯수
     takenEntiltement: number, // 연차 휴가 사용 횟수
     rollover: number, // 갖고 있던 이월 휴가 갯수
