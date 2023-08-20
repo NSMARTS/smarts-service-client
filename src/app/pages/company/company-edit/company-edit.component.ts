@@ -124,7 +124,7 @@ export class CompanyEditComponent implements OnInit {
       .subscribe((data: any) => {
         // 불러온 회사 정보
         this.companyData = data.getCompany;
-        console.log(data);
+        // console.log(data);
         this.editCompanyForm.patchValue(data.getCompany);
         this.leave_standard = this.editCompanyForm.get(
           'leave_standard'
