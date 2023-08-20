@@ -1,0 +1,96 @@
+<div class="mainContentContainer">
+    <div class="mainContent">
+        <div fxLayout="row">
+            <div class="mainTitle">Company List</div>
+        </div>
+
+        <div class="historyTableBox">
+            <!-- <div class="content">
+				<div class="example-container mat-elevation-z8"> -->
+
+            <div class="filter">
+                <mat-form-field>
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Company" #input>
+                </mat-form-field>
+                <button class="addCompanyBtn" mat-raised-button color="primary" (click)="addCompany()">Add
+                    Company</button>
+
+            </div>
+
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
+
+                <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef> Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.company_code}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="rollover">
+                    <th mat-header-cell *matHeaderCellDef> Rollover </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.isRollover">
+                            O
+                        </span>
+                        <span *ngIf="!element.isRollover">
+                            X
+                        </span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="rollover_max_month">
+                    <th mat-header-cell *matHeaderCellDef> Rollover max month </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.rollover_max_month?element.rollover_max_month:'-'}}
+                        <span *ngIf="element.rollover">
+                            Month(s)
+                        </span>
+                    </td>
+
+                </ng-container>
+
+
+                <ng-container matColumnDef="rollover_max_day">
+                    <th mat-header-cell *matHeaderCellDef> Rollover max day </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.rollover_max_day?element.rollover_max_day:'-'}}
+                        <span *ngIf="element.rollover">
+                            day(s)
+                        </span>
+                    </td>
+
+                </ng-container>
+
+
+                <ng-container matColumnDef="btns">
+                    <th mat-header-cell *matHeaderCellDef> - </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+                            <button mat-flat-button class="editCompanyBtn"
+                                (click)="editCompany(element._id)">Edit</button>
+
+                            <!-- <button mat-flat-button class="deleteCompanyBtn" (click)="deleteCompany(element._id)">Delete</button> -->
+                        </div>
+
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="9999">
+                        No data
+                    </td>
+                </tr>
+            </table>
+            <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 30]" aria-label="Select page">
+            </mat-paginator>
+        </div>
+        <!-- </div>
+		</div> -->
+    </div>
+</div>

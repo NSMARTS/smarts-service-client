@@ -15,6 +15,7 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeAddComponent } from './employee-add/employee-add.component';
 import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
 import { EmployeeViewComponent } from './employee-view/employee-view.component';
+import { CompanyListComponent } from './company-list/company-list.component';
 
 export const EMPLOYEE_ROUTES: Route[] = [
     {
@@ -30,6 +31,10 @@ export const EMPLOYEE_ROUTES: Route[] = [
                 component: EmployeeViewComponent
             }
         ]
+    },
+    {
+        path: 'company-list',
+        component: CompanyListComponent,
     },
     {
         path: 'add',
