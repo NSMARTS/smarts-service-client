@@ -50,7 +50,7 @@
 
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Annual Leave</mat-label>
-                                            <input id="annualLeave" matInput type="text"
+                                            <input id="annualLeave" matInput type="number"
                                                 formControlName="annualLeave" />
                                             <!-- <label for="annualLeave">annualLeave</label> -->
                                         </mat-form-field>
@@ -58,7 +58,7 @@
                                     <div fxFlex="column" fxFlexAlign="center">
                                         <mat-form-field appearance="outline" class="formFieldBox ">
                                             <mat-label>Sick Leave</mat-label>
-                                            <input id="sickLeave" matInput type="text" formControlName="sickLeave" />
+                                            <input id="sickLeave" matInput type="number" formControlName="sickLeave" />
 
                                         </mat-form-field>
                                     </div>
@@ -146,7 +146,7 @@
                             </div>
                             <div class="rightTable" fxFlex>
                                 <mat-form-field appearance="outline" class="companyFormFieldBox formSpacer">
-                                    <input matInput type="text" formControlName="rdValidityTerm"
+                                    <input matInput type="number" formControlName="rdValidityTerm"
                                         placeholder="RD Validity Term" />
                                 </mat-form-field>
                                 month(s)
@@ -185,7 +185,7 @@
 
                     <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
                         <div class="btnSection_1">
-                            <button mat-raised-button class="tableBtn" type="submit" color="primary">Request</button>
+                            <button mat-raised-button class="tableBtn" type="submit" color="primary" [disabled]="isButtonDisabled()">Request</button>
                         </div>
                         <div>
                             <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>

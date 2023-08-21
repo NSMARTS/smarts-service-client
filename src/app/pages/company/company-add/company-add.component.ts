@@ -9,6 +9,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { DataService } from 'src/app/stores/data/data.service';
 import { CommonModule } from '@angular/common';
@@ -28,6 +29,7 @@ export class CompanyAddComponent {
   leaveStandard!: FormArray; // 연차 정책 form
 
   leaveStandardYear: number = 0; // 근속년수
+  year: number = 0;
 
   constructor(
     private router: Router,
@@ -41,11 +43,11 @@ export class CompanyAddComponent {
         this.createItem(this.leaveStandardYear),
       ]),
       isRollover: [false],
-      rolloverMaxMonth: [0],
-      rolloverMaxDay: [0],
+      rolloverMaxMonth: [0, [Validators.min(0)]],
+      rolloverMaxDay: [0, [Validators.min(0)]],
       countryCode: [''],
       isReplacementDay: [false],
-      rdValidityTerm: [0],
+      rdValidityTerm: [0, [Validators.min(0)]],
       isMinusAnnualLeave: [false],
       annualPolicy: ['byContract'],
     });
@@ -57,10 +59,11 @@ export class CompanyAddComponent {
 
   //////////////////////////////////
   createItem(i: number): FormGroup {
+    this.year++;
     return this.formBuilder.group({
-      year: i + 1, // 근속년수
-      annualLeave: '',
-      sickLeave: '',
+      year: this.year, // 근속년수
+      annualLeave: [0, [Validators.min(0)]],
+      sickLeave: [0, [Validators.min(0)]],
     });
   }
 
@@ -82,6 +85,37 @@ export class CompanyAddComponent {
   onSubmit() {
     // 회사 추가
     this.addCompany();
+  }
+
+  isButtonDisabled(): any {
+    const rolloverMaxMonthError = this.addCompanyForm
+      .get('rolloverMaxMonth')
+      ?.hasError('min');
+    const rolloverMaxDayError = this.addCompanyForm
+      .get('rolloverMaxDay')
+      ?.hasError('min');
+    const rdValidityTermError = this.addCompanyForm
+      .get('rdValidityTerm')
+      ?.hasError('min');
+    const leaveStandardArray = this.addCompanyForm.get(
+      'leaveStandard'
+    ) as FormArray;
+    const firstLeaveStandardGroup = leaveStandardArray.at(0) as FormGroup;
+    const annualLeaveError = firstLeaveStandardGroup
+      .get('annualLeave')
+      ?.hasError('min');
+    const sickLeaveError = firstLeaveStandardGroup
+      .get('sickLeave')
+      ?.hasError('min');
+
+    // 어떤 폼 컨트롤이라도 'min' 오류가 있는 경우 버튼을 비활성화
+    return (
+      rolloverMaxMonthError ||
+      rolloverMaxDayError ||
+      rdValidityTermError ||
+      annualLeaveError ||
+      sickLeaveError
+    );
   }
 
   // 회사 추가

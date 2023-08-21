@@ -51,11 +51,10 @@ export class CompanyService {
   }
 
   // 회사 삭제
-  deleteCompany(companyId: any) {
+  deleteCompany(id: any) {
+    console.log(id);
     return this.http
-      .delete(this.baseUrl + '/company/company/', {
-        params: companyId,
-      })
+      .delete(this.baseUrl + '/company/company/' + id)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 }
