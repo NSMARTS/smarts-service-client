@@ -15,7 +15,7 @@
                                 <span>Company Name</span>
                             </div>
                         </div>
-                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                        <div class="rightTable" fxFlex="50" fxFlex.gt-md="70">
                             <mat-form-field appearance="outline" class="companyFormFieldBox">
                                 <mat-label>Company Name</mat-label>
                                 <input matInput type="text" formControlName="companyName" />
@@ -57,13 +57,15 @@
                                         </mat-form-field>
                                     </div>
 
-                                    <div *ngIf="i <= 0" class="clickBtn" (click)="addItem()">
-                                        <mat-icon class="addMark">add</mat-icon>
+                                    <div *ngIf="i <= 0" class="empty">
                                     </div>
                                     <div *ngIf="i > 0" class="clickBtn" (click)="cancelItem(i)">
                                         <mat-icon class="addMark">remove</mat-icon>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="addclickBtn" (click)="addItem()">
+                                <mat-icon class="addMark">add</mat-icon>
                             </div>
                         </div>
                     </div>

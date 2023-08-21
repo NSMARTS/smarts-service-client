@@ -61,8 +61,14 @@
     width: 130px;
 }
 
-.addMark {
-    font-size: 35px;
+.empty {
+    width: 50px;
+}
+
+.addclickBtn {
+    display: flex;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.04);
 }
 
 .clickBtn:hover {
