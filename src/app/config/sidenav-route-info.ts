@@ -39,7 +39,7 @@ export const sidenavRouteInfo: NavigationItem[] = [
             {
                 type: 'link',
                 label: 'Employee List',
-                route: '/employee/',
+                route: '/employee/company-list',
                 icon: 'holiday_village',
                 isNsAdmin: true
             },

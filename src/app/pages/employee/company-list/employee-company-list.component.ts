@@ -10,22 +10,23 @@ import { Company } from 'src/app/interfaces/company.interface';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 
 @Component({
-    selector: 'app-company-list',
+    selector: 'app-employee-company-list',
     standalone: true,
     imports: [CommonModule, MaterialsModule, RouterModule],
     //   standalone: true,
-    templateUrl: './company-list.component.html',
-    styleUrls: ['./company-list.component.scss'],
+    templateUrl: './employee-company-list.component.html',
+    styleUrls: ['./employee-company-list.component.scss'],
 
 })
-export class CompanyListComponent {
+export class EmployeeCompanyListComponent {
     displayedColumns: string[] = [
         'code',
         'name',
-        'rollover',
-        'rollover_max_month',
-        'rollover_max_day',
-        'btns',
+        'employees',
+        'rollover'
+        // 'rollover_max_month',
+        // 'rollover_max_day',
+        // 'btns',
     ];
     filterValues: any = {};
     filterSelectObj: any = [];
@@ -80,6 +81,10 @@ export class CompanyListComponent {
         if (this.dataSource.paginator) {
             this.dataSource.paginator.firstPage();
         }
+    }
+
+    createEmployee() {
+        this.router.navigate(['employee/company-list']);
     }
     // 회사 삭제
     //   deleteCompany(id: any) {
