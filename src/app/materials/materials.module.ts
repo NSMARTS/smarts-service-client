@@ -17,6 +17,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -46,6 +47,7 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     MatTableModule,
     FlexLayoutModule,
+    MatDatepickerModule,
   ],
 })
 export class MaterialsModule {}

@@ -22,8 +22,8 @@ export class CompanyListComponent {
     'code',
     'name',
     'rollover',
-    'rollover_max_month',
-    'rollover_max_day',
+    'rolloverMaxMonth',
+    'rolloverMaxDay',
     'btns',
   ];
   filterValues: any = {};
@@ -36,9 +36,8 @@ export class CompanyListComponent {
 
   constructor(
     private router: Router,
-    private companyService: CompanyService
-  ) // public dialogService: DialogService
-  {}
+    private companyService: CompanyService // public dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
     this.getCompanyList();

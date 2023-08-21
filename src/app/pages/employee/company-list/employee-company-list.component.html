@@ -20,12 +20,12 @@
 
                 <ng-container matColumnDef="code">
                     <th mat-header-cell *matHeaderCellDef> Code </th>
-                    <td mat-cell *matCellDef="let element"> {{element.company_code}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.companyCode}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="rollover">
@@ -39,10 +39,10 @@
                         </span>
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="rollover_max_month">
+                <ng-container matColumnDef="rolloverMaxMonth">
                     <th mat-header-cell *matHeaderCellDef> Rollover max month </th>
                     <td mat-cell *matCellDef="let element">
-                        {{element.rollover_max_month?element.rollover_max_month:'-'}}
+                        {{element.rolloverMaxMonth?element.rolloverMaxMonth:'-'}}
                         <span *ngIf="element.rollover">
                             Month(s)
                         </span>
@@ -51,10 +51,10 @@
                 </ng-container>
 
 
-                <ng-container matColumnDef="rollover_max_day">
+                <ng-container matColumnDef="rolloverMaxDay">
                     <th mat-header-cell *matHeaderCellDef> Rollover max day </th>
                     <td mat-cell *matCellDef="let element">
-                        {{element.rollover_max_day?element.rollover_max_day:'-'}}
+                        {{element.rolloverMaxDay?element.rolloverMaxDay:'-'}}
                         <span *ngIf="element.rollover">
                             day(s)
                         </span>

@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { DialogService } from 'src/app/dialog/dialog.service';
@@ -10,8 +15,8 @@ import { CountryService } from 'src/app/services/leave/country/country.service';
 
 @Component({
   selector: 'app-country-add',
-    standalone: true,
-  imports: [CommonModule, MaterialsModule, RouterModule],
+  standalone: true,
+  imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
   templateUrl: './country-add.component.html',
   styleUrls: ['./country-add.component.scss'],
 })
@@ -27,15 +32,13 @@ export class CountryAddComponent implements OnInit {
     private dialogService: DialogService,
     private countryService: CountryService
   ) {
-     this.countryForm = this.fb.group({
-       countryName: ['', [Validators.required]],
-       countryCode: ['', [Validators.required]],
-     });
+    this.countryForm = this.fb.group({
+      countryName: ['', [Validators.required]],
+      countryCode: ['', [Validators.required]],
+    });
   }
 
-  ngOnInit(): void {
-   
-  }
+  ngOnInit(): void {}
 
   addCountry() {
     const formValue = this.countryForm.value;
@@ -45,22 +48,24 @@ export class CountryAddComponent implements OnInit {
       countryCode: formValue.countryCode,
     };
 
-  this.countryService.addCountry(countryData).subscribe({
-    next: (data:any) => { 
-      if (data.message == 'Success add country') {
-        this.dialogRef.close();
-        this.dialogService.openDialogPositive('Success add country.');
-      }
-    },
-    error: (e) => {
+    this.countryService.addCountry(countryData).subscribe({
+      next: (data: any) => {
+        if (data.message == 'Success add country') {
+          this.dialogRef.close();
+          this.dialogService.openDialogPositive('Success add country.');
+        }
+      },
+      error: (e) => {
         if (e.error.message == 'The country code is duplicated.') {
           this.dialogRef.close();
-          this.dialogService.openDialogNegative('The country code is duplicated.');
+          this.dialogService.openDialogNegative(
+            'The country code is duplicated.'
+          );
         } else if (e.error.message == 'adding Country Error') {
           this.dialogRef.close();
           this.dialogService.openDialogNegative('An error has occured.');
         }
-    },
-  })
+      },
+    });
   }
 }

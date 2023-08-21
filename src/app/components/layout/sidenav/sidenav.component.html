@@ -8,7 +8,7 @@
     <!-- sidebar menu : 여기부분은 scroll 가능하도록 설정함. (overflow: auto) -->
     <!-- 현재 TEST 용도 -> 나중에 po-sidenav-item으로 추가 -->
     <!-- https://github.com/Grsmto/simplebar/tree/master/packages/simplebar-angular -->
-    <div class="sidenav-items" *ngIf="userInfo().isNsAdmin">
+    <div class="sidenav-items" *ngIf="userInfo().isAdmin">
         <app-sidenav-item *ngFor="let item of navItems()" [item]="item" [flag]="userInfo()"
             [level]="0"></app-sidenav-item>
     </div>

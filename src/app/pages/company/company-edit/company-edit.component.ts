@@ -36,9 +36,9 @@ export class CompanyEditComponent implements OnInit {
   weeks: any;
   leaveDays: any;
 
-  leave_standard_year: number = 0; // 근속년수
+  leaveStandardYear: number = 0; // 근속년수
 
-  leave_standard!: FormArray;
+  leaveStandard!: FormArray;
   editCompanyForm: FormGroup;
 
   constructor(
@@ -51,17 +51,17 @@ export class CompanyEditComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.editCompanyForm = this.formBuilder.group({
-      company_name: [''],
-      leave_standard: this.formBuilder.array([
-        this.createItem(this.leave_standard_year),
+      companyName: [''],
+      leaveStandard: this.formBuilder.array([
+        this.createItem(this.leaveStandardYear),
       ]),
       isRollover: [false],
-      rollover_max_month: [0],
-      rollover_max_day: [0],
+      rolloverMaxMonth: [0],
+      rolloverMaxDay: [0],
       isReplacementDay: [''],
       isMinusAnnualLeave: [''],
-      rd_validity_term: [''],
-      annual_policy: ['byContract'],
+      rdValidityTerm: [''],
+      annualPolicy: ['byContract'],
     });
   }
 
@@ -71,15 +71,15 @@ export class CompanyEditComponent implements OnInit {
       next: (res) => {
         const companyData = res.data;
         this.editCompanyForm.patchValue(companyData);
-        this.leave_standard = this.editCompanyForm.get(
-          'leave_standard'
+        this.leaveStandard = this.editCompanyForm.get(
+          'leaveStandard'
         ) as FormArray;
-        this.leave_standard.clear(); // 기존 컨트롤 제거
-        const leave_standard_year = companyData.leave_standard;
+        this.leaveStandard.clear(); // 기존 컨트롤 제거
+        const leaveStandardYear = companyData.leaveStandard;
         // 새로운 컨트롤 추가
-        for (let i = 0; i < leave_standard_year.length; i++) {
-          this.leave_standard_year = i; // 근속년수
-          this.leave_standard.push(this.createItem(i));
+        for (let i = 0; i < leaveStandardYear.length; i++) {
+          this.leaveStandardYear = i; // 근속년수
+          this.leaveStandard.push(this.createItem(i));
         }
       },
       error: (err) => console.error(err),
@@ -97,19 +97,17 @@ export class CompanyEditComponent implements OnInit {
   }
 
   getControls() {
-    return (this.editCompanyForm.get('leave_standard') as FormArray).controls;
+    return (this.editCompanyForm.get('leaveStandard') as FormArray).controls;
   }
 
   addItem() {
-    this.leave_standard = this.editCompanyForm.get(
-      'leave_standard'
-    ) as FormArray;
-    this.leave_standard.push(this.createItem(this.leave_standard_year));
+    this.leaveStandard = this.editCompanyForm.get('leaveStandard') as FormArray;
+    this.leaveStandard.push(this.createItem(this.leaveStandardYear));
   }
 
   cancelItem(i: any) {
-    if (this.leave_standard) {
-      this.leave_standard.removeAt(i);
+    if (this.leaveStandard) {
+      this.leaveStandard.removeAt(i);
     }
   }
 

@@ -6,7 +6,7 @@
 
 <!-- route link -->
 <div *ngIf="isLink(item)">
-    <a *ngIf="(item.isNsAdmin == flag.isNsAdmin || flag.isNsAdmin)"
+    <a *ngIf="(item.isAdmin == flag.isAdmin || flag.isAdmin)"
         [routerLinkActiveOptions]="item.routerLinkActive || { exact: false }" [routerLink]="item.route" class="item"
         fxLayout="row" fxLayoutAlign="start center" matRipple routerLinkActive="active">
         <mat-icon *ngIf="level === 0" class="item-icon" fxFlex="none"> {{item.icon}} </mat-icon>
@@ -19,7 +19,7 @@
 
 <!-- drop down menu -->
 <ng-container *ngIf="isDropdown(item)">
-    <div *ngIf="(item.isNsAdmin == flag.isNsAdmin || flag.isNsAdmin)">
+    <div *ngIf="(item.isAdmin == flag.isAdmin || flag.isAdmin)">
 
         <div (click)="toggleOpen()" [class.active]="isOpen || isActive" [class.open]="isOpen" class="item"
             fxLayout="row" fxLayoutAlign="start center" matRipple>
