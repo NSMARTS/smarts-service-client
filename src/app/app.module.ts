@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { MaterialsModule } from './materials/materials.module';
 import { httpInterceptorProviders } from './interceptors/http-interceptor';
 import { HttpClientModule } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MaterialsModule,
     HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [
     // 모든 http 요청에 withCredential:true 오션을 주기위해 사용

@@ -1,13 +1,15 @@
 import { Route } from '@angular/router';
-import { HolidayListComponent } from './holiday-list/holiday-list.component';
+import { CountryListComponent } from './country-list/country-list.component';
+
 
 
 // In admin/routes.ts:
-export const HOLIDAY_ROUTES: Route[] = [{
+export const HOLIDAY_ROUTES: Route[] = [
+  {
     // localhost:4200/users
     // UserListComponent를 보여줌
     path: '',
-    component: HolidayListComponent,
+    component: CountryListComponent,
     // loadComponent: () =>
     //     import(`./user-list/user-list.component`).then(m => m.UserListComponent),
     // canActivate는 현재 컴포넌트에 적용
@@ -16,4 +18,5 @@ export const HOLIDAY_ROUTES: Route[] = [{
     // canActivateChild는 자식 컴포넌트만 가능
     // usersGuard를 사용해 userList는 누구나 보는게 가능한데
     // 상세보기나 수정은 admin Role만 가능
-}];
+  },
+];

@@ -1,0 +1,65 @@
+<div class="mainContentContainer">
+	<div class="mainContent">
+		<div fxLayout="row" fxLayoutAlign="start center">
+			<div class="mainTitle">Country List</div>
+			<span class="example-spacer"></span>
+			 <!-- 권한 검사
+            <span class="disableReason" *ngIf="company == null || manager == null">
+				You need to register a company and manager to activate!
+			</span>
+			<button
+			class="requestBtn" [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday Day</button> -->
+            <button
+			class="requestBtn" mat-raised-button color="primary" (click)="openAddCountry();"> Add Country</button>
+		</div>
+
+		<div class="historyTableBox">
+			<table mat-table [dataSource]="countryList" class="mat-elevation-z8 historyTable">
+
+				<!--- Note that these columns can be defined in any order.
+					  The actual rendered columns are set as a property on the row definition" -->
+                
+                <!-- name Column -->
+				<ng-container matColumnDef="countryName">
+					<th mat-header-cell *matHeaderCellDef> Country Name </th>
+					<td mat-cell *matCellDef="let element"> {{element?.countryName}} </td>
+				</ng-container>
+
+				<!-- from Column -->
+				<ng-container matColumnDef="countryCode">
+					<th mat-header-cell *matHeaderCellDef> Country Code </th>
+					<td mat-cell *matCellDef="let element"> {{element?.countryCode}}</td>
+				</ng-container>
+
+				<th mat-header-cell *matHeaderCellDef> - </th>
+				
+			
+				<ng-container matColumnDef="btns">
+					<th mat-header-cell *matHeaderCellDef> - </th>
+					<td mat-cell *matCellDef="let element">
+						<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+							<button mat-flat-button class="addCountryHolidayBtn" (click)="addCountryHoliday(element._id)">Add Holiday</button>
+							<button mat-flat-button class="deleteCountryBtn" (click)="deleteCountry(element._id)">Delete</button>
+						</div>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+				<tr class="mat-row" *matNoDataRow>
+					<td class="mat-cell" colspan="9999">
+						No data
+					</td>
+				</tr>
+			</table>
+			<mat-paginator 
+			  [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[ 10, 25, 100]"
+              aria-label="Select page">
+			</mat-paginator>
+
+		</div>
+
+	</div>
+</div>
