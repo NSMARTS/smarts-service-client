@@ -65,7 +65,7 @@ export const sidenavRouteInfo: NavigationItem[] = [
       {
         type: 'link',
         label: 'County List',
-        route: '',
+        route: '/holiday/',
         icon: 'holiday_village',
         isAdmin: true,
       },
