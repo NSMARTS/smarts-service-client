@@ -25,25 +25,12 @@ import { DataService } from 'src/app/stores/data/data.service';
 })
 export class CompanyEditComponent implements OnInit {
     ///////////////////////////////////////
-    editCompanyId: any;
+    editCompanyId!: string; //params id
     ///////////////////////////////////////
-
-    days: any;
-    start_date_sec: any;
-    end_date_sec: any;
-    millisecondsPerDay: any;
-    diff: any;
-    weeks: any;
-    leaveDays: any;
-
-    leaveStandardsYear: number = 0; // 근속년수
-
     leaveStandards!: FormArray;
     editCompanyForm: FormGroup;
 
     constructor(
-        private fb: FormBuilder,
-        private dataService: DataService,
         private router: Router,
         // private dialogService: DialogService,
         private formBuilder: FormBuilder,

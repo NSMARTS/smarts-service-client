@@ -19,10 +19,7 @@ import { CompanyService } from 'src/app/services/company.service';
 })
 export class CompanyAddComponent {
     addCompanyForm: FormGroup;
-
     leaveStandards!: FormArray; // 연차 정책 form
-
-    leaveStandardsYear: number = 0; // 근속년수
 
     constructor(
         private router: Router,
