@@ -31,7 +31,7 @@ export interface UserInfo {
   _id: string;
   email: string;
   username: string;
-  profile_img: string;
+  profileImgPath: string;
   isAdmin: boolean;
 }
 
@@ -39,7 +39,7 @@ const initUserInfo: UserInfo = {
   _id: '',
   email: '',
   username: '',
-  profile_img: '',
+  profileImgPath: '',
   isAdmin: false,
 };
 
