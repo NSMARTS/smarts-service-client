@@ -204,7 +204,7 @@ export class CompanyEditComponent implements OnInit {
 
     if (inputElement.classList.contains('numeric-input')) {
       // 입력값에서 숫자 이외의 문자를 제거
-      const numericValue = inputValue.replace(/[^\d]/g, '');
+      const numericValue = inputValue.replace(/[^-\d]/g, '');
 
       // 입력 필드에 정제된 값 설정
       inputElement.value = numericValue;
