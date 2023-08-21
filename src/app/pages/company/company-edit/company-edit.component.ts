@@ -52,17 +52,18 @@ export class CompanyEditComponent implements OnInit {
     ) {
         this.editCompanyForm = this.formBuilder.group({
             companyName: [''],
-            leaveStandards: this.formBuilder.array([
-                this.createItem(this.leaveStandardsYear),
-            ]),
+            leaveStandards: this.formBuilder.array([]),
             isRollover: [false],
             rolloverMaxMonth: [0],
             rolloverMaxDay: [0],
-            isReplacementDay: [''],
-            isMinusAnnualLeave: [''],
-            rdValidityTerm: [''],
+            countryCode: [''],
+            isReplacementDay: [false],
+            rdValidityTerm: [0],
+            isMinusAnnualLeave: [false],
             annualPolicy: ['byContract'],
         });
+        this.leaveStandards = this.editCompanyForm.get('leaveStandards') as FormArray;
+        this.addItem();
     }
 
     ngOnInit(): void {
@@ -76,10 +77,8 @@ export class CompanyEditComponent implements OnInit {
                 ) as FormArray;
                 this.leaveStandards.clear(); // 기존 컨트롤 제거
                 // 새로운 컨트롤 추가
-                console.log(companyData.leaveStandards);
-                for (let i = 0; i < this.leaveStandards.length; i++) {
-                    this.leaveStandardsYear = i + 1; // 근속년수
-                    this.leaveStandards.push(this.createItem(this.leaveStandardsYear));
+                for (let i = 0; i < companyData.leaveStandards.length; i++) {
+                    this.leaveStandards.push(this.getLeaveStandard(companyData.leaveStandards[i]));
                 }
             },
             error: (err) => console.error(err),
@@ -87,28 +86,68 @@ export class CompanyEditComponent implements OnInit {
         /////////////////////////////////////////////////////////////////////////////
     }
 
-    //////////////////////////////////
-    createItem(i: number): FormGroup {
+    /**
+     * leaveStandards 연차 별 휴가 ex) year, annualLeave, sickLeave 
+     * + 버튼 누를 시 item을 추가 하고 싶으면
+     * 먼저 formArray를 선언하고 FormArray.cotrols 객체를 가져온다.
+     * @returns 
+     */
+    getLeaveStandardsControls() {
+        return (this.editCompanyForm.get('leaveStandards') as FormArray).controls;
+    }
+
+    /**
+     * 기존 연차정책을 가져와, formgroup객체 형식으로 만든 후 FormArray에 담는다.
+     * @returns 
+     */
+    getLeaveStandard(data: any): FormGroup {
         return this.formBuilder.group({
-            year: i,
+            year: data.year,
+            annualLeave: data.annualLeave,
+            sickLeave: data.sickLeave,
+        });
+    }
+
+    /**
+     * + 버튼 누를 시 item을 추가 
+     * @returns 
+     */
+    createLeaveStandard(i: number): FormGroup {
+        return this.formBuilder.group({
+            year: i + 1,
             annualLeave: 0,
             sickLeave: 0,
         });
     }
 
-    getLeaveStandards() {
-        return (this.editCompanyForm.get('leaveStandards') as FormArray).controls;
-    }
-
+    /**
+     * + 버튼 클릭 시 
+     * 기존에 가져온 연차정책에
+     * {year:leaveStandards.lenhth, annualLeave: 0 , sickLeave: 0}
+     * leaveStandards : FormArray에 담는다.
+     */
     addItem() {
-        this.leaveStandards = this.editCompanyForm.get('leaveStandards') as FormArray;
-        this.leaveStandards.push(this.createItem(this.leaveStandardsYear));
+        const newYear = this.leaveStandards.length + 1
+        const newLeaveStandard = this.createLeaveStandard(newYear);
+        this.leaveStandards.push(newLeaveStandard);
+        this.updateYears();
     }
 
     cancelItem(i: any) {
         if (this.leaveStandards) {
             this.leaveStandards.removeAt(i);
+            this.updateYears();
         }
+    }
+
+    /**
+     * item에 year를 추가하거나 제거하면
+     * leaveStandards에 기존 배열의 year들도 수정
+     */
+    updateYears() {
+        this.leaveStandards.controls.forEach((group, index) => {
+            group.get('year')?.setValue(index + 1);
+        });
     }
 
     //////////////////////////////////

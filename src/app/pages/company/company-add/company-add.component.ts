@@ -53,7 +53,7 @@ export class CompanyAddComponent {
     }
 
     getLeaveStandardsControls() {
-        return this.leaveStandards.controls;
+        return (this.addCompanyForm.get('leaveStandards') as FormArray).controls;;
     }
 
 

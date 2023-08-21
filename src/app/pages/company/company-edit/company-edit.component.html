@@ -34,12 +34,12 @@
 
 
                             <div id="leaveStandards_{{i+1}}" formArrayName="leaveStandards"
-                                *ngFor="let row of getLeaveStandards(); let i = index" fxLayout="column"
-                                fxLayoutGap="30px">
+                                *ngFor="let LeaveStandard of getLeaveStandardsControls(); let i = index"
+                                fxLayout="column" fxLayoutGap="30px">
                                 <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center"
                                     fxLayoutGap="20px">
                                     <div>
-                                        <input id="year" type="hidden" formControlName="year" [value]="i+1" />
+                                        <input id="year" type="hidden" formControlName="year" />
                                         <div class="yearLabel"> {{i+1}} year</div>
                                     </div>
 
@@ -47,14 +47,13 @@
                                     <div fxFlex="column" fxFlexAlign="center center">
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Annual Leave</mat-label>
-                                            <input id="annualLeave" matInput type="text"
-                                                formControlName="annualLeave" />
+                                            <input matInput type="text" formControlName="annualLeave" />
                                         </mat-form-field>
                                     </div>
                                     <div fxFlex="column" fxFlexAlign="center">
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Sick Leave</mat-label>
-                                            <input id="sickLeave" matInput type="text" formControlName="sickLeave" />
+                                            <input matInput type="text" formControlName="sickLeave" />
                                         </mat-form-field>
                                     </div>
 
