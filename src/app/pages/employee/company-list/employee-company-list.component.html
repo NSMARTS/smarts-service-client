@@ -20,12 +20,12 @@
 
                 <ng-container matColumnDef="code">
                     <th mat-header-cell *matHeaderCellDef> Code </th>
-                    <td mat-cell *matCellDef="let element"> {{element.companyCode}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.company_code}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="rollover">
@@ -39,10 +39,23 @@
                         </span>
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="rolloverMaxMonth">
+
+                <!-- employees
+
+                annual_policy
+
+                isRollover
+
+                isReplacementDay
+
+                isMinusAnnualLeave -->
+
+
+
+                <!-- <ng-container matColumnDef="rollover_max_month">
                     <th mat-header-cell *matHeaderCellDef> Rollover max month </th>
                     <td mat-cell *matCellDef="let element">
-                        {{element.rolloverMaxMonth?element.rolloverMaxMonth:'-'}}
+                        {{element.rollover_max_month?element.rollover_max_month:'-'}}
                         <span *ngIf="element.rollover">
                             Month(s)
                         </span>
@@ -51,16 +64,16 @@
                 </ng-container>
 
 
-                <ng-container matColumnDef="rolloverMaxDay">
+                <ng-container matColumnDef="rollover_max_day">
                     <th mat-header-cell *matHeaderCellDef> Rollover max day </th>
                     <td mat-cell *matCellDef="let element">
-                        {{element.rolloverMaxDay?element.rolloverMaxDay:'-'}}
+                        {{element.rollover_max_day?element.rollover_max_day:'-'}}
                         <span *ngIf="element.rollover">
                             day(s)
                         </span>
                     </td>
 
-                </ng-container>
+                </ng-container> -->
 
 
                 <!-- 버튼이 아니라 그냥 회사이름만 눌러도 실행되게 -->
