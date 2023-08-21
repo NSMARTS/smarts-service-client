@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -164,6 +164,7 @@ export class CompanyEditComponent implements OnInit {
     });
   }
 
+  //input type="number" 음수 안되는 유효성 검사
   isButtonDisabled(): any {
     const rolloverMaxMonthError = this.editCompanyForm
       .get('rolloverMaxMonth')
@@ -193,6 +194,21 @@ export class CompanyEditComponent implements OnInit {
       annualLeaveError ||
       sickLeaveError
     );
+  }
+
+  //input type="number" 한글 안써지도록
+  @HostListener('input', ['$event'])
+  onInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+
+    if (inputElement.classList.contains('numeric-input')) {
+      // 입력값에서 숫자 이외의 문자를 제거
+      const numericValue = inputValue.replace(/[^\d]/g, '');
+
+      // 입력 필드에 정제된 값 설정
+      inputElement.value = numericValue;
+    }
   }
 
   errorAlert(err: any) {

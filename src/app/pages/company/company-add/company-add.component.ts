@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import {
   FormArray,
@@ -32,7 +32,7 @@ export class CompanyAddComponent {
       companyName: [''],
       leaveStandards: this.formBuilder.array([]),
       isRollover: [false],
-      rolloverMaxMonth: [0, [Validators.min(0)]],
+      rolloverMaxMonth: [0, [Validators.pattern('^[0-9]*$')]],
       rolloverMaxDay: [0, [Validators.min(0)]],
       countryCode: [''],
       isReplacementDay: [false],
@@ -119,6 +119,7 @@ export class CompanyAddComponent {
     });
   }
 
+  //input type="number" 음수 안되는 유효성 검사
   isButtonDisabled(): any {
     const rolloverMaxMonthError = this.addCompanyForm
       .get('rolloverMaxMonth')
@@ -148,6 +149,21 @@ export class CompanyAddComponent {
       annualLeaveError ||
       sickLeaveError
     );
+  }
+
+  //input type="number" 한글 안써지도록
+  @HostListener('input', ['$event'])
+  onInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+
+    if (inputElement.classList.contains('numeric-input')) {
+      // 입력값에서 숫자 이외의 문자를 제거
+      const numericValue = inputValue.replace(/[^\d]/g, '');
+
+      // 입력 필드에 정제된 값 설정
+      inputElement.value = numericValue;
+    }
   }
 
   errorAlert(err: any) {
