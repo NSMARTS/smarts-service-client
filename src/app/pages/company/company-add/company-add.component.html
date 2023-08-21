@@ -38,29 +38,25 @@
                             </div> -->
                             <!-- <button type = 'button' >+</button>  -->
 
-                            <div id="leaveStandard_{{i+1}}" formArrayName="leaveStandard"
-                                *ngFor="let row of getControls(); let i = index" fxLayout="column" fxLayoutGap="30px">
+                            <div formArrayName="leaveStandards"
+                                *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index"
+                                fxLayout="column" fxLayoutGap="30px">
                                 <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center"
                                     fxLayoutGap="20px">
-                                    <div>
-                                        <input id="year" type="hidden" formControlName="year" />
-                                        <div class="yearLabel"> {{i+1}} year</div>
-                                    </div>
+                                    <input type="hidden" formControlName="year" />
+                                    <div class="yearLabel"> {{ i + 1 }} year</div>
                                     <div fxFlex="column" fxFlexAlign="center center">
-
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Annual Leave</mat-label>
-                                            <input id="annualLeave" matInput type="number"
-                                                formControlName="annualLeave" />
-                                            <!-- <label for="annualLeave">annualLeave</label> -->
+                                            <input matInput type="number" formControlName="annualLeave" />
                                         </mat-form-field>
                                     </div>
                                     <div fxFlex="column" fxFlexAlign="center">
-                                        <mat-form-field appearance="outline" class="formFieldBox ">
+                                        <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Sick Leave</mat-label>
-                                            <input id="sickLeave" matInput type="number" formControlName="sickLeave" />
-
+                                            <input matInput type="number" formControlName="sickLeave" />
                                         </mat-form-field>
+
                                     </div>
 
                                     <div *ngIf="i <= 0" class="clickBtn" (click)="addItem()">

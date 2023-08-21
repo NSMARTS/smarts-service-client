@@ -1,17 +1,12 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-
-import { Subject } from 'rxjs';
-
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { DataService } from 'src/app/stores/data/data.service';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
@@ -25,11 +20,7 @@ import { CompanyService } from 'src/app/services/company.service';
 })
 export class CompanyAddComponent {
   addCompanyForm: FormGroup;
-
-  leaveStandard!: FormArray; // 연차 정책 form
-
-  leaveStandardYear: number = 0; // 근속년수
-  year: number = 0;
+  leaveStandards!: FormArray; // 연차 정책 form
 
   constructor(
     private router: Router,
@@ -39,9 +30,7 @@ export class CompanyAddComponent {
   ) {
     this.addCompanyForm = this.formBuilder.group({
       companyName: [''],
-      leaveStandard: this.formBuilder.array([
-        this.createItem(this.leaveStandardYear),
-      ]),
+      leaveStandards: this.formBuilder.array([]),
       isRollover: [false],
       rolloverMaxMonth: [0, [Validators.min(0)]],
       rolloverMaxDay: [0, [Validators.min(0)]],
@@ -51,31 +40,44 @@ export class CompanyAddComponent {
       isMinusAnnualLeave: [false],
       annualPolicy: ['byContract'],
     });
+
+    this.leaveStandards = this.addCompanyForm.get(
+      'leaveStandards'
+    ) as FormArray;
+    this.addItem();
   }
 
-  getControls() {
-    return (this.addCompanyForm.get('leaveStandard') as FormArray).controls;
+  getLeaveStandardsControls() {
+    return (this.addCompanyForm.get('leaveStandards') as FormArray).controls;
   }
 
   //////////////////////////////////
-  createItem(i: number): FormGroup {
-    this.year++;
+  createLeaveStandard(year: number): FormGroup {
     return this.formBuilder.group({
-      year: this.year, // 근속년수
+      year,
       annualLeave: [0, [Validators.min(0)]],
       sickLeave: [0, [Validators.min(0)]],
     });
   }
 
   addItem() {
-    this.leaveStandard = this.addCompanyForm.get('leaveStandard') as FormArray;
-    this.leaveStandard.push(this.createItem(this.leaveStandardYear));
+    const newYear = this.leaveStandards.length + 1;
+    const newLeaveStandard = this.createLeaveStandard(newYear);
+    this.leaveStandards.push(newLeaveStandard);
+    this.updateYears();
   }
 
-  cancelItem(i: any) {
-    if (this.leaveStandard) {
-      this.leaveStandard.removeAt(i);
+  cancelItem(index: number) {
+    if (this.leaveStandards.length > index) {
+      this.leaveStandards.removeAt(index);
+      this.updateYears();
     }
+  }
+
+  updateYears() {
+    this.leaveStandards.controls.forEach((group, index) => {
+      group.get('year')?.setValue(index + 1);
+    });
   }
 
   toBack(): void {
@@ -83,10 +85,8 @@ export class CompanyAddComponent {
   }
 
   onSubmit() {
-    // 회사 추가
     this.addCompany();
   }
-
   isButtonDisabled(): any {
     const rolloverMaxMonthError = this.addCompanyForm
       .get('rolloverMaxMonth')
@@ -97,27 +97,10 @@ export class CompanyAddComponent {
     const rdValidityTermError = this.addCompanyForm
       .get('rdValidityTerm')
       ?.hasError('min');
-    const leaveStandardArray = this.addCompanyForm.get(
-      'leaveStandard'
-    ) as FormArray;
-    const firstLeaveStandardGroup = leaveStandardArray.at(0) as FormGroup;
-    const annualLeaveError = firstLeaveStandardGroup
-      .get('annualLeave')
-      ?.hasError('min');
-    const sickLeaveError = firstLeaveStandardGroup
-      .get('sickLeave')
-      ?.hasError('min');
 
     // 어떤 폼 컨트롤이라도 'min' 오류가 있는 경우 버튼을 비활성화
-    return (
-      rolloverMaxMonthError ||
-      rolloverMaxDayError ||
-      rdValidityTermError ||
-      annualLeaveError ||
-      sickLeaveError
-    );
+    return rolloverMaxMonthError || rolloverMaxDayError || rdValidityTermError;
   }
-
   // 회사 추가
   addCompany() {
     const isRollover = this.addCompanyForm.get('isRollover')?.value;
@@ -137,6 +120,7 @@ export class CompanyAddComponent {
         : 0,
     };
     //data : this.addCompanyForm.value
+    console.log(companyData);
 
     this.companyService.addCompany(companyData).subscribe({
       next: (res) => {
