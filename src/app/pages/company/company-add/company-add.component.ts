@@ -1,16 +1,11 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-
-import { Subject } from 'rxjs';
-
 import {
     FormArray,
     FormBuilder,
-    FormControl,
     FormGroup,
     ReactiveFormsModule,
 } from '@angular/forms';
-import { DataService } from 'src/app/stores/data/data.service';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
