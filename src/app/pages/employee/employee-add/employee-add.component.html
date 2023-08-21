@@ -1,0 +1,30 @@
+<p>employee-add works!</p>
+<form [formGroup]="employeeForm">
+    <label for="email">Email: </label>
+    <input id="email" type="text" formControlName="email">
+
+    <label for="username">Name: </label>
+    <input id="username" type="text" formControlName="username">
+
+    <label for="contractStartDate">Contract Start: </label>
+    <input id="contractStartDate" type="text" formControlName="contractStartDate">
+
+    <label for="contractEndDate">Contract End: </label>
+    <input id="contractEndDate" type="text" formControlName="contractEndDate">
+
+    <mat-form-field>
+        <mat-label>Country</mat-label>
+        <mat-select name="food" formControlName="selectedCountryId">
+            <mat-option *ngFor="let country of countries" [value]="country?._id">
+                {{country?.countryName}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-radio-group aria-label="Select an option">
+        <label for="isManager">Position: </label>
+        <mat-radio-button value="true">Manager</mat-radio-button>
+        <mat-radio-button value="false">Member</mat-radio-button>
+    </mat-radio-group>
+    <button (click)="createEmployee()">create</button>
+</form>
