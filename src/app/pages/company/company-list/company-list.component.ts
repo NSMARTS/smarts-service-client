@@ -88,21 +88,19 @@ export class CompanyListComponent {
     //       .subscribe((result: any) => {
     //         if (result) {
     //           // 회사 삭제
-    this.companyService.deleteCompany(id).subscribe(
-      (data: any) => {
-        if (data.message == 'delete company') {
-          //                 this.dialogService.openDialogPositive(
-          //                   'Successfully, the company has been delete.'
-          //                 );
-          this.getCompanyList();
-        }
+    this.companyService.deleteCompany(id).subscribe({
+      next: (data: any) => {
+        //                 this.dialogService.openDialogPositive(
+        //                   'Successfully, the company has been delete.'
+        //                 );
+        this.getCompanyList();
       },
-      (err: any) => {
+      error: (err: any) => {
         console.log(err);
         //               this.dialogService.openDialogNegative(err.error.message);
         //               // alert(err.error.message);
-      }
-    );
+      },
+    });
   }
   //       });
   //   }

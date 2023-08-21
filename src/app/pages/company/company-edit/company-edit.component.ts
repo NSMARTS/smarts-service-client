@@ -39,7 +39,7 @@ export class CompanyEditComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.editCompanyForm = this.formBuilder.group({
-      companyName: [''],
+      companyName: ['', [Validators.required]],
       leaveStandards: this.formBuilder.array([]),
       isRollover: [false],
       rolloverMaxMonth: [0, [Validators.min(0)]],
@@ -166,6 +166,9 @@ export class CompanyEditComponent implements OnInit {
 
   //input type="number" 음수 안되는 유효성 검사
   isButtonDisabled(): any {
+    const companyNameError = this.editCompanyForm
+      .get('companyName')
+      ?.hasError('required');
     const rolloverMaxMonthError = this.editCompanyForm
       .get('rolloverMaxMonth')
       ?.hasError('min');
@@ -188,6 +191,7 @@ export class CompanyEditComponent implements OnInit {
 
     // 어떤 폼 컨트롤이라도 'min' 오류가 있는 경우 버튼을 비활성화
     return (
+      companyNameError ||
       rolloverMaxMonthError ||
       rolloverMaxDayError ||
       rdValidityTermError ||
