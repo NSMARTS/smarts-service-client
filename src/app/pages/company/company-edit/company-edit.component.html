@@ -18,8 +18,7 @@
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                             <mat-form-field appearance="outline" class="companyFormFieldBox">
                                 <mat-label>Company Name</mat-label>
-                                <input matInput type="text" formControlName="company_name"
-                                    />
+                                <input matInput type="text" formControlName="company_name" />
                             </mat-form-field>
                         </div>
                     </div>
@@ -32,16 +31,10 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <!-- <div fxLayout="row" fxLayoutAlign="end">
-                                <div class="addBtn" (click)="addItem()">
-                                    <mat-icon class="addMark">add</mat-icon>
-                                </div>
-                            </div> -->
-                            <!-- <button type = 'button' >+</button>  -->
+
 
                             <div id="leave_standard_{{i+1}}" formArrayName="leave_standard"
-                                *ngFor="let row of getControls(); let i = index"
-                                fxLayout="column" fxLayoutGap="30px">
+                                *ngFor="let row of getControls(); let i = index" fxLayout="column" fxLayoutGap="30px">
                                 <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center"
                                     fxLayoutGap="20px">
                                     <div>
@@ -53,18 +46,17 @@
                                     <div fxFlex="column" fxFlexAlign="center center">
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Annual Leave</mat-label>
-                                            <input id="annual_leave" matInput type="text" formControlName="annual_leave"
-                                                 />
+                                            <input id="annual_leave" matInput type="text"
+                                                formControlName="annual_leave" />
                                         </mat-form-field>
                                     </div>
                                     <div fxFlex="column" fxFlexAlign="center">
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Sick Leave</mat-label>
-                                            <input id="sick_leave" matInput type="text" formControlName="sick_leave"
-                                               />
+                                            <input id="sick_leave" matInput type="text" formControlName="sick_leave" />
                                         </mat-form-field>
                                     </div>
-                                 
+
                                     <div *ngIf="i <= 0" class="clickBtn" (click)="addItem()">
                                         <mat-icon class="addMark">add</mat-icon>
                                     </div>
@@ -87,9 +79,9 @@
                         <div class="rightTable" fxFlex>
                             <mat-radio-group mat-radio-group name="grpName">
                                 <input type="radio" formControlName="isRollover" [value]="true"
-                                     [checked]="companyData?.rollover == true" />Yes
+                                    [checked]="editCompanyForm.get('isRollover')?.value" />Yes
                                 <input type="radio" formControlName="isRollover" [value]="false"
-                                     [checked]="companyData?.rollover == false" />No
+                                    [checked]="!editCompanyForm.get('isRollover')?.value" />No
                             </mat-radio-group>
                         </div>
                     </div>
@@ -104,7 +96,7 @@
                             <div class="rightTable" fxFlex>
                                 <mat-form-field appearance="outline" class="formFieldBox formSpacer">
                                     <input matInput type="text" formControlName="rollover_max_month"
-                                        placeholder="Rollover Max Month"  />
+                                        placeholder="Rollover Max Month" />
                                 </mat-form-field>
                             </div>
                         </div>
@@ -118,7 +110,7 @@
                             <div class="rightTable" fxFlex>
                                 <mat-form-field appearance="outline" class="formFieldBox formSpacer">
                                     <input matInput type="text" formControlName="rollover_max_day"
-                                        placeholder="Rollover Max Day"  />
+                                        placeholder="Rollover Max Day" />
                                 </mat-form-field>
                             </div>
                         </div>
@@ -133,13 +125,13 @@
                         <div class="rightTable" fxFlex>
                             <mat-radio-group mat-radio-group name="grpName">
                                 <input type="radio" formControlName="isReplacementDay" [value]="true"
-                                    [checked]="companyData?.isReplacementDay == true" />Yes
+                                    [checked]="editCompanyForm.get('isReplacementDay')?.value " />Yes
                                 <input type="radio" formControlName="isReplacementDay" [value]="false"
-                                    [checked]="companyData?.isReplacementDay == false" />No
+                                    [checked]="!editCompanyForm.get('isReplacementDay')?.value " />No
                             </mat-radio-group>
                         </div>
                     </div>
-                                        <!-- Minus Annual Leave -->
+                    <!-- Minus Annual Leave -->
                     <!-- <div class="lineDivider" fxLayout="row wrap">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -161,9 +153,10 @@
                         <div class="rightTable" fxFlex>
                             <mat-radio-group mat-radio-group name="grpName">
                                 <input type="radio" formControlName="isMinusAnnualLeave" [value]="true"
-                                    [checked]="companyData?.isMinusAnnualLeave == true" />Yes
+                                    [checked]="editCompanyForm.get('isMinusAnnualLeave')?.value" />Yes
                                 <input type="radio" formControlName="isMinusAnnualLeave" [value]="false"
-                                    [checked]="companyData?.isMinusAnnualLeave === undefined" />No
+                                    [checked]="!editCompanyForm.get('isMinusAnnualLeave')?.value" />No
+
                             </mat-radio-group>
                         </div>
                     </div>
@@ -194,13 +187,15 @@
                         <div class="rightTable" fxFlex>
                             <mat-radio-group mat-radio-group name="grpName">
                                 <input type="radio" value="byYear" formControlName="annual_policy"
-                                    [checked]="companyData?.annual_policy == 'byYear'" />by year
+                                    [checked]="editCompanyForm.get('annual_policy')?.value === 'byYear' ? true : false" />by
+                                year
                                 <input type="radio" value="byContract" formControlName="annual_policy"
-                                    [checked]="companyData?.annual_policy == 'byContract'" />by contract
+                                    [checked]="editCompanyForm.get('annual_policy')?.value === 'byContract' ? true : false" />by
+                                contract
                             </mat-radio-group>
                         </div>
                     </div>
-                 
+
 
                     <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
                         <div class="btnSection_1">
