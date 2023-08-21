@@ -54,7 +54,7 @@ export class CountryService {
   addCountryHoliday(countryHolidayData: any) {
     console.log(countryHolidayData);
     return this.http.post(
-      this.baseUrl + '/countries/holiday/' + countryHolidayData._id,
+      this.baseUrl + '/countries/holiday/',
       countryHolidayData
     );
   }
@@ -63,6 +63,6 @@ export class CountryService {
   deleteCountryHoliday(data: any) {
     console.log(data);
     return this.http.delete(
-      this.baseUrl + '/countries/holiday/' + data.countryId);
+      this.baseUrl + '/countries/' + data.countryId + '/holiday/' + data.holidayId);
   }
 }
