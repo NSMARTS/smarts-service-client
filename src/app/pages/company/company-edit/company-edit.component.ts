@@ -164,6 +164,37 @@ export class CompanyEditComponent implements OnInit {
     });
   }
 
+  isButtonDisabled(): any {
+    const rolloverMaxMonthError = this.editCompanyForm
+      .get('rolloverMaxMonth')
+      ?.hasError('min');
+    const rolloverMaxDayError = this.editCompanyForm
+      .get('rolloverMaxDay')
+      ?.hasError('min');
+    const rdValidityTermError = this.editCompanyForm
+      .get('rdValidityTerm')
+      ?.hasError('min');
+    const leaveStandardsArray = this.editCompanyForm.get(
+      'leaveStandards'
+    ) as FormArray;
+    const firstLeaveStandardGroup = leaveStandardsArray.at(0) as FormGroup;
+    const annualLeaveError = firstLeaveStandardGroup
+      .get('annualLeave')
+      ?.hasError('min');
+    const sickLeaveError = firstLeaveStandardGroup
+      .get('sickLeave')
+      ?.hasError('min');
+
+    // 어떤 폼 컨트롤이라도 'min' 오류가 있는 경우 버튼을 비활성화
+    return (
+      rolloverMaxMonthError ||
+      rolloverMaxDayError ||
+      rdValidityTermError ||
+      annualLeaveError ||
+      sickLeaveError
+    );
+  }
+
   errorAlert(err: any) {
     switch (err) {
       case 'Duplicate requestLeave':

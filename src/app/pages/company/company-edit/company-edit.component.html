@@ -199,7 +199,7 @@
 
                     <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
                         <div class="btnSection_1">
-                            <button mat-raised-button class="tableBtn" type="submit" color="primary" >Edit</button>
+                            <button mat-raised-button class="tableBtn" type="submit" color="primary" [disabled]="isButtonDisabled()">Edit</button>
                         </div>
                         <div>
                             <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
