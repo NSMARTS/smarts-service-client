@@ -59,8 +59,8 @@ export class CompanyAddComponent {
   createItem(i: number): FormGroup {
     return this.formBuilder.group({
       year: i + 1, // 근속년수
-      annual_leave: '',
-      sick_leave: '',
+      annualLeave: '',
+      sickLeave: '',
     });
   }
 

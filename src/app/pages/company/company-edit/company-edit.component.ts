@@ -75,11 +75,11 @@ export class CompanyEditComponent implements OnInit {
           'leaveStandard'
         ) as FormArray;
         this.leaveStandard.clear(); // 기존 컨트롤 제거
-        const leaveStandardYear = companyData.leaveStandard;
         // 새로운 컨트롤 추가
-        for (let i = 0; i < leaveStandardYear.length; i++) {
-          this.leaveStandardYear = i; // 근속년수
-          this.leaveStandard.push(this.createItem(i));
+        console.log(companyData.leaveStandard);
+        for (let i = 0; i < this.leaveStandard.length; i++) {
+          this.leaveStandardYear = i + 1; // 근속년수
+          this.leaveStandard.push(this.createItem(this.leaveStandardYear));
         }
       },
       error: (err) => console.error(err),
@@ -90,9 +90,9 @@ export class CompanyEditComponent implements OnInit {
   //////////////////////////////////
   createItem(i: number): FormGroup {
     return this.formBuilder.group({
-      year: i + 1,
-      annual_leave: 0,
-      sick_leave: 0,
+      year: i,
+      annualLeave: 0,
+      sickLeave: 0,
     });
   }
 
