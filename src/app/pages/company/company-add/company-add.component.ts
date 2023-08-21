@@ -32,7 +32,7 @@ export class CompanyAddComponent {
       companyName: [''],
       leaveStandards: this.formBuilder.array([]),
       isRollover: [false],
-      rolloverMaxMonth: [0, [Validators.pattern('^[0-9]*$')]],
+      rolloverMaxMonth: [0, [Validators.min(0)]],
       rolloverMaxDay: [0, [Validators.min(0)]],
       countryCode: [''],
       isReplacementDay: [false],
