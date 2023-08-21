@@ -19,13 +19,13 @@ import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 })
 export class EmployeeCompanyListComponent {
     displayedColumns: string[] = [
-        'code',
-        'name',
+        'companyCode',
+        'companyName',
         'employees',
-        'annual_policy',
-        'rollover',
-        'replacementDay',
-        'minusAnnualLeave'
+        'annualPolicy',
+        'isRollover',
+        'isReplacementDay',
+        'isMinusAnnualLeave'
 
     ];
     filterValues: any = {};
@@ -64,11 +64,6 @@ export class EmployeeCompanyListComponent {
         this.router.navigate(['employee']);
     }
 
-    // 회사 수정
-    editCompany(id: any) {
-        this.router.navigate(['company/company-edit/' + id]);
-    }
-
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -78,8 +73,9 @@ export class EmployeeCompanyListComponent {
         }
     }
 
-    createEmployee() {
-        this.router.navigate(['employee/company-list']);
+    createEmployee(id: string) {
+        console.log(id)
+        this.router.navigate([`employee/${id}`]);
     }
     // 회사 삭제
     //   deleteCompany(id: any) {

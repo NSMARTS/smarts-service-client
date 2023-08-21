@@ -22,32 +22,33 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 @NgModule({
-  exports: [
-    MatInputModule,
-    MatFormFieldModule,
-    CommonModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    MatRippleModule,
-    MatMenuModule,
-    MatTooltipModule, // 툴팁 모듈
-    MatBadgeModule, // 알림 몇개 왔는지 숫자 표식용 모듈
-    MatDialogModule,
-    MatCardModule,
-    MatPaginatorModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatTableModule,
-    FlexLayoutModule,
-    MatDatepickerModule,
-  ],
+    exports: [
+        MatInputModule,
+        MatFormFieldModule,
+        CommonModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule,
+        MatRippleModule,
+        MatMenuModule,
+        MatTooltipModule, // 툴팁 모듈
+        MatBadgeModule, // 알림 몇개 왔는지 숫자 표식용 모듈
+        MatDialogModule,
+        MatCardModule,
+        MatPaginatorModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatTableModule,
+        FlexLayoutModule,
+        MatDatepickerModule,
+        MatNativeDateModule
+    ],
 })
-export class MaterialsModule {}
+export class MaterialsModule { }
