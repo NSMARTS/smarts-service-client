@@ -18,3 +18,15 @@ export interface EmployeeTakenVacation {
     contractEndDate: Date, // 계약 끝나는 날
     profileImgPath_path: string // 프로필 이미지 경로
 }
+
+// 사용한 휴가
+export interface Country {
+    _id: string,
+    countryName: string,
+    countryCode: string,
+    countryHoliday: CountryHoliday[]
+}
+export interface CountryHoliday {
+    holidayName: string,
+    holidayDate: string,
+}
