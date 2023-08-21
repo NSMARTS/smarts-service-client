@@ -16,5 +16,5 @@ export interface EmployeeTakenVacation {
     takenReplacementDay: number, // 대체 휴가 사용 횟수
     contractStartDate: Date, // 계약 시작일
     contractEndDate: Date, // 계약 끝나는 날
-    profile_img_path: string // 프로필 이미지 경로
+    profileImgPath_path: string // 프로필 이미지 경로
 }
