@@ -10,14 +10,14 @@ import { Company } from 'src/app/interfaces/company.interface';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 
 @Component({
-  selector: 'app-employee-company-list',
+  selector: 'app-company-list',
   standalone: true,
   imports: [CommonModule, MaterialsModule, RouterModule],
   //   standalone: true,
-  templateUrl: './employee-company-list.component.html',
-  styleUrls: ['./employee-company-list.component.scss'],
+  templateUrl: './company-list.component.html',
+  styleUrls: ['./company-list.component.scss'],
 })
-export class EmployeeCompanyListComponent {
+export class CompanyListComponent {
   displayedColumns: string[] = [
     'companyCode',
     'companyName',
@@ -60,7 +60,7 @@ export class EmployeeCompanyListComponent {
   }
 
   backManagerList() {
-    this.router.navigate(['employee']);
+    this.router.navigate(['company-holiday']);
   }
 
   applyFilter(event: Event) {
@@ -72,33 +72,8 @@ export class EmployeeCompanyListComponent {
     }
   }
 
-  createEmployee(id: string) {
+  createCompnayHoliday(id: string) {
     console.log(id);
-    this.router.navigate([`employee/${id}`]);
+    this.router.navigate([`company-holiday/${id}`]);
   }
-  // 회사 삭제
-  //   deleteCompany(id: any) {
-  //     this.dialogService
-  //       .openDialogConfirm('Do you delete this company?')
-  //       .subscribe((result: any) => {
-  //         if (result) {
-  //           // 회사 삭제
-  //           this.companyService.deleteCompany({ _id: id }).subscribe(
-  //             (data: any) => {
-  //               if (data.message == 'delete company') {
-  //                 this.dialogService.openDialogPositive(
-  //                   'Successfully, the company has been delete.'
-  //                 );
-  //                 this.getCompanyList();
-  //               }
-  //             },
-  //             (err: any) => {
-  //               console.log(err);
-  //               this.dialogService.openDialogNegative(err.error.message);
-  //               // alert(err.error.message);
-  //             }
-  //           );
-  //         }
-  //       });
-  //   }
 }
