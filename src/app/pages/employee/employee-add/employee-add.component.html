@@ -1,0 +1,144 @@
+<div class="mainContentContainer">
+    <div class="mainContent">
+        <div fxLayout="row">
+            <div class="mainTitle">Add Employee</div>
+        </div>
+
+        <form [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit()">
+            <div class="leaveTableContainer">
+                <div fxLayout="column" class="br_ltop">
+
+                    <!-- company name -->
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Email</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <mat-label>Email</mat-label>
+                                <input matInput type="text" placeholder="E-Mail *" name="email" formControlName="email"
+                                    autocomplete="email">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Name</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <mat-label>Name</mat-label>
+                                <input matInput type="text" placeholder="Name" name="username"
+                                    formControlName="username" autocomplete="username">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Location</span>
+                            </div>
+                        </div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Location</mat-label>
+                            <mat-select formControlName="country" required>
+                                <!-- <mat-option value="Korea">Korea</mat-option>
+                            <mat-option value="Singapore">Singapore</mat-option>
+                            <mat-option value="England">England</mat-option> -->
+                                <mat-option *ngFor="let nation of nationList" [value]="nation._id">
+                                    {{nation.countryName}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix>find_in_page</mat-icon>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Position</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-radio-group mat-radio-group name="isManager">
+                                <input type="radio" [value]="true" formControlName="isManager" />MANAGER
+                                <input type="radio" [value]="false" formControlName="isManager" />EMPLOYEE
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Start Date</span>
+                            </div>
+                        </div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Start Date</mat-label>
+                            <input matInput [matDatepicker]="picker1" formControlName="empStartDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>End Date</span>
+                            </div>
+                        </div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>End Date</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="empEndDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="lineDivider" fxLayout="row">
+                    <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                        <div class="leftBox">
+                            <span>Department</span>
+                        </div>
+                    </div>
+                    <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                        <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-label>Department</mat-label>
+                            <input matInput type="text" placeholder="Department" name="department"
+                                formControlName="department" autocomplete="department">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="lineDivider" fxLayout="row">
+                    <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                        <div class="leftBox">
+                            <span>Posiotion</span>
+                        </div>
+                    </div>
+                    <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                        <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-label>Posiotion</mat-label>
+                            <input matInput type="text" placeholder="Posiotion" name="posiotion"
+                                formControlName="posiotion" autocomplete="posiotion">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
+                    <div class="btnSection_1">
+                        <button mat-raised-button class="tableBtn" type="submit" color="primary">Add Employee</button>
+                    </div>
+                    <div>
+                        <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

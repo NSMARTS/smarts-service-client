@@ -1,22 +1,32 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
+import { Country } from 'src/app/interfaces/employee.interface';
+import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CountryService {
-  constructor(private http: HttpClient) {}
   private baseUrl = environment.apiUrl;
+  destroyRef = inject(DestroyRef);
+
+  constructor(private http: HttpClient) {}
 
   // 나라 등록
   addCountry(countryData: any) {
-    return this.http.post(this.baseUrl + '/countries', countryData);
+    return this.http
+      .post(this.baseUrl + '/countries', countryData)
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   // 나라 목록 불러오기
-  getCountryList() {
-    return this.http.get(this.baseUrl + '/countries');
+  getCountryList(): Observable<HttpResMsg<Country[]>> {
+    return this.http
+      .get<HttpResMsg<Country[]>>(this.baseUrl + '/countries')
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   /***
@@ -54,7 +64,7 @@ export class CountryService {
   addCountryHoliday(countryHolidayData: any) {
     // console.log(countryHolidayData);
     return this.http.post(
-      this.baseUrl + '/countries/holiday/',
+      this.baseUrl + '/countries/holiday/' + countryHolidayData._id,
       countryHolidayData
     );
   }
@@ -63,6 +73,7 @@ export class CountryService {
   deleteCountryHoliday(data: any) {
     // console.log(data);
     return this.http.delete(
-      this.baseUrl + '/countries/' + data.countryId + '/holiday/' + data.holidayId);
+      this.baseUrl + '/countries/holiday/' + data.countryId
+    );
   }
 }

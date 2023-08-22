@@ -1,16 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-
-import { Subject } from 'rxjs';
-
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { DataService } from 'src/app/stores/data/data.service';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
@@ -24,10 +20,7 @@ import { CompanyService } from 'src/app/services/company.service';
 })
 export class CompanyAddComponent {
   addCompanyForm: FormGroup;
-
-  leaveStandard!: FormArray; // 연차 정책 form
-
-  leaveStandardYear: number = 0; // 근속년수
+  leaveStandards!: FormArray; // 연차 정책 form
 
   constructor(
     private router: Router,
@@ -36,43 +29,55 @@ export class CompanyAddComponent {
     private companyService: CompanyService
   ) {
     this.addCompanyForm = this.formBuilder.group({
-      companyName: [''],
-      leaveStandard: this.formBuilder.array([
-        this.createItem(this.leaveStandardYear),
-      ]),
+      companyName: ['', [Validators.required]],
+      leaveStandards: this.formBuilder.array([]),
       isRollover: [false],
-      rolloverMaxMonth: [0],
-      rolloverMaxDay: [0],
+      rolloverMaxMonth: [0, [Validators.min(0)]],
+      rolloverMaxDay: [0, [Validators.min(0)]],
       countryCode: [''],
       isReplacementDay: [false],
-      rdValidityTerm: [0],
-     isAdvanceLeave: [false],
+      rdValidityTerm: [0, [Validators.min(0)]],
+      isMinusAnnualLeave: [false],
       annualPolicy: ['byContract'],
     });
+
+    this.leaveStandards = this.addCompanyForm.get(
+      'leaveStandards'
+    ) as FormArray;
+    this.addItem();
   }
 
-  getControls() {
-    return (this.addCompanyForm.get('leaveStandard') as FormArray).controls;
+  getLeaveStandardsControls() {
+    return (this.addCompanyForm.get('leaveStandards') as FormArray).controls;
   }
 
   //////////////////////////////////
-  createItem(i: number): FormGroup {
+  createLeaveStandard(year: number): FormGroup {
     return this.formBuilder.group({
-      year: i + 1, // 근속년수
-      annual_leave: '',
-      sick_leave: '',
+      year,
+      annualLeave: [0, [Validators.min(0)]],
+      sickLeave: [0, [Validators.min(0)]],
     });
   }
 
   addItem() {
-    this.leaveStandard = this.addCompanyForm.get('leaveStandard') as FormArray;
-    this.leaveStandard.push(this.createItem(this.leaveStandardYear));
+    const newYear = this.leaveStandards.length + 1;
+    const newLeaveStandard = this.createLeaveStandard(newYear);
+    this.leaveStandards.push(newLeaveStandard);
+    this.updateYears();
   }
 
-  cancelItem(i: any) {
-    if (this.leaveStandard) {
-      this.leaveStandard.removeAt(i);
+  cancelItem(index: number) {
+    if (this.leaveStandards.length > index) {
+      this.leaveStandards.removeAt(index);
+      this.updateYears();
     }
+  }
+
+  updateYears() {
+    this.leaveStandards.controls.forEach((group, index) => {
+      group.get('year')?.setValue(index + 1);
+    });
   }
 
   toBack(): void {
@@ -80,7 +85,6 @@ export class CompanyAddComponent {
   }
 
   onSubmit() {
-    // 회사 추가
     this.addCompany();
   }
 
@@ -103,6 +107,7 @@ export class CompanyAddComponent {
         : 0,
     };
     //data : this.addCompanyForm.value
+    console.log(companyData);
 
     this.companyService.addCompany(companyData).subscribe({
       next: (res) => {
@@ -112,6 +117,57 @@ export class CompanyAddComponent {
       },
       error: (err) => console.error(err),
     });
+  }
+
+  //input type="number" 음수 안되는 유효성 검사
+  isButtonDisabled(): any {
+    const companyNameError = this.addCompanyForm
+      .get('companyName')
+      ?.hasError('required');
+    const rolloverMaxMonthError = this.addCompanyForm
+      .get('rolloverMaxMonth')
+      ?.hasError('min');
+    const rolloverMaxDayError = this.addCompanyForm
+      .get('rolloverMaxDay')
+      ?.hasError('min');
+    const rdValidityTermError = this.addCompanyForm
+      .get('rdValidityTerm')
+      ?.hasError('min');
+    const leaveStandardsArray = this.addCompanyForm.get(
+      'leaveStandards'
+    ) as FormArray;
+    const firstLeaveStandardGroup = leaveStandardsArray.at(0) as FormGroup;
+    const annualLeaveError = firstLeaveStandardGroup
+      .get('annualLeave')
+      ?.hasError('min');
+    const sickLeaveError = firstLeaveStandardGroup
+      .get('sickLeave')
+      ?.hasError('min');
+
+    // 어떤 폼 컨트롤이라도 'min' 오류가 있는 경우 버튼을 비활성화
+    return (
+      companyNameError ||
+      rolloverMaxMonthError ||
+      rolloverMaxDayError ||
+      rdValidityTermError ||
+      annualLeaveError ||
+      sickLeaveError
+    );
+  }
+
+  //input type="number" 한글 안써지도록
+  @HostListener('input', ['$event'])
+  onInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+
+    if (inputElement.classList.contains('numeric-input')) {
+      // 입력값에서 숫자 이외의 문자를 제거
+      const numericValue = inputValue.replace(/[^-\d]/g, '');
+
+      // 입력 필드에 정제된 값 설정
+      inputElement.value = numericValue;
+    }
   }
 
   errorAlert(err: any) {
