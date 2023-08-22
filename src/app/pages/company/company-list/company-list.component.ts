@@ -87,9 +87,8 @@ export class CompanyListComponent {
     console.log(id);
     this.dialogService
       .openDialogConfirm('Do you delete this company?')
-      .subscribe(
-        (result: any) => {
-          //         if (result) {
+      .subscribe((result: any) => {
+        if (result) {
           //           // 회사 삭제
           this.companyService.deleteCompany(id).subscribe({
             next: (data: any) => {
@@ -101,11 +100,10 @@ export class CompanyListComponent {
             error: (err: any) => {
               console.log(err);
               this.dialogService.openDialogNegative(err.error.message);
-              // alert(err.error.message);
+              alert(err.error.message);
             },
           });
         }
-        // }
-      );
+      });
   }
 }

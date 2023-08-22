@@ -20,11 +20,11 @@ export const COMPANY_ROUTES: Route[] = [
     // 상세보기나 수정은 admin Role만 가능
   },
   {
-    path: 'add',
+    path: 'company-add',
     component: CompanyAddComponent,
   },
   {
-    path: 'edit/:id',
+    path: 'company-edit/:id',
     component: CompanyEditComponent,
   },
 ];
