@@ -101,10 +101,8 @@ export class CountryHolidayAddComponent implements OnInit {
 
     this.countryService.addCountryHoliday(countryHolidayData).subscribe({
       next: (data: any) => {
-        if (data.message == 'Success add country holiday') {
           this.dialogService.openDialogPositive('Success add country holiday.');
           this.getCountryHolidayList();
-        }
       },
       error: (err: any) => {
         this.dialogService.openDialogNegative('An error has occured.');
@@ -122,12 +120,10 @@ export class CountryHolidayAddComponent implements OnInit {
     console.log(countryHolidayData);
     this.countryService.deleteCountryHoliday(countryHolidayData).subscribe({
       next: (data: any) => {
-        if (data.message == 'Success delete country holiday') {
           this.dialogService.openDialogPositive(
             'Success delete country holiday.'
           );
           this.getCountryHolidayList();
-        }
       },
       error: (err: any) => {
         this.dialogService.openDialogNegative('An error has occured.');
