@@ -11,11 +11,11 @@ import {
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
+import { DialogService } from 'src/app/dialog/dialog.service';
 import { Company, InitialCompany } from 'src/app/interfaces/company.interface';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
 import { DataService } from 'src/app/stores/data/data.service';
-// import { DialogService } from 'src/@dw/dialog/dialog.service';
 
 @Component({
   selector: 'app-company-edit',
@@ -33,7 +33,7 @@ export class CompanyEditComponent implements OnInit {
 
   constructor(
     private router: Router,
-    // private dialogService: DialogService,
+    private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private companyService: CompanyService,
     private route: ActivatedRoute
@@ -218,12 +218,12 @@ export class CompanyEditComponent implements OnInit {
   errorAlert(err: any) {
     switch (err) {
       case 'Duplicate requestLeave':
-        // this.dialogService.openDialogNegative('Duplicate requestLeave.');
+        this.dialogService.openDialogNegative('Duplicate requestLeave.');
         break;
       case 'DB Error':
-        // this.dialogService.openDialogNegative(
-        //   'An error has occurred while requesting'
-        // );
+        this.dialogService.openDialogNegative(
+          'An error has occurred while requesting'
+        );
         break;
     }
   }

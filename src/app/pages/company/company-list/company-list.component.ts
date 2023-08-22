@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/interfaces/company.interface';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
+import { DialogService } from 'src/app/dialog/dialog.service';
 
 @Component({
   selector: 'app-company-list',
@@ -36,7 +37,8 @@ export class CompanyListComponent {
 
   constructor(
     private router: Router,
-    private companyService: CompanyService // public dialogService: DialogService
+    private companyService: CompanyService,
+    public dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -83,25 +85,27 @@ export class CompanyListComponent {
   // 회사 삭제
   deleteCompany(id: any) {
     console.log(id);
-    //     this.dialogService
-    //       .openDialogConfirm('Do you delete this company?')
-    //       .subscribe((result: any) => {
-    //         if (result) {
-    //           // 회사 삭제
-    this.companyService.deleteCompany(id).subscribe({
-      next: (data: any) => {
-        //                 this.dialogService.openDialogPositive(
-        //                   'Successfully, the company has been delete.'
-        //                 );
-        this.getCompanyList();
-      },
-      error: (err: any) => {
-        console.log(err);
-        //               this.dialogService.openDialogNegative(err.error.message);
-        //               // alert(err.error.message);
-      },
-    });
+    this.dialogService
+      .openDialogConfirm('Do you delete this company?')
+      .subscribe(
+        (result: any) => {
+          //         if (result) {
+          //           // 회사 삭제
+          this.companyService.deleteCompany(id).subscribe({
+            next: (data: any) => {
+              this.dialogService.openDialogPositive(
+                'Successfully, the company has been delete.'
+              );
+              this.getCompanyList();
+            },
+            error: (err: any) => {
+              console.log(err);
+              this.dialogService.openDialogNegative(err.error.message);
+              // alert(err.error.message);
+            },
+          });
+        }
+        // }
+      );
   }
-  //       });
-  //   }
 }

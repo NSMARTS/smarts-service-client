@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
+import { DialogService } from 'src/app/dialog/dialog.service';
 
 @Component({
   selector: 'app-company-add',
@@ -24,7 +25,7 @@ export class CompanyAddComponent {
 
   constructor(
     private router: Router,
-    // private dialogService: DialogService,
+    private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private companyService: CompanyService
   ) {
@@ -173,12 +174,12 @@ export class CompanyAddComponent {
   errorAlert(err: any) {
     switch (err) {
       case 'Duplicate requestLeave':
-        // this.dialogService.openDialogNegative('Duplicate requestLeave.');
+        this.dialogService.openDialogNegative('Duplicate requestLeave.');
         break;
       case 'DB Error':
-        // this.dialogService.openDialogNegative(
-        //   'An error has occurred while requesting'
-        // );
+        this.dialogService.openDialogNegative(
+          'An error has occurred while requesting'
+        );
         break;
     }
   }
