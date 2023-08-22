@@ -9,7 +9,7 @@ export interface Company {
   isReplacementDay: boolean; // 대체 휴가를 할껀지 말껀지
   rdValidityTerm: number; // 대체 휴가 유효기간. 대체휴가가 생겼을 시 며칠안에 쓸껀지 기록
   annualPolicy: string; // 'byYear' 은 1월 1일 기준으로 휴가가 생김. 'byContract' 입사일 기준으로 휴가가 생김
-  isMinusAnnualLeave: boolean; // 마이너스 연차
+ isAdvanceLeave: boolean; // 마이너스 연차
   company_holiday: CompanyHoliday[];
 }
 
@@ -24,7 +24,7 @@ export const InitialCompany: Company = {
   isReplacementDay: false, // 대체 휴가를 할껀지 말껀지
   rdValidityTerm: 0, // 대체 휴가 유효기간. 대체휴가가 생겼을 시 며칠안에 쓸껀지 기록
   annualPolicy: 'byContract', // 'byYear' 은 1월 1일 기준으로 휴가가 생김. 'byContract' 입사일 기준으로 휴가가 생김
-  isMinusAnnualLeave: false, // 마이너스 연차
+ isAdvanceLeave: false, // 마이너스 연차
   company_holiday: [],
 };
 

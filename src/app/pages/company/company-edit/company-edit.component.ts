@@ -59,7 +59,7 @@ export class CompanyEditComponent implements OnInit {
       rolloverMaxMonth: [0],
       rolloverMaxDay: [0],
       isReplacementDay: [''],
-      isMinusAnnualLeave: [''],
+     isAdvanceLeave: [''],
       rdValidityTerm: [''],
       annualPolicy: ['byContract'],
     });
