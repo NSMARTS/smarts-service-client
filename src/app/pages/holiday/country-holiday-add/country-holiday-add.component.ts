@@ -21,7 +21,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-country-holiday-add',
   standalone: true,
-  imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, MaterialsModule, RouterModule],
   templateUrl: './country-holiday-add.component.html',
   styleUrls: ['./country-holiday-add.component.scss'],
 })
@@ -86,7 +86,7 @@ export class CountryHolidayAddComponent implements OnInit {
       holidayDate: convertDate,
     };
 
-    if (this.holidayList) {
+    if(this.holidayList) {
       // 휴가 중복 체크
       for (let i = 0; i < this.holidayList.length; i++) {
         if (this.holidayList[i].holidayDate == convertDate) {
@@ -97,6 +97,7 @@ export class CountryHolidayAddComponent implements OnInit {
         }
       }
     }
+
 
     this.countryService.addCountryHoliday(countryHolidayData).subscribe({
       next: (data: any) => {
