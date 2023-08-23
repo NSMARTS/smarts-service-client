@@ -17,7 +17,7 @@ import { CommonService } from 'src/app/services/common.service';
 })
 export class EmployeeAddComponent {
     addEmployeeForm: FormGroup;
-    companyId!: string; //params id
+    companyName!: string; //params id
     nationList: Country[] = [];
 
     constructor(
@@ -30,7 +30,7 @@ export class EmployeeAddComponent {
         private commonService: CommonService
 
     ) {
-        this.companyId = this.route.snapshot.params['id'];
+        this.companyName = this.route.snapshot.params['companyName'];
         this.addEmployeeForm = this.formBuilder.group({
             email: new FormControl('', [Validators.required, Validators.email]),
             username: new FormControl('', [Validators.required]),
@@ -56,23 +56,20 @@ export class EmployeeAddComponent {
     onSubmit() {
         const postData = {
             ...this.addEmployeeForm.value,
-            companyId: this.companyId,
-            countryId: this.addEmployeeForm.value['country'],
-            empStartDate: this.commonService.dateFormatting(this.addEmployeeForm.value['empEndDate']),
+            company: this.companyName,
+            country: this.addEmployeeForm.value['country'],
+            empStartDate: this.commonService.dateFormatting(this.addEmployeeForm.value['empStartDate']),
             empEndDate: this.addEmployeeForm.value['empEndDate'] ? this.commonService.dateFormatting(this.addEmployeeForm.value['empEndDate']) : null,
         }
-        console.log(this.addEmployeeForm.value)
-        console.log(postData)
-        console.log(this.route.snapshot.params['id'])
         this.employeeService.addEmployee(postData).subscribe({
             next: (res) => {
-                this.router.navigate([`/employee/${this.companyId}`])
+                this.router.navigate([`/employee/${this.companyName}`])
             },
             error: (e) => console.error(e)
         });
     }
 
     toBack() {
-        this.router.navigate([`/employee/${this.companyId}`])
+        this.router.navigate([`/employee/${this.companyName}`])
     }
 }

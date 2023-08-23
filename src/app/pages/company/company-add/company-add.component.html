@@ -44,19 +44,21 @@
                                 <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center"
                                     fxLayoutGap="20px">
                                     <div>
-                                    <input type="hidden" formControlName="year" />
-                                    <div class="yearLabel"> {{ i + 1 }} year</div>
+                                        <input type="hidden" formControlName="year" />
+                                        <div class="yearLabel"> {{ i + 1 }} year</div>
                                     </div>
                                     <div fxFlex="column" fxFlexAlign="center center">
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Annual Leave</mat-label>
-                                            <input matInput type="number"  class="numeric-input" formControlName="annualLeave" />
+                                            <input matInput type="number" class="numeric-input"
+                                                formControlName="annualLeave" />
                                         </mat-form-field>
                                     </div>
                                     <div fxFlex="column" fxFlexAlign="center">
                                         <mat-form-field appearance="outline" class="formFieldBox">
                                             <mat-label>Sick Leave</mat-label>
-                                            <input matInput type="number" class="numeric-input"  formControlName="sickLeave" />
+                                            <input matInput type="number" class="numeric-input"
+                                                formControlName="sickLeave" />
                                         </mat-form-field>
                                     </div>
                                     <div *ngIf="i <= 0" class="empty">
@@ -99,8 +101,8 @@
                             </div>
                             <div class="rightTable" fxFlex>
                                 <mat-form-field appearance="outline" class="companyFormFieldBox formSpacer">
-                                    <input matInput type="number" class="numeric-input" formControlName="rolloverMaxMonth"
-                                        placeholder="Rollover Max Month" />
+                                    <input matInput type="number" class="numeric-input"
+                                        formControlName="rolloverMaxMonth" placeholder="Rollover Max Month" />
                                 </mat-form-field>
                             </div>
                         </div>
@@ -151,17 +153,17 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Minus Annual Leave -->
+                    <!-- Advance Annual Leave -->
                     <div class="lineDivider" fxLayout="row wrap">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
-                                <span>Minus Annual Leave</span>
+                                <span>Advance Annual Leave</span>
                             </div>
                         </div>
                         <div class="rightTable" fxFlex>
                             <mat-radio-group mat-radio-group name="grpName">
-                                <input type="radio" [value]="true" formControlName="isMinusAnnualLeave" />Yes
-                                <input type="radio" [value]="false" formControlName="isMinusAnnualLeave" />No
+                                <input type="radio" [value]="true" formControlName="isAdvanceLeave" />Yes
+                                <input type="radio" [value]="false" formControlName="isAdvanceLeave" />No
                             </mat-radio-group>
                         </div>
                     </div>
@@ -183,7 +185,8 @@
 
                     <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
                         <div class="btnSection_1">
-                            <button mat-raised-button class="tableBtn" type="submit" color="primary" [disabled]="isButtonDisabled()">Request</button>
+                            <button mat-raised-button class="tableBtn" type="submit" color="primary"
+                                [disabled]="isButtonDisabled()">Request</button>
                         </div>
                         <div>
                             <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
