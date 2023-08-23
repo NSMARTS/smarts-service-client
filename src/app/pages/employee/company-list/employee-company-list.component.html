@@ -68,13 +68,13 @@
                         </span>
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="isMinusAnnualLeave">
-                    <th mat-header-cell *matHeaderCellDef> Minus Annual Leave </th>
+                <ng-container matColumnDef="isAdvanceLeave">
+                    <th mat-header-cell *matHeaderCellDef> Advance Annual Leave </th>
                     <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.isMinusAnnualLeave">
+                        <span *ngIf="element.isAdvanceLeave">
                             O
                         </span>
-                        <span *ngIf="!element.isMinusAnnualLeave">
+                        <span *ngIf="!element.isAdvanceLeave">
                             X
                         </span>
                     </td>
@@ -82,7 +82,8 @@
 
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="createEmployee(row?._id)"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectCompany(row?.companyName)">
+                </tr>
                 <tr class="mat-row" *matNoDataRow>
                     <td class="mat-cell" colspan="9999">
                         No data

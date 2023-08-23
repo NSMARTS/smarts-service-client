@@ -65,9 +65,7 @@ export class EmployeeAddComponent {
         this.addEmployeeForm.value['empEndDate']
       ),
       empEndDate: this.addEmployeeForm.value['empEndDate']
-        ? this.commonService.dateFormatting(
-            this.addEmployeeForm.value['empEndDate']
-          )
+        ? this.commonService.dateFormatting(this.addEmployeeForm.value['empEndDate'])
         : null,
     };
     console.log(this.addEmployeeForm.value);

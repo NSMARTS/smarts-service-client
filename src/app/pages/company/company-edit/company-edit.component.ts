@@ -40,7 +40,7 @@ export class CompanyEditComponent implements OnInit {
       countryCode: [''],
       isReplacementDay: [false],
       rdValidityTerm: [0, [Validators.min(0)]],
-      isMinusAnnualLeave: [false],
+      isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
     });
     this.leaveStandards = this.editCompanyForm.get(
@@ -132,7 +132,6 @@ export class CompanyEditComponent implements OnInit {
       this.updateYears();
     }
   }
-
   /**
    * item에 year를 추가하거나 제거하면
    * leaveStandards에 기존 배열의 year들도 수정
@@ -218,7 +217,6 @@ export class CompanyEditComponent implements OnInit {
       inputElement.value = numericValue;
     }
   }
-
   errorAlert(err: any) {
     switch (err) {
       case 'Duplicate requestLeave':
