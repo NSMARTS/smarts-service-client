@@ -38,7 +38,7 @@ export class CompanyAddComponent {
       countryCode: [''],
       isReplacementDay: [false],
       rdValidityTerm: [0, [Validators.min(0)]],
-      isMinusAnnualLeave: [false],
+      isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
     });
 
@@ -75,7 +75,6 @@ export class CompanyAddComponent {
       this.updateYears();
     }
   }
-
   updateYears() {
     this.leaveStandards.controls.forEach((group, index) => {
       group.get('year')?.setValue(index + 1);
@@ -174,7 +173,6 @@ export class CompanyAddComponent {
       inputElement.value = numericValue;
     }
   }
-
   errorAlert(err: any) {
     switch (err) {
       case 'Duplicate requestLeave':
@@ -187,4 +185,5 @@ export class CompanyAddComponent {
         break;
     }
   }
+
 }

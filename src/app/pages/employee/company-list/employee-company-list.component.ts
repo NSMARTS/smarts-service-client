@@ -25,7 +25,7 @@ export class EmployeeCompanyListComponent {
     'annualPolicy',
     'isRollover',
     'isReplacementDay',
-    'isMinusAnnualLeave',
+    'isAdvanceLeave',
   ];
   filterValues: any = {};
   filterSelectObj: any = [];
@@ -38,7 +38,7 @@ export class EmployeeCompanyListComponent {
   constructor(
     private router: Router,
     private companyService: CompanyService // public dialogService: DialogService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getCompanyList();
