@@ -76,7 +76,7 @@ export class HolidayListComponent implements OnInit {
         this.companyHolidayList.paginator = this.paginator;
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
       },
     });
   }
@@ -89,11 +89,11 @@ export class HolidayListComponent implements OnInit {
           this.holidayMngmtService
             .deleteCompanyHoliday(this.companyId, companyHolidayId)
             .subscribe({
-              next: (data: any) => {
+              next: () => {
                 this.getCompanyHolidayList();
               },
               error: (err: any) => {
-                console.log(err);
+                console.error(err);
                 this.dialogService.openDialogNegative('An error has occurred.');
               },
             });

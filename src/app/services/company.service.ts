@@ -37,7 +37,6 @@ export class CompanyService {
 
   // 회사 삭제
   deleteCompany(id: any) {
-    console.log(id);
     return this.http.delete(this.baseUrl + '/companies/' + id);
   }
 }

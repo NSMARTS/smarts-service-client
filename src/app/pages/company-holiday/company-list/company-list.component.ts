@@ -43,7 +43,14 @@ export class CompanyListComponent {
         this.dataSource = new MatTableDataSource(company);
         this.dataSource.paginator = this.paginator;
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        console.error(err);
+        if (err.status === 404) {
+          console.error('No companies found');
+        } else {
+          console.error('An error occurred while fetching company list');
+        }
+      },
     });
   }
 

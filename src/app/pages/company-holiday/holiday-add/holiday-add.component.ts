@@ -12,19 +12,15 @@ import { CompanyHolidayService } from 'src/app/services/company-holiday.service'
 
 @Component({
   selector: 'app-holiday-add',
-  standalone: true,
-  imports: [CommonModule, MaterialsModule, RouterModule],
   templateUrl: './holiday-add.component.html',
   styleUrls: ['./holiday-add.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MaterialsModule, RouterModule],
 })
 export class HolidayAddComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // view table
   displayedColumns: string[] = ['companyHolidayName', 'companyHolidayDate'];
-  // form group
   companyHolidayForm!: FormGroup;
-
-  // dataSource = ELEMENT_DATA;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -40,8 +36,14 @@ export class HolidayAddComponent implements OnInit {
       holidayName: ['', [Validators.required]],
       holidayDate: ['', [Validators.required]],
     });
-    console.log(this.data.compnayId);
   }
+
+  ngOnDestroy() {
+    // unsubscribe all subscription
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   addCompanyHoliday() {
     const formValue = this.companyHolidayForm.value;
     const convertDate = moment(formValue.holidayDate).format('YYYY-MM-DD');
@@ -62,29 +64,18 @@ export class HolidayAddComponent implements OnInit {
 
     this.holidayMngmtService
       .addCompanyHoliday(this.data.compnayId, companyHolidayData)
-      .subscribe(
-        (data: any) => {
-          if (data.message == 'Success add company holiday') {
-            this.dialogRef.close();
-            this.dialogService.openDialogPositive(
-              'Successfully, a holiday has been added.'
-            );
-          }
+      .subscribe({
+        next: () => {
+          this.dialogRef.close();
+          this.dialogService.openDialogPositive(
+            'Successfully, a holiday has been added.'
+          );
         },
-        (err) => {
-          if (err.error.message == 'Duplicate company holiday error.') {
-            this.dialogService.openDialogNegative('The holiday is duplicated.');
-          } else if (err.error.message == 'Addings company holiday Error') {
-            this.dialogService.openDialogNegative('An error has occurred.');
-          }
-        }
-      );
-  }
-
-  ngOnDestroy() {
-    // unsubscribe all subscription
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+        error: (err) => {
+          console.error(err);
+          this.dialogService.openDialogNegative('Adding company holiday Error');
+        },
+      });
   }
 
   datePickChange(dateValue: any) {

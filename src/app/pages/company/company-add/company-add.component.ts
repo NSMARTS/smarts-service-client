@@ -113,11 +113,19 @@ export class CompanyAddComponent {
 
     this.companyService.addCompany(companyData).subscribe({
       next: (res) => {
-        if (res) {
-          this.router.navigate(['company']);
+        console.log(res);
+        this.router.navigate(['company']);
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status === 409) {
+          this.dialogService.openDialogNegative('Company name is duplicated.');
+        } else {
+          this.dialogService.openDialogNegative(
+            'An error occurred while adding company.'
+          );
         }
       },
-      error: (err) => console.error(err),
     });
   }
 

@@ -67,7 +67,14 @@ export class CompanyEditComponent implements OnInit {
           );
         }
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        console.error(err);
+        if (err.status === 404) {
+          console.error('Company not found');
+        } else {
+          console.error('An error occurred while fetching company info');
+        }
+      },
     });
   }
 
@@ -149,12 +156,19 @@ export class CompanyEditComponent implements OnInit {
     };
 
     this.companyService.editCompany(this.editCompanyId, companyData).subscribe({
-      next: (res) => {
-        if (res) {
-          this.router.navigate(['company']);
+      next: () => {
+        this.router.navigate(['company']);
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status === 404) {
+          this.dialogService.openDialogNegative('Company not found');
+        } else {
+          this.dialogService.openDialogNegative(
+            'An error occurred while updating company'
+          );
         }
       },
-      error: (err) => console.error(err),
     });
   }
 
