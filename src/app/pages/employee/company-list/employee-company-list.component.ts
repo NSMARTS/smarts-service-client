@@ -72,9 +72,8 @@ export class EmployeeCompanyListComponent {
     }
   }
 
-  createEmployee(id: string) {
-    console.log(id);
-    this.router.navigate([`employee/${id}`]);
+  selectCompany(companyName: string) {
+    this.router.navigate([`employee/${companyName}`]);
   }
   // 회사 삭제
   //   deleteCompany(id: any) {
