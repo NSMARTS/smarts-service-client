@@ -28,7 +28,7 @@ export class HolidayAddComponent implements OnInit {
     public dialogRef: MatDialogRef<HolidayAddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogService: DialogService,
-    private holidayMngmtService: CompanyHolidayService
+    private CompanyHolidayService: CompanyHolidayService
   ) {}
 
   ngOnInit(): void {
@@ -52,30 +52,21 @@ export class HolidayAddComponent implements OnInit {
       companyHolidayDate: convertDate,
     };
 
-    // 휴가 중복 체크
-    for (let i = 0; i < this.data.companyHolidayList.length; i++) {
-      if (this.data.companyHolidayList[i].companyHolidayDate == convertDate) {
+    this.CompanyHolidayService.addCompanyHoliday(
+      this.data.compnayId,
+      companyHolidayData
+    ).subscribe({
+      next: () => {
         this.dialogRef.close();
-        return this.dialogService.openDialogNegative(
-          'The holiday is duplicated.'
+        this.dialogService.openDialogPositive(
+          'Successfully, a holiday has been added.'
         );
-      }
-    }
-
-    this.holidayMngmtService
-      .addCompanyHoliday(this.data.compnayId, companyHolidayData)
-      .subscribe({
-        next: () => {
-          this.dialogRef.close();
-          this.dialogService.openDialogPositive(
-            'Successfully, a holiday has been added.'
-          );
-        },
-        error: (err) => {
-          console.error(err);
-          this.dialogService.openDialogNegative('Adding company holiday Error');
-        },
-      });
+      },
+      error: (err) => {
+        console.error(err);
+        this.dialogService.openDialogNegative('Adding company holiday Error');
+      },
+    });
   }
 
   datePickChange(dateValue: any) {
