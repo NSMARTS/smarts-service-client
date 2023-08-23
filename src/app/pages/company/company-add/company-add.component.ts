@@ -113,7 +113,6 @@ export class CompanyAddComponent {
 
     this.companyService.addCompany(companyData).subscribe({
       next: (res) => {
-        console.log(res);
         this.router.navigate(['company']);
       },
       error: (err) => {
