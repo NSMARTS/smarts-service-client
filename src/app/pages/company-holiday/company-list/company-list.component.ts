@@ -23,7 +23,7 @@ export class CompanyListComponent {
     'annualPolicy',
     'isRollover',
     'isReplacementDay',
-    'isMinusAnnualLeave',
+    'isAdvanceLeave',
   ];
 
   dataSource: MatTableDataSource<Company> = new MatTableDataSource<Company>([]);
