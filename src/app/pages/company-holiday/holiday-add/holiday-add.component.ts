@@ -20,7 +20,7 @@ import { CompanyHolidayService } from 'src/app/services/company-holiday.service'
 export class HolidayAddComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // view table
-  displayedColumns: string[] = ['ch_name', 'ch_date'];
+  displayedColumns: string[] = ['companyHolidayName', 'companyHolidayDate'];
   // form group
   companyHolidayForm!: FormGroup;
 
@@ -46,13 +46,13 @@ export class HolidayAddComponent implements OnInit {
     const formValue = this.companyHolidayForm.value;
     const convertDate = moment(formValue.holidayDate).format('YYYY-MM-DD');
     const companyHolidayData = {
-      ch_name: formValue.holidayName,
-      ch_date: convertDate,
+      companyHolidayName: formValue.holidayName,
+      companyHolidayDate: convertDate,
     };
 
     // 휴가 중복 체크
     for (let i = 0; i < this.data.companyHolidayList.length; i++) {
-      if (this.data.companyHolidayList[i].ch_date == convertDate) {
+      if (this.data.companyHolidayList[i].companyHolidayDate == convertDate) {
         this.dialogRef.close();
         return this.dialogService.openDialogNegative(
           'The holiday is duplicated.'

@@ -12,8 +12,8 @@ import { HolidayAddComponent } from '../holiday-add/holiday-add.component';
 
 // view table
 export interface PeriodicElement {
-  ch_name: string;
-  ch_date: string;
+  companyHolidayName: string;
+  companyHolidayDate: string;
 }
 
 @Component({
@@ -25,7 +25,11 @@ export interface PeriodicElement {
 })
 export class HolidayListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['ch_name', 'ch_date', 'btns'];
+  displayedColumns: string[] = [
+    'companyHolidayName',
+    'companyHolidayDate',
+    'btns',
+  ];
   companyHolidayList: any = new MatTableDataSource();
   private unsubscribe$ = new Subject<void>();
   companyId: any;
@@ -67,7 +71,7 @@ export class HolidayListComponent implements OnInit {
       next: (data: any) => {
         this.companyName = data.findCompanyHoliday.companyName;
         this.companyHolidayList = new MatTableDataSource<PeriodicElement>(
-          data.findCompanyHoliday.company_holiday
+          data.findCompanyHoliday.companyHoliday
         );
         this.companyHolidayList.paginator = this.paginator;
       },
