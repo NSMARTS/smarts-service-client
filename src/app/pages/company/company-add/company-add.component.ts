@@ -14,14 +14,14 @@ import { DialogService } from 'src/app/dialog/dialog.service';
 
 @Component({
   selector: 'app-company-add',
-  standalone: true,
-  imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
   templateUrl: './company-add.component.html',
   styleUrls: ['./company-add.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
 })
 export class CompanyAddComponent {
   addCompanyForm: FormGroup;
-  leaveStandards!: FormArray; // 연차 정책 form
+  leaveStandards!: FormArray;
 
   constructor(
     private router: Router,
@@ -52,7 +52,6 @@ export class CompanyAddComponent {
     return (this.addCompanyForm.get('leaveStandards') as FormArray).controls;
   }
 
-  //////////////////////////////////
   createLeaveStandard(year: number): FormGroup {
     return this.formBuilder.group({
       year,
@@ -61,6 +60,7 @@ export class CompanyAddComponent {
     });
   }
 
+  //Leave Standard에 + 버튼 클릭
   addItem() {
     const newYear = this.leaveStandards.length + 1;
     const newLeaveStandard = this.createLeaveStandard(newYear);
@@ -68,6 +68,7 @@ export class CompanyAddComponent {
     this.updateYears();
   }
 
+  //Leave Standard에 - 버튼 클릭
   cancelItem(index: number) {
     if (this.leaveStandards.length > index) {
       this.leaveStandards.removeAt(index);
@@ -81,15 +82,17 @@ export class CompanyAddComponent {
     });
   }
 
+  //Cancel 버튼 클릭
   toBack(): void {
     this.router.navigate(['company']);
   }
 
+  //Request 버튼 클릭
   onSubmit() {
     this.addCompany();
   }
 
-  // 회사 추가
+  //회사 등록
   addCompany() {
     const isRollover = this.addCompanyForm.get('isRollover')?.value;
     const isReplacementDay = this.addCompanyForm.get('isReplacementDay')?.value;
@@ -107,8 +110,6 @@ export class CompanyAddComponent {
         ? this.addCompanyForm.get('rdValidityTerm')?.value
         : 0,
     };
-    //data : this.addCompanyForm.value
-    console.log(companyData);
 
     this.companyService.addCompany(companyData).subscribe({
       next: (res) => {
@@ -120,7 +121,7 @@ export class CompanyAddComponent {
     });
   }
 
-  //input type="number" 음수 안되는 유효성 검사
+  //유효성 검사
   isButtonDisabled(): any {
     const companyNameError = this.addCompanyForm
       .get('companyName')
@@ -145,7 +146,6 @@ export class CompanyAddComponent {
       .get('sickLeave')
       ?.hasError('min');
 
-    // 어떤 폼 컨트롤이라도 'min' 오류가 있는 경우 버튼을 비활성화
     return (
       companyNameError ||
       rolloverMaxMonthError ||
@@ -163,10 +163,7 @@ export class CompanyAddComponent {
     const inputValue = inputElement.value;
 
     if (inputElement.classList.contains('numeric-input')) {
-      // 입력값에서 숫자 이외의 문자를 제거
       const numericValue = inputValue.replace(/[^-\d]/g, '');
-
-      // 입력 필드에 정제된 값 설정
       inputElement.value = numericValue;
     }
   }

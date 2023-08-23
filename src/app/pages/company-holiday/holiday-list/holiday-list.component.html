@@ -1,13 +1,11 @@
 <div class="mainContentContainer">
 	<div class="mainContent">
 		<div fxLayout="row" fxLayoutAlign="start center">
-			<div class="mainTitle">Holiday List</div>
+			<div class="mainTitle">Holiday List ({{companyName}})</div>
+            
 			<span class="example-spacer"></span>
-			<span class="disableReason" *ngIf="company == null || manager == null">
-				You need to register a company and manager to activate!
-			</span>
 			<button
-			class="requestBtn" [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday Day</button>
+			class="requestBtn" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday Day</button>
 
 		</div>
 
@@ -39,7 +37,6 @@
 					</td>
 				</ng-container>
 
-				
 				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 				<tr class="mat-row" *matNoDataRow>
@@ -48,6 +45,7 @@
 					</td>
 				</tr>
 			</table>
+
 			<mat-paginator 
 			[pageSizeOptions]="[10, 25, 100]" 
 			showFirstLastButtons >

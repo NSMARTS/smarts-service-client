@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 // import { DialogService } from 'src/app/dialog/dialog.service';
-import { CountryService } from 'src/app/services/leave/country/country.service';
+import { CountryService } from 'src/app/services/country.service';
 import { DataService } from 'src/app/stores/data/data.service';
 import { CountryAddComponent } from '../country-add/country-add.component';
 import { CountryHolidayAddComponent } from '../country-holiday-add/country-holiday-add.component';
@@ -61,9 +61,9 @@ export class CountryListComponent implements OnInit {
   // takeUntil은 연산자에 Observable를 넘겨 미러링을 한뒤 넘겨준 Observable이 데이터를 받거나 완료처리가 되면 미러링을 중단하고 처음 Observable은 구독취소가 됩니다.
   ngOnInit(): void {
     this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe({
-      next: (data: any) => {  
+      next: (data: any) => {
         this.userInfo = data;
-      }, 
+      },
       error: (err: any) => {
         console.log(err);
       },

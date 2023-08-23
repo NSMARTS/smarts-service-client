@@ -1,21 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-
 import { CommonModule } from '@angular/common';
-import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/interfaces/company.interface';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 
 @Component({
   selector: 'app-company-list',
-  standalone: true,
-  imports: [CommonModule, MaterialsModule, RouterModule],
-  //   standalone: true,
   templateUrl: './company-list.component.html',
   styleUrls: ['./company-list.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MaterialsModule, RouterModule],
 })
 export class CompanyListComponent {
   displayedColumns: string[] = [
@@ -27,31 +25,21 @@ export class CompanyListComponent {
     'isReplacementDay',
     'isMinusAnnualLeave',
   ];
-  filterValues: any = {};
-  filterSelectObj: any = [];
-  company_max_day: any;
-  isRollover = false;
 
   dataSource: MatTableDataSource<Company> = new MatTableDataSource<Company>([]);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
-  constructor(
-    private router: Router,
-    private companyService: CompanyService // public dialogService: DialogService
-  ) {}
+  constructor(private router: Router, private companyService: CompanyService) {}
 
   ngOnInit(): void {
     this.getCompanyList();
   }
 
-  /**
-   * 컴퍼니 리스트 호출
-   */
+  // 회사 목록 조회
   getCompanyList() {
     this.companyService.getCompanyList().subscribe({
       next: (res: HttpResMsg<Company[]>) => {
         const company = res.data;
-        console.log(company);
         this.dataSource = new MatTableDataSource(company);
         this.dataSource.paginator = this.paginator;
       },
@@ -59,10 +47,12 @@ export class CompanyListComponent {
     });
   }
 
-  backManagerList() {
-    this.router.navigate(['company-holiday']);
+  // 회사 클릭하면 라우트 이동
+  createCompnayHoliday(id: string) {
+    this.router.navigate([`company-holiday/${id}`]);
   }
 
+  // 회사 이름 필터
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -70,10 +60,5 @@ export class CompanyListComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-
-  createCompnayHoliday(id: string) {
-    console.log(id);
-    this.router.navigate([`company-holiday/${id}`]);
   }
 }

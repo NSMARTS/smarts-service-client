@@ -31,13 +31,6 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <!-- <div fxLayout="row" fxLayoutAlign="end">
-                                <div class="addBtn" (click)="addItem()">
-                                    <mat-icon class="addMark">add</mat-icon>
-                                </div>
-                            </div> -->
-                            <!-- <button type = 'button' >+</button>  -->
-
                             <div formArrayName="leaveStandards"
                                 *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index"
                                 fxLayout="column" fxLayoutGap="30px">
@@ -71,7 +64,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <!-- rollover -->
                     <div class="lineDivider" fxLayout="row wrap">
@@ -119,6 +111,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Replacement Day -->
                     <div class="lineDivider" fxLayout="row wrap">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
@@ -133,7 +126,6 @@
                             </mat-radio-group>
                         </div>
                     </div>
-
                     <!-- RD Validity Day -->
                     <div *ngIf="addCompanyForm.get('isReplacementDay')?.value == true">
                         <div class="lineDivider" fxLayout="row wrap">
@@ -151,6 +143,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Minus Annual Leave -->
                     <div class="lineDivider" fxLayout="row wrap">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
@@ -165,6 +158,7 @@
                             </mat-radio-group>
                         </div>
                     </div>
+
                     <!-- Annual Policy -->
                     <div class="lineDivider" fxLayout="row wrap">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
@@ -180,7 +174,6 @@
                         </div>
                     </div>
 
-
                     <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
                         <div class="btnSection_1">
                             <button mat-raised-button class="tableBtn" type="submit" color="primary" [disabled]="isButtonDisabled()">Request</button>
@@ -192,5 +185,6 @@
                 </div>
             </div>
         </form>
+        
     </div>
 </div>

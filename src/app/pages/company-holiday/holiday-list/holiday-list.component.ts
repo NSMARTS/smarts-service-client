@@ -3,14 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { CompanyHolidayService } from 'src/app/services/company-holiday.service';
-import { DataService } from 'src/app/stores/data/data.service';
-import { HolidayAddComponent } from '../holiday-add/holiday-add.component';
-import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
+import { HolidayAddComponent } from '../holiday-add/holiday-add.component';
 
 // view table
 export interface PeriodicElement {
@@ -20,29 +18,20 @@ export interface PeriodicElement {
 
 @Component({
   selector: 'app-holiday-list',
-  standalone: true,
-  imports: [CommonModule, MaterialsModule, RouterModule],
   templateUrl: './holiday-list.component.html',
   styleUrls: ['./holiday-list.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MaterialsModule, RouterModule],
 })
 export class HolidayListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // view table
   displayedColumns: string[] = ['ch_name', 'ch_date', 'btns'];
-
-  // replacement day requests
-
   companyHolidayList: any = new MatTableDataSource();
-  company: any;
-  manager: any;
-  userInfo: any;
-  // dataSource = ELEMENT_DATA;
   private unsubscribe$ = new Subject<void>();
-
   companyId: any;
+  companyName: any;
 
   constructor(
-    public dataService: DataService,
     public dialog: MatDialog,
     private dialogService: DialogService,
     private route: ActivatedRoute,
@@ -50,40 +39,14 @@ export class HolidayListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dataService.userCompanyProfile
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        (data: any) => {
-          this.company = data;
-        },
-        (err: any) => {
-          console.log(err);
-        }
-      );
-
-    this.dataService.userManagerProfile
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        (data: any) => {
-          this.manager = data;
-        },
-        (err: any) => {
-          console.log(err);
-        }
-      );
-
-    this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe(
-      (data: any) => {
-        this.userInfo = data;
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    );
-
     this.companyId = this.route.snapshot.params['id'];
-
     this.getCompanyHolidayList();
+  }
+
+  ngOnDestroy() {
+    // unsubscribe all subscription
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   openAddCompanuHoliday() {
@@ -99,26 +62,14 @@ export class HolidayListComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-    // unsubscribe all subscription
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
   getCompanyHolidayList() {
     this.holidayMngmtService.getCompanyHolidayList(this.companyId).subscribe({
       next: (data: any) => {
-        console.log(data);
-        if (data.message == 'Success find company holiday') {
-          this.companyHolidayList = data.findCompanyHoliday.company_holiday;
-          console.log(this.companyHolidayList);
-        }
+        this.companyName = data.findCompanyHoliday.companyName;
         this.companyHolidayList = new MatTableDataSource<PeriodicElement>(
           data.findCompanyHoliday.company_holiday
         );
-        console.log(this.companyHolidayList);
         this.companyHolidayList.paginator = this.paginator;
-        console.log(this.companyHolidayList.paginator);
       },
       error: (err: any) => {
         console.log(err);
@@ -127,49 +78,22 @@ export class HolidayListComponent implements OnInit {
   }
 
   deleteCompanyHoliday(companyHolidayId: any) {
-    console.log(companyHolidayId);
-    const ch_id = {
-      _id: companyHolidayId,
-    };
-
     this.dialogService
       .openDialogConfirm('Do you want cancel this request?')
       .subscribe((result: any) => {
         if (result) {
           this.holidayMngmtService
             .deleteCompanyHoliday(this.companyId, companyHolidayId)
-            .subscribe(
-              (data: any) => {
-                console.log(data);
-                if (data.message == 'Success delete company holiday') {
-                  this.getCompanyHolidayList();
-                }
+            .subscribe({
+              next: (data: any) => {
+                this.getCompanyHolidayList();
               },
-              (err: any) => {
-                if (err.error.message == 'Deleting company holiday Error') {
-                  this.dialogService.openDialogNegative(
-                    'An error has occurred.'
-                  );
-                }
-              }
-            );
+              error: (err: any) => {
+                console.log(err);
+                this.dialogService.openDialogNegative('An error has occurred.');
+              },
+            });
         }
       });
   }
-
-  //   editCompanyHoliday(companyHolidayId: any) {
-  //     const ch_id = {
-  //       _id: companyHolidayId,
-  //     };
-
-  //     const dialogRef = this.dialog.open(HolidayAddComponent, {
-  //       data: {
-  //         companyHolidayList: this.companyHolidayList,
-  //       },
-  //     });
-
-  //     dialogRef.afterClosed().subscribe((result) => {
-  //       this.getCompanyHolidayList();
-  //     });
-  //   }
 }

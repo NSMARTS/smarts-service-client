@@ -3,31 +3,24 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import * as moment from 'moment';
-import { Subject } from 'rxjs';
 import { DialogService } from 'src/app/dialog/dialog.service';
-import { Company, InitialCompany } from 'src/app/interfaces/company.interface';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
-import { DataService } from 'src/app/stores/data/data.service';
 
 @Component({
   selector: 'app-company-edit',
-  standalone: true,
-  imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
   templateUrl: './company-edit.component.html',
   styleUrls: ['./company-edit.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
 })
 export class CompanyEditComponent implements OnInit {
-  ///////////////////////////////////////
   editCompanyId!: string; //params id
-  ///////////////////////////////////////
   leaveStandards!: FormArray;
   editCompanyForm: FormGroup;
 
@@ -65,7 +58,8 @@ export class CompanyEditComponent implements OnInit {
         this.leaveStandards = this.editCompanyForm.get(
           'leaveStandards'
         ) as FormArray;
-        this.leaveStandards.clear(); // 기존 컨트롤 제거
+        // 기존 컨트롤 제거
+        this.leaveStandards.clear();
         // 새로운 컨트롤 추가
         for (let i = 0; i < companyData.leaveStandards.length; i++) {
           this.leaveStandards.push(
@@ -75,9 +69,9 @@ export class CompanyEditComponent implements OnInit {
       },
       error: (err) => console.error(err),
     });
-    /////////////////////////////////////////////////////////////////////////////
   }
 
+  /////////////////////////////////////////////////////////////////////////////
   /**
    * leaveStandards 연차 별 휴가 ex) year, annualLeave, sickLeave
    * + 버튼 누를 시 item을 추가 하고 싶으면
@@ -141,15 +135,15 @@ export class CompanyEditComponent implements OnInit {
       group.get('year')?.setValue(index + 1);
     });
   }
-
   //////////////////////////////////
 
+  //Cancel 버튼 클릭
   toBack(): void {
     this.router.navigate(['company']);
   }
 
+  //Edit 버튼 클릭
   onSubmit() {
-    // 회사 추가
     const companyData = {
       ...this.editCompanyForm.value,
     };
@@ -164,7 +158,7 @@ export class CompanyEditComponent implements OnInit {
     });
   }
 
-  //input type="number" 음수 안되는 유효성 검사
+  //유효성 검사
   isButtonDisabled(): any {
     const companyNameError = this.editCompanyForm
       .get('companyName')
@@ -189,7 +183,6 @@ export class CompanyEditComponent implements OnInit {
       .get('sickLeave')
       ?.hasError('min');
 
-    // 어떤 폼 컨트롤이라도 'min' 오류가 있는 경우 버튼을 비활성화
     return (
       companyNameError ||
       rolloverMaxMonthError ||
@@ -207,10 +200,7 @@ export class CompanyEditComponent implements OnInit {
     const inputValue = inputElement.value;
 
     if (inputElement.classList.contains('numeric-input')) {
-      // 입력값에서 숫자 이외의 문자를 제거
       const numericValue = inputValue.replace(/[^-\d]/g, '');
-
-      // 입력 필드에 정제된 값 설정
       inputElement.value = numericValue;
     }
   }

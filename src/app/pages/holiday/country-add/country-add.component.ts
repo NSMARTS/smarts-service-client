@@ -10,8 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-
-import { CountryService } from 'src/app/services/leave/country/country.service';
+import { CountryService } from 'src/app/services/country.service';
 
 @Component({
   selector: 'app-country-add',
