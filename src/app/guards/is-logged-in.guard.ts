@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { effect, inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivateFn,
