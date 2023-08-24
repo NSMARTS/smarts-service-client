@@ -4,12 +4,22 @@
 			<div class="mainTitle">Holiday List ({{companyName}})</div>
             
 			<span class="example-spacer"></span>
-			<button
-			class="requestBtn" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday Day</button>
+			
 
 		</div>
 
 		<div class="historyTableBox">
+
+            <div class="filter">
+                <mat-form-field>
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Holiday" #input>
+                </mat-form-field>
+                <button
+			class="requestBtn" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday</button>
+
+            </div>
+
 			<table mat-table [dataSource]="companyHolidayList" class="mat-elevation-z8 historyTable">
 
 				<!--- Note that these columns can be defined in any order.

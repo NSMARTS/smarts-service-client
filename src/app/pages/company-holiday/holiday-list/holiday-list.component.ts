@@ -100,4 +100,14 @@ export class HolidayListComponent implements OnInit {
         }
       });
   }
+
+  // 회사 공휴일 필터
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.companyHolidayList.filter = filterValue.trim().toLowerCase();
+
+    if (this.companyHolidayList.paginator) {
+      this.companyHolidayList.paginator.firstPage();
+    }
+  }
 }
