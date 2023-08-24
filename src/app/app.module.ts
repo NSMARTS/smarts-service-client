@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -9,6 +9,33 @@ import { httpInterceptorProviders } from './interceptors/http-interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { catchError, of, tap } from 'rxjs';
+import { AuthService } from './services/auth.service';
+
+/**
+ * AppInitializer은 컴포넌트가 생상되기 전에 가장 먼저 실행된다.
+ * 현재 스마트서비스는 access token을 signal 즉 메모리에 저장한다.
+ * 새로고침 시 access token이 사라지는 데, 이 때 이 함수가 실행돼서
+ * 다시 access token을 발급받는다. 
+ * 로컬 스토리지의 isLoggedIn은 로그인을 했는지 안했는지 확인하는데
+ * refreshToken이 httpOnly 쿠키에 보관되어있어서 
+ * 자바스크립트 코드로 접근이 불가능해 로컬스토리지로 로그인 유무를 파악한다.
+ * @param authService 
+ * @returns 
+ */
+export function appInitializer(authService: AuthService) {
+  return () => {
+    if (window.localStorage.getItem('isLoggedIn')) {
+      return authService.refreshToken()
+        .pipe(
+          tap(async (data) => await authService.setAccessToken(data)),
+          catchError(() => of())
+        );
+    }
+    return;
+  }
+}
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,9 +49,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatPaginatorModule,
   ],
   providers: [
+    // APP_INITIALIZER 는 app.compnent가 실행 되기전에 제일 먼저 실행한다. 로그인을 했으면 Access Token 발급
+    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService] },
     // 모든 http 요청에 withCredential:true 오션을 주기위해 사용
     httpInterceptorProviders,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
