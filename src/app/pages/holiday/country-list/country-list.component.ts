@@ -58,16 +58,7 @@ export class CountryListComponent implements OnInit {
     private countryService: CountryService
   ) {}
 
-  // takeUntil은 연산자에 Observable를 넘겨 미러링을 한뒤 넘겨준 Observable이 데이터를 받거나 완료처리가 되면 미러링을 중단하고 처음 Observable은 구독취소가 됩니다.
   ngOnInit(): void {
-    this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe({
-      next: (data: any) => {
-        this.userInfo = data;
-      },
-      error: (err: any) => {
-        console.log(err);
-      },
-    });
     this.getCountryList();
   }
 
@@ -86,9 +77,7 @@ export class CountryListComponent implements OnInit {
         if (result) {
           this.countryService.deleteCountry(_id).subscribe({
             next: (data: any) => {
-              if (data.message == 'Success delete country') {
-                this.getCountryList();
-              }
+              this.getCountryList();
             },
             error: (err: any) => {
               this.dialogService.openDialogNegative(err.error.message);
@@ -118,10 +107,6 @@ export class CountryListComponent implements OnInit {
   getCountryList() {
     this.countryService.getCountryList().subscribe({
       next: (data: any) => {
-        // console.log(data);
-        if (data.message == 'getCountry') {
-          this.countryList = data.getCountry;
-        }
         this.countryList = new MatTableDataSource<PeriodicElement>(
           data.getCountry
         );
