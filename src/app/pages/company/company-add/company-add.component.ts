@@ -141,24 +141,25 @@ export class CompanyAddComponent {
     const rdValidityTermError = this.addCompanyForm
       .get('rdValidityTerm')
       ?.hasError('min');
+
     const leaveStandardsArray = this.addCompanyForm.get(
       'leaveStandards'
     ) as FormArray;
-    const firstLeaveStandardGroup = leaveStandardsArray.at(0) as FormGroup;
-    const annualLeaveError = firstLeaveStandardGroup
-      .get('annualLeave')
-      ?.hasError('min');
-    const sickLeaveError = firstLeaveStandardGroup
-      .get('sickLeave')
-      ?.hasError('min');
+    let hasErrors = false;
+    leaveStandardsArray.controls.forEach((group) => {
+      const annualLeaveError = group.get('annualLeave')?.hasError('min');
+      const sickLeaveError = group.get('sickLeave')?.hasError('min');
+      if (annualLeaveError || sickLeaveError) {
+        hasErrors = true;
+      }
+    });
 
     return (
       companyNameError ||
       rolloverMaxMonthError ||
       rolloverMaxDayError ||
       rdValidityTermError ||
-      annualLeaveError ||
-      sickLeaveError
+      hasErrors
     );
   }
 
@@ -185,5 +186,4 @@ export class CompanyAddComponent {
         break;
     }
   }
-
 }

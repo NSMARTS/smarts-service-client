@@ -96,8 +96,8 @@ export class CompanyEditComponent implements OnInit {
   getLeaveStandard(data: any): FormGroup {
     return this.formBuilder.group({
       year: data.year,
-      annualLeave: data.annualLeave,
-      sickLeave: data.sickLeave,
+      annualLeave: [data.annualLeave, [Validators.min(0)]],
+      sickLeave: [data.sickLeave, [Validators.min(0)]],
     });
   }
 
@@ -185,24 +185,25 @@ export class CompanyEditComponent implements OnInit {
     const rdValidityTermError = this.editCompanyForm
       .get('rdValidityTerm')
       ?.hasError('min');
+
     const leaveStandardsArray = this.editCompanyForm.get(
       'leaveStandards'
     ) as FormArray;
-    const firstLeaveStandardGroup = leaveStandardsArray.at(0) as FormGroup;
-    const annualLeaveError = firstLeaveStandardGroup
-      .get('annualLeave')
-      ?.hasError('min');
-    const sickLeaveError = firstLeaveStandardGroup
-      .get('sickLeave')
-      ?.hasError('min');
+    let hasErrors = false;
+    leaveStandardsArray.controls.forEach((group) => {
+      const annualLeaveError = group.get('annualLeave')?.hasError('min');
+      const sickLeaveError = group.get('sickLeave')?.hasError('min');
+      if (annualLeaveError || sickLeaveError) {
+        hasErrors = true;
+      }
+    });
 
     return (
       companyNameError ||
       rolloverMaxMonthError ||
       rolloverMaxDayError ||
       rdValidityTermError ||
-      annualLeaveError ||
-      sickLeaveError
+      hasErrors
     );
   }
 
