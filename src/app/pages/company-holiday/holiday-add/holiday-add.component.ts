@@ -64,7 +64,13 @@ export class HolidayAddComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
-        this.dialogService.openDialogNegative('Adding company holiday Error');
+        if (err.status === 409) {
+          this.dialogService.openDialogNegative(
+            'Company Holiday date is duplicated.'
+          );
+        } else {
+          this.dialogService.openDialogNegative('Adding company holiday Error');
+        }
       },
     });
   }
