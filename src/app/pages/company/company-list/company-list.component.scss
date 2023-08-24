@@ -2,32 +2,47 @@
     padding: 40px 40px;
     margin: 0 auto;
     height: 100%;
+    background-color: white;
+    border-radius: 20px;
+    margin: 20px;
 }
 
 .mainTitle {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     margin: 20px 0;
 }
 
 .historyTableBox {
-    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
-    // min-width: 1200px;
+    border: 1px solid rgb(228, 228, 228);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .historyTable {
 	width: 100%;
 	text-align: center;
+    box-shadow: none;
 
 	th {
 		text-align: center;
+        color: #787878;
 	}    
 
-    box-shadow: none;
+    td {
+        text-align: center;
+    }
 }
 
+.mat-mdc-table {
+    margin-top: 20px;
+      border-bottom: 1px solid rgb(228, 228, 228);
+      white-space: pre;
+    }
+
 .mat-header-row {
-    // background-color: #273da0;
     background-color: #00154F;
 
     th {
@@ -37,25 +52,40 @@
 
 .filter{
     background-color: #fff;
-    position: relative
+    margin: 15px 20px 0 20px;
 }
 
-
-.editCompanyBtn {
-    background: #273da0;
-    color: #fff;
-    padding: 0 30px;
+.mat-mdc-paginator {
+    margin: 10px;
 }
 
-.deleteCompanyBtn {
-    background: #ff4081;
-    color: #fff;
-    padding: 0 30px;
+.mat-form-field {
+    --mdc-filled-text-field-container-color: rgb(255, 255, 255);
 }
 
 .addCompanyBtn {
     position: absolute;
-    top: 15px;
-    right: 50px;
-    
+    top: 133px;
+    right: 61px;
+    background: #ffffff;
+    color: #000000;
+    box-shadow: none;
+    border: 1px solid rgb(228, 228, 228);
+    border-radius: 5px;
+}
+
+.editCompanyBtn {
+    background: #ffffff;
+    color: #454e79;
+    padding: 0 30px;
+    border: 1px solid rgb(228, 228, 228);
+    border-radius: 5px;
+}
+
+.deleteCompanyBtn {
+    background: #ffffff;
+    color: #e11e1e;
+    padding: 0 30px;
+    border: 1px solid rgb(228, 228, 228);
+    border-radius: 5px;
 }
