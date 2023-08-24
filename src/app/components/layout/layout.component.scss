@@ -18,11 +18,12 @@
     bottom: 0;
     left: 0;
     right: 0;
+    background-color: white;
 }
 
 mat-sidenav {
     width: $sidenav-width;
-    background: $sidenav-bgColor;
+    background: #ffffff;
 }
 
 ////////////toolbar/////////////////////

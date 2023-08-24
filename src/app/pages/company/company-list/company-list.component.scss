@@ -2,23 +2,23 @@
     padding: 20px 40px;
     height: 100%;
     background-color: white;
-    border-radius: 20px;
-    margin: 20px;
+
 }
 
 .mainTitle {
     font-size: 20px;
     font-weight: bold;
-    margin: 1px 20px 20px 20px;
+    margin: 10px 20px 20px 20px;
 }
 
 .historyTableBox {
     border: 1px solid rgb(228, 228, 228);
     border-radius: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
+    box-shadow: 4px 12px 10px 3px rgba(200, 200, 200,.09);
 }
 
 .historyTable {
@@ -53,12 +53,12 @@
 
 .filter{
     background-color: #fff;
-    margin: 10px 20px -10px 20px;
+    margin: 15px 20px -5px 20px;
 
 }
 
 .mat-mdc-paginator {
-    margin: 5px;
+    margin: 10px;
 }
 
 .mat-form-field {

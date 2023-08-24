@@ -3,7 +3,7 @@
 
 
 .item {
-    color: #a1a2b6;
+    color: #000000;
     // color: #fff;
     cursor: pointer;
     min-height: 48px;
@@ -20,15 +20,15 @@
 
         .item-icon {
             // color: #5c77ff;
-            color: #fff;
+            color: #000000;
         }
 
         .item-label {
-            color: #fff;
+            color: #000000;
         }
 
         .item-dropdown-icon {
-            color: #fff;
+            color: #000000;
         }
     }
 
@@ -71,7 +71,7 @@
 // sidenav item의 icon style
 .item-icon {
     // color: #494b74;
-    color: #fff;
+    color: #000000;
     font-size: 24px;
     height: 24px;
     margin-right: 16px; // margin-inline-end: 16px;
@@ -90,7 +90,7 @@
 // drop down 메뉴 우측의 화살표 icon
 .item-dropdown-icon {
     // color: #494b74;
-    color: #fff;
+    color: #000000;
     font-size: 18px;
     height: 18px;
     line-height: 18px;
@@ -108,7 +108,7 @@
 .subheading {
     box-sizing: border-box;
     // color: #a1a2b6;
-    color: #fff;
+    color: #000000;
     margin-top: 1.5rem;
     padding: 0.75rem 1.5rem;
     text-transform: uppercase;
