@@ -37,7 +37,7 @@ export class CompanyAddComponent {
       countryCode: [''],
       isReplacementDay: [false],
       rdValidityTerm: [0, [Validators.min(0)]],
-      isMinusAnnualLeave: [false],
+     isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
     });
 

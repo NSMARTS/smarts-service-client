@@ -1,0 +1,154 @@
+.mainContentContainer {
+    padding: 40px 40px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.mainTitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.historyTableBox {
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    // min-width: 1200px;
+}
+
+.historyTable {
+	width: 100%;
+	text-align: center;
+
+	th {
+		text-align: center;
+	}    
+
+    box-shadow: none;
+}
+
+
+
+.mat-header-row {
+    // background-color: #273da0;
+    background-color: #00154F;
+
+    th {
+        color: #fff;
+    }
+}
+
+//----------------pending leave detail style--------------------------
+
+::ng-deep .mat-dialog-container{
+    padding: 40px !important;
+}
+.modal-table{
+    font-size: 13px;
+    text-align: left;
+    border-top: 1px solid rgb(221, 221, 221);
+    border-collapse: collapse;
+    
+}
+
+.modal-table tr {
+    height: 40px;
+}
+
+.modal-table th {
+    padding: 16px;
+    font-weight: 400;
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-left: 1px solid rgb(221, 221, 221);
+}
+
+.modal-table td {
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-left: 1px solid rgb(221, 221, 221);
+    padding: 16px 24px 16px 16px;
+    white-space: pre-line;
+}
+
+
+.modal-table th:first-child, td:first-child {
+    border-top: none;
+    border-left: none;
+}
+
+.modal-btn{
+    margin-top: 20px;
+    text-align: center;
+
+    button{
+        padding: 0px 40px;
+    }
+}
+.leave-request-detail{
+    cursor: pointer;
+    font-weight: 450;
+    text-decoration: underline;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.editCompanyHolidayBtn {
+    background: #273da0;
+    color: #fff;
+    padding: 0 30px;
+}
+
+.deleteCountryHolidayBtn {
+    background: #ff4081;
+    color: #fff;
+    padding: 0 30px;
+}
+
+.companyFormFieldBox {
+    width: 200px;
+}
+
+.leftTable {
+    border-radius: 4px;
+    margin: 1px;
+    padding: 20px;
+    color: #fff;
+    font-weight: 700;
+    background-color: #273da0;
+}
+
+.rightTable {
+    border-left: 1px solid #000;
+    padding: 20px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+}
+
+.confirmBtn {
+    background: #273da0;
+    color: #fff;
+    // padding: 0 30px;
+    width: 120px;
+}
+
+.rejectBtn {
+    background: #ff4081;
+    color: #fff;
+    // padding: 0 30px;
+    width: 120px;
+}
+
+.cancelBtn {
+    background: #c1c1c1;
+    color: #fff;
+    // padding: 0 30px;
+    width: 120px;
+}
+
+.mt-30 {
+    margin-top:30px;
+}
+
+

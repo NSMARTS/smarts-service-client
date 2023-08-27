@@ -42,13 +42,13 @@ export class EmployeeAddComponent {
             posiotion: new FormControl(''),
         });
 
-        this.countryService.getCountryList().subscribe({
-            next: (res) => {
-                console.log(res.data)
-                this.nationList = res.data
-            },
-            error: (err) => console.error(err)
-        })
+        // this.countryService.getCountryList().subscribe({
+        //     next: (res) => {
+        //         console.log(res.data)
+        //         this.nationList = res.data
+        //     },
+        //     error: (err) => console.error(err)
+        // })
 
     }
 
