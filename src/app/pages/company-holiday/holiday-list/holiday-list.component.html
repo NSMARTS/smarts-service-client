@@ -1,0 +1,67 @@
+<div class="mainContentContainer">
+	<div class="mainContent">
+		<div fxLayout="row" fxLayoutAlign="start center">
+			<div class="mainTitle">Holiday List ({{companyName}})</div>
+            
+			<span class="example-spacer"></span>
+			
+
+		</div>
+
+		<div class="historyTableBox">
+
+            <div class="filter">
+                <mat-form-field>
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Holiday" #input>
+                </mat-form-field>
+                <button
+			class="requestBtn" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday</button>
+
+            </div>
+
+			<table mat-table [dataSource]="companyHolidayList" class="mat-elevation-z8 historyTable">
+
+				<!--- Note that these columns can be defined in any order.
+					  The actual rendered columns are set as a property on the row definition" -->
+                
+                <!-- name Column -->
+				<ng-container matColumnDef="companyHolidayName">
+					<th mat-header-cell *matHeaderCellDef> Name </th>
+					<td mat-cell *matCellDef="let element"> {{element?.companyHolidayName}} </td>
+				</ng-container>
+
+				<!-- from Column -->
+				<ng-container matColumnDef="companyHolidayDate">
+					<th mat-header-cell *matHeaderCellDef> Date </th>
+					<td mat-cell *matCellDef="let element"> {{element?.companyHolidayDate | date: 'YYYY-MM-dd'}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="btns">
+					<th mat-header-cell *matHeaderCellDef> - </th>
+					<td mat-cell *matCellDef="let element">
+						<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+							<button mat-flat-button class="deleteCompanyHolidayBtn" (click)="deleteCompanyHoliday(element?._id)">Delete</button>
+						</div>
+
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+				<tr class="mat-row" *matNoDataRow>
+					<td class="mat-cell" colspan="9999">
+						No data
+					</td>
+				</tr>
+			</table>
+
+			<mat-paginator 
+			[pageSizeOptions]="[10, 25, 100]" 
+			showFirstLastButtons >
+			</mat-paginator>
+
+		</div>
+
+	</div>
+</div>

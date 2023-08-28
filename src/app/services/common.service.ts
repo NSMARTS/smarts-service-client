@@ -6,7 +6,7 @@ import * as moment from 'moment';
 export class CommonService {
 
     constructor() { }
-    dateFormatting(date: Date, mode?: string) {
+    dateFormatting(date: Date | string, mode?: string) {
         const addDay = new Date().getTimezoneOffset() < 0 ? 0 : 1;
 
         if (mode === 'fromNow') {

@@ -11,11 +11,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { DialogService } from 'src/app/dialog/dialog.service';
-import { CountryService } from 'src/app/services/leave/country/country.service';
 import { PeriodicElement } from '../country-list/country-list.component';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { RouterModule } from '@angular/router';
+import { CountryService } from 'src/app/services/country.service';
 // import { PeriodicElement } from '../../company-mngmt/company-list/company-list.component';
 
 @Component({
@@ -86,7 +86,7 @@ export class CountryHolidayAddComponent implements OnInit {
       holidayDate: convertDate,
     };
 
-    if(this.holidayList) {
+    if (this.holidayList) {
       // 휴가 중복 체크
       for (let i = 0; i < this.holidayList.length; i++) {
         if (this.holidayList[i].holidayDate == convertDate) {
@@ -97,7 +97,6 @@ export class CountryHolidayAddComponent implements OnInit {
         }
       }
     }
-
 
     this.countryService.addCountryHoliday(countryHolidayData).subscribe({
       next: (data: any) => {

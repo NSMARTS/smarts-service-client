@@ -7,20 +7,21 @@ import { EmployeeViewComponent } from './employee-view/employee-view.component';
 import { EmployeeAddComponent } from './employee-add/employee-add.component';
 
 export const EMPLOYEE_ROUTES: Route[] = [
-    {
-        path: 'add',
-        component: EmployeeAddComponent,
-    },
+
     {
         path: 'company-list',
         component: EmployeeCompanyListComponent,
     },
     {
-        path: '',
+        path: ':companyName',
         children: [
             {
-                path: ':id',
+                path: '',
                 component: EmployeeListComponent,
+            },
+            {
+                path: 'add',
+                component: EmployeeAddComponent,
             },
             {
                 path: 'edit/:id',

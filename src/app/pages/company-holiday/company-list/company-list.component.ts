@@ -1,13 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/interfaces/company.interface';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
-import { DialogService } from 'src/app/dialog/dialog.service';
 
 @Component({
   selector: 'app-company-list',
@@ -18,22 +17,19 @@ import { DialogService } from 'src/app/dialog/dialog.service';
 })
 export class CompanyListComponent {
   displayedColumns: string[] = [
-    'code',
-    'name',
-    'rollover',
-    'rolloverMaxMonth',
-    'rolloverMaxDay',
-    'btns',
+    'companyCode',
+    'companyName',
+    'employees',
+    'annualPolicy',
+    'isRollover',
+    'isReplacementDay',
+    'isAdvanceLeave',
   ];
 
   dataSource: MatTableDataSource<Company> = new MatTableDataSource<Company>([]);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
-  constructor(
-    private router: Router,
-    private companyService: CompanyService,
-    public dialogService: DialogService
-  ) {}
+  constructor(private router: Router, private companyService: CompanyService) {}
 
   ngOnInit(): void {
     this.getCompanyList();
@@ -58,37 +54,9 @@ export class CompanyListComponent {
     });
   }
 
-  // 회사 등록
-  addCompany() {
-    this.router.navigate(['company/company-add']);
-  }
-
-  // 회사 수정
-  editCompany(id: any) {
-    this.router.navigate(['company/company-edit/' + id]);
-  }
-
-  // 회사 삭제
-  deleteCompany(id: any) {
-    this.dialogService
-      .openDialogConfirm('Do you delete this company?')
-      .subscribe((result: any) => {
-        if (result) {
-          this.companyService.deleteCompany(id).subscribe({
-            next: () => {
-              this.dialogService.openDialogPositive(
-                'Successfully, the company has been delete.'
-              );
-              this.getCompanyList();
-            },
-            error: (err: any) => {
-              console.error(err);
-              this.dialogService.openDialogNegative('Loadings Docs Error');
-              alert(err.error.message);
-            },
-          });
-        }
-      });
+  // 회사 클릭하면 라우트 이동
+  createCompnayHoliday(id: string) {
+    this.router.navigate([`company-holiday/${id}`]);
   }
 
   // 회사 이름 필터

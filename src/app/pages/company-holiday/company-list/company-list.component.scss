@@ -16,12 +16,12 @@
 }
 
 .historyTable {
-    width: 100%;
-    text-align: center;
+	width: 100%;
+	text-align: center;
 
-    th {
-        text-align: center;
-    }
+	th {
+		text-align: center;
+	}    
 
     box-shadow: none;
 }
@@ -35,27 +35,7 @@
     }
 }
 
-.filter {
+.filter{
     background-color: #fff;
     position: relative
-}
-
-
-.editCompanyBtn {
-    background: #273da0;
-    color: #fff;
-    padding: 0 30px;
-}
-
-.deleteCompanyBtn {
-    background: #ff4081;
-    color: #fff;
-    padding: 0 30px;
-}
-
-.addCompanyBtn {
-    position: absolute;
-    top: 15px;
-    right: 50px;
-
 }

@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 // import { DialogService } from 'src/app/dialog/dialog.service';
-import { CountryService } from 'src/app/services/leave/country/country.service';
+import { CountryService } from 'src/app/services/country.service';
 import { DataService } from 'src/app/stores/data/data.service';
 import { CountryAddComponent } from '../country-add/country-add.component';
 import { CountryHolidayAddComponent } from '../country-holiday-add/country-holiday-add.component';

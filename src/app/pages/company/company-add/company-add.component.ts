@@ -10,21 +10,22 @@ import {
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
+import { DialogService } from 'src/app/dialog/dialog.service';
 
 @Component({
   selector: 'app-company-add',
-  standalone: true,
-  imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
   templateUrl: './company-add.component.html',
   styleUrls: ['./company-add.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
 })
 export class CompanyAddComponent {
   addCompanyForm: FormGroup;
-  leaveStandards!: FormArray; // 연차 정책 form
+  leaveStandards!: FormArray;
 
   constructor(
     private router: Router,
-    // private dialogService: DialogService,
+    private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private companyService: CompanyService
   ) {
@@ -37,7 +38,7 @@ export class CompanyAddComponent {
       countryCode: [''],
       isReplacementDay: [false],
       rdValidityTerm: [0, [Validators.min(0)]],
-     isAdvanceLeave: [false],
+      isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
     });
 
@@ -51,7 +52,6 @@ export class CompanyAddComponent {
     return (this.addCompanyForm.get('leaveStandards') as FormArray).controls;
   }
 
-  //////////////////////////////////
   createLeaveStandard(year: number): FormGroup {
     return this.formBuilder.group({
       year,
@@ -60,6 +60,7 @@ export class CompanyAddComponent {
     });
   }
 
+  //Leave Standard에 + 버튼 클릭
   addItem() {
     const newYear = this.leaveStandards.length + 1;
     const newLeaveStandard = this.createLeaveStandard(newYear);
@@ -67,28 +68,30 @@ export class CompanyAddComponent {
     this.updateYears();
   }
 
+  //Leave Standard에 - 버튼 클릭
   cancelItem(index: number) {
     if (this.leaveStandards.length > index) {
       this.leaveStandards.removeAt(index);
       this.updateYears();
     }
   }
-
   updateYears() {
     this.leaveStandards.controls.forEach((group, index) => {
       group.get('year')?.setValue(index + 1);
     });
   }
 
+  //Cancel 버튼 클릭
   toBack(): void {
     this.router.navigate(['company']);
   }
 
+  //Request 버튼 클릭
   onSubmit() {
     this.addCompany();
   }
 
-  // 회사 추가
+  //회사 등록
   addCompany() {
     const isRollover = this.addCompanyForm.get('isRollover')?.value;
     const isReplacementDay = this.addCompanyForm.get('isReplacementDay')?.value;
@@ -106,20 +109,25 @@ export class CompanyAddComponent {
         ? this.addCompanyForm.get('rdValidityTerm')?.value
         : 0,
     };
-    //data : this.addCompanyForm.value
-    console.log(companyData);
 
     this.companyService.addCompany(companyData).subscribe({
       next: (res) => {
-        if (res) {
-          this.router.navigate(['company']);
+        this.router.navigate(['company']);
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status === 409) {
+          this.dialogService.openDialogNegative('Company name is duplicated.');
+        } else {
+          this.dialogService.openDialogNegative(
+            'An error occurred while adding company.'
+          );
         }
       },
-      error: (err) => console.error(err),
     });
   }
 
-  //input type="number" 음수 안되는 유효성 검사
+  //유효성 검사
   isButtonDisabled(): any {
     const companyNameError = this.addCompanyForm
       .get('companyName')
@@ -133,25 +141,25 @@ export class CompanyAddComponent {
     const rdValidityTermError = this.addCompanyForm
       .get('rdValidityTerm')
       ?.hasError('min');
+
     const leaveStandardsArray = this.addCompanyForm.get(
       'leaveStandards'
     ) as FormArray;
-    const firstLeaveStandardGroup = leaveStandardsArray.at(0) as FormGroup;
-    const annualLeaveError = firstLeaveStandardGroup
-      .get('annualLeave')
-      ?.hasError('min');
-    const sickLeaveError = firstLeaveStandardGroup
-      .get('sickLeave')
-      ?.hasError('min');
+    let hasErrors = false;
+    leaveStandardsArray.controls.forEach((group) => {
+      const annualLeaveError = group.get('annualLeave')?.hasError('min');
+      const sickLeaveError = group.get('sickLeave')?.hasError('min');
+      if (annualLeaveError || sickLeaveError) {
+        hasErrors = true;
+      }
+    });
 
-    // 어떤 폼 컨트롤이라도 'min' 오류가 있는 경우 버튼을 비활성화
     return (
       companyNameError ||
       rolloverMaxMonthError ||
       rolloverMaxDayError ||
       rdValidityTermError ||
-      annualLeaveError ||
-      sickLeaveError
+      hasErrors
     );
   }
 
@@ -162,23 +170,19 @@ export class CompanyAddComponent {
     const inputValue = inputElement.value;
 
     if (inputElement.classList.contains('numeric-input')) {
-      // 입력값에서 숫자 이외의 문자를 제거
       const numericValue = inputValue.replace(/[^-\d]/g, '');
-
-      // 입력 필드에 정제된 값 설정
       inputElement.value = numericValue;
     }
   }
-
   errorAlert(err: any) {
     switch (err) {
       case 'Duplicate requestLeave':
-        // this.dialogService.openDialogNegative('Duplicate requestLeave.');
+        this.dialogService.openDialogNegative('Duplicate requestLeave.');
         break;
       case 'DB Error':
-        // this.dialogService.openDialogNegative(
-        //   'An error has occurred while requesting'
-        // );
+        this.dialogService.openDialogNegative(
+          'An error has occurred while requesting'
+        );
         break;
     }
   }
