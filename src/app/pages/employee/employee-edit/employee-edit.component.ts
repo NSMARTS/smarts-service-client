@@ -186,7 +186,20 @@ export class EmployeeEditComponent {
   }
 
   updateProfileInfo() {
+    const companyData = {
+      ...this.editEmployeeForm.value,
+      personalLeaveId: this.employee?.personalLeave._id,
+    };
 
+    this.employeeService.updateEmployee(this.employeeId, companyData).subscribe({
+      next: () => {
+        this.router.navigate(['company']);
+      },
+      error: (err) => {
+        console.error(err);
+
+      },
+    });
   }
 
   updateLeaveInfo() {
