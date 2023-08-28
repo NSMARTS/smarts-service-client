@@ -82,6 +82,9 @@ export class CountryListComponent implements OnInit {
         if (result) {
           this.countryService.deleteCountry(_id).subscribe({
             next: (data: any) => {
+              this.dialogService.openDialogPositive(
+                'Successfully, the country has been delete.'
+              );
               this.getCountryList();
             },
             error: (err: any) => {
