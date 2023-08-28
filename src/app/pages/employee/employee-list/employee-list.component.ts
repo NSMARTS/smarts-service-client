@@ -35,7 +35,7 @@ export class EmployeeListComponent implements OnInit {
     'annualPolicy',
     'empStartDate',
     'edit',
-    'delete',
+    'retire',
   ];
 
   companyName: string; // 회사아이디 params
@@ -87,20 +87,22 @@ export class EmployeeListComponent implements OnInit {
     }
   }
 
-  // 퇴사자 추가
-  deleteEmployee(id: string) {
-    console.log(id);
-    this.employeeService.deleteEmployee(id).subscribe({
-      next: (data: any) => {
-        console.log(data);
-      },
-      error: (err: any) => {},
-    });
-  }
   editEmployee(id: string) {
     this.router.navigate([`employee/${this.companyName}/edit/${id}`]);
   }
   addEmployee() {
     this.router.navigate([`employee/${this.companyName}/add`]);
+  }
+
+  // 퇴사자 추가
+  retireEmployee(id: string) {
+    console.log(id);
+    this.employeeService.retireEmployee(id).subscribe({
+      next: (data: any) => {
+        this.getEmployees(this.companyName);
+        console.log(data);
+      },
+      error: (err: any) => {},
+    });
   }
 }

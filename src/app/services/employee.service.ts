@@ -130,7 +130,7 @@ export class EmployeeService {
     return employee;
   }
 
-  deleteEmployee(id: string): Observable<HttpResMsg<Employee[]>> {
+  retireEmployee(id: string): Observable<HttpResMsg<Employee[]>> {
     console.log(id);
     return this.http.delete<HttpResMsg<Employee[]>>(
       this.baseUrl + '/employees/' + id
