@@ -75,6 +75,7 @@ export class EmployeeListComponent implements OnInit {
     await this.employeeService.setEmployees(employees.data);
 
     this.dataSource = new MatTableDataSource(this.employeeService.employees());
+    console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
   }
 

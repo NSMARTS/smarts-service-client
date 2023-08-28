@@ -136,4 +136,20 @@ export class EmployeeService {
       this.baseUrl + '/employees/' + id
     );
   }
+
+  // 퇴사자 목록
+  // retired employee list
+  getRetiredEmployee(companyName: string) {
+    console.log(companyName);
+    return this.http.get<HttpResMsg<Employee[]>>(
+      this.baseUrl + '/employees/' + companyName + '/retire'
+    );
+  }
+
+  cancelRetireEmployee(id: string): Observable<HttpResMsg<Employee[]>> {
+    console.log(id);
+    return this.http.delete<HttpResMsg<Employee[]>>(
+      this.baseUrl + '/employees/' + id + '/retire'
+    );
+  }
 }
