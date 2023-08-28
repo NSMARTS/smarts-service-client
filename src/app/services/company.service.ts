@@ -41,4 +41,9 @@ export class CompanyService {
   deleteCompany(id: any) {
     return this.http.delete(this.baseUrl + '/companies/' + id);
   }
+
+  // 회사목록 & 회사 별 직원 수 조회
+  findAllWithEmployeesNum(): Observable<HttpResMsg<Company[]>> {
+    return this.http.get<HttpResMsg<Company[]>>(this.baseUrl + '/companies/findAllWithEmployeesNum');
+  }
 }

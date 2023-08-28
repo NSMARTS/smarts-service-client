@@ -70,7 +70,7 @@ export class EmployeeListComponent implements OnInit {
     const employees = await lastValueFrom(
       this.employeeService.getEmployees(companyName)
     );
-
+    console.log(employees);
     // signal을 통한 상태관리
     await this.employeeService.setEmployees(employees.data);
 
@@ -87,13 +87,6 @@ export class EmployeeListComponent implements OnInit {
     }
   }
 
-  editEmployee(id: string) {
-    this.router.navigate([`employee/${this.companyName}/edit/${id}`]);
-  }
-  addEmployee() {
-    this.router.navigate([`employee/${this.companyName}/add`]);
-  }
-
   // 퇴사자 추가
   deleteEmployee(id: string) {
     console.log(id);
@@ -103,5 +96,11 @@ export class EmployeeListComponent implements OnInit {
       },
       error: (err: any) => {},
     });
+  }
+  editEmployee(id: string) {
+    this.router.navigate([`employee/${this.companyName}/edit/${id}`]);
+  }
+  addEmployee() {
+    this.router.navigate([`employee/${this.companyName}/add`]);
   }
 }

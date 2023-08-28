@@ -48,7 +48,7 @@ export class EmployeeCompanyListComponent {
    * 컴퍼니 리스트 호출
    */
   getCompanyList() {
-    this.companyService.getCompanyList().subscribe({
+    this.companyService.findAllWithEmployeesNum().subscribe({
       next: (res: HttpResMsg<Company[]>) => {
         const company = res.data;
         console.log(company);
