@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { CompanyHolidayService } from 'src/app/services/company-holiday.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { HolidayAddComponent } from '../holiday-add/holiday-add.component';
+import { HolidayAddComponent } from './holiday-add/holiday-add.component';
 
 // view table
 export interface PeriodicElement {
@@ -17,13 +17,13 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: 'app-holiday-list',
-  templateUrl: './holiday-list.component.html',
-  styleUrls: ['./holiday-list.component.scss'],
+  selector: 'app-holiday',
+  templateUrl: './holiday.component.html',
+  styleUrls: ['./holiday.component.scss'],
   standalone: true,
   imports: [CommonModule, MaterialsModule, RouterModule],
 })
-export class HolidayListComponent implements OnInit {
+export class HolidayComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = [
     'companyHolidayName',

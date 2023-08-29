@@ -63,6 +63,11 @@ export class CompanyListComponent {
     this.router.navigate(['company/company-add']);
   }
 
+  // 회사 입장
+  detailCompany(id: any) {
+    this.router.navigate(['company/' + id]);
+  }
+
   // 회사 수정
   editCompany(id: any) {
     this.router.navigate(['company/company-edit/' + id]);

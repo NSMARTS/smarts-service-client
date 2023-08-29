@@ -1,19 +1,27 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { CommonService } from 'src/app/services/common.service';
-import { CountryService } from 'src/app/services/leave/country/country.service';
+
 import { Country, Employee } from 'src/app/interfaces/employee.interface';
+import { CountryService } from 'src/app/services/country.service';
 
 @Component({
   selector: 'app-employee-edit',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, MaterialsModule],
   templateUrl: './employee-edit.component.html',
-  styleUrls: ['./employee-edit.component.scss']
+  styleUrls: ['./employee-edit.component.scss'],
 })
 export class EmployeeEditComponent {
   employeeId: string = '';
@@ -24,8 +32,7 @@ export class EmployeeEditComponent {
   editEmployeeForm: FormGroup;
   leaveStandards!: FormArray;
 
-
-  employees = this.employeeService.employees
+  employees = this.employeeService.employees;
 
   employee!: Employee;
 
@@ -36,15 +43,13 @@ export class EmployeeEditComponent {
     private employeeService: EmployeeService,
     private countryService: CountryService,
 
-    private commonService: CommonService,
-
-
+    private commonService: CommonService
   ) {
     this.employeeId = this.route.snapshot.params['id'];
     this.companyName = this.route.snapshot.params['companyName'];
     this.editEmployeeForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
-      country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea 
+      country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
       isManager: new FormControl(false, [Validators.required]),
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),
@@ -64,29 +69,28 @@ export class EmployeeEditComponent {
       'leaveStandards'
     ) as FormArray;
     this.addItem();
-
-
   }
 
   ngOnInit(): void {
     // 상태저장 중인 employees 호출
     if (this.employees().length > 0) {
-      const employee = this.employees()?.filter((employee) => employee._id === this.employeeId)
-      if (!employee) return
+      const employee = this.employees()?.filter(
+        (employee) => employee._id === this.employeeId
+      );
+      if (!employee) return;
       this.editEmployeeForm.patchValue(this.employee);
       this.editEmployeeForm.patchValue(this.employee?.personalLeave);
-      this.getCountryList()
+      this.getCountryList();
     }
     // 상태저장 중인 employees가 없다면 http 호출
     // getCountryList 안에 getEmployee()가 있다.
-    this.getCountryList()
+    this.getCountryList();
   }
 
-
   /**
-  * + 버튼 누를 시 item을 추가
-  * @returns
-  */
+   * + 버튼 누를 시 item을 추가
+   * @returns
+   */
   createLeaveStandard(i: number): FormGroup {
     return this.fb.group({
       year: i + 1,
@@ -124,15 +128,14 @@ export class EmployeeEditComponent {
     });
   }
 
-
   getLeaveStandardsControls() {
     return (this.editEmployeeForm.get('leaveStandards') as FormArray).controls;
   }
 
   /**
-  * 기존 연차정책을 가져와, formgroup객체 형식으로 만든 후 FormArray에 담는다.
-  * @returns
-  */
+   * 기존 연차정책을 가져와, formgroup객체 형식으로 만든 후 FormArray에 담는다.
+   * @returns
+   */
   getLeaveStandard(data: any): FormGroup {
     return this.fb.group({
       year: data.year,
@@ -149,7 +152,11 @@ export class EmployeeEditComponent {
     // 기존 컨트롤 제거
     this.leaveStandards.clear();
     // 새로운 컨트롤 추가
-    for (let i = 0; i < this.employee.personalLeave.leaveStandards.length; i++) {
+    for (
+      let i = 0;
+      i < this.employee.personalLeave.leaveStandards.length;
+      i++
+    ) {
       this.leaveStandards.push(
         this.getLeaveStandard(this.employee.personalLeave.leaveStandards[i])
       );
@@ -159,37 +166,33 @@ export class EmployeeEditComponent {
   getCountryList() {
     this.countryService.getCountryList().subscribe({
       next: (res) => {
-        this.countryList = res.data
-        this.getEmployee()
+        this.countryList = res.data;
+        this.getEmployee();
       },
-      error: (err) => console.error(err)
-    })
+      error: (err) => console.error(err),
+    });
   }
 
   getEmployee() {
     this.employeeService.getEmployee(this.employeeId).subscribe({
       next: (res) => {
-        console.log(res.data)
+        console.log(res.data);
 
-        this.employee = res.data
+        this.employee = res.data;
         this.editEmployeeForm.patchValue(this.employee);
         this.editEmployeeForm.patchValue(this.employee?.personalLeave);
 
         this.patchLeaveStadard();
       },
-      error: (err) => console.error(err)
-    })
+      error: (err) => console.error(err),
+    });
   }
 
   backManagerList() {
     this.router.navigate(['leave/employee-mngmt/manager-list']);
   }
 
-  updateProfileInfo() {
+  updateProfileInfo() {}
 
-  }
-
-  updateLeaveInfo() {
-
-  }
+  updateLeaveInfo() {}
 }

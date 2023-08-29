@@ -2,22 +2,16 @@ import { Route } from '@angular/router';
 import { CompanyListComponent } from './company-list/company-list.component';
 import { CompanyAddComponent } from './company-add/company-add.component';
 import { CompanyEditComponent } from './company-edit/company-edit.component';
+import { InfoComponent } from '../company-management/info/info.component';
+import { HolidayComponent } from '../company-management/holiday/holiday.component';
+import { ManagerListComponent } from '../company-management/manager/manager-list/manager-list.component';
+import { ManagerAddComponent } from '../company-management/manager/manager-add/manager-add.component';
+import { ManagerEditComponent } from '../company-management/manager/manager-edit/manager-edit.component';
 
-// In admin/routes.ts:
 export const COMPANY_ROUTES: Route[] = [
   {
-    // localhost:4200/users
-    // UserListComponent를 보여줌
     path: '',
     component: CompanyListComponent,
-    // loadComponent: () =>
-    //     import(`./user-list/user-list.component`).then(m => m.UserListComponent),
-    // canActivate는 현재 컴포넌트에 적용
-    // 로그인 시 접속 가능
-    // canActivate: [authGuard],
-    // canActivateChild는 자식 컴포넌트만 가능
-    // usersGuard를 사용해 userList는 누구나 보는게 가능한데
-    // 상세보기나 수정은 admin Role만 가능
   },
   {
     path: 'company-add',
@@ -26,5 +20,30 @@ export const COMPANY_ROUTES: Route[] = [
   {
     path: 'company-edit/:id',
     component: CompanyEditComponent,
+  },
+  {
+    path: ':id',
+    children: [
+      {
+        path: '',
+        component: InfoComponent,
+      },
+      {
+        path: 'holiday',
+        component: HolidayComponent,
+      },
+      {
+        path: 'manager',
+        component: ManagerListComponent,
+      },
+      {
+        path: 'manager-add',
+        component: ManagerAddComponent,
+      },
+      {
+        path: 'manager-edit/:id',
+        component: ManagerEditComponent,
+      },
+    ],
   },
 ];

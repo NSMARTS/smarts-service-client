@@ -51,13 +51,6 @@ const routes: Routes = [
           import('./pages/company/routes').then((m) => m.COMPANY_ROUTES),
       },
       {
-        path: 'company-holiday',
-        loadChildren: () =>
-          import('./pages/company-holiday/routes').then(
-            (m) => m.COMPANY_HOLIDAY__ROUTES
-          ),
-      },
-      {
         path: 'employee',
         loadChildren: () =>
           import('./pages/employee/routes').then((m) => m.EMPLOYEE_ROUTES),
