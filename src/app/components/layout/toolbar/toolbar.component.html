@@ -9,6 +9,8 @@
     <span class="example-spacer"></span>
     <div fxLayout="row" fxLayoutGap="20px">
         <div>
+            <button [routerLink]="['/company']">Company</button>│
+            <button [routerLink]="['/country']">Country</button>
             <button mat-button [matMenuTriggerFor]="notification" class="mat-icon-button" matTooltip="Notification"
                 matTooltipPosition="above" [matTooltipShowDelay]="500">
                 <mat-icon *ngIf="notiItemsLength > 0" matBadge="{{notiItemsLength}}"

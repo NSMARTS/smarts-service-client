@@ -1,1 +1,102 @@
-<p>manager-add works!</p>
+<div class="mainContentContainer">
+    <div class="mainContent">
+        <div fxLayout="row">
+            <div class="mainTitle">Add Employee</div>
+        </div>
+
+        <form [formGroup]="addManagerForm" (ngSubmit)="onSubmit()">
+            <div class="leaveTableContainer">
+                <div fxLayout="column" class="br_ltop">
+
+                    <!-- company name -->
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Email</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <mat-label>Email</mat-label>
+                                <input matInput type="text" placeholder="E-Mail *" name="email" formControlName="email"
+                                    autocomplete="email">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Name</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <mat-label>Name</mat-label>
+                                <input matInput type="text" placeholder="Name" name="username"
+                                    formControlName="username" autocomplete="username">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Password</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <mat-label>Password</mat-label>
+                                <input matInput type="text" placeholder="Password" name="password"
+                                    formControlName="password" autocomplete="password">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Phone</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <mat-label>Phone</mat-label>
+                                <input matInput type="text" placeholder="Phone" name="phoneNumber"
+                                    formControlName="phoneNumber" autocomplete="phoneNumber">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="lineDivider" fxLayout="row">
+                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                            <div class="leftBox">
+                                <span>Address</span>
+                            </div>
+                        </div>
+                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                                <mat-label>Address</mat-label>
+                                <input matInput type="text" placeholder="Address" name="address"
+                                    formControlName="address" autocomplete="address">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+
+                <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
+                    <div class="btnSection_1">
+                        <button mat-raised-button class="tableBtn" type="submit" color="primary">Add Employee</button>
+                    </div>
+                    <div>
+                        <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

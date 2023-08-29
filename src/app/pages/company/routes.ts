@@ -41,7 +41,7 @@ export const COMPANY_ROUTES: Route[] = [
         component: ManagerAddComponent,
       },
       {
-        path: 'manager-edit/:id',
+        path: 'manager-edit/:managerId',
         component: ManagerEditComponent,
       },
     ],
