@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { CommonService } from 'src/app/services/common.service';
-import { CountryService } from 'src/app/services/leave/country/country.service';
+import { CountryService } from 'src/app/services/country.service';
 import { Country, Employee } from 'src/app/interfaces/employee.interface';
 
 @Component({
@@ -69,17 +69,16 @@ export class EmployeeEditComponent {
   }
 
   ngOnInit(): void {
-    // 상태저장 중인 employees 호출
-    if (this.employees().length > 0) {
-      const employee = this.employees()?.filter((employee) => employee._id === this.employeeId)
-      if (!employee) return
-      this.editEmployeeForm.patchValue(this.employee);
-      this.editEmployeeForm.patchValue(this.employee?.personalLeave);
-      this.getCountryList()
-    }
     // 상태저장 중인 employees가 없다면 http 호출
     // getCountryList 안에 getEmployee()가 있다.
-    this.getCountryList()
+    if (!this.employees()) {
+      console.log('get')
+      this.getCountryList()
+    }
+    const employee = this.employees()?.find((employee) => employee._id === this.employeeId)
+    if (!employee) return
+    this.editEmployeeForm.patchValue(employee);
+    this.editEmployeeForm.patchValue(employee?.personalLeave);
   }
 
 

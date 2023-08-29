@@ -9,6 +9,7 @@ export const sidenavRouteInfo: NavigationItem[] = [
     icon: 'dashboard',
     // isAdmin: true
   },
+  // dashboard
   // company
   {
     type: 'subheading',
@@ -53,6 +54,13 @@ export const sidenavRouteInfo: NavigationItem[] = [
         type: 'link',
         label: 'Retired Employee List',
         route: '/employee/',
+        icon: 'holiday_village',
+        isAdmin: true,
+      },
+      {
+        type: 'link',
+        label: 'Pay Stub',
+        route: '/pay-stub/',
         icon: 'holiday_village',
         isAdmin: true,
       },
