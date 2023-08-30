@@ -48,6 +48,7 @@ export class PayStubListComponent {
   }
   ngOnInit(): void {
     this.getEmployees(this.companyName);
+    this.getPayStub(this.companyName)
   }
 
 
@@ -62,7 +63,12 @@ export class PayStubListComponent {
     this.dataSource = new MatTableDataSource(this.employeeService.employees());
     this.dataSource.paginator = this.paginator;
   }
+  async getPayStub(companyName: string) {
 
+
+    this.dataSource = new MatTableDataSource(this.employeeService.employees());
+    this.dataSource.paginator = this.paginator;
+  }
 
   openDialog() {
     this.dialog.open(PayStubDialogComponent, {

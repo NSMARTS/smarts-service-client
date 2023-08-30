@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { CompanyHolidayService } from 'src/app/services/company-holiday.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { HolidayAddComponent } from './holiday-add/holiday-add.component';
+import { HolidayAddComponent } from '../../../dialog/holiday-add-dialog/holiday-add.component';
 
 // view table
 export interface PeriodicElement {
@@ -40,7 +40,7 @@ export class HolidayComponent implements OnInit {
     private dialogService: DialogService,
     private route: ActivatedRoute,
     private holidayMngmtService: CompanyHolidayService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.companyId = this.route.snapshot.params['id'];

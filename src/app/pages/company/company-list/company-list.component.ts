@@ -33,7 +33,7 @@ export class CompanyListComponent {
     private router: Router,
     private companyService: CompanyService,
     public dialogService: DialogService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getCompanyList();
@@ -61,7 +61,7 @@ export class CompanyListComponent {
 
   // 회사 등록
   addCompany() {
-    this.router.navigate(['company/company-add']);
+    this.router.navigate(['company/add']);
   }
 
   // 회사 입장
@@ -71,7 +71,7 @@ export class CompanyListComponent {
 
   // 회사 수정
   editCompany(id: any) {
-    this.router.navigate(['company/company-edit/' + id]);
+    this.router.navigate(['company/edit/' + id]);
   }
 
   // 회사 삭제
