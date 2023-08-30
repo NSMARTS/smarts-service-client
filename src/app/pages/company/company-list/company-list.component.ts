@@ -22,6 +22,7 @@ export class CompanyListComponent {
     'name',
     'employees',
     'managers',
+    'detail',
     'btns',
   ];
 
