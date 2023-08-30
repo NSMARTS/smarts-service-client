@@ -20,9 +20,9 @@ export class CompanyListComponent {
   displayedColumns: string[] = [
     'code',
     'name',
-    'rollover',
-    'rolloverMaxMonth',
-    'rolloverMaxDay',
+    'employees',
+    'managers',
+    'detail',
     'btns',
   ];
 
@@ -41,9 +41,10 @@ export class CompanyListComponent {
 
   // 회사 목록 조회
   getCompanyList() {
-    this.companyService.getCompanyList().subscribe({
+    this.companyService.findAllWithEmployeesNum().subscribe({
       next: (res: HttpResMsg<Company[]>) => {
         const company = res.data;
+        console.log(company);
         this.dataSource = new MatTableDataSource(company);
         this.dataSource.paginator = this.paginator;
       },

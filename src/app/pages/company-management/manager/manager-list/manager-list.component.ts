@@ -37,7 +37,7 @@ export class ManagerListComponent {
 
   // 회사 목록 조회
   getManagerList() {
-    this.managerService.getManagerList().subscribe({
+    this.managerService.getManagerList(this.companyId).subscribe({
       next: (res: HttpResMsg<Manager[]>) => {
         const manager = res.data;
         this.dataSource = new MatTableDataSource(manager);

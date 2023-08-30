@@ -41,7 +41,7 @@ export class ManagerAddComponent {
 
     this.companyId = this.route.snapshot.params['id'];
 
-    this.managerService.getManagerList().subscribe({
+    this.managerService.getManagerList(this.companyId).subscribe({
       next: (res) => {
         console.log(res.data);
 
