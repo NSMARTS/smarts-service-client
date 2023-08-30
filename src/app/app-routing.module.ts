@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
 import { isLoggedInGuard } from './guards/is-logged-in.guard';
 import { IndexComponent } from './pages/index/index.component';
+import { ToolbarComponent } from './components/layout/toolbar/toolbar.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: LayoutComponent,
+    component: ToolbarComponent,
     canActivate: [isLoggedInGuard],
     children: [
       {

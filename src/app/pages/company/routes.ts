@@ -7,6 +7,7 @@ import { HolidayComponent } from '../corporation/holiday/holiday.component';
 import { ManagerListComponent } from '../employee/manager/manager-list/manager-list.component';
 import { ManagerAddComponent } from '../employee/manager/manager-add/manager-add.component';
 import { ManagerEditComponent } from '../employee/manager/manager-edit/manager-edit.component';
+import { LayoutComponent } from 'src/app/components/layout/layout.component';
 
 export const COMPANY_ROUTES: Route[] = [
   {
@@ -23,6 +24,7 @@ export const COMPANY_ROUTES: Route[] = [
   },
   {
     path: ':id',
+    component: LayoutComponent,
     children: [
       {
         path: '',
