@@ -51,6 +51,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/company/routes').then((m) => m.COMPANY_ROUTES),
       },
+      {
+        path: 'country',
+        loadChildren: () =>
+          import('./pages/country/routes').then((m) => m.COUNTRY_ROUTES),
+      },
     ],
   },
   // 잘못된 URL을 사용했을때 메인으로 보냄

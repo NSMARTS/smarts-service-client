@@ -4,7 +4,7 @@ import { CountryListComponent } from './country-list/country-list.component';
 
 
 // In admin/routes.ts:
-export const HOLIDAY_ROUTES: Route[] = [
+export const COUNTRY_ROUTES: Route[] = [
   {
     // localhost:4200/users
     // UserListComponent를 보여줌

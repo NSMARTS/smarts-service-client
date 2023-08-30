@@ -24,7 +24,7 @@ import { CountryService } from 'src/app/services/country.service';
 })
 export class EmployeeEditComponent {
   employeeId: string = ''; // url 파라미터
-  companyName: string = ''; // url 파라미터
+  companyId: string = ''; // url 파라미터
   // FormGroup
   editEmployeeForm: FormGroup;
   leaveStandards!: FormArray;
@@ -44,8 +44,8 @@ export class EmployeeEditComponent {
 
     private commonService: CommonService
   ) {
-    this.employeeId = this.route.snapshot.params['id'];
-    this.companyName = this.route.snapshot.params['companyName'];
+    this.employeeId = this.route.snapshot.params['employeeId'];
+    this.companyId = this.route.snapshot.params['id'];
     this.editEmployeeForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
@@ -183,7 +183,7 @@ export class EmployeeEditComponent {
   }
 
   backManagerList() {
-    this.router.navigate(['leave/employee-mngmt/manager-list']);
+    this.router.navigate([`company/${this.companyId}/employee`]);
   }
 
   updateProfileInfo() {
@@ -194,7 +194,7 @@ export class EmployeeEditComponent {
 
     this.employeeService.updateEmployee(this.employeeId, companyData).subscribe({
       next: () => {
-        this.router.navigate(['company']);
+        this.router.navigate([`company/${this.companyId}/employee`]);
       },
       error: (err) => {
         console.error(err);

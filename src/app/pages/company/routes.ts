@@ -2,11 +2,11 @@ import { Route } from '@angular/router';
 import { CompanyListComponent } from './company-list/company-list.component';
 import { CompanyAddComponent } from './company-add/company-add.component';
 import { CompanyEditComponent } from './company-edit/company-edit.component';
-import { InfoComponent } from '../company-management/info/info.component';
-import { HolidayComponent } from '../company-management/holiday/holiday.component';
-import { ManagerListComponent } from '../company-management/manager/manager-list/manager-list.component';
-import { ManagerAddComponent } from '../company-management/manager/manager-add/manager-add.component';
-import { ManagerEditComponent } from '../company-management/manager/manager-edit/manager-edit.component';
+import { InfoComponent } from '../corporation/info/info.component';
+import { HolidayComponent } from '../corporation/holiday/holiday.component';
+import { ManagerListComponent } from '../employee/manager/manager-list/manager-list.component';
+import { ManagerAddComponent } from '../employee/manager/manager-add/manager-add.component';
+import { ManagerEditComponent } from '../employee/manager/manager-edit/manager-edit.component';
 
 export const COMPANY_ROUTES: Route[] = [
   {
@@ -26,24 +26,26 @@ export const COMPANY_ROUTES: Route[] = [
     children: [
       {
         path: '',
-        component: InfoComponent,
+        loadChildren: () =>
+          import('../corporation/routes').then((m) => m.CORPORATION_ROUTES),
       },
       {
-        path: 'holiday',
-        component: HolidayComponent,
+        path: 'employee',
+        loadChildren: () =>
+          import('../employee/employee/routes').then((m) => m.EMPLOYEE_ROUTES),
       },
       {
         path: 'manager',
-        component: ManagerListComponent,
+        loadChildren: () =>
+          import('../employee/manager/routes').then((m) => m.MANAGER_ROUTES),
       },
-      {
-        path: 'manager-add',
-        component: ManagerAddComponent,
-      },
-      {
-        path: 'manager-edit/:managerId',
-        component: ManagerEditComponent,
-      },
+
     ],
+  },
+  {
+    path: '**',
+    // url이 틀리면 회사 리스트 컴포넌트로
+    redirectTo: '',
+    pathMatch: 'full',
   },
 ];
