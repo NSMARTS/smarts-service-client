@@ -26,36 +26,14 @@
                     <td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="rollover">
-                    <th mat-header-cell *matHeaderCellDef> Rollover </th>
-                    <td mat-cell *matCellDef="let element">
-                        <span *ngIf="element.isRollover">
-                            O
-                        </span>
-                        <span *ngIf="!element.isRollover">
-                            X
-                        </span>
-                    </td>
+                <ng-container matColumnDef="employees">
+                    <th mat-header-cell *matHeaderCellDef> Employees </th>
+                    <td mat-cell *matCellDef="let element"> {{element.employeeAmount}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="rolloverMaxMonth">
-                    <th mat-header-cell *matHeaderCellDef> Rollover max month </th>
-                    <td mat-cell *matCellDef="let element">
-                        {{element.rolloverMaxMonth?element.rolloverMaxMonth:'-'}}
-                        <span *ngIf="element.rollover">
-                            Month(s)
-                        </span>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="rolloverMaxDay">
-                    <th mat-header-cell *matHeaderCellDef> Rollover max day </th>
-                    <td mat-cell *matCellDef="let element">
-                        {{element.rolloverMaxDay?element.rolloverMaxDay:'-'}}
-                        <span *ngIf="element.rollover">
-                            day(s)
-                        </span>
-                    </td>
+                <ng-container matColumnDef="managers">
+                    <th mat-header-cell *matHeaderCellDef> Managers </th>
+                    <td mat-cell *matCellDef="let element"> {{element.managerAmount}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="btns">
