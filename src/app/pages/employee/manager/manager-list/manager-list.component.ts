@@ -1,13 +1,14 @@
-import { Component, ViewChild, WritableSignal } from '@angular/core';
+import { Component, DestroyRef, ViewChild, WritableSignal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterModule } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { ManagerService } from 'src/app/services/manager.service';
 import { Manager } from 'src/app/interfaces/manager.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-manager-list',
@@ -23,6 +24,8 @@ export class ManagerListComponent {
   dataSource: MatTableDataSource<Manager> = new MatTableDataSource<Manager>([]);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
+  destroyRef = inject(DestroyRef);
+
   constructor(
     private router: Router,
     private managerService: ManagerService,
@@ -31,7 +34,7 @@ export class ManagerListComponent {
   ) { }
 
   ngOnInit(): void {
-    this.companyId = this.route.snapshot.params['id'];
+    this.companyId = this.route.snapshot.params['id']
     this.getManagerList();
   }
 

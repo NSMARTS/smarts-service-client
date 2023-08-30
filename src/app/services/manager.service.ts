@@ -13,7 +13,7 @@ export class ManagerService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //매니저 등록
   addManager(managerData: any) {

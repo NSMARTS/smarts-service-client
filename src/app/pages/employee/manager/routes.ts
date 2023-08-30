@@ -5,13 +5,14 @@ import { ManagerEditComponent } from './manager-edit/manager-edit.component';
 
 
 export const MANAGER_ROUTES: Route[] = [
-  {
-    path: '',
-    component: ManagerListComponent
-  },
+
   {
     path: '',
     children: [
+      {
+        path: '',
+        component: ManagerListComponent,
+      },
       {
         path: 'add',
         component: ManagerAddComponent,
