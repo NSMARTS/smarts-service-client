@@ -1,39 +1,40 @@
 <h1 mat-dialog-title>Upload Statement</h1>
 <div mat-dialog-content>
   Employee:
-  <ul>
-    <mat-form-field class="full-width">
-      <input matInput [placeholder]="'Email'" [matAutocomplete]="auto" [formControl]="email">
-    </mat-form-field>
-
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
-        {{option.username}} {{option.email}}
-      </mat-option>
-    </mat-autocomplete>
-
-    <div>
-      <mat-toolbar *ngIf="currentFile" class="progress-bar">
-        <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
-        <span class="progress">{{ progress }}%</span>
-      </mat-toolbar>
-
-      <mat-form-field>
-        <div>
-          <mat-toolbar>
-            <input matInput [value]="fileName" />
-
-            <button mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()">
-              Upload
-            </button>
-          </mat-toolbar>
-
-          <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput" />
-        </div>
+  <form [formGroup]="statementForm">
+    <ul>
+      <mat-form-field class="full-width">
+        <input matInput [placeholder]="'Email'" [matAutocomplete]="auto" formControlName="employee">
       </mat-form-field>
-    </div>
 
-  </ul>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
+          {{option.username}} {{option.email}}
+        </mat-option>
+      </mat-autocomplete>
+
+      <div>
+        <mat-toolbar *ngIf="currentFile" class="progress-bar">
+          <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
+          <span class="progress">{{ progress }}%</span>
+        </mat-toolbar>
+
+        <mat-form-field>
+          <div>
+            <mat-toolbar>
+              <input matInput [value]="fileName" />
+
+              <button mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()">
+                Upload
+              </button>
+            </mat-toolbar>
+
+            <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput" />
+          </div>
+        </mat-form-field>
+      </div>
 
 
+    </ul>
+  </form>
 </div>

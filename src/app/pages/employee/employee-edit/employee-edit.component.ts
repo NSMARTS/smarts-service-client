@@ -23,15 +23,15 @@ import { CountryService } from 'src/app/services/country.service';
   styleUrls: ['./employee-edit.component.scss'],
 })
 export class EmployeeEditComponent {
-  employeeId: string = '';
-  getEmployeeInfo: any;
-  countryList: Country[] = [];
-  companyName: string = '';
+  employeeId: string = ''; // url 파라미터
+  companyName: string = ''; // url 파라미터
   // FormGroup
   editEmployeeForm: FormGroup;
   leaveStandards!: FormArray;
 
-  employees = this.employeeService.employees;
+  countryList: Country[] = []; // 국가 리스트
+
+  employees = this.employeeService.employees; // 상태관리 중인 직원리스트
 
   employee!: Employee;
 
@@ -71,15 +71,17 @@ export class EmployeeEditComponent {
   }
 
   ngOnInit(): void {
-    // 상태저장 중인 employees가 없다면 http 호출
-    // getCountryList 안에 getEmployee()가 있다.
-    if (!this.employees()) {
-      this.getCountryList()
-    }
     const employee = this.employees()?.find((employee) => employee._id === this.employeeId)
-    if (!employee) return
-    this.editEmployeeForm.patchValue(employee);
-    this.editEmployeeForm.patchValue(employee?.personalLeave);
+    if (employee) { // 상태관리 중인 직원리스트 가 있으면
+      this.editEmployeeForm.patchValue(employee);
+      this.editEmployeeForm.patchValue(employee.personalLeave);
+      this.patchLeaveStadard(employee); // 직원들 중 상태 관리하는 애들이 없으면
+    } else {
+      this.getEmployee() // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
+    }
+
+    this.getCountryList();
+
   }
 
   /**
@@ -139,7 +141,7 @@ export class EmployeeEditComponent {
     });
   }
 
-  patchLeaveStadard() {
+  patchLeaveStadard(employee: Employee) {
     this.leaveStandards.clear();
     this.leaveStandards = this.editEmployeeForm.get(
       'leaveStandards'
@@ -149,11 +151,11 @@ export class EmployeeEditComponent {
     // 새로운 컨트롤 추가
     for (
       let i = 0;
-      i < this.employee.personalLeave.leaveStandards.length;
+      i < employee.personalLeave.leaveStandards.length;
       i++
     ) {
       this.leaveStandards.push(
-        this.getLeaveStandard(this.employee.personalLeave.leaveStandards[i])
+        this.getLeaveStandard(employee.personalLeave.leaveStandards[i])
       );
     }
   }
@@ -162,7 +164,6 @@ export class EmployeeEditComponent {
     this.countryService.getCountryList().subscribe({
       next: (res) => {
         this.countryList = res.data;
-        this.getEmployee();
       },
       error: (err) => console.error(err),
     });
@@ -171,13 +172,11 @@ export class EmployeeEditComponent {
   getEmployee() {
     this.employeeService.getEmployee(this.employeeId).subscribe({
       next: (res) => {
-        console.log(res.data);
-
+        console.log(res.data)
         this.employee = res.data;
         this.editEmployeeForm.patchValue(this.employee);
         this.editEmployeeForm.patchValue(this.employee?.personalLeave);
-
-        this.patchLeaveStadard();
+        this.patchLeaveStadard(this.employee);
       },
       error: (err) => console.error(err),
     });

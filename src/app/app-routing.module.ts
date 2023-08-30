@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'find-pw',
-    loadChildren: () =>
+    loadComponent: () =>
       import(`./pages/auth/find-pw/find-pw.component`).then(
         (m) => m.FindPwComponent
       ),
@@ -50,26 +50,6 @@ const routes: Routes = [
         path: 'company',
         loadChildren: () =>
           import('./pages/company/routes').then((m) => m.COMPANY_ROUTES),
-      },
-      {
-        path: 'employee',
-        loadChildren: () =>
-          import('./pages/employee/routes').then((m) => m.EMPLOYEE_ROUTES),
-      },
-      {
-        path: 'holiday',
-        loadChildren: () =>
-          import('./pages/country/routes').then((m) => m.HOLIDAY_ROUTES),
-      },
-      {
-        path: 'pay-stub',
-        loadChildren: () =>
-          import('./pages/pay-stub/routes').then((m) => m.PAY_STUB_ROUTES),
-      },
-      {
-        path: '',
-        redirectTo: 'main',
-        pathMatch: 'full',
       },
     ],
   },

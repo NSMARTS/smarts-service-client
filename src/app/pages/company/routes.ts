@@ -14,11 +14,11 @@ export const COMPANY_ROUTES: Route[] = [
     component: CompanyListComponent,
   },
   {
-    path: 'company-add',
+    path: 'add',
     component: CompanyAddComponent,
   },
   {
-    path: 'company-edit/:id',
+    path: 'edit/:id',
     component: CompanyEditComponent,
   },
   {
