@@ -73,11 +73,11 @@ export class EmployeeEditComponent {
 
     getCountryList() {
         this.countryService.getCountryList().subscribe({
-            next: (res) => {
+            next: (res:any) => {
                 this.countryList = res.data
                 this.getEmployee()
             },
-            error: (err) => console.error(err)
+            error: (err:any) => console.error(err)
         })
     }
 

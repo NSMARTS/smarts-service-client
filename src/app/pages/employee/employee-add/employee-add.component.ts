@@ -48,11 +48,11 @@ export class EmployeeAddComponent {
     });
 
     this.countryService.getCountryList().subscribe({
-      next: (res) => {
+      next: (res: any) => {
         console.log(res.data);
         this.nationList = res.data;
       },
-      error: (err) => console.error(err),
+      error: (err: any) => console.error(err),
     });
   }
 
