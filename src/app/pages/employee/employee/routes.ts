@@ -5,15 +5,17 @@ import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
 
 import { EmployeeAddComponent } from './employee-add/employee-add.component';
 import { RetiredEmployeeListComponent } from '../retired-employee-list/retired-employee-list.component';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 export const EMPLOYEE_ROUTES: Route[] = [
   {
     path: '',
-    component: EmployeeListComponent
-  },
-  {
-    path: '',
+    providers: [EmployeeService],
     children: [
+      {
+        path: '',
+        component: EmployeeListComponent,
+      },
       {
         path: 'add',
         component: EmployeeAddComponent,
@@ -22,7 +24,6 @@ export const EMPLOYEE_ROUTES: Route[] = [
         path: 'edit/:employeeId',
         component: EmployeeEditComponent,
       },
-
     ],
   },
 ];

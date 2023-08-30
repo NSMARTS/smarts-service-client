@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ApproutingModule } from './app-routing.module';
+import { ApproutingModule, routes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialsModule } from './materials/materials.module';
 import { httpInterceptorProviders } from './interceptors/http-interceptor';
@@ -11,6 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { catchError, of, tap } from 'rxjs';
 import { AuthService } from './services/auth.service';
+import { provideRouter, withRouterConfig } from '@angular/router';
 
 
 /**
@@ -54,6 +55,10 @@ export function appInitializer(authService: AuthService) {
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService] },
     // 모든 http 요청에 withCredential:true 오션을 주기위해 사용
     httpInterceptorProviders,
+    // 부모 router의 param을 상속받아 가져올때 설정해야한다.
+    provideRouter(routes,
+      withRouterConfig({ paramsInheritanceStrategy: 'always' })
+    ),
   ],
   bootstrap: [AppComponent],
 })

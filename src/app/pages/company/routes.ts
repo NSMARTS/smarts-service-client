@@ -8,19 +8,26 @@ import { ManagerListComponent } from '../employee/manager/manager-list/manager-l
 import { ManagerAddComponent } from '../employee/manager/manager-add/manager-add.component';
 import { ManagerEditComponent } from '../employee/manager/manager-edit/manager-edit.component';
 import { LayoutComponent } from 'src/app/components/layout/layout.component';
+import { CompanyService } from 'src/app/services/company.service';
 
 export const COMPANY_ROUTES: Route[] = [
   {
     path: '',
-    component: CompanyListComponent,
-  },
-  {
-    path: 'add',
-    component: CompanyAddComponent,
-  },
-  {
-    path: 'edit/:id',
-    component: CompanyEditComponent,
+    providers: [CompanyService],
+    children: [
+      {
+        path: '',
+        component: CompanyListComponent,
+      },
+      {
+        path: 'add',
+        component: CompanyAddComponent,
+      },
+      {
+        path: 'edit/:id',
+        component: CompanyEditComponent,
+      },
+    ]
   },
   {
     path: ':id',

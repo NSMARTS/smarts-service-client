@@ -5,7 +5,7 @@ import { isLoggedInGuard } from './guards/is-logged-in.guard';
 import { IndexComponent } from './pages/index/index.component';
 import { ToolbarComponent } from './components/layout/toolbar/toolbar.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'welcome',
     component: IndexComponent,
