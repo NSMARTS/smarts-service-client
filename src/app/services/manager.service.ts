@@ -23,9 +23,9 @@ export class ManagerService {
   }
 
   //매니저 목록 조회
-  getManagerList(): Observable<HttpResMsg<Manager[]>> {
+  getManagerList(id: any): Observable<HttpResMsg<Manager[]>> {
     return this.http
-      .get<HttpResMsg<Manager[]>>(this.baseUrl + '/managers/')
+      .get<HttpResMsg<Manager[]>>(this.baseUrl + '/managers/' + id)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
@@ -33,7 +33,7 @@ export class ManagerService {
   getManagerInfo(id: any): Observable<HttpResMsg<Manager>> {
     console.log(id);
     return this.http
-      .get<HttpResMsg<Manager>>(this.baseUrl + '/managers/' + id)
+      .get<HttpResMsg<Manager>>(this.baseUrl + '/managers/view/' + id)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
