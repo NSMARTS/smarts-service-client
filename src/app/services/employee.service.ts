@@ -11,13 +11,16 @@ import { HttpResMsg } from '../interfaces/http-response.interfac';
 import * as moment from 'moment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EmployeeService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
-  employees = signal<Employee[]>([]);
-  constructor(private http: HttpClient, private commonService: CommonService) {}
+  employees = signal<Employee[]>([])
+  constructor(
+    private http: HttpClient,
+    private commonService: CommonService,
+  ) { }
 
   //회사 등록
   addEmployee(companyData: any) {

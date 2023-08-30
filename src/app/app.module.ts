@@ -12,6 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { catchError, of, tap } from 'rxjs';
 import { AuthService } from './services/auth.service';
 
+
 /**
  * AppInitializer은 컴포넌트가 생상되기 전에 가장 먼저 실행된다.
  * 현재 스마트서비스는 access token을 signal 즉 메모리에 저장한다.

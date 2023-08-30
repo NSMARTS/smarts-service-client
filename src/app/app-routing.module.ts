@@ -41,6 +41,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/main/routes').then((m) => m.MAIN_ROUTES),
       },
+
       // {
       //     path: 'profile',
       //     loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
@@ -58,7 +59,12 @@ const routes: Routes = [
       {
         path: 'holiday',
         loadChildren: () =>
-          import('./pages/holiday/routes').then((m) => m.HOLIDAY_ROUTES),
+          import('./pages/country/routes').then((m) => m.HOLIDAY_ROUTES),
+      },
+      {
+        path: 'pay-stub',
+        loadChildren: () =>
+          import('./pages/pay-stub/routes').then((m) => m.PAY_STUB_ROUTES),
       },
       {
         path: '',
@@ -81,4 +87,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class ApproutingModule {}
+export class ApproutingModule { }

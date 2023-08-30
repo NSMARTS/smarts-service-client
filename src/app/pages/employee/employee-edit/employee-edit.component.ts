@@ -12,7 +12,6 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { CommonService } from 'src/app/services/common.service';
-
 import { Country, Employee } from 'src/app/interfaces/employee.interface';
 import { CountryService } from 'src/app/services/country.service';
 
@@ -72,19 +71,15 @@ export class EmployeeEditComponent {
   }
 
   ngOnInit(): void {
-    // 상태저장 중인 employees 호출
-    if (this.employees().length > 0) {
-      const employee = this.employees()?.filter(
-        (employee) => employee._id === this.employeeId
-      );
-      if (!employee) return;
-      this.editEmployeeForm.patchValue(this.employee);
-      this.editEmployeeForm.patchValue(this.employee?.personalLeave);
-      this.getCountryList();
-    }
     // 상태저장 중인 employees가 없다면 http 호출
     // getCountryList 안에 getEmployee()가 있다.
-    this.getCountryList();
+    if (!this.employees()) {
+      this.getCountryList()
+    }
+    const employee = this.employees()?.find((employee) => employee._id === this.employeeId)
+    if (!employee) return
+    this.editEmployeeForm.patchValue(employee);
+    this.editEmployeeForm.patchValue(employee?.personalLeave);
   }
 
   /**
@@ -192,7 +187,24 @@ export class EmployeeEditComponent {
     this.router.navigate(['leave/employee-mngmt/manager-list']);
   }
 
-  updateProfileInfo() {}
+  updateProfileInfo() {
+    const companyData = {
+      ...this.editEmployeeForm.value,
+      personalLeaveId: this.employee?.personalLeave._id,
+    };
 
-  updateLeaveInfo() {}
+    this.employeeService.updateEmployee(this.employeeId, companyData).subscribe({
+      next: () => {
+        this.router.navigate(['company']);
+      },
+      error: (err) => {
+        console.error(err);
+
+      },
+    });
+  }
+
+  updateLeaveInfo() {
+
+  }
 }

@@ -211,23 +211,6 @@
               </div>
             </div>
 
-            <!-- Minus Annual Leave -->
-            <div class="lineDivider" fxLayout="row wrap">
-              <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                <div class="leftBox">
-                  <span>Minus Annual Leave</span>
-                </div>
-              </div>
-              <div class="rightTable" fxFlex>
-                <mat-radio-group mat-radio-group name="grpName">
-                  <input type="radio" formControlName="isAdvanceLeave" [value]="true"
-                    [checked]="editEmployeeForm.get('isAdvanceLeave')?.value" />Yes
-                  <input type="radio" formControlName="isAdvanceLeave" [value]="false"
-                    [checked]="!editEmployeeForm.get('isAdvanceLeave')?.value" />No
-
-                </mat-radio-group>
-              </div>
-            </div>
 
             <!-- Annual Policy -->
             <div class="lineDivider" fxLayout="row wrap">
