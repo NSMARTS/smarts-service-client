@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, WritableSignal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
@@ -26,6 +26,8 @@ export class CompanyListComponent {
     'btns',
   ];
 
+  companyId: WritableSignal<String>;
+
   dataSource: MatTableDataSource<Company> = new MatTableDataSource<Company>([]);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
@@ -33,7 +35,9 @@ export class CompanyListComponent {
     private router: Router,
     private companyService: CompanyService,
     public dialogService: DialogService
-  ) {}
+  ) {
+    this.companyId = this.companyService.companyId
+  }
 
   ngOnInit(): void {
     this.getCompanyList();
@@ -61,17 +65,18 @@ export class CompanyListComponent {
 
   // 회사 등록
   addCompany() {
-    this.router.navigate(['company/company-add']);
+    this.router.navigate(['company/add']);
   }
 
   // 회사 입장
   detailCompany(id: any) {
+    this.companyId.set(id);
     this.router.navigate(['company/' + id]);
   }
 
   // 회사 수정
   editCompany(id: any) {
-    this.router.navigate(['company/company-edit/' + id]);
+    this.router.navigate(['company/edit/' + id]);
   }
 
   // 회사 삭제

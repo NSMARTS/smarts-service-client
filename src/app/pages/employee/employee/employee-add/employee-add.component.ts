@@ -23,7 +23,7 @@ import { CommonService } from 'src/app/services/common.service';
 })
 export class EmployeeAddComponent {
   addEmployeeForm: FormGroup;
-  companyName!: string; //params id
+  companyId!: string; //params id
   nationList: Country[] = [];
 
   constructor(
@@ -35,7 +35,7 @@ export class EmployeeAddComponent {
     private countryService: CountryService,
     private commonService: CommonService
   ) {
-    this.companyName = this.route.snapshot.params['companyName'];
+    this.companyId = this.route.snapshot.params['id'];
     this.addEmployeeForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
@@ -59,7 +59,7 @@ export class EmployeeAddComponent {
   onSubmit() {
     const postData = {
       ...this.addEmployeeForm.value,
-      company: this.companyName,
+      company: this.companyId,
       country: this.addEmployeeForm.value['country'],
       empStartDate: this.commonService.dateFormatting(
         this.addEmployeeForm.value['empStartDate']
@@ -72,13 +72,13 @@ export class EmployeeAddComponent {
     console.log(postData)
     this.employeeService.addEmployee(postData).subscribe({
       next: (res) => {
-        this.router.navigate([`/employee/${this.companyName}`]);
+        this.router.navigate([`/company/${this.companyId}/employee`]);
       },
       error: (e) => console.error(e),
     });
   }
 
   toBack() {
-    this.router.navigate([`/employee/${this.companyName}`]);
+    this.router.navigate([`/company/${this.companyId}/employee/`]);
   }
 }

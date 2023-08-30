@@ -1,4 +1,4 @@
-import { DestroyRef, Injectable, inject } from '@angular/core';
+import { DestroyRef, Injectable, effect, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Company } from '../interfaces/company.interface';
@@ -13,7 +13,11 @@ export class CompanyService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
 
-  constructor(private http: HttpClient) {}
+  companyId = signal<string>('')
+
+  constructor(private http: HttpClient) {
+    effect(() => console.log('회사 ID :', this.companyId()))
+  }
 
   //회사 등록
   addCompany(companyData: any) {

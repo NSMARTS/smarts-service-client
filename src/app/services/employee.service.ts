@@ -30,12 +30,12 @@ export class EmployeeService {
   }
 
   /***
-   * @param companyName
-   * 회사이름으로 직원전체 조회
+   * @param companyId
+   * 회사아이디로 직원전체 조회
    */
-  getEmployees(companyName: string): Observable<HttpResMsg<Employee[]>> {
+  getEmployees(id: string): Observable<HttpResMsg<Employee[]>> {
     return this.http.get<HttpResMsg<Employee[]>>(
-      this.baseUrl + '/employees/' + companyName
+      this.baseUrl + '/employees/' + id
     );
   }
 

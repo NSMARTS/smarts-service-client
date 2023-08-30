@@ -28,7 +28,7 @@ export class ManagerListComponent {
     private managerService: ManagerService,
     public dialogService: DialogService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.companyId = this.route.snapshot.params['id'];
@@ -56,12 +56,12 @@ export class ManagerListComponent {
 
   // 회사 등록
   addManager() {
-    this.router.navigate(['company/' + this.companyId + '/manager-add']);
+    this.router.navigate(['company/' + this.companyId + '/manager/add']);
   }
 
   //회사 수정
   editManager(id: any) {
-    this.router.navigate(['company/' + this.companyId + '/manager-edit/' + id]);
+    this.router.navigate(['company/' + this.companyId + '/manager/edit/' + id]);
   }
 
   // // 회사 삭제

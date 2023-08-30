@@ -38,7 +38,7 @@ export class EmployeeListComponent implements OnInit {
     'retire',
   ];
 
-  companyName: string; // 회사아이디 params
+  companyId: string; // 회사아이디 params
 
   filterValues: any = {};
   filterSelectObj: any = [];
@@ -57,18 +57,18 @@ export class EmployeeListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.companyName = this.route.snapshot.params['companyName'];
+    this.companyId = this.route.snapshot.params['id'];
     this.employees = this.employeeService.employees;
   }
   ngOnInit(): void {
-    this.getEmployees(this.companyName);
+    this.getEmployees(this.companyId);
   }
 
-  async getEmployees(companyName: string) {
+  async getEmployees(companyId: string) {
     // lastValueFrom은 rxjs 비동기 통신을하기위 사용
     // 서버에 값을 받아올때까지 멈춘다.
     const employees = await lastValueFrom(
-      this.employeeService.getEmployees(companyName)
+      this.employeeService.getEmployees(companyId)
     );
     console.log(employees);
     // signal을 통한 상태관리
@@ -89,10 +89,10 @@ export class EmployeeListComponent implements OnInit {
   }
 
   editEmployee(id: string) {
-    this.router.navigate([`employee/${this.companyName}/edit/${id}`]);
+    this.router.navigate([`/company/${this.companyId}/employee/edit/${id}`]);
   }
   addEmployee() {
-    this.router.navigate([`employee/${this.companyName}/add`]);
+    this.router.navigate([`/company/${this.companyId}/employee/add`]);
   }
 
   // 퇴사자 추가
@@ -100,10 +100,10 @@ export class EmployeeListComponent implements OnInit {
     console.log(id);
     this.employeeService.retireEmployee(id).subscribe({
       next: (data: any) => {
-        this.getEmployees(this.companyName);
+        this.getEmployees(this.companyId);
         console.log(data);
       },
-      error: (err: any) => {},
+      error: (err: any) => { },
     });
   }
 }
