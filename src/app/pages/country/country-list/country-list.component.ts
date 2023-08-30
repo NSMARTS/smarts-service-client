@@ -56,7 +56,7 @@ export class CountryListComponent implements OnInit {
     public dialog: MatDialog,
     private dialogService: DialogService,
     private countryService: CountryService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getCountryList();
@@ -106,9 +106,9 @@ export class CountryListComponent implements OnInit {
 
   getCountryList() {
     this.countryService.getCountryList().subscribe({
-      next: (data: any) => {
+      next: (res: any) => {
         this.countryList = new MatTableDataSource<PeriodicElement>(
-          data.getCountry
+          res.data
         );
         this.countryList.paginator = this.paginator;
       },
