@@ -29,6 +29,7 @@ export class PayStubDialogComponent implements OnInit {
 
   filteredEmployee = signal<Employee[]>([])
   employees: WritableSignal<Employee[]>
+
   userInfoStore: WritableSignal<UserInfo>
 
   destroyRef = inject(DestroyRef);
@@ -54,6 +55,7 @@ export class PayStubDialogComponent implements OnInit {
     this.userInfoStore = this.authService.userInfoStore
     // 상태저장된 employee 리스트 불러오기
     this.employees = this.employeeService.employees
+
     // input controller 값 받아오기
     this.statementForm.controls['employee'].valueChanges
       .pipe(
@@ -68,7 +70,6 @@ export class PayStubDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployees()
-
   }
 
   async getEmployees() {
@@ -109,7 +110,7 @@ export class PayStubDialogComponent implements OnInit {
 
       const formData: Statment = {
         ...this.statementForm.value,
-        ...this.currentFile,
+        file: this.currentFile,
         company: this.data.companyId,
         writer: this.userInfoStore()._id
       }
