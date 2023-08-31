@@ -34,7 +34,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: ToolbarComponent,
+    component: LayoutComponent,
     canActivate: [isLoggedInGuard],
     children: [
       {
