@@ -136,7 +136,7 @@ export class ManagerEditComponent {
     // signal을 통한 상태관리
     await this.employeeService.setEmployees(employees.data);
 
-    this.dataSource = new MatTableDataSource(this.employeeService.employees());
+    this.dataSource.data = this.employeeService.employees();
     console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
   }
