@@ -5,20 +5,22 @@ export const sidenavRouteInfo: NavigationItem[] = [
   {
     type: 'subheading',
     label: 'CORPORATION',
-    children: [{
-      type: 'link',
-      label: 'Info',
-      route: '/',
-      icon: 'dashboard',
-      // isAdmin: true
-    }, {
-      type: 'link',
-      label: 'Holiday Management',
-      route: '/holiday',
-      icon: 'dashboard',
-      // isAdmin: true
-    }
-    ]
+    children: [
+      {
+        type: 'link',
+        label: 'Info',
+        route: '/',
+        icon: 'dashboard',
+        // isAdmin: true
+      },
+      {
+        type: 'link',
+        label: 'Holiday Management',
+        route: '/holiday',
+        icon: 'dashboard',
+        // isAdmin: true
+      },
+    ],
   },
   // dashboard
   // company
@@ -64,14 +66,14 @@ export const sidenavRouteInfo: NavigationItem[] = [
       {
         type: 'link',
         label: 'Notification',
-        route: '/employee/company-list',
+        route: '/notification',
         icon: 'holiday_village',
         isAdmin: true,
       },
       {
         type: 'link',
         label: 'Meeting Scheduler',
-        route: '/employee/company-list',
+        route: '/meeting',
         icon: 'holiday_village',
         isAdmin: true,
       },
