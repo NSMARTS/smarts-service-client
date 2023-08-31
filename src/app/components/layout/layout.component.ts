@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { distinctUntilChanged, filter, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -37,7 +37,9 @@ export class LayoutComponent {
   navItems = this.navigationService.navItems;
 
   isSidenavRequired = false;
+  route = inject(ActivatedRoute)
 
+  companyId = this.route.snapshot.params['id'];
 
 
 
@@ -127,6 +129,9 @@ export class LayoutComponent {
       console.log('isSideNavOpen() : ', this.isSideNavOpen())
       this.sidenav.open();
     })
+
+    console.log(this.companyId)
+
   }
 
   ngOnInit(): void {

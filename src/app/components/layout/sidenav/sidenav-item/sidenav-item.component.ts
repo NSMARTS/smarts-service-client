@@ -35,7 +35,7 @@ export class SidenavItemComponent implements OnInit, OnChanges {
   navigationService = inject(NavigationService)
   selectedDropDownItem = this.navigationService.selectedDropDownItem
 
-  companyId = this.route.snapshot.parent?.parent?.params['id'];
+  companyId = this.route.snapshot.children[0].children[0].children[0].params['id'];
 
 
   isLink = this.navigationService.isLink;
