@@ -56,13 +56,13 @@ export class CountryService {
 
   // 나라 정보 가져오기
   getCountryInfo(data: any) {
-    console.log(data.countryId);
+    // console.log(data.countryId);
     return this.http.get(this.baseUrl + '/countries/holiday/' + data.countryId);
   }
 
   // 나라별 공휴일 추가
   addCountryHoliday(countryHolidayData: any) {
-    console.log(countryHolidayData);
+    // console.log(countryHolidayData);
     return this.http.post(
       this.baseUrl + '/countries/holiday/' + countryHolidayData._id,
       countryHolidayData
@@ -71,7 +71,7 @@ export class CountryService {
 
   // 나라별 공휴일 삭제
   deleteCountryHoliday(data: any) {
-    console.log(data);
+    // console.log(data);
     return this.http.delete(
       this.baseUrl + '/countries/holiday/' + data.countryId
     );

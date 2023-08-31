@@ -3,8 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
 import { isLoggedInGuard } from './guards/is-logged-in.guard';
 import { IndexComponent } from './pages/index/index.component';
+import { ToolbarComponent } from './components/layout/toolbar/toolbar.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'welcome',
     component: IndexComponent,
@@ -26,14 +27,14 @@ const routes: Routes = [
   },
   {
     path: 'find-pw',
-    loadChildren: () =>
+    loadComponent: () =>
       import(`./pages/auth/find-pw/find-pw.component`).then(
         (m) => m.FindPwComponent
       ),
   },
   {
     path: '',
-    component: LayoutComponent,
+    component: ToolbarComponent,
     canActivate: [isLoggedInGuard],
     children: [
       {
@@ -41,6 +42,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/main/routes').then((m) => m.MAIN_ROUTES),
       },
+
       // {
       //     path: 'profile',
       //     loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
@@ -51,26 +53,9 @@ const routes: Routes = [
           import('./pages/company/routes').then((m) => m.COMPANY_ROUTES),
       },
       {
-        path: 'company-holiday',
+        path: 'country',
         loadChildren: () =>
-          import('./pages/company-holiday/routes').then(
-            (m) => m.COMPANY_HOLIDAY__ROUTES
-          ),
-      },
-      {
-        path: 'employee',
-        loadChildren: () =>
-          import('./pages/employee/routes').then((m) => m.EMPLOYEE_ROUTES),
-      },
-      {
-        path: 'holiday',
-        loadChildren: () =>
-          import('./pages/holiday/routes').then((m) => m.HOLIDAY_ROUTES),
-      },
-      {
-        path: '',
-        redirectTo: 'main',
-        pathMatch: 'full',
+          import('./pages/country/routes').then((m) => m.COUNTRY_ROUTES),
       },
     ],
   },
@@ -88,4 +73,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class ApproutingModule {}
+export class ApproutingModule { }
