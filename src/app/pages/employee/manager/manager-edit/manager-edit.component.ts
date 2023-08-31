@@ -5,6 +5,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { ManagerService } from 'src/app/services/manager.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ManagerEmployeesAddComponent } from '../../../../dialog/manager-employees-add/manager-employees-add.component';
 
 @Component({
   selector: 'app-manager-edit',
@@ -23,7 +25,8 @@ export class ManagerEditComponent {
     private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private managerService: ManagerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog
   ) {
     this.editManagerForm = this.formBuilder.group({
       email: ['', [Validators.required]],
@@ -80,6 +83,21 @@ export class ManagerEditComponent {
           );
         }
       },
+    });
+  }
+
+  ////////////////////////////////////////////////////////////////////////
+  addManagerEmployees() {
+    const dialogRef = this.dialog.open(ManagerEmployeesAddComponent, {
+      data: {
+        //   companyHolidayList: this.companyHolidayList,
+        companyId: this.companyId,
+        managerId: this.editManagerId,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // this.getManagerEmployeesList();
     });
   }
 }

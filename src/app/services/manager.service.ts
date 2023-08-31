@@ -13,7 +13,7 @@ export class ManagerService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   //매니저 등록
   addManager(managerData: any) {
@@ -48,5 +48,12 @@ export class ManagerService {
   // 매니저 삭제
   deleteManager(id: any) {
     return this.http.delete(this.baseUrl + '/managers/' + id);
+  }
+
+  //매니저 등록
+  addManagerEmployees(managerData: any) {
+    return this.http
+      .post(this.baseUrl + '/managers/employees', managerData)
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 }

@@ -1,10 +1,23 @@
 <div class="mainContentContainer">
-    <div class="mainContent">
-        <div fxLayout="row">
-            <div class="mainTitle">Add Employee</div>
-        </div>
+    <div class="headerContainer">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+  
+        <div class="headerTitle" fxFlex=90>Edit Employee</div>
+  
+        <!-- <button fxFlex=6 mat-raised-button class="cancelBtn" (click)="backManagerList();">Back</button> -->
+  
+      </div>
+  
+      <mat-divider></mat-divider>
+    </div>
+  
+  
+  
+    <div class="gridBoxContainer">
+      <div class="cardBox" fxLayout="row">
+        <mat-card fxLayout="column" fxFlex=50>
 
-        <form [formGroup]="editManagerForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="editManagerForm" (ngSubmit)="onSubmit()">
             <div class="leaveTableContainer">
                 <div fxLayout="column" class="br_ltop">
 
@@ -98,5 +111,22 @@
                 </div>
             </div>
         </form>
+          <mat-card-actions fxLayoutAlign="center">
+            <!-- <button mat-raised-button class="editBtn" (click)="updateProfileInfo();">Edit</button> -->
+            <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
+          </mat-card-actions>
+        </mat-card>
+  
+        <mat-card fxLayout="column" fxFlex=50>
+          <form>
+            <button mat-button (click)="addManagerEmployees()">Add Manager Employees</button>
+
+          </form>
+          <mat-card-actions fxLayoutAlign="center">
+            <!-- <button mat-raised-button class="editBtn" (click)="updateLeaveInfo();">Edit</button> -->
+            <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
+          </mat-card-actions>
+        </mat-card>
+      </div>
     </div>
-</div>
+  </div>
