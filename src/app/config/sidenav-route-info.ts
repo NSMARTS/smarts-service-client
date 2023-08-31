@@ -3,30 +3,55 @@ import { NavigationItem } from '../interfaces/navigation-item.interface';
 export const sidenavRouteInfo: NavigationItem[] = [
   // dashboard
   {
-    type: 'link',
-    label: 'Dashboard',
-    route: '/main',
-    icon: 'dashboard',
-    // isAdmin: true
+    type: 'subheading',
+    label: 'CORPORATION',
+    children: [{
+      type: 'link',
+      label: 'Info',
+      route: '/',
+      icon: 'dashboard',
+      // isAdmin: true
+    }, {
+      type: 'link',
+      label: 'Holiday Management',
+      route: '/holiday',
+      icon: 'dashboard',
+      // isAdmin: true
+    }
+    ]
   },
   // dashboard
   // company
   {
     type: 'subheading',
-    label: 'COMPANY',
+    label: 'Employee',
     children: [
       {
         type: 'link',
-        label: 'Company List',
-        route: '/company/',
-        icon: 'update',
+        label: 'Employee',
+        route: '/employee/',
+        icon: 'groups',
         isAdmin: true,
       },
       {
         type: 'link',
-        label: 'Company Holiday Management',
-        route: '/company-holiday/',
+        label: 'Manager',
+        route: '/manager/',
         icon: 'groups',
+        isAdmin: true,
+      },
+      {
+        type: 'link',
+        label: 'Retired Employee',
+        route: '/retired/',
+        icon: 'groups',
+        isAdmin: true,
+      },
+      {
+        type: 'link',
+        label: 'Pay Stub',
+        route: '/pay-stub/',
+        icon: 'update',
         isAdmin: true,
       },
     ],
@@ -34,51 +59,25 @@ export const sidenavRouteInfo: NavigationItem[] = [
   // EMPLOYEE
   {
     type: 'subheading',
-    label: 'EMPLOYEE',
+    label: 'SPACE',
     children: [
       {
         type: 'link',
-        label: 'Employee List',
+        label: 'Notification',
         route: '/employee/company-list',
         icon: 'holiday_village',
         isAdmin: true,
       },
       {
         type: 'link',
-        label: 'Employee Leave Status',
-        route: '/employee/',
-        icon: 'holiday_village',
-        isAdmin: true,
-      },
-      {
-        type: 'link',
-        label: 'Retired Employee List',
-        route: '/employee/',
-        icon: 'holiday_village',
-        isAdmin: true,
-      },
-      {
-        type: 'link',
-        label: 'Pay Stub',
-        route: '/pay-stub/',
+        label: 'Meeting Scheduler',
+        route: '/employee/company-list',
         icon: 'holiday_village',
         isAdmin: true,
       },
     ],
   },
-  {
-    type: 'subheading',
-    label: 'HOLIDAY MANAGEMENT',
-    children: [
-      {
-        type: 'link',
-        label: 'County List',
-        route: '/holiday/',
-        icon: 'holiday_village',
-        isAdmin: true,
-      },
-    ],
-  },
+
   // // project
   // {
   // 	type: 'subheading',
