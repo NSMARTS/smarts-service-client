@@ -53,6 +53,11 @@ export const COMPANY_ROUTES: Route[] = [
         loadChildren: () =>
           import('../space/meeting/routes').then((m) => m.MEETING_ROUTES),
       },
+      {
+        path: 'pay-stub',
+        loadChildren: () =>
+          import('../employee/pay-stub/routes').then((m) => m.PAY_STUB_ROUTES),
+      },
     ],
   },
   {

@@ -28,7 +28,7 @@ export class PayStubListComponent {
 
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>([]);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-  companyName: string; // 회사아이디 params 
+  companyId: string; // 회사아이디 params 
 
   filterValues: any = {};
   filterSelectObj: any = [];
@@ -43,12 +43,12 @@ export class PayStubListComponent {
     private router: Router,
     public dialog: MatDialog,
   ) {
-    this.companyName = this.route.snapshot.params['companyName'];
+    this.companyId = this.route.snapshot.params['id'];
     this.employees = this.employeeService.employees
   }
   ngOnInit(): void {
-    this.getEmployees(this.companyName);
-    this.getPayStub(this.companyName)
+    this.getEmployees(this.companyId);
+    this.getPayStub(this.companyId)
   }
 
 
@@ -74,7 +74,7 @@ export class PayStubListComponent {
     this.dialog.open(PayStubDialogComponent, {
       width: '1200px',
       data: {
-        companyName: this.companyName
+        companyId: this.companyId
       },
     });
   }

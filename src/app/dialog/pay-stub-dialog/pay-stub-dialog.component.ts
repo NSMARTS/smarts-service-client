@@ -55,11 +55,11 @@ export class PayStubDialogComponent implements OnInit {
     // 상태저장된 employee 리스트 불러오기
     this.employees = this.employeeService.employees
     // input controller 값 받아오기
-    this.statementForm.controls['email'].valueChanges
+    this.statementForm.controls['employee'].valueChanges
       .pipe(
         startWith(''),
         // 받아온 값 employee.name과 일치하는것 끼리 배열로 가져오기
-        map(email => (email ? this._filterStates(email) : this.employees().slice())),
+        map(employee => (employee ? this._filterStates(employee) : this.employees().slice())),
         // 배열로 가져온거 시그널에 등록
         map(employees => this.filteredEmployee.set(employees)),
         takeUntilDestroyed(this.destroyRef)
@@ -72,13 +72,13 @@ export class PayStubDialogComponent implements OnInit {
   }
 
   async getEmployees() {
-    const employees = await lastValueFrom(this.employeeService.getEmployees(this.data.companyName))
+    const employees = await lastValueFrom(this.employeeService.getEmployees(this.data.companyId))
     await this.employeeService.setEmployees(employees.data)
     console.log(this.employees())
   }
 
   /**
-   * 이름으로 검색하거나 email로 검색하쇼
+   * 이름으로 검색하거나 email로 검색 가능
    * @param value 
    * @returns 
    */
