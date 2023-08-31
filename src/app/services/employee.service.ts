@@ -157,6 +157,15 @@ export class EmployeeService {
     );
   }
 
+  getEmployeeWithout(
+    id: string,
+    managerId: string
+  ): Observable<HttpResMsg<Employee[]>> {
+    return this.http.get<HttpResMsg<Employee[]>>(
+      this.baseUrl + '/employees/' + id + '/without/' + managerId
+    );
+  }
+
   getManagerEmployees(managerId: string): Observable<HttpResMsg<Employee[]>> {
     return this.http.get<HttpResMsg<Employee[]>>(
       this.baseUrl + '/employees/manager/' + managerId
