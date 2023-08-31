@@ -65,7 +65,7 @@ export class CountryEditComponent implements OnInit {
     this.countryService.editCountry(countryData).subscribe({
       next: (data: any) => {
           this.dialogRef.close();
-          this.dialogService.openDialogPositive('Success add country.');
+          this.dialogService.openDialogPositive('Success edit country.');
       },
       error: (e) => {
         if (e.error.message == 'The country code is duplicated.') {
@@ -73,7 +73,7 @@ export class CountryEditComponent implements OnInit {
           this.dialogService.openDialogNegative(
             'The country code is duplicated.'
           );
-        } else if (e.error.message == 'adding Country Error') {
+        } else if (e.error.message == 'editing Country Error') {
           this.dialogRef.close();
           this.dialogService.openDialogNegative('An error has occured.');
         }
