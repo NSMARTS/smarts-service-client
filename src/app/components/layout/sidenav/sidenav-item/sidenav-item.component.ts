@@ -35,9 +35,6 @@ export class SidenavItemComponent implements OnInit, OnChanges {
   navigationService = inject(NavigationService)
   selectedDropDownItem = this.navigationService.selectedDropDownItem
 
-  companyId = this.route.snapshot.params['id'];
-
-
   isLink = this.navigationService.isLink;
   isDropdown = this.navigationService.isDropdown;
   isSubheading = this.navigationService.isSubheading;
@@ -56,9 +53,7 @@ export class SidenavItemComponent implements OnInit, OnChanges {
   }
   constructor(
     public dialog2: MatDialog,
-  ) {
-    console.log(this.companyId)
-  }
+  ) { }
 
   ngOnInit(): void {
     // console.log('[[ side nav item ]]', this.flag);

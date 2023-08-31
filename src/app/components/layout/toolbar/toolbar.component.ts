@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarComponent {
+  @Input() isSidenavRequired: boolean = false;
   private sidenavService = inject(SidenavService);
   // isSideNavOpen Boolean 사이드 nav 켰어 안켰어
   isSideNavOpen = this.sidenavService.isSideNavOpen;

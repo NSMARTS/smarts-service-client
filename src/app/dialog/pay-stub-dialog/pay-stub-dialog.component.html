@@ -4,6 +4,9 @@
   <form [formGroup]="statementForm">
     <ul>
       <mat-form-field class="full-width">
+        <input matInput [placeholder]="'Title'" formControlName="title">
+      </mat-form-field>
+      <mat-form-field class="full-width">
         <input matInput [placeholder]="'Email'" [matAutocomplete]="auto" formControlName="employee">
       </mat-form-field>
 

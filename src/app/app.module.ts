@@ -55,10 +55,10 @@ export function appInitializer(authService: AuthService) {
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService] },
     // 모든 http 요청에 withCredential:true 오션을 주기위해 사용
     httpInterceptorProviders,
-    // 부모 router의 param을 상속받아 가져올때 설정해야한다.
-    provideRouter(routes,
-      withRouterConfig({ paramsInheritanceStrategy: 'always' })
-    ),
+    // 부모 router의 param을 상속받아 가져올때 설정해야한다. 다시 제거.
+    // provideRouter(routes,
+    //   withRouterConfig({ paramsInheritanceStrategy: 'always' })
+    // ),
   ],
   bootstrap: [AppComponent],
 })

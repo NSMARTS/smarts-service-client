@@ -27,31 +27,30 @@ export const COMPANY_ROUTES: Route[] = [
         path: 'edit/:id',
         component: CompanyEditComponent,
       },
-    ],
-  },
-  {
-    path: ':id',
-    component: LayoutComponent,
-    children: [
       {
-        path: '',
+        path: ':id',
         loadChildren: () =>
           import('../corporation/routes').then((m) => m.CORPORATION_ROUTES),
       },
       {
-        path: 'employee',
+        path: ':id/employee',
         loadChildren: () =>
           import('../employee/employee/routes').then((m) => m.EMPLOYEE_ROUTES),
       },
       {
-        path: 'manager',
+        path: ':id/manager',
         loadChildren: () =>
           import('../employee/manager/routes').then((m) => m.MANAGER_ROUTES),
       },
       {
-        path: 'meeting',
+        path: ':id/meeting',
         loadChildren: () =>
           import('../space/meeting/routes').then((m) => m.MEETING_ROUTES),
+      },
+      {
+        path: ':id/pay-stub',
+        loadChildren: () =>
+          import('../employee/pay-stub/routes').then((m) => m.PAY_STUB_ROUTES),
       },
     ],
   },
