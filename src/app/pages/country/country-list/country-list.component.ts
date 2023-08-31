@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 // import { DialogService } from 'src/app/dialog/dialog.service';
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
+import { CountryEditComponent } from '../country-edit/country-edit.component';
 
 // view table
 export interface PeriodicElement {
@@ -44,12 +45,14 @@ export class CountryListComponent implements OnInit {
   company: any;
   manager: any;
   userInfo: any;
+  // router: any;
 
   constructor(
     public dataService: DataService,
     public dialog: MatDialog,
     private dialogService: DialogService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -83,6 +86,22 @@ export class CountryListComponent implements OnInit {
     });
   }
 
+  // dialog에 아이디를 보내야함 
+  editCountry(countryId: any) {
+    const dialogRef = this.dialog.open(CountryEditComponent, {
+      data: { countryId: countryId },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.getCountryList();
+    });
+  }
+
+  selectHoliday(countryId: any) {
+    console.log(countryId);
+    this.router.navigate(['holiday/' + countryId]);
+  }
+
   deleteCountry(_id: any) {
     this.dialogService
       .openDialogConfirm('Do you want delete this country?')
@@ -90,6 +109,9 @@ export class CountryListComponent implements OnInit {
         if (result) {
           this.countryService.deleteCountry(_id).subscribe({
             next: (data: any) => {
+              this.dialogService.openDialogPositive(
+                'Successfully, the country has been delete.'
+              );
               this.getCountryList();
             },
             error: (err: any) => {
@@ -98,15 +120,5 @@ export class CountryListComponent implements OnInit {
           });
         }
       });
-  }
-
-  addCountryHoliday(countryId: any) {
-    const dialogRef = this.dialog.open(CountryHolidayAddComponent, {
-      data: { countryId: countryId },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.getCountryList();
-    });
   }
 }
