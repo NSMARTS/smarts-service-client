@@ -21,7 +21,10 @@ export class PayStubService {
     formData.append("employee", employee);
     formData.append("writer", writer);
     formData.append("company", company);
-    return this.http.post<HttpResMsg<any>>(this.baseUrl + '/statementes', formData)
+    return this.http.post<HttpResMsg<any>>(this.baseUrl + '/statementes', formData, {
+      reportProgress: true,
+      responseType: 'json'
+    })
   }
 
   getFiles(): Observable<any> {

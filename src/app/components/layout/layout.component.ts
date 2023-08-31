@@ -130,15 +130,9 @@ export class LayoutComponent {
       this.sidenav.open();
     })
 
-    console.log(this.companyId)
-
   }
 
   ngOnInit(): void {
-
-
-
-
     /**
      * 데스크탑 모드가 아닐 경우
      * 햄버거에서 사이드바를 열고 다른 페이지로 이동하면
@@ -153,7 +147,8 @@ export class LayoutComponent {
         return
       }),
       takeUntilDestroyed(this.destroyRef)
-    )
+    ).subscribe(() => { });
+
     // url navigation
     this.router.events
       .pipe(distinctUntilChanged(), filter(event => event instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef))

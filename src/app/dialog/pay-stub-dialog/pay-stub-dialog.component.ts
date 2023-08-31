@@ -110,7 +110,7 @@ export class PayStubDialogComponent implements OnInit {
       const formData: Statment = {
         ...this.statementForm.value,
         ...this.currentFile,
-        company: this.data.companyName,
+        company: this.data.companyId,
         writer: this.userInfoStore()._id
       }
       console.log('formData : ', formData)
@@ -124,7 +124,7 @@ export class PayStubDialogComponent implements OnInit {
             this.progress = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             this.message = event.body.message;
-            this.fileInfos = this.payStubService.getFiles();
+            // this.fileInfos = this.payStubService.getFiles();
           }
         },
         error: (err: any) => {

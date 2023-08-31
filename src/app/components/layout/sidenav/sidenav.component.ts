@@ -37,8 +37,10 @@ export class SidenavComponent implements OnInit {
   router = inject(Router);
 
   userInfo = this.authService.userInfoStore
+
   // 나중에 타입을 알면 추가
   sidenavItems: any = [];
+
   ngOnInit() {
 
     const splittedUrl = this.router.url.split('/');
@@ -56,9 +58,7 @@ export class SidenavComponent implements OnInit {
           return element;
         });
       }
-
       this.sidenavItems = sidenavItems;
-      console.log(this.sidenavItems)
     }
 
   }
