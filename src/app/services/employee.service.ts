@@ -93,14 +93,15 @@ export class EmployeeService {
     );
     // 1월 1일을 기준으로
     if (employee.company?.annualPolicy === 'byYear') {
-      //
-      if (moment(employee?.empStartDate).year() < moment().year()) {
+      // 올해가 계약한 해 보다 클 경우, 해가 넘어갔을 경우 1년차
+      if (moment().year() > moment(employee?.empStartDate).year()) {
         return {
           ...employee,
           year: moment().year() - moment(employee?.empStartDate).year(),
           empStartDate: commonServiceDateFormatting,
         };
       }
+      //  이번 해가 계약한 해 보다 작은 경우, 해가 넘어가지 않았을 경우, 0년차  
       return {
         ...employee,
         year: 0,
@@ -112,11 +113,13 @@ export class EmployeeService {
       // const today = moment(new Date('2023-08-30T00:00:00.000+00:00'));
       const today = moment(new Date());
       const empStartDate = moment(employee?.empStartDate);
+      // diff years 계약일이 만 1년차가 안되면 0, n년
       const careerYear = today.diff(empStartDate, 'years');
-      // 만 1년차가 아니면
+      // 만 1년차가 아니면 12 month 로 표현
       if (careerYear === 0) {
-        // 12 month 로 표현
+        // 만 1년차가 아니면 12 month 로 표현
         const careerMonth = today.diff(empStartDate, 'months');
+        // 0년차면 year는 0, month는 n 
         return {
           ...employee,
           year: careerYear,
@@ -124,6 +127,7 @@ export class EmployeeService {
           empStartDate: commonServiceDateFormatting,
         };
       }
+      // 계약서 기준 n년 차. month는 없다.
       return {
         ...employee,
         year: careerYear,
