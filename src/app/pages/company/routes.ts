@@ -27,7 +27,7 @@ export const COMPANY_ROUTES: Route[] = [
         path: 'edit/:id',
         component: CompanyEditComponent,
       },
-    ]
+    ],
   },
   {
     path: ':id',
@@ -48,7 +48,11 @@ export const COMPANY_ROUTES: Route[] = [
         loadChildren: () =>
           import('../employee/manager/routes').then((m) => m.MANAGER_ROUTES),
       },
-
+      {
+        path: 'meeting',
+        loadChildren: () =>
+          import('../space/meeting/routes').then((m) => m.MEETING_ROUTES),
+      },
     ],
   },
   {

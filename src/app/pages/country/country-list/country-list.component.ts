@@ -14,7 +14,8 @@ import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
-import { CountryEditComponent } from '../../holiday/country-edit/country-edit.component';
+import { CountryEditComponent } from '../country-edit/country-edit.component';
+
 
 // view table
 export interface PeriodicElement {

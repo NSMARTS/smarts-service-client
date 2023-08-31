@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CountryAddComponent } from '../country-add/country-add.component';
 
-import { CountryAddComponent } from './country-edit.component';
+
 
 describe('CountryAddComponent', () => {
   let component: CountryAddComponent;

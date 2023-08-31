@@ -23,7 +23,7 @@ import { CountryService } from 'src/app/services/country.service';
 //   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 // } from '@angular/material-moment-adapter';
 import { MatYearView } from '@angular/material/datepicker';
-import { CustomDateDirectiveModule } from '../../holiday/country-holiday-add/custom-date-directive.module';
+import { CustomDateDirectiveModule } from './custom-date-directive.module';
 
 
 // import { PeriodicElement } from '../../company-mngmt/company-list/company-list.component';
