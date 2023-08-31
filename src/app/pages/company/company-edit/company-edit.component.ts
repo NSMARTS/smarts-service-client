@@ -152,7 +152,7 @@ export class CompanyEditComponent implements OnInit {
     const companyData = {
       ...this.editCompanyForm.value,
     };
-console.log(companyData);
+
     this.companyService.editCompany(this.editCompanyId, companyData).subscribe({
       next: () => {
         console.log(companyData);
