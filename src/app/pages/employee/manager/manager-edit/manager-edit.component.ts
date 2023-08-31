@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -7,6 +7,11 @@ import { DialogService } from 'src/app/dialog/dialog.service';
 import { ManagerService } from 'src/app/services/manager.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ManagerEmployeesAddComponent } from '../../../../dialog/manager-employees-add/manager-employees-add.component';
+import { lastValueFrom } from 'rxjs';
+import { EmployeeService } from 'src/app/services/employee.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { Employee } from 'src/app/interfaces/employee.interface';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-manager-edit',
@@ -25,6 +30,7 @@ export class ManagerEditComponent {
     private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private managerService: ManagerService,
+    private employeeService: EmployeeService,
     private route: ActivatedRoute,
     public dialog: MatDialog
   ) {
@@ -56,6 +62,8 @@ export class ManagerEditComponent {
         }
       },
     });
+
+    this.getManagerEmployees();
   }
 
   //Cancel 버튼 클릭
@@ -99,5 +107,46 @@ export class ManagerEditComponent {
     dialogRef.afterClosed().subscribe((result) => {
       // this.getManagerEmployeesList();
     });
+  }
+
+  displayedColumns: string[] = [
+    'name',
+    'year',
+    'entitlement',
+    'rollover',
+    'sickLeave',
+    'replacementDay',
+    'advanceLeave',
+    'annualPolicy',
+    'empStartDate',
+  ];
+
+  dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>(
+    []
+  );
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+
+  async getManagerEmployees() {
+    // lastValueFrom은 rxjs 비동기 통신을하기위 사용
+    // 서버에 값을 받아올때까지 멈춘다.
+    const employees = await lastValueFrom(
+      this.employeeService.getManagerEmployees(this.editManagerId)
+    );
+    console.log(employees);
+    // signal을 통한 상태관리
+    await this.employeeService.setEmployees(employees.data);
+
+    this.dataSource = new MatTableDataSource(this.employeeService.employees());
+    console.log(this.dataSource);
+    this.dataSource.paginator = this.paginator;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }
