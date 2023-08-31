@@ -162,7 +162,7 @@ export class EmployeeService {
     managerId: string
   ): Observable<HttpResMsg<Employee[]>> {
     return this.http.get<HttpResMsg<Employee[]>>(
-      this.baseUrl + '/employees/' + id + '/without/' + managerId
+      this.baseUrl + '/employees/' + id + '/without'
     );
   }
 
