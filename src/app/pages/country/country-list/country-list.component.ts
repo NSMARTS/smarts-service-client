@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 // import { DialogService } from 'src/app/dialog/dialog.service';
@@ -13,6 +13,9 @@ import { CountryHolidayAddComponent } from '../country-holiday-add/country-holid
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { DialogService } from 'src/app/dialog/dialog.service';
+import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
+import { CountryEditComponent } from '../country-edit/country-edit.component';
+
 
 // view table
 export interface PeriodicElement {
@@ -35,31 +38,45 @@ export interface PeriodicElement {
   styleUrls: ['./country-list.component.scss'],
 })
 export class CountryListComponent implements OnInit {
-  // @ViewChild 데코레이터는 Angular 컴포넌트에서 템플릿이나 다른 컴포넌트의 자식 요소를 가져오기 위해 사용되는 기능
-  @ViewChild(MatPaginator) paginator!: MatPaginator; // '!'를 사용하여 초기화될 것임을 TypeScript에 알립니다. 변수가 절대로 null 또는 undefined가 될 수 없다고 단언하는 역할을 합니다. 즉, paginator 변수는 MatPaginator 인스턴스를 가리키며, null일 수 없음을 보장
-  // view table
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   displayedColumns: string[] = ['countryName', 'countryCode', 'btns'];
-  // dataSource = ELEMENT_DATA;
-  private unsubscribe$ = new Subject<void>();
-  // $ 기호는 관례적으로 옵저버블 변수를 식별하기 위해 붙이는 표기법
-  //  subscribe 의 기능은 내가 바라보고있는 주제에 대해서 어떠한 이벤트가 발생함에 따라서 그 행위를 처리하는 함수이다.
-
-  // replacement day requests
+  countryList: MatTableDataSource<PeriodicElement> =
+    new MatTableDataSource<PeriodicElement>([]);
   countryInfo: any;
-  countryList: any;
   company: any;
   manager: any;
   userInfo: any;
+  // router: any;
 
   constructor(
     public dataService: DataService,
     public dialog: MatDialog,
     private dialogService: DialogService,
-    private countryService: CountryService
-  ) { }
+    private countryService: CountryService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getCountryList();
+  }
+
+  //  ngOnDestroy 메서드는 컴포넌트가 파괴될 때 호출
+  // ngOnDestroy() {
+  //   // unsubscribe all subscription
+  //   this.unsubscribe$.next(); // 옵저버블에 완료 신호를 보냄
+  //   this.unsubscribe$.complete(); // 옵저버블을 완료시킴
+  // }
+
+  getCountryList() {
+    this.countryService.getCountryList().subscribe({
+      next: (res: any) => {
+        this.countryList = new MatTableDataSource(res.data);
+        this.countryList.paginator = this.paginator;
+      },
+      error: (err: any) => {
+        console.log(err.error.message);
+      },
+    });
   }
 
   openAddCountry() {
@@ -70,25 +87,9 @@ export class CountryListComponent implements OnInit {
     });
   }
 
-  deleteCountry(_id: any) {
-    this.dialogService
-      .openDialogConfirm('Do you want delete this country?')
-      .subscribe((result: any) => {
-        if (result) {
-          this.countryService.deleteCountry(_id).subscribe({
-            next: (data: any) => {
-              this.getCountryList();
-            },
-            error: (err: any) => {
-              this.dialogService.openDialogNegative(err.error.message);
-            },
-          });
-        }
-      });
-  }
-
-  addCountryHoliday(countryId: any) {
-    const dialogRef = this.dialog.open(CountryHolidayAddComponent, {
+  // dialog에 아이디를 보내야함 
+  editCountry(countryId: any) {
+    const dialogRef = this.dialog.open(CountryEditComponent, {
       data: { countryId: countryId },
     });
 
@@ -97,24 +98,28 @@ export class CountryListComponent implements OnInit {
     });
   }
 
-  //  ngOnDestroy 메서드는 컴포넌트가 파괴될 때 호출
-  ngOnDestroy() {
-    // unsubscribe all subscription
-    this.unsubscribe$.next(); // 옵저버블에 완료 신호를 보냄
-    this.unsubscribe$.complete(); // 옵저버블을 완료시킴
+  selectHoliday(countryId: any) {
+    console.log(countryId);
+    this.router.navigate(['/country/' + countryId]);
   }
 
-  getCountryList() {
-    this.countryService.getCountryList().subscribe({
-      next: (res: any) => {
-        this.countryList = new MatTableDataSource<PeriodicElement>(
-          res.data
-        );
-        this.countryList.paginator = this.paginator;
-      },
-      error: (err: any) => {
-        console.log(err.error.message);
-      },
-    });
+  deleteCountry(_id: any) {
+    this.dialogService
+      .openDialogConfirm('Do you want delete this country?')
+      .subscribe((result: any) => {
+        if (result) {
+          this.countryService.deleteCountry(_id).subscribe({
+            next: (data: any) => {
+              this.dialogService.openDialogPositive(
+                'Successfully, the country has been delete.'
+              );
+              this.getCountryList();
+            },
+            error: (err: any) => {
+              this.dialogService.openDialogNegative(err.error.message);
+            },
+          });
+        }
+      });
   }
 }

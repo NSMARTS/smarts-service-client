@@ -52,9 +52,9 @@ export class CompanyAddComponent {
     return (this.addCompanyForm.get('leaveStandards') as FormArray).controls;
   }
 
-  createLeaveStandard(year: number): FormGroup {
+  createLeaveStandard(): FormGroup {
     return this.formBuilder.group({
-      year,
+      year: 0,
       annualLeave: [0, [Validators.min(0)]],
       sickLeave: [0, [Validators.min(0)]],
     });
@@ -62,8 +62,7 @@ export class CompanyAddComponent {
 
   //Leave Standard에 + 버튼 클릭
   addItem() {
-    const newYear = this.leaveStandards.length + 1;
-    const newLeaveStandard = this.createLeaveStandard(newYear);
+    const newLeaveStandard = this.createLeaveStandard();
     this.leaveStandards.push(newLeaveStandard);
     this.updateYears();
   }

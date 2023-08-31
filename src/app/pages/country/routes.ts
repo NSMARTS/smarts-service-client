@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { CountryListComponent } from './country-list/country-list.component';
+import { CountryHolidayAddComponent } from './country-holiday-add/country-holiday-add.component';
 
 
 
@@ -10,6 +11,9 @@ export const COUNTRY_ROUTES: Route[] = [
     // UserListComponent를 보여줌
     path: '',
     component: CountryListComponent,
-
+  },
+  {
+    path: ':id',
+    component: CountryHolidayAddComponent,
   },
 ];

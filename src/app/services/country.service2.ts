@@ -1,31 +1,32 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
+import { Country } from 'src/app/interfaces/employee.interface';
+import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { environment } from 'src/environments/environment';
-
 
 @Injectable({
   providedIn: 'root',
 })
 export class CountryService {
-  constructor(private http: HttpClient) {}
   private baseUrl = environment.apiUrl;
+  destroyRef = inject(DestroyRef);
 
-  // 나라 목록 불러오기
-  getCountryList() {
-    return this.http.get(this.baseUrl + '/countries');
-  }
+  constructor(private http: HttpClient) {}
 
   // 나라 등록
   addCountry(countryData: any) {
-    return this.http.post(this.baseUrl + '/countries', countryData);
+    return this.http
+      .post(this.baseUrl + '/countries', countryData)
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
-  // 나라 수정
-  editCountry(countryData: any) {
-    return this.http.put(
-      this.baseUrl + '/countries' ,
-      countryData
-    );
+  // 나라 목록 불러오기
+  getCountryList(): Observable<HttpResMsg<Country[]>> {
+    return this.http
+      .get<HttpResMsg<Country[]>>(this.baseUrl + '/countries')
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   /***
@@ -55,28 +56,24 @@ export class CountryService {
 
   // 나라 정보 가져오기
   getCountryInfo(data: any) {
-    // console.log(data.countryId);
+    console.log(data.countryId);
     return this.http.get(this.baseUrl + '/countries/holiday/' + data.countryId);
   }
 
   // 나라별 공휴일 추가
   addCountryHoliday(countryHolidayData: any) {
-    // console.log(countryHolidayData);
+    console.log(countryHolidayData);
     return this.http.post(
-      this.baseUrl + '/countries/holiday/',
+      this.baseUrl + '/countries/holiday/' + countryHolidayData._id,
       countryHolidayData
     );
   }
 
   // 나라별 공휴일 삭제
   deleteCountryHoliday(data: any) {
-    // console.log(data);
+    console.log(data);
     return this.http.delete(
-      this.baseUrl +
-        '/countries/' +
-        data.countryId +
-        '/holiday/' +
-        data.holidayId
+      this.baseUrl + '/countries/holiday/' + data.countryId
     );
   }
 }
