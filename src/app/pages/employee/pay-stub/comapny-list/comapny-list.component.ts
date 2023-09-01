@@ -13,7 +13,7 @@ import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
   standalone: true,
   imports: [CommonModule, MaterialsModule, RouterModule],
   templateUrl: './comapny-list.component.html',
-  styleUrls: ['./comapny-list.component.scss']
+  styleUrls: ['./comapny-list.component.scss'],
 })
 export class PayStubComapnyListComponent {
   displayedColumns: string[] = [
@@ -36,7 +36,7 @@ export class PayStubComapnyListComponent {
   constructor(
     private router: Router,
     private companyService: CompanyService // public dialogService: DialogService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getCompanyList();
@@ -46,7 +46,7 @@ export class PayStubComapnyListComponent {
    * 컴퍼니 리스트 호출
    */
   getCompanyList() {
-    this.companyService.findAllWithEmployeesNum().subscribe({
+    this.companyService.getCompanyListWith().subscribe({
       next: (res: HttpResMsg<Company[]>) => {
         const company = res.data;
         console.log(company);
