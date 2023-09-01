@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { ManagerService } from 'src/app/services/manager.service';
 import { Manager } from 'src/app/interfaces/manager.interface';
+import { DialogService } from 'src/app/dialog/dialog.service';
 
 @Component({
   selector: 'app-manager-add',
@@ -27,7 +28,8 @@ export class ManagerAddComponent {
     private router: Router,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private managerService: ManagerService
+    private managerService: ManagerService,
+    private dialogService: DialogService
   ) {
     this.addManagerForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -60,7 +62,16 @@ export class ManagerAddComponent {
       next: (res) => {
         this.router.navigate(['company/' + this.companyId + '/manager']);
       },
-      error: (e) => console.error(e),
+      error: (err) => {
+        console.error(err);
+        if (err.status === 500) {
+          this.dialogService.openDialogNegative('Manager email is duplicated.');
+        } else {
+          this.dialogService.openDialogNegative(
+            'An error occurred while adding manager.'
+          );
+        }
+      },
     });
   }
 
