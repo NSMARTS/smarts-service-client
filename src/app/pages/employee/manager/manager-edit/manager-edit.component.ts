@@ -105,7 +105,7 @@ export class ManagerEditComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      // this.getManagerEmployeesList();
+      this.getManagerEmployees();
     });
   }
 
@@ -119,6 +119,7 @@ export class ManagerEditComponent {
     'advanceLeave',
     'annualPolicy',
     'empStartDate',
+    'delete',
   ];
 
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>(
@@ -148,5 +149,30 @@ export class ManagerEditComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  // // 회사 삭제
+  deleteManagerEmployee(managerEmployeeId: string) {
+    this.dialogService
+      .openDialogConfirm('Do you delete this manager employee?')
+      .subscribe((result: any) => {
+        if (result) {
+          this.managerService
+            .deleteManagerEmployee(managerEmployeeId)
+            .subscribe({
+              next: () => {
+                this.dialogService.openDialogPositive(
+                  'Successfully, the manager employee has been delete.'
+                );
+                this.getManagerEmployees();
+              },
+              error: (err: any) => {
+                console.error(err);
+                this.dialogService.openDialogNegative('Loadings Docs Error');
+                alert(err.error.message);
+              },
+            });
+        }
+      });
   }
 }

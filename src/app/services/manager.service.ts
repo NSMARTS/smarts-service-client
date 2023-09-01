@@ -56,4 +56,9 @@ export class ManagerService {
       .post(this.baseUrl + '/managers/employees', managerData)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
+
+  // 매니저 삭제
+  deleteManagerEmployee(id: any) {
+    return this.http.delete(this.baseUrl + '/managers/employee/' + id);
+  }
 }

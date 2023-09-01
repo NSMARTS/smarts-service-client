@@ -28,7 +28,7 @@ export class HolidayComponent implements OnInit {
   displayedColumns: string[] = [
     'companyHolidayName',
     'companyHolidayDate',
-    'btns',
+    'delete',
   ];
   companyHolidayList: any = new MatTableDataSource();
   private unsubscribe$ = new Subject<void>();
@@ -40,7 +40,7 @@ export class HolidayComponent implements OnInit {
     private dialogService: DialogService,
     private route: ActivatedRoute,
     private holidayMngmtService: CompanyHolidayService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.companyId = this.route.snapshot.params['id'];
