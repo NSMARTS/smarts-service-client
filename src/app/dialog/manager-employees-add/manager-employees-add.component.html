@@ -7,16 +7,13 @@
         <div class="filter">
             <mat-form-field>
               <mat-label>Filter</mat-label>
-              <input matInput (keyup)="applyFilter($event)" placeholder="Company" #input>
+              <input matInput (keyup)="applyFilter($event)" placeholder="addManagerEmployees" #input>
             </mat-form-field>
-    
-    
-            <button mat-button (click)="addEmployee()">Add Employee</button>
-    
+            <button mat-button (click)="addmanagerEmployees()">Add Manager Employees</button>
           </div>
 
+        <div class="table-container">
 		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
-
 
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -87,7 +84,6 @@
               </td>
             </ng-container>
     
-    
             <ng-container matColumnDef="annualPolicy">
               <th mat-header-cell *matHeaderCellDef> Annual Policy </th>
               <td mat-cell *matCellDef="let element">
@@ -107,21 +103,16 @@
                 </span>
               </td>
             </ng-container>
-    
 
-    
             <tr mat-header-row *matHeaderRowDef=" displayedColumns; sticky: true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-    [ngClass]="{ 'bold-row': row.isBold }"
-    (click)="clickEmployee(row)">
-</tr>
-
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{ 'bold-row': row.isBold }" (click)="clickManagerEmployees(row)"></tr>
             <tr class="mat-row" *matNoDataRow >
               <td class="mat-cell" colspan="9999">
                 No data
               </td>
             </tr>
           </table>
+        </div>
 
 	</div>
 </div>

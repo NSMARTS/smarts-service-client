@@ -9,7 +9,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { Employee } from 'src/app/interfaces/employee.interface';
@@ -55,34 +55,16 @@ export class ManagerEmployeesAddComponent implements OnInit {
   constructor(
     private employeeService: EmployeeService,
     private managerService: ManagerService,
-    private route: ActivatedRoute,
-    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ManagerEmployeesAddComponent>,
     private dialogService: DialogService
   ) {
     this.companyId = data.companyId;
     this.managerId = data.managerId;
-    // this.companyId = this.route.snapshot.params['id'];
     this.employees = this.employeeService.employees;
   }
   ngOnInit(): void {
-    this.getEmployees();
-  }
-
-  async getEmployees() {
-    // lastValueFrom은 rxjs 비동기 통신을하기위 사용
-    // 서버에 값을 받아올때까지 멈춘다.
-    const employees = await lastValueFrom(
-      this.employeeService.getEmployeeWithout(this.companyId, this.managerId)
-    );
-    console.log(employees);
-    // signal을 통한 상태관리
-    await this.employeeService.setEmployees(employees.data);
-
-    this.dataSource.data = this.employeeService.employees();
-    console.log(this.dataSource);
-    this.dataSource.paginator = this.paginator;
+    this.getManagerEmployeesWithout();
   }
 
   applyFilter(event: Event) {
@@ -94,45 +76,58 @@ export class ManagerEmployeesAddComponent implements OnInit {
     }
   }
 
-  addEmployee() {
-    const clickEmployees = {
+  addmanagerEmployees() {
+    const addManagerEmployees = {
       managerId: this.managerId,
       employeesId: this.boldRowIds,
     };
-    console.log(clickEmployees);
-    this.managerService.addManagerEmployees(clickEmployees).subscribe({
+
+    this.managerService.addManagerEmployees(addManagerEmployees).subscribe({
       next: () => {
         this.dialogRef.close();
         this.dialogService.openDialogPositive(
-          'Successfully, a holiday has been added.'
+          'Successfully, a manager employee has been added.'
         );
       },
       error: (err) => {
         console.error(err);
         if (err.status === 409) {
           this.dialogService.openDialogNegative(
-            'Company Holiday date is duplicated.'
+            'Manager employee date is duplicated.'
           );
         } else {
-          this.dialogService.openDialogNegative('Adding company holiday Error');
+          this.dialogService.openDialogNegative(
+            'Adding manager employee Error'
+          );
         }
       },
     });
   }
 
-  clickEmployee(row: any) {
+  async getManagerEmployeesWithout() {
+    // lastValueFrom은 rxjs 비동기 통신을하기위 사용
+    // 서버에 값을 받아올때까지 멈춘다.
+    const employees = await lastValueFrom(
+      this.managerService.getManagerEmployeesWithout(this.companyId)
+    );
+    // signal을 통한 상태관리
+    await this.employeeService.setEmployees(employees.data);
+
+    this.dataSource.data = this.employeeService.employees();
+    this.dataSource.paginator = this.paginator;
+  }
+
+  clickManagerEmployees(row: any) {
     row.isBold = !row.isBold;
 
     // 만약 .bold-row 클래스가 적용된 행이 bold 상태로 변경되었다면, ID를 배열에 추가합니다.
     if (row.isBold) {
       this.boldRowIds.push(row._id);
-      console.log(this.boldRowIds); // 배열 전체를 로깅하거나 다른 곳에 사용할 수 있습니다.
     } else {
       // .bold-row 클래스가 제거된 행이 bold 상태에서 굵지 않게 변경되었다면, ID를 배열에서 제거합니다.
       const index = this.boldRowIds.indexOf(row._id);
       if (index !== -1) {
         this.boldRowIds.splice(index, 1);
-        console.log(this.boldRowIds); // 배열 전체를 로깅하거나 다른 곳에 사용할 수 있습니다.
       }
     }
   }

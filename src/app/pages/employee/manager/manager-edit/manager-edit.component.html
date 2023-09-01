@@ -1,27 +1,21 @@
 <div class="mainContentContainer">
     <div class="headerContainer">
       <div fxLayout="row" fxLayoutAlign="space-between center">
-  
-        <div class="headerTitle" fxFlex=90>Edit Employee</div>
-  
-        <!-- <button fxFlex=6 mat-raised-button class="cancelBtn" (click)="backManagerList();">Back</button> -->
-  
+        <div class="headerTitle" fxFlex=90>Edit Manager</div>
+        <button fxFlex=6 mat-raised-button class="cancelBtn" (click)="onBack();">Back</button>
       </div>
-  
-      <mat-divider></mat-divider>
     </div>
-  
   
   
     <div class="gridBoxContainer">
       <div class="cardBox" fxLayout="row">
-        <mat-card fxLayout="column" fxFlex=50>
 
+        <mat-card fxLayout="column" fxFlex=30>
           <form [formGroup]="editManagerForm" (ngSubmit)="onSubmit()">
             <div class="leaveTableContainer">
                 <div fxLayout="column" class="br_ltop">
 
-                    <!-- company name -->
+                    <!-- manager email -->
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -29,7 +23,7 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
                                 <mat-label>Email</mat-label>
                                 <input matInput type="text" placeholder="E-Mail *" name="email" formControlName="email"
                                     autocomplete="email">
@@ -37,6 +31,7 @@
                         </div>
                     </div>
 
+                    <!-- manager name -->
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -44,7 +39,7 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
                                 <mat-label>Name</mat-label>
                                 <input matInput type="text" placeholder="Name" name="username"
                                     formControlName="username" autocomplete="username">
@@ -52,6 +47,7 @@
                         </div>
                     </div>
 
+                    <!-- manager password -->
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -59,14 +55,15 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
                                 <mat-label>Password</mat-label>
-                                <input matInput type="text" placeholder="Password" name="password"
+                                <input matInput type="password" placeholder="Password" name="password"
                                     formControlName="password" autocomplete="password">
                             </mat-form-field>
                         </div>
                     </div>
 
+                    <!-- manager phone -->
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -74,7 +71,7 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
                                 <mat-label>Phone</mat-label>
                                 <input matInput type="text" placeholder="Phone" name="phoneNumber"
                                     formControlName="phoneNumber" autocomplete="phoneNumber">
@@ -82,6 +79,7 @@
                         </div>
                     </div>
 
+                    <!-- manager Address -->
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -89,55 +87,38 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
                                 <mat-label>Address</mat-label>
                                 <input matInput type="text" placeholder="Address" name="address"
                                     formControlName="address" autocomplete="address">
                             </mat-form-field>
                         </div>
                     </div>
-
-                    
                 </div>
-
 
                 <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
                     <div class="btnSection_1">
-                        <button mat-raised-button class="tableBtn" type="submit" color="primary">Edit Employee</button>
+                        <button mat-raised-button class="tableBtn" type="submit" color="primary" [disabled]="isButtonDisabled()">Edit Manager</button>
                     </div>
                     <div>
-                        <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
+                        <button mat-raised-button class="tableBtn" (click)="onCancel()">Cancel</button>
                     </div>
                 </div>
             </div>
         </form>
-          <mat-card-actions fxLayoutAlign="center">
-            <!-- <button mat-raised-button class="editBtn" (click)="updateProfileInfo();">Edit</button> -->
-            <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
-          </mat-card-actions>
         </mat-card>
   
-        <mat-card fxLayout="column" fxFlex=50>
-
-            
-          <form>
-            
-
-          </form>
+        <mat-card fxLayout="column" fxFlex=70>
 
           <div class="filter">
             <mat-form-field>
               <mat-label>Filter</mat-label>
-              <input matInput (keyup)="applyFilter($event)" placeholder="Company" #input>
+              <input matInput (keyup)="applyFilter($event)" placeholder="managerEmployees" #input>
             </mat-form-field>
-    
-    
             <button mat-button (click)="addManagerEmployees()">Add Manager Employees</button>
-    
           </div>
 
 		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
-
 
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -208,7 +189,6 @@
               </td>
             </ng-container>
     
-    
             <ng-container matColumnDef="annualPolicy">
               <th mat-header-cell *matHeaderCellDef> Annual Policy </th>
               <td mat-cell *matCellDef="let element">
@@ -232,26 +212,20 @@
             <ng-container matColumnDef="delete">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-flat-button class="deleteManagerEmployeeBtn" (click)="deleteManagerEmployee(element?._id)">Delete</button>
+                    <button mat-flat-button class="deleteManagerEmployeesBtn" (click)="deleteManagerEmployees(element?._id)">Delete</button>
                 </td>
             </ng-container>
-
     
             <tr mat-header-row *matHeaderRowDef=" displayedColumns; sticky: true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-</tr>
-
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             <tr class="mat-row" *matNoDataRow >
               <td class="mat-cell" colspan="9999">
                 No data
               </td>
             </tr>
           </table>
-
-          <mat-card-actions fxLayoutAlign="center">
-            <!-- <button mat-raised-button class="editBtn" (click)="updateLeaveInfo();">Edit</button> -->
-            <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
-          </mat-card-actions>
+          <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 30]" aria-label="Select page">
+        </mat-paginator>
         </mat-card>
       </div>
     </div>
