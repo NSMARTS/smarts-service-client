@@ -34,17 +34,20 @@ export class MeetingComponent implements OnInit {
   displayedColumns: string[] = [
     'meetingTitle',
     'meetingDescription',
+    'meetingLink',
     'start_date',
     'start_time',
   ];
+  companyId: string; // 회사아이디 params
 
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private dataService: DataService,
-    private meetingService: MeetingService,
-    private meetingListStorageService: MeetingListStorageService
-  ) {}
+    private meetingService: MeetingService // private meetingListStorageService: MeetingListStorageService
+  ) {
+    this.companyId = this.route.snapshot.params['id'];
+  }
 
   ngOnInit(): void {
     // this.route.params.subscribe((params) => {
@@ -59,8 +62,13 @@ export class MeetingComponent implements OnInit {
     //     console.log('spaceService error', err);
     //   }
     // );
+    this.getMeetingList(this.companyId);
+    // });
+  }
 
-    this.meetingService.getMeetingList().subscribe({
+
+  getMeetingList(companyId: string) {
+    this.meetingService.getMeetingList(companyId).subscribe({
       next: (data: any) => {
         console.log(data.meetingList);
         this.meetingArray = data.meetingList;
@@ -69,7 +77,6 @@ export class MeetingComponent implements OnInit {
         console.log(err);
       },
     });
-    // });
   }
 
   // ngOnChanges() {
@@ -115,13 +122,11 @@ export class MeetingComponent implements OnInit {
 
   // 미팅 생성
   openDialogDocMeetingSet() {
-    // this.spaceTime = this.route.snapshot.params.spaceTime;
-    this.spaceTime = this.route.snapshot.params['spaceTime'];
-
-    const dialogRef = this.dialog.open(DialogMeetingSetComponent);
+    const dialogRef = this.dialog.open(DialogMeetingSetComponent, {data: { companyId: this.companyId }});
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('dialog close');
+      this.getMeetingList(this.companyId);
       // this.getMeetingList();
     });
   }
@@ -156,6 +161,7 @@ export class DialogMeetingSetComponent {
     startDate: new FormControl(this.today),
     meetingTitle: new FormControl(),
     meetingDescription: new FormControl(),
+    meetingLink: new FormControl(),
     startHour: new FormControl('12'),
     startMin: new FormControl('00'),
     startUnit: new FormControl('PM'),
@@ -193,17 +199,17 @@ export class DialogMeetingSetComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private mdsService: MemberDataStorageService
   ) {
-    // this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe({
-    //   next: (data: any) => {
-    //     console.log(data);
-    //     for (let index = 0; index < data[0]?.memberObjects.length; index++) {
-    //       this.enlistedMember.push(data[0]?.memberObjects[index]._id);
-    //     }
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   },
-    // });
+    this.mdsService.members.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        for (let index = 0; index < data[0]?.memberObjects.length; index++) {
+          this.enlistedMember.push(data[0]?.memberObjects[index]._id);
+        }
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
   }
 
   ngOnDestroy() {
@@ -232,8 +238,10 @@ export class DialogMeetingSetComponent {
           const formValue = this.setMeetingForm.value;
 
           let setMeeting = {
+            company: this.data.companyId,
             meetingTitle: formValue.meetingTitle,
             meetingDescription: formValue.meetingDescription,
+            meetingLink: formValue.meetingLink,
             startDate: formValue.startDate,
             startTime:
               formValue.startUnit +
@@ -245,7 +253,7 @@ export class DialogMeetingSetComponent {
             currentMembers: currentMember,
             status: 'pending',
           };
-          console.log(setMeeting);
+          console.log(setMeeting.company);
 
           if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {
             this.dialogService.openDialogNegative(

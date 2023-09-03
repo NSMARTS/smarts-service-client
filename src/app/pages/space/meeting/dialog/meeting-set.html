@@ -52,6 +52,12 @@
                     </mat-select>
                 </mat-form-field>   
             </div>
+            <div class="w-100p">
+                <mat-form-field class="w-100p" appearance="outline">
+                    <mat-label>Meeting Link</mat-label>
+                    <input matInput formControlName="meetingLink" value="">
+                </mat-form-field>
+            </div>
           
             <div class="createMeeting">
                 <button mat-raised-button class="clickBtn" (click)="createMeeting()" [disabled]="setMeetingForm.invalid">create</button>

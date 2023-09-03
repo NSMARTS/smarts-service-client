@@ -14,11 +14,11 @@ export class MeetingService {
 
   constructor(
     private http: HttpClient,
-    private meetingListStorageService: MeetingListStorageService,
-    // private mdsService: MemberDataStorageService,
-    // private ddsService: DocDataStorageService,
-    // private scrumService: ScrumBoardStorageService
-  ) {}
+    private meetingListStorageService: MeetingListStorageService
+  ) // private mdsService: MemberDataStorageService,
+  // private ddsService: DocDataStorageService,
+  // private scrumService: ScrumBoardStorageService
+  {}
   private baseUrl = environment.apiUrl;
 
   // getSpaceMembers(spaceTime: any) {
@@ -58,8 +58,8 @@ export class MeetingService {
   }
 
   // 미팅목록 가져오기
-  getMeetingList() {
-    return this.http.get(this.baseUrl + '/meetings').pipe(
+  getMeetingList(companyId: string) {
+    return this.http.get(this.baseUrl + '/meetings/' + companyId).pipe(
       shareReplay(1),
       tap((res: any) => {
         console.log(res.meetingList);
