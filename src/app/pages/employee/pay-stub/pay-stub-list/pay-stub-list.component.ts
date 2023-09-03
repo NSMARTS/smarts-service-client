@@ -1,4 +1,4 @@
-import { Component, ViewChild, WritableSignal } from '@angular/core';
+import { Component, ElementRef, ViewChild, WritableSignal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { lastValueFrom } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -11,6 +11,10 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatDialog } from '@angular/material/dialog';
 import { PayStubDialogComponent } from 'src/app/dialog/pay-stub-dialog/pay-stub-dialog.component';
 import { PayStubService } from 'src/app/services/pay-stub.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import * as pdfjsLib from "pdfjs-dist";
+pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
+
 
 @Component({
   selector: 'app-pay-stub-list',
@@ -20,12 +24,14 @@ import { PayStubService } from 'src/app/services/pay-stub.service';
   styleUrls: ['./pay-stub-list.component.scss']
 })
 export class PayStubListComponent {
-
+  selection = new SelectionModel<any>(false, []);
+  imgSrc: string = '';
   displayedColumns: string[] = [
+    'select',
+    'employee',
     'title',
-    'name',
-    'uploader',
     'uploadDate',
+    'location'
   ];
 
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>([]);
@@ -38,6 +44,9 @@ export class PayStubListComponent {
   isRollover = false;
   employees: WritableSignal<Employee[]>
   paystubs: WritableSignal<any[]>
+
+  @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
+
   constructor(
     private employeeService: EmployeeService,
     private commonService: CommonService,
@@ -45,16 +54,19 @@ export class PayStubListComponent {
     private router: Router,
     public dialog: MatDialog,
     private payStubService: PayStubService,
+
   ) {
     this.companyId = this.route.snapshot.params['id'];
     // 상태저장된 employee 리스트 불러오기
     this.employees = this.employeeService.employees
     // 상태저장된 payStubs 리스트 불러오기
     this.paystubs = this.payStubService.payStubs
+
   }
   ngOnInit(): void {
     this.getEmployees(this.companyId);
-    this.getPayStubs(this.companyId)
+    this.getPayStubs(this.companyId);
+
   }
 
 
@@ -62,12 +74,8 @@ export class PayStubListComponent {
     // lastValueFrom은 rxjs 비동기 통신을하기위 사용
     // 서버에 값을 받아올때까지 멈춘다.
     const employees = await lastValueFrom(this.employeeService.getEmployees(companyId))
-    console.log('employees : ', employees)
     // signal을 통한 상태관리
     await this.employeeService.setEmployees(employees.data)
-
-    this.dataSource = new MatTableDataSource(this.employeeService.employees());
-    this.dataSource.paginator = this.paginator;
   }
 
   async getPayStubs(companyId: string) {
@@ -75,16 +83,55 @@ export class PayStubListComponent {
     await this.payStubService.setPayStubs(paystubs.data)
     console.log(this.paystubs())
 
-    this.dataSource = new MatTableDataSource(this.employeeService.employees());
+    this.dataSource = new MatTableDataSource(this.payStubService.payStubs());
     this.dataSource.paginator = this.paginator;
+  }
+
+
+  onRowClick(row: any) {
+    this.selection.clear();
+    this.selection.select(row);
+    this.imgSrc = row?.location
+    this.getPdf(row?.key);
+  }
+
+  getPdf(url: string) {
+    this.payStubService.getPdf(url).subscribe({
+      next: async (res: ArrayBuffer) => {
+        const loadingTask = pdfjsLib.getDocument({ data: res });
+
+        loadingTask.promise.then(pdfDocument => {
+          // Assuming you want to render the first page
+          pdfDocument.getPage(1).then(page => {
+            const viewport = page.getViewport({ scale: 1 });
+            const context = this.pdfViewer.nativeElement.getContext('2d');
+
+            this.pdfViewer.nativeElement.width = viewport.width;
+            this.pdfViewer.nativeElement.height = viewport.height;
+
+            const renderContext = {
+              canvasContext: context!,
+              viewport: viewport
+            };
+            page.render(renderContext);
+          });
+        });
+
+      },
+      error: (error) => {
+        console.log(error)
+      }
+    })
   }
 
   openDialog() {
     this.dialog.open(PayStubDialogComponent, {
       width: '1200px',
+      height: '700px',
       data: {
         companyId: this.companyId
       },
     });
   }
+
 }

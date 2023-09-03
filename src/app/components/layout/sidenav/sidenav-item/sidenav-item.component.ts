@@ -18,7 +18,6 @@ import { NavigationService } from 'src/app/stores/layout/navigation.service';
   templateUrl: './sidenav-item.component.html',
   styleUrls: ['./sidenav-item.component.scss'],
   animations: [dropdownAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class SidenavItemComponent implements OnInit, OnChanges {

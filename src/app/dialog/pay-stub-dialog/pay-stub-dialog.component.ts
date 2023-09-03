@@ -1,5 +1,5 @@
 import { AuthService, UserInfo } from 'src/app/services/auth.service';
-import { Component, DestroyRef, Inject, OnInit, WritableSignal, inject, signal } from '@angular/core';
+import { Component, DestroyRef, ElementRef, Inject, OnInit, ViewChild, WritableSignal, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,7 +11,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PayStubService } from 'src/app/services/pay-stub.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Statment } from 'src/app/interfaces/statement.interface';
-
+import * as pdfjsLib from "pdfjs-dist";
+pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({
   selector: 'app-pay-stub-dialog',
   standalone: true,
@@ -35,6 +36,9 @@ export class PayStubDialogComponent implements OnInit {
   destroyRef = inject(DestroyRef);
 
   statementForm: FormGroup;
+
+  @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -96,6 +100,9 @@ export class PayStubDialogComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file: File = event.target.files[0];
       this.currentFile = file;
+
+      this.renderPdf(file)
+
       this.fileName = this.currentFile.name;
     } else {
       this.fileName = 'Select File';
@@ -107,7 +114,6 @@ export class PayStubDialogComponent implements OnInit {
     this.message = "";
 
     if (this.currentFile) {
-
       const formData: Statment = {
         ...this.statementForm.value,
         file: this.currentFile,
@@ -143,5 +149,33 @@ export class PayStubDialogComponent implements OnInit {
 
   }
 
+  renderPdf(file: File) {
+    const fileReader = new FileReader();
+
+    fileReader.onload = (e) => {
+      const arrayBuffer: ArrayBuffer | null = fileReader.result as ArrayBuffer;
+
+      if (arrayBuffer) {
+        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        loadingTask.promise.then(pdfDocument => {
+          // Assuming you want to render the first page
+          pdfDocument.getPage(1).then(page => {
+            const viewport = page.getViewport({ scale: 1 });
+            const context = this.pdfViewer.nativeElement.getContext('2d');
+
+            this.pdfViewer.nativeElement.width = viewport.width;
+            this.pdfViewer.nativeElement.height = viewport.height;
+
+            const renderContext = {
+              canvasContext: context!,
+              viewport: viewport
+            };
+            page.render(renderContext);
+          });
+        });
+      }
+    };
+    fileReader.readAsArrayBuffer(file);
+  }
 
 }

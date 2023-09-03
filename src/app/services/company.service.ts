@@ -23,14 +23,12 @@ export class CompanyService {
   addCompany(companyData: any) {
     return this.http
       .post(this.baseUrl + '/companies', companyData)
-      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   //회사 목록 조회
   getCompanyList(): Observable<HttpResMsg<Company[]>> {
     return this.http
       .get<HttpResMsg<Company[]>>(this.baseUrl + '/companies')
-      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   //회사 목록과 회사별 직원, 매니저 수 조회

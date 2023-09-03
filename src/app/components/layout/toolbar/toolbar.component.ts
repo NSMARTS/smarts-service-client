@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, MaterialsModule, RouterModule],
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarComponent {
   @Input() isSidenavRequired: boolean = false;

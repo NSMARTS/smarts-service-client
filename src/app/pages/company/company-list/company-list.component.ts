@@ -26,6 +26,7 @@ export class CompanyListComponent {
     'btns',
   ];
 
+  company: Company[] = []
   companyId: WritableSignal<String>;
 
   dataSource: MatTableDataSource<Company> = new MatTableDataSource<Company>([]);
@@ -47,9 +48,9 @@ export class CompanyListComponent {
   getCompanyList() {
     this.companyService.getCompanyListWith().subscribe({
       next: (res: HttpResMsg<Company[]>) => {
-        const company = res.data;
-        console.log(company);
-        this.dataSource = new MatTableDataSource(company);
+        this.company = res.data;
+        console.log(this.company);
+        this.dataSource = new MatTableDataSource(this.company);
         this.dataSource.paginator = this.paginator;
       },
       error: (err) => {
