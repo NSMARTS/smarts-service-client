@@ -5,17 +5,17 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-find-pw',
-    standalone: true,
-    imports: [
-        CommonModule,
-        MaterialsModule,
-        RouterModule,
-        ReactiveFormsModule
-    ],
-    templateUrl: './find-pw.component.html',
-    styleUrls: ['./find-pw.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-find-pw',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MaterialsModule,
+    RouterModule,
+    ReactiveFormsModule
+  ],
+  templateUrl: './find-pw.component.html',
+  styleUrls: ['./find-pw.component.scss'],
+
 
 })
 export class FindPwComponent {

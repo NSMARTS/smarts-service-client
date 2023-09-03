@@ -19,7 +19,6 @@ import { AuthService } from 'src/app/services/auth.service';
   ],
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class SidenavComponent implements OnInit {

@@ -15,9 +15,7 @@ import { AuthService } from 'src/app/services/auth.service';
     ReactiveFormsModule
   ],
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-
+  styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent {
   private authService = inject(AuthService);

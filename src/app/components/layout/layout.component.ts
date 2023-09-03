@@ -25,7 +25,6 @@ import { NavigationService } from 'src/app/stores/layout/navigation.service';
   ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class LayoutComponent {

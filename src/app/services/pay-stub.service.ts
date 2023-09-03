@@ -1,4 +1,5 @@
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { CommonService } from './common.service';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -11,7 +12,8 @@ import { Statment } from '../interfaces/statement.interface';
 export class PayStubService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
-  payStubs = signal<any[]>([])
+  payStubs = signal<any[]>([]);
+  pdf = signal<any>({});
 
   constructor(
     private http: HttpClient,
@@ -40,4 +42,16 @@ export class PayStubService {
   setPayStubs(data: any[]) {
     return this.payStubs.set(data)
   }
+
+  getPdf(url: string): Observable<ArrayBuffer> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/pdf',
+      'Accept': 'application/pdf'
+    });
+    return this.http.get(this.baseUrl + '/statements/findPdf/' + url, {
+      headers: headers,
+      responseType: 'arraybuffer'
+    });
+  }
+
 }

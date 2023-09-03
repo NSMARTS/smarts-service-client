@@ -23,28 +23,24 @@ export class CompanyService {
   addCompany(companyData: any) {
     return this.http
       .post(this.baseUrl + '/companies', companyData)
-      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   //회사 목록 조회
   getCompanyList(): Observable<HttpResMsg<Company[]>> {
     return this.http
       .get<HttpResMsg<Company[]>>(this.baseUrl + '/companies')
-      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   // 회사 상세 조회 HttpParams 방법
   getCompanyInfo(id: any): Observable<HttpResMsg<Company>> {
     return this.http
       .get<HttpResMsg<Company>>(this.baseUrl + '/companies/' + id)
-      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   // 회사 수정
   editCompany(id: string, companyData: any) {
     return this.http
       .patch(this.baseUrl + '/companies/' + id, companyData)
-      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   // 회사 삭제
