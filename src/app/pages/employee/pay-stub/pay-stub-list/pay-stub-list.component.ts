@@ -10,6 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatDialog } from '@angular/material/dialog';
 import { PayStubDialogComponent } from 'src/app/dialog/pay-stub-dialog/pay-stub-dialog.component';
+import { PayStubService } from 'src/app/services/pay-stub.service';
 
 @Component({
   selector: 'app-pay-stub-list',
@@ -23,7 +24,8 @@ export class PayStubListComponent {
   displayedColumns: string[] = [
     'title',
     'name',
-    'date',
+    'uploader',
+    'uploadDate',
   ];
 
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>([]);
@@ -35,27 +37,31 @@ export class PayStubListComponent {
   company_max_day: any;
   isRollover = false;
   employees: WritableSignal<Employee[]>
-
+  paystubs: WritableSignal<any[]>
   constructor(
     private employeeService: EmployeeService,
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
+    private payStubService: PayStubService,
   ) {
     this.companyId = this.route.snapshot.params['id'];
+    // 상태저장된 employee 리스트 불러오기
     this.employees = this.employeeService.employees
+    // 상태저장된 payStubs 리스트 불러오기
+    this.paystubs = this.payStubService.payStubs
   }
   ngOnInit(): void {
     this.getEmployees(this.companyId);
-    this.getPayStub(this.companyId)
+    this.getPayStubs(this.companyId)
   }
 
 
-  async getEmployees(companyName: string) {
+  async getEmployees(companyId: string) {
     // lastValueFrom은 rxjs 비동기 통신을하기위 사용
     // 서버에 값을 받아올때까지 멈춘다.
-    const employees = await lastValueFrom(this.employeeService.getEmployees(companyName))
+    const employees = await lastValueFrom(this.employeeService.getEmployees(companyId))
     console.log('employees : ', employees)
     // signal을 통한 상태관리
     await this.employeeService.setEmployees(employees.data)
@@ -63,8 +69,11 @@ export class PayStubListComponent {
     this.dataSource = new MatTableDataSource(this.employeeService.employees());
     this.dataSource.paginator = this.paginator;
   }
-  async getPayStub(companyName: string) {
 
+  async getPayStubs(companyId: string) {
+    const paystubs = await lastValueFrom(this.payStubService.getPayStubs(companyId))
+    await this.payStubService.setPayStubs(paystubs.data)
+    console.log(this.paystubs())
 
     this.dataSource = new MatTableDataSource(this.employeeService.employees());
     this.dataSource.paginator = this.paginator;

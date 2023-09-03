@@ -20,7 +20,7 @@ import { CompanyService } from 'src/app/services/company.service';
   imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
 })
 export class CompanyEditComponent implements OnInit {
-  editCompanyId!: string; //params id
+  companyId!: string; //params id
   leaveStandards!: FormArray;
   editCompanyForm: FormGroup;
 
@@ -50,8 +50,8 @@ export class CompanyEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.editCompanyId = this.route.snapshot.params['id'];
-    this.companyService.getCompanyInfo(this.editCompanyId).subscribe({
+    this.companyId = this.route.snapshot.params['id'];
+    this.companyService.getCompanyInfo(this.companyId).subscribe({
       next: (res) => {
         const companyData = res.data;
         this.editCompanyForm.patchValue(companyData);
@@ -153,7 +153,7 @@ export class CompanyEditComponent implements OnInit {
       ...this.editCompanyForm.value,
     };
 
-    this.companyService.editCompany(this.editCompanyId, companyData).subscribe({
+    this.companyService.editCompany(this.companyId, companyData).subscribe({
       next: () => {
         console.log(companyData);
         this.router.navigate(['company']);

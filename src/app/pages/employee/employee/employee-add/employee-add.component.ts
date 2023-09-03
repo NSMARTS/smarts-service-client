@@ -49,7 +49,6 @@ export class EmployeeAddComponent {
 
     this.countryService.getCountryList().subscribe({
       next: (res: any) => {
-        console.log(res.data);
         this.nationList = res.data;
       },
       error: (err: any) => console.error(err),
@@ -69,7 +68,6 @@ export class EmployeeAddComponent {
         : null,
     };
 
-    console.log(postData)
     this.employeeService.addEmployee(postData).subscribe({
       next: (res) => {
         this.router.navigate([`/company/${this.companyId}/employee`]);

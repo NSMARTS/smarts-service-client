@@ -28,7 +28,7 @@ export class HolidayComponent implements OnInit {
   displayedColumns: string[] = [
     'companyHolidayName',
     'companyHolidayDate',
-    'btns',
+    'delete',
   ];
   companyHolidayList: any = new MatTableDataSource();
   private unsubscribe$ = new Subject<void>();
@@ -40,7 +40,7 @@ export class HolidayComponent implements OnInit {
     private dialogService: DialogService,
     private route: ActivatedRoute,
     private holidayMngmtService: CompanyHolidayService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.companyId = this.route.snapshot.params['id'];
@@ -69,9 +69,9 @@ export class HolidayComponent implements OnInit {
   getCompanyHolidayList() {
     this.holidayMngmtService.getCompanyHolidayList(this.companyId).subscribe({
       next: (data: any) => {
-        this.companyName = data.findCompanyHoliday.companyName;
+        this.companyName = data.companyHolidaies.companyName;
         this.companyHolidayList = new MatTableDataSource<PeriodicElement>(
-          data.findCompanyHoliday.companyHoliday
+          data.companyHolidaies.companyHoliday
         );
         this.companyHolidayList.paginator = this.paginator;
       },
@@ -81,13 +81,13 @@ export class HolidayComponent implements OnInit {
     });
   }
 
-  deleteCompanyHoliday(companyHolidayId: any) {
+  deleteCompanyHoliday(HolidayId: any) {
     this.dialogService
       .openDialogConfirm('Do you want cancel this request?')
       .subscribe((result: any) => {
         if (result) {
           this.holidayMngmtService
-            .deleteCompanyHoliday(this.companyId, companyHolidayId)
+            .deleteCompanyHoliday(this.companyId, HolidayId)
             .subscribe({
               next: () => {
                 this.getCompanyHolidayList();

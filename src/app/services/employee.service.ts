@@ -11,16 +11,13 @@ import { HttpResMsg } from '../interfaces/http-response.interfac';
 import * as moment from 'moment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmployeeService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
-  employees = signal<Employee[]>([])
-  constructor(
-    private http: HttpClient,
-    private commonService: CommonService,
-  ) { }
+  employees = signal<Employee[]>([]);
+  constructor(private http: HttpClient, private commonService: CommonService) {}
 
   //회사 등록
   addEmployee(companyData: any) {
@@ -101,7 +98,7 @@ export class EmployeeService {
           empStartDate: commonServiceDateFormatting,
         };
       }
-      //  이번 해가 계약한 해 보다 작은 경우, 해가 넘어가지 않았을 경우, 0년차  
+      //  이번 해가 계약한 해 보다 작은 경우, 해가 넘어가지 않았을 경우, 0년차
       return {
         ...employee,
         year: 0,
@@ -119,7 +116,7 @@ export class EmployeeService {
       if (careerYear === 0) {
         // 만 1년차가 아니면 12 month 로 표현
         const careerMonth = today.diff(empStartDate, 'months');
-        // 0년차면 year는 0, month는 n 
+        // 0년차면 year는 0, month는 n
         return {
           ...employee,
           year: careerYear,

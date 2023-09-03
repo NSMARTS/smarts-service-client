@@ -11,22 +11,22 @@ export class CompanyHolidayService {
   constructor(private http: HttpClient) {}
 
   //회사 공휴일 등록
-  addCompanyHoliday(id: any, companyHolidayData: any) {
+  addCompanyHoliday(companyId: any, companyHolidayData: any) {
     return this.http.post(
-      this.baseUrl + '/companies/' + id + '/holiday',
+      this.baseUrl + '/companies/' + companyId + '/holiday',
       companyHolidayData
     );
   }
 
   //회사 공휴일 목록 조회
-  getCompanyHolidayList(id: any) {
-    return this.http.get(this.baseUrl + '/companies/' + id + '/holiday');
+  getCompanyHolidayList(companyId: any) {
+    return this.http.get(this.baseUrl + '/companies/' + companyId + '/holiday');
   }
 
   //회사 공휴일 삭제
-  deleteCompanyHoliday(id: any, holidayid: any) {
+  deleteCompanyHoliday(companyId: any, holidayId: any) {
     return this.http.delete(
-      this.baseUrl + '/companies/' + id + '/holiday/' + holidayid
+      this.baseUrl + '/companies/' + companyId + '/holiday/' + holidayId
     );
   }
 }

@@ -1,0 +1,118 @@
+<div class="mainContentContainer">
+	<div class="mainContent">
+		<div fxLayout="row">
+			<div class="mainTitle">Add Manager Employees</div>
+		</div>
+
+        <div class="filter">
+            <mat-form-field>
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="addManagerEmployees" #input>
+            </mat-form-field>
+            <button mat-button (click)="addmanagerEmployees()">Add Manager Employees</button>
+          </div>
+
+        <div class="table-container">
+		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="year">
+              <th mat-header-cell *matHeaderCellDef> Year </th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element.year >= 0 && (element.month === null || element.month === undefined)">
+                  {{ element.year + 1}} year(s)
+                </ng-container>
+                <ng-container *ngIf="element.month >= 0">
+                  {{ element.month }} month(s)
+                </ng-container>
+              </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="entitlement">
+              <th mat-header-cell *matHeaderCellDef> Taken/Entitlement </th>
+              <td mat-cell *matCellDef="let element"> {{element.usedLeave?.takenEntitlement}} /
+                {{element.personalLeave.leaveStandards[element.year].annualLeave}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="sickLeave">
+              <th mat-header-cell *matHeaderCellDef> Taken/Sick Leave </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.usedLeave?.takenSickLeave }} / {{
+                element.personalLeave.leaveStandards[element.year].sickLeave }}
+              </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="rollover">
+              <th mat-header-cell *matHeaderCellDef> Taken/Rollover </th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element.personalLeave.isRollover; else noRollover">
+                  {{ element.usedLeave?.takenRollover }} / {{
+                  element.personalLeave.leaveStandards[element.year].annualLeave }}
+                </ng-container>
+                <ng-template #noRollover>
+                  X
+                </ng-template>
+              </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="replacementDay">
+              <th mat-header-cell *matHeaderCellDef> Taken/RD </th>
+              <td mat-cell *matCellDef="let element">
+                <span *ngIf="element.personalLeave.isReplacementDay">
+                  {{ element.usedLeave?.takenReplacementDay }} / {{
+                  element.personalLeave.leaveStandards[element.year].annualLeave }}
+                </span>
+                <span *ngIf="!element.personalLeave.isReplacementDay">
+                  X
+                </span>
+              </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="advanceLeave">
+              <th mat-header-cell *matHeaderCellDef> Used Advance Leave </th>
+              <td mat-cell *matCellDef="let element">
+                <span *ngIf="element.personalLeave.isAdvanceLeave">
+                  {{element.usedLeave.takenAdvanceLeave}}
+                </span>
+                <span *ngIf="!element.personalLeave.isAdvanceLeave">
+                  X
+                </span>
+              </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="annualPolicy">
+              <th mat-header-cell *matHeaderCellDef> Annual Policy </th>
+              <td mat-cell *matCellDef="let element">
+                <span *ngIf="element.personalLeave.annualPolicy === 'byContract'">
+                  byContract
+                </span>
+                <span *ngIf="element.personalLeave.annualPolicy==='byYear'">
+                  byYear
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="empStartDate">
+              <th mat-header-cell *matHeaderCellDef> Contract Start </th>
+              <td mat-cell *matCellDef="let element">
+                <span>
+                  {{element.empStartDate}}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef=" displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{ 'bold-row': row.isBold }" (click)="clickManagerEmployees(row)"></tr>
+            <tr class="mat-row" *matNoDataRow >
+              <td class="mat-cell" colspan="9999">
+                No data
+              </td>
+            </tr>
+          </table>
+        </div>
+
+	</div>
+</div>

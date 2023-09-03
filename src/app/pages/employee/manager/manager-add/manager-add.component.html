@@ -1,14 +1,14 @@
 <div class="mainContentContainer">
     <div class="mainContent">
         <div fxLayout="row">
-            <div class="mainTitle">Add Employee</div>
+            <div class="mainTitle">Add Manager</div>
         </div>
 
         <form [formGroup]="addManagerForm" (ngSubmit)="onSubmit()">
             <div class="leaveTableContainer">
                 <div fxLayout="column" class="br_ltop">
 
-                    <!-- company name -->
+                    <!-- manager email -->
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -16,7 +16,7 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="addManagerFormFieldBox">
                                 <mat-label>Email</mat-label>
                                 <input matInput type="text" placeholder="E-Mail *" name="email" formControlName="email"
                                     autocomplete="email">
@@ -24,6 +24,7 @@
                         </div>
                     </div>
 
+                    <!-- manager name -->                    
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -31,7 +32,7 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="addManagerFormFieldBox">
                                 <mat-label>Name</mat-label>
                                 <input matInput type="text" placeholder="Name" name="username"
                                     formControlName="username" autocomplete="username">
@@ -39,6 +40,7 @@
                         </div>
                     </div>
 
+                    <!-- manager password -->                    
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -46,14 +48,15 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="addManagerFormFieldBox">
                                 <mat-label>Password</mat-label>
-                                <input matInput type="text" placeholder="Password" name="password"
+                                <input matInput type="password" placeholder="Password" name="password"
                                     formControlName="password" autocomplete="password">
                             </mat-form-field>
                         </div>
                     </div>
 
+                    <!-- manager phone -->                    
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -61,7 +64,7 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="addManagerFormFieldBox">
                                 <mat-label>Phone</mat-label>
                                 <input matInput type="text" placeholder="Phone" name="phoneNumber"
                                     formControlName="phoneNumber" autocomplete="phoneNumber">
@@ -69,6 +72,7 @@
                         </div>
                     </div>
 
+                    <!-- manager address -->                    
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                             <div class="leftBox">
@@ -76,21 +80,18 @@
                             </div>
                         </div>
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="companyFormFieldBox">
+                            <mat-form-field appearance="outline" class="addManagerFormFieldBox">
                                 <mat-label>Address</mat-label>
                                 <input matInput type="text" placeholder="Address" name="address"
                                     formControlName="address" autocomplete="address">
                             </mat-form-field>
                         </div>
                     </div>
-
-                    
                 </div>
-
 
                 <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
                     <div class="btnSection_1">
-                        <button mat-raised-button class="tableBtn" type="submit" color="primary">Add Employee</button>
+                        <button mat-raised-button class="tableBtn" type="submit" color="primary" [disabled]="isButtonDisabled()">Add Manager</button>
                     </div>
                     <div>
                         <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>

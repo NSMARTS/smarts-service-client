@@ -130,15 +130,9 @@ export class LayoutComponent {
       this.sidenav.open();
     })
 
-    console.log(this.companyId)
-
   }
 
   ngOnInit(): void {
-
-
-
-
     /**
      * 데스크탑 모드가 아닐 경우
      * 햄버거에서 사이드바를 열고 다른 페이지로 이동하면
@@ -153,28 +147,30 @@ export class LayoutComponent {
         return
       }),
       takeUntilDestroyed(this.destroyRef)
-    )
+    ).subscribe(() => { });
+
     // url navigation
     this.router.events
       .pipe(distinctUntilChanged(), filter(event => event instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef))
       .subscribe((event: any) => {
         // 최종 url
         const currentUrl = event.urlAfterRedirects;
-        console.log("current url>> ", currentUrl);
-        this.isSidenavRequired = false;
+        const splittedUrl = currentUrl.split('/');
 
-        // 현재 /company/가 포함된 URL 걸러줌
-        if (currentUrl.includes('/company/')) {
+        // check /company/24 hex length object_id
+        this.isSidenavRequired = false;
+        if (splittedUrl[1] === 'company' && splittedUrl[2].length == 24) {
+          console.log("current url>> ", currentUrl);
           this.isSidenavRequired = true;
         }
       });
 
     // For browser refresh
     console.log("init url>> ", this.router.url);
-    if (this.router.url.includes('/company/')) {
+    const splittedUrl = this.router.url.split('/');
+    if (splittedUrl[1] === 'company' && splittedUrl[2].length == 24) {
       this.isSidenavRequired = true;
     }
-
     /*-----------------------------------------
         Desktop이 아닌 경우에 대한 side menu 처리.
       ------------------------------------------*/

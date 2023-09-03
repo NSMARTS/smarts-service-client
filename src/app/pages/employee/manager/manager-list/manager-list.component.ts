@@ -1,14 +1,13 @@
-import { Component, DestroyRef, ViewChild, WritableSignal, inject } from '@angular/core';
+import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { ManagerService } from 'src/app/services/manager.service';
 import { Manager } from 'src/app/interfaces/manager.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-manager-list',
@@ -31,10 +30,10 @@ export class ManagerListComponent {
     private managerService: ManagerService,
     public dialogService: DialogService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.companyId = this.route.snapshot.params['id']
+    this.companyId = this.route.snapshot.params['id'];
     this.getManagerList();
   }
 
@@ -63,17 +62,19 @@ export class ManagerListComponent {
   }
 
   //회사 수정
-  editManager(id: any) {
-    this.router.navigate(['company/' + this.companyId + '/manager/edit/' + id]);
+  editManager(managerId: any) {
+    this.router.navigate([
+      'company/' + this.companyId + '/manager/edit/' + managerId,
+    ]);
   }
 
   // // 회사 삭제
-  deleteManager(id: any) {
+  deleteManager(managerId: any) {
     this.dialogService
       .openDialogConfirm('Do you delete this manager?')
       .subscribe((result: any) => {
         if (result) {
-          this.managerService.deleteManager(id).subscribe({
+          this.managerService.deleteManager(managerId).subscribe({
             next: () => {
               this.dialogService.openDialogPositive(
                 'Successfully, the manager has been delete.'
