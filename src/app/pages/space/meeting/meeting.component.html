@@ -44,10 +44,10 @@
                         </mat-card-header>
 
                         <!-- <mat-card-actions align="center"> -->
-                        <mat-card-actions>
-                            <button mat-stroked-button [disabled]="!data.isButton" (click)="enterMeeting(data)"> Enter
-                            </button>
-                            <button *ngIf="data.isHost" mat-stroked-button (click)="deleteMeeting(data)"> Cancel </button>
+                        <mat-card-actions fxLayoutGap="5px" fxLayoutAlign="center">
+                            <button mat-stroked-button [disabled]="!data.meetingLink" (click)="enterMeeting(data)"> Enter </button>
+                            <button mat-stroked-button (click)="editMeeting(data)"> Edit </button>
+                            <button mat-stroked-button (click)="deleteMeeting(data)"> Delete </button>
                         </mat-card-actions>
                     </mat-card>
                 </ng-container>

@@ -14,11 +14,8 @@ export class MeetingService {
 
   constructor(
     private http: HttpClient,
-    private meetingListStorageService: MeetingListStorageService
-  ) // private mdsService: MemberDataStorageService,
-  // private ddsService: DocDataStorageService,
-  // private scrumService: ScrumBoardStorageService
-  {}
+    private meetingListStorageService: MeetingListStorageService // private mdsService: MemberDataStorageService, // private ddsService: DocDataStorageService, // private scrumService: ScrumBoardStorageService
+  ) {}
   private baseUrl = environment.apiUrl;
 
   // getSpaceMembers(spaceTime: any) {
@@ -57,7 +54,7 @@ export class MeetingService {
     );
   }
 
-  // 미팅목록 가져오기
+  // 미팅목록 조회
   getMeetingList(companyId: string) {
     return this.http.get(this.baseUrl + '/meetings/' + companyId).pipe(
       shareReplay(1),
@@ -79,20 +76,52 @@ export class MeetingService {
     );
   }
 
-  // meeting data clicked = true or false
-  statusInMeeting(data: any) {
-    return data.map((data: any) => {
-      if (data.status == 'pending') {
-        data.clicked = false;
-        data.isButton = false;
-      } else if (data.status == 'Open') {
-        data.clicked = true;
-        data.isButton = true;
-      } else if (data.status == 'Close') {
-        data.clicked = false;
-        data.isButton = true;
-      }
-      return data;
-    });
+  // 미팅 삭제
+  deleteMeeting(data: any) {
+    console.log(data);
+    return this.http
+      .delete(
+        this.baseUrl + '/meetings/' + data.companyId + '/' + data.meetingId
+      )
+      .pipe(
+        shareReplay(1),
+        tap((res: any) => {
+          console.log(res);
+          // this.pendingCompReqStorageService.updatePendingRequest(res.pendingCompanyData);
+
+          // commonservice
+          for (let index = 0; index < res.meetingList?.length; index++) {
+            (res.meetingList[index].start_date =
+              this.commonService.dateFormatting(
+                res.meetingList[index].start_date
+              )),
+              'dateOnly';
+          }
+          this.meetingListStorageService.updateMeetingList(res.meetingList);
+          return res.message;
+        })
+      );
   }
+
+  // 미팅 수정
+  editMeeting(setMeeting: any) {
+    return this.http.put(this.baseUrl + '/meetings', setMeeting);
+  }
+
+  // // meeting data clicked = true or false
+  // statusInMeeting(data: any) {
+  //   return data.map((data: any) => {
+  //     if (data.status == 'pending') {
+  //       data.clicked = false;
+  //       data.isButton = false;
+  //     } else if (data.status == 'Open') {
+  //       data.clicked = true;
+  //       data.isButton = true;
+  //     } else if (data.status == 'Close') {
+  //       data.clicked = false;
+  //       data.isButton = true;
+  //     }
+  //     return data;
+  //   });
+  // }
 }
