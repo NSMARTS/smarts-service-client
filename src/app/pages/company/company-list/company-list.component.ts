@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, WritableSignal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
@@ -20,11 +20,17 @@ export class CompanyListComponent {
   displayedColumns: string[] = [
     'code',
     'name',
-    'rollover',
-    'rolloverMaxMonth',
-    'rolloverMaxDay',
+    'contractDate',
+    'employees',
+    'managers',
+    'superManagers',
+    'payDay',
+    'detail',
     'btns',
   ];
+
+  company: Company[] = [];
+  companyId: WritableSignal<String>;
 
   dataSource: MatTableDataSource<Company> = new MatTableDataSource<Company>([]);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -33,7 +39,9 @@ export class CompanyListComponent {
     private router: Router,
     private companyService: CompanyService,
     public dialogService: DialogService
-  ) {}
+  ) {
+    this.companyId = this.companyService.companyId;
+  }
 
   ngOnInit(): void {
     this.getCompanyList();
@@ -41,10 +49,11 @@ export class CompanyListComponent {
 
   // 회사 목록 조회
   getCompanyList() {
-    this.companyService.getCompanyList().subscribe({
+    this.companyService.getCompanyListWith().subscribe({
       next: (res: HttpResMsg<Company[]>) => {
-        const company = res.data;
-        this.dataSource = new MatTableDataSource(company);
+        this.company = res.data;
+        console.log(this.company);
+        this.dataSource = new MatTableDataSource(this.company);
         this.dataSource.paginator = this.paginator;
       },
       error: (err) => {
@@ -60,21 +69,27 @@ export class CompanyListComponent {
 
   // 회사 등록
   addCompany() {
-    this.router.navigate(['company/company-add']);
+    this.router.navigate(['company/add']);
+  }
+
+  // 회사 입장
+  detailCompany(companyId: any) {
+    this.companyId.set(companyId);
+    this.router.navigate(['company/' + companyId]);
   }
 
   // 회사 수정
-  editCompany(id: any) {
-    this.router.navigate(['company/company-edit/' + id]);
+  editCompany(companyId: any) {
+    this.router.navigate(['company/edit/' + companyId]);
   }
 
   // 회사 삭제
-  deleteCompany(id: any) {
+  deleteCompany(companyId: any) {
     this.dialogService
       .openDialogConfirm('Do you delete this company?')
       .subscribe((result: any) => {
         if (result) {
-          this.companyService.deleteCompany(id).subscribe({
+          this.companyService.deleteCompany(companyId).subscribe({
             next: () => {
               this.dialogService.openDialogPositive(
                 'Successfully, the company has been delete.'

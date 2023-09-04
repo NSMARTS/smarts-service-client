@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
 import { DialogService } from 'src/app/dialog/dialog.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-company-add',
@@ -40,6 +41,9 @@ export class CompanyAddComponent {
       rdValidityTerm: [0, [Validators.min(0)]],
       isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
+      contractDate: [''],
+      payDay: [''],
+      paymentRequired: [false],
     });
 
     this.leaveStandards = this.addCompanyForm.get(
@@ -48,13 +52,21 @@ export class CompanyAddComponent {
     this.addItem();
   }
 
+  contractDatePickChange(dateValue: any) {
+    this.addCompanyForm.get('contractDate')?.setValue(dateValue);
+  }
+
+  payDayPickChange(dateValue: any) {
+    this.addCompanyForm.get('payDay')?.setValue(dateValue);
+  }
+
   getLeaveStandardsControls() {
     return (this.addCompanyForm.get('leaveStandards') as FormArray).controls;
   }
 
-  createLeaveStandard(year: number): FormGroup {
+  createLeaveStandard(): FormGroup {
     return this.formBuilder.group({
-      year,
+      year: 0,
       annualLeave: [0, [Validators.min(0)]],
       sickLeave: [0, [Validators.min(0)]],
     });
@@ -62,8 +74,7 @@ export class CompanyAddComponent {
 
   //Leave Standard에 + 버튼 클릭
   addItem() {
-    const newYear = this.leaveStandards.length + 1;
-    const newLeaveStandard = this.createLeaveStandard(newYear);
+    const newLeaveStandard = this.createLeaveStandard();
     this.leaveStandards.push(newLeaveStandard);
     this.updateYears();
   }
@@ -109,7 +120,7 @@ export class CompanyAddComponent {
         ? this.addCompanyForm.get('rdValidityTerm')?.value
         : 0,
     };
-
+    console.log(companyData);
     this.companyService.addCompany(companyData).subscribe({
       next: (res) => {
         this.router.navigate(['company']);

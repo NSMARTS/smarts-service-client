@@ -20,7 +20,7 @@ import { CompanyService } from 'src/app/services/company.service';
   imports: [CommonModule, MaterialsModule, RouterModule, ReactiveFormsModule],
 })
 export class CompanyEditComponent implements OnInit {
-  editCompanyId!: string; //params id
+  companyId!: string; //params id
   leaveStandards!: FormArray;
   editCompanyForm: FormGroup;
 
@@ -42,6 +42,9 @@ export class CompanyEditComponent implements OnInit {
       rdValidityTerm: [0, [Validators.min(0)]],
       isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
+      contractDate: [''],
+      payDay: [''],
+      paymentRequired: [false],
     });
     this.leaveStandards = this.editCompanyForm.get(
       'leaveStandards'
@@ -50,8 +53,8 @@ export class CompanyEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.editCompanyId = this.route.snapshot.params['id'];
-    this.companyService.getCompanyInfo(this.editCompanyId).subscribe({
+    this.companyId = this.route.snapshot.params['id'];
+    this.companyService.getCompanyInfo(this.companyId).subscribe({
       next: (res) => {
         const companyData = res.data;
         this.editCompanyForm.patchValue(companyData);
@@ -76,6 +79,14 @@ export class CompanyEditComponent implements OnInit {
         }
       },
     });
+  }
+
+  contractDatePickChange(dateValue: any) {
+    this.editCompanyForm.get('contractDate')?.setValue(dateValue);
+  }
+
+  payDayPickChange(dateValue: any) {
+    this.editCompanyForm.get('payDay')?.setValue(dateValue);
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -105,9 +116,9 @@ export class CompanyEditComponent implements OnInit {
    * + 버튼 누를 시 item을 추가
    * @returns
    */
-  createLeaveStandard(i: number): FormGroup {
+  createLeaveStandard(): FormGroup {
     return this.formBuilder.group({
-      year: i + 1,
+      year: 0,
       annualLeave: [0, [Validators.min(0)]],
       sickLeave: [0, [Validators.min(0)]],
     });
@@ -120,8 +131,7 @@ export class CompanyEditComponent implements OnInit {
    * leaveStandards : FormArray에 담는다.
    */
   addItem() {
-    const newYear = this.leaveStandards.length + 1;
-    const newLeaveStandard = this.createLeaveStandard(newYear);
+    const newLeaveStandard = this.createLeaveStandard();
     this.leaveStandards.push(newLeaveStandard);
     this.updateYears();
   }
@@ -154,8 +164,9 @@ export class CompanyEditComponent implements OnInit {
       ...this.editCompanyForm.value,
     };
 
-    this.companyService.editCompany(this.editCompanyId, companyData).subscribe({
+    this.companyService.editCompany(this.companyId, companyData).subscribe({
       next: () => {
+        console.log(companyData);
         this.router.navigate(['company']);
       },
       error: (err) => {
