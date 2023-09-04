@@ -42,6 +42,9 @@ export class CompanyEditComponent implements OnInit {
       rdValidityTerm: [0, [Validators.min(0)]],
       isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
+      contractDate: [''],
+      payDay: [''],
+      paymentRequired: [false],
     });
     this.leaveStandards = this.editCompanyForm.get(
       'leaveStandards'
@@ -76,6 +79,14 @@ export class CompanyEditComponent implements OnInit {
         }
       },
     });
+  }
+
+  contractDatePickChange(dateValue: any) {
+    this.editCompanyForm.get('contractDate')?.setValue(dateValue);
+  }
+
+  payDayPickChange(dateValue: any) {
+    this.editCompanyForm.get('payDay')?.setValue(dateValue);
   }
 
   /////////////////////////////////////////////////////////////////////////////

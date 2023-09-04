@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
 import { DialogService } from 'src/app/dialog/dialog.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-company-add',
@@ -40,12 +41,23 @@ export class CompanyAddComponent {
       rdValidityTerm: [0, [Validators.min(0)]],
       isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
+      contractDate: [''],
+      payDay: [''],
+      paymentRequired: [false],
     });
 
     this.leaveStandards = this.addCompanyForm.get(
       'leaveStandards'
     ) as FormArray;
     this.addItem();
+  }
+
+  contractDatePickChange(dateValue: any) {
+    this.addCompanyForm.get('contractDate')?.setValue(dateValue);
+  }
+
+  payDayPickChange(dateValue: any) {
+    this.addCompanyForm.get('payDay')?.setValue(dateValue);
   }
 
   getLeaveStandardsControls() {
@@ -108,7 +120,7 @@ export class CompanyAddComponent {
         ? this.addCompanyForm.get('rdValidityTerm')?.value
         : 0,
     };
-
+    console.log(companyData);
     this.companyService.addCompany(companyData).subscribe({
       next: (res) => {
         this.router.navigate(['company']);

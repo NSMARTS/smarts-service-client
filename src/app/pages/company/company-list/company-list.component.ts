@@ -20,9 +20,11 @@ export class CompanyListComponent {
   displayedColumns: string[] = [
     'code',
     'name',
+    'contractDate',
     'employees',
     'managers',
     'superManagers',
+    'payDay',
     'detail',
     'btns',
   ];
