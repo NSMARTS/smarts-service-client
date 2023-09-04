@@ -4,17 +4,17 @@
   <mat-sidenav-container class="sidenav-container">
 
     <!-- 1. side nav -->
-    <mat-sidenav #sidenav class="sidenav" [autoFocus]="false" [opened]="isDesktop()"
+    <mat-sidenav #sidenav class="sidenav" [autoFocus]="false" [opened]="isDesktop() && isSidenavRequired"
       [mode]="isDesktop() ? 'side' : 'over'" [disableClose]="isDesktop()" [fixedInViewport]="!isDesktop()">
 
-      <app-sidenav></app-sidenav>
+      <app-sidenav *ngIf="isSidenavRequired"></app-sidenav>
 
     </mat-sidenav>
 
     <!-- 2. side nav content -->
     <mat-sidenav-content class="sidenav-content">
       <!-- 2.1 상단 toolbar  -->
-      <app-toolbar></app-toolbar>
+      <app-toolbar [isSidenavRequired]="isSidenavRequired"></app-toolbar>
 
 
 
@@ -22,7 +22,7 @@
       <main>
         <!-- <p>{{isDesktop$|async}}</p> -->
         <!-- router 주석 지우지마!!! -->
-        <!-- <router-outlet></router-outlet> -->
+        <router-outlet></router-outlet>
       </main>
 
       <!-- 2.3 footer -->

@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Manager } from '../interfaces/manager.interface';
+import { Employee } from '../interfaces/employee.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class ManagerService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   //매니저 등록
   addManager(managerData: any) {
@@ -23,30 +24,56 @@ export class ManagerService {
   }
 
   //매니저 목록 조회
-  getManagerList(id: any): Observable<HttpResMsg<Manager[]>> {
+  getManagerList(companyId: any): Observable<HttpResMsg<Manager[]>> {
     return this.http
-      .get<HttpResMsg<Manager[]>>(this.baseUrl + '/managers/' + id)
+      .get<HttpResMsg<Manager[]>>(this.baseUrl + '/managers/' + companyId)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   // 매니저 상세 조회 HttpParams 방법
-  getManagerInfo(id: any): Observable<HttpResMsg<Manager>> {
-    console.log(id);
+  getManagerInfo(managerId: any): Observable<HttpResMsg<Manager>> {
     return this.http
-      .get<HttpResMsg<Manager>>(this.baseUrl + '/managers/view/' + id)
+      .get<HttpResMsg<Manager>>(this.baseUrl + '/managers/view/' + managerId)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   // 매니저 수정
-  editManager(id: string, managerData: any) {
-    console.log(id);
+  editManager(managerId: string, managerData: any) {
     return this.http
-      .patch(this.baseUrl + '/managers/' + id, managerData)
+      .patch(this.baseUrl + '/managers/' + managerId, managerData)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   // 매니저 삭제
-  deleteManager(id: any) {
-    return this.http.delete(this.baseUrl + '/managers/' + id);
+  deleteManager(managerId: any) {
+    return this.http.delete(this.baseUrl + '/managers/' + managerId);
+  }
+
+  // 매니저 직원 등록
+  addManagerEmployees(managerEmployeesData: any) {
+    return this.http
+      .post(this.baseUrl + '/managers/employees', managerEmployeesData)
+      .pipe(takeUntilDestroyed(this.destroyRef));
+  }
+
+  // 매니저 직원 목록 조회
+  getManagerEmployees(managerId: string): Observable<HttpResMsg<Employee[]>> {
+    return this.http.get<HttpResMsg<Employee[]>>(
+      this.baseUrl + '/managers/employees/' + managerId
+    );
+  }
+
+  // 매니저 직원 빼고 직원 목록 조회
+  getManagerEmployeesWithout(
+    companyId: string
+  ): Observable<HttpResMsg<Employee[]>> {
+    return this.http.get<HttpResMsg<Employee[]>>(
+      this.baseUrl + '/managers/employees/' + companyId + '/without'
+    );
+  }
+
+  // 매니저 직원 삭제
+  deleteManagerEmployees(employeeId: any) {
+    return this.http.delete(this.baseUrl + '/managers/employee/' + employeeId);
   }
 }

@@ -68,20 +68,12 @@ export class EmployeeEditComponent {
       'leaveStandards'
     ) as FormArray;
     this.addItem();
+
   }
 
   ngOnInit(): void {
-    const employee = this.employees()?.find((employee) => employee._id === this.employeeId)
-    if (employee) { // 상태관리 중인 직원리스트 가 있으면
-      this.editEmployeeForm.patchValue(employee);
-      this.editEmployeeForm.patchValue(employee.personalLeave);
-      this.patchLeaveStadard(employee); // 직원들 중 상태 관리하는 애들이 없으면
-    } else {
-      this.getEmployee() // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
-    }
-
+    // 나라 리스트부터 호출 후 직원정보를 불러옴
     this.getCountryList();
-
   }
 
   /**
@@ -166,13 +158,29 @@ export class EmployeeEditComponent {
         this.countryList = res.data;
       },
       error: (err) => console.error(err),
+      complete: () => {
+        // 나라목록 호출이 끝나면 실행
+        const employee = this.employees()?.find((employee) => employee._id === this.employeeId)
+        if (employee) { // 상태관리 중인 직원리스트 가 있으면
+          this.getEmployeeStatus(employee)
+        } else {
+          this.getEmployee() // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
+        }
+      }
     });
   }
 
+  // 상태저장중인 Employee가 있을 경우 호출
+  getEmployeeStatus(employee: Employee) {
+    this.editEmployeeForm.patchValue(employee);
+    this.editEmployeeForm.patchValue(employee.personalLeave);
+    this.patchLeaveStadard(employee); // 직원들 중 상태 관리하는 애들이 없으면
+  }
+
+  // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
   getEmployee() {
     this.employeeService.getEmployee(this.employeeId).subscribe({
       next: (res) => {
-        console.log(res.data)
         this.employee = res.data;
         this.editEmployeeForm.patchValue(this.employee);
         this.editEmployeeForm.patchValue(this.employee?.personalLeave);

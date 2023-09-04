@@ -9,10 +9,9 @@
             <div class="filter">
                 <mat-form-field>
                     <mat-label>Filter</mat-label>
-                    <input matInput (keyup)="applyFilter($event)" placeholder="Company" #input>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Manager" #input>
                 </mat-form-field>
-                <button class="addCompanyBtn" mat-raised-button color="primary" (click)="addManager()">Add
-                    Company</button>
+                <button class="addManagerBtn" mat-raised-button color="primary" (click)="addManager()">Add Manager</button>
             </div>
 
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">

@@ -26,6 +26,7 @@ export class CompanyListComponent {
     'btns',
   ];
 
+  company: Company[] = []
   companyId: WritableSignal<String>;
 
   dataSource: MatTableDataSource<Company> = new MatTableDataSource<Company>([]);
@@ -36,7 +37,7 @@ export class CompanyListComponent {
     private companyService: CompanyService,
     public dialogService: DialogService
   ) {
-    this.companyId = this.companyService.companyId
+    this.companyId = this.companyService.companyId;
   }
 
   ngOnInit(): void {
@@ -45,11 +46,11 @@ export class CompanyListComponent {
 
   // 회사 목록 조회
   getCompanyList() {
-    this.companyService.findAllWithEmployeesNum().subscribe({
+    this.companyService.getCompanyListWith().subscribe({
       next: (res: HttpResMsg<Company[]>) => {
-        const company = res.data;
-        console.log(company);
-        this.dataSource = new MatTableDataSource(company);
+        this.company = res.data;
+        console.log(this.company);
+        this.dataSource = new MatTableDataSource(this.company);
         this.dataSource.paginator = this.paginator;
       },
       error: (err) => {
@@ -69,23 +70,23 @@ export class CompanyListComponent {
   }
 
   // 회사 입장
-  detailCompany(id: any) {
-    this.companyId.set(id);
-    this.router.navigate(['company/' + id]);
+  detailCompany(companyId: any) {
+    this.companyId.set(companyId);
+    this.router.navigate(['company/' + companyId]);
   }
 
   // 회사 수정
-  editCompany(id: any) {
-    this.router.navigate(['company/edit/' + id]);
+  editCompany(companyId: any) {
+    this.router.navigate(['company/edit/' + companyId]);
   }
 
   // 회사 삭제
-  deleteCompany(id: any) {
+  deleteCompany(companyId: any) {
     this.dialogService
       .openDialogConfirm('Do you delete this company?')
       .subscribe((result: any) => {
         if (result) {
-          this.companyService.deleteCompany(id).subscribe({
+          this.companyService.deleteCompany(companyId).subscribe({
             next: () => {
               this.dialogService.openDialogPositive(
                 'Successfully, the company has been delete.'

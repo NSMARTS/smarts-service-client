@@ -7,9 +7,8 @@
 <!-- route link -->
 <div *ngIf="isLink(item)">
   <a *ngIf="(item.isAdmin == flag.isAdmin || flag.isAdmin)"
-    [routerLinkActiveOptions]="item.routerLinkActive || { exact: false }"
-    [routerLink]="'/company/'+companyId+item.route" class="item" fxLayout="row" fxLayoutAlign="start center" matRipple
-    routerLinkActive="active">
+    [routerLinkActiveOptions]="item.routerLinkActive || { exact: false }" [routerLink]="item.route" class="item"
+    fxLayout="row" fxLayoutAlign="start center" matRipple routerLinkActive="active">
     <mat-icon *ngIf="level === 0" class="item-icon" fxFlex="none"> {{item.icon}} </mat-icon>
     <span class="item-label" fxFlex="auto">{{ item.label }}</span>
   </a>

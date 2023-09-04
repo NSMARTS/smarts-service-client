@@ -1,5 +1,5 @@
 import { AuthService, UserInfo } from 'src/app/services/auth.service';
-import { Component, DestroyRef, Inject, OnInit, WritableSignal, inject, signal } from '@angular/core';
+import { Component, DestroyRef, ElementRef, Inject, OnInit, ViewChild, WritableSignal, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,7 +11,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PayStubService } from 'src/app/services/pay-stub.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Statment } from 'src/app/interfaces/statement.interface';
-
+import * as pdfjsLib from "pdfjs-dist";
+pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({
   selector: 'app-pay-stub-dialog',
   standalone: true,
@@ -29,11 +30,15 @@ export class PayStubDialogComponent implements OnInit {
 
   filteredEmployee = signal<Employee[]>([])
   employees: WritableSignal<Employee[]>
+
   userInfoStore: WritableSignal<UserInfo>
 
   destroyRef = inject(DestroyRef);
 
   statementForm: FormGroup;
+
+  @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -54,12 +59,13 @@ export class PayStubDialogComponent implements OnInit {
     this.userInfoStore = this.authService.userInfoStore
     // 상태저장된 employee 리스트 불러오기
     this.employees = this.employeeService.employees
+
     // input controller 값 받아오기
-    this.statementForm.controls['email'].valueChanges
+    this.statementForm.controls['employee'].valueChanges
       .pipe(
         startWith(''),
         // 받아온 값 employee.name과 일치하는것 끼리 배열로 가져오기
-        map(email => (email ? this._filterStates(email) : this.employees().slice())),
+        map(employee => (employee ? this._filterStates(employee) : this.employees().slice())),
         // 배열로 가져온거 시그널에 등록
         map(employees => this.filteredEmployee.set(employees)),
         takeUntilDestroyed(this.destroyRef)
@@ -68,17 +74,16 @@ export class PayStubDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployees()
-
   }
 
   async getEmployees() {
-    const employees = await lastValueFrom(this.employeeService.getEmployees(this.data.companyName))
+    const employees = await lastValueFrom(this.employeeService.getEmployees(this.data.companyId))
     await this.employeeService.setEmployees(employees.data)
     console.log(this.employees())
   }
 
   /**
-   * 이름으로 검색하거나 email로 검색하쇼
+   * 이름으로 검색하거나 email로 검색 가능
    * @param value 
    * @returns 
    */
@@ -95,6 +100,9 @@ export class PayStubDialogComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file: File = event.target.files[0];
       this.currentFile = file;
+
+      this.renderPdf(file)
+
       this.fileName = this.currentFile.name;
     } else {
       this.fileName = 'Select File';
@@ -106,11 +114,10 @@ export class PayStubDialogComponent implements OnInit {
     this.message = "";
 
     if (this.currentFile) {
-
       const formData: Statment = {
         ...this.statementForm.value,
-        ...this.currentFile,
-        company: this.data.companyName,
+        file: this.currentFile,
+        company: this.data.companyId,
         writer: this.userInfoStore()._id
       }
       console.log('formData : ', formData)
@@ -124,7 +131,7 @@ export class PayStubDialogComponent implements OnInit {
             this.progress = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             this.message = event.body.message;
-            this.fileInfos = this.payStubService.getFiles();
+            // this.fileInfos = this.payStubService.getFiles();
           }
         },
         error: (err: any) => {
@@ -142,5 +149,33 @@ export class PayStubDialogComponent implements OnInit {
 
   }
 
+  renderPdf(file: File) {
+    const fileReader = new FileReader();
+
+    fileReader.onload = (e) => {
+      const arrayBuffer: ArrayBuffer | null = fileReader.result as ArrayBuffer;
+
+      if (arrayBuffer) {
+        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        loadingTask.promise.then(pdfDocument => {
+          // Assuming you want to render the first page
+          pdfDocument.getPage(1).then(page => {
+            const viewport = page.getViewport({ scale: 1 });
+            const context = this.pdfViewer.nativeElement.getContext('2d');
+
+            this.pdfViewer.nativeElement.width = viewport.width;
+            this.pdfViewer.nativeElement.height = viewport.height;
+
+            const renderContext = {
+              canvasContext: context!,
+              viewport: viewport
+            };
+            page.render(renderContext);
+          });
+        });
+      }
+    };
+    fileReader.readAsArrayBuffer(file);
+  }
 
 }

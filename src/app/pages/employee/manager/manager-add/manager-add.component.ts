@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { ManagerService } from 'src/app/services/manager.service';
 import { Manager } from 'src/app/interfaces/manager.interface';
+import { DialogService } from 'src/app/dialog/dialog.service';
 
 @Component({
   selector: 'app-manager-add',
@@ -25,17 +26,19 @@ export class ManagerAddComponent {
 
   constructor(
     private router: Router,
-    // private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private managerService: ManagerService
+    private managerService: ManagerService,
+    private dialogService: DialogService
   ) {
-    // this.companyName = this.route.snapshot.params['companyName'];
     this.addManagerForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
-      phoneNumber: new FormControl(''),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+      ]),
+      phoneNumber: new FormControl('', [Validators.pattern(/^[0-9]*$/)]),
       address: new FormControl(''),
     });
 
@@ -43,16 +46,10 @@ export class ManagerAddComponent {
 
     this.managerService.getManagerList(this.companyId).subscribe({
       next: (res) => {
-        console.log(res.data);
-
         this.nationList = res.data;
       },
       error: (err) => console.error(err),
     });
-  }
-
-  ngOnInit(): void {
-    console.log(this.companyId);
   }
 
   onSubmit() {
@@ -61,16 +58,53 @@ export class ManagerAddComponent {
       companyId: this.companyId,
     };
 
-    console.log(postData);
     this.managerService.addManager(postData).subscribe({
       next: (res) => {
         this.router.navigate(['company/' + this.companyId + '/manager']);
       },
-      error: (e) => console.error(e),
+      error: (err) => {
+        console.error(err);
+        if (err.status === 500) {
+          this.dialogService.openDialogNegative('Manager email is duplicated.');
+        } else {
+          this.dialogService.openDialogNegative(
+            'An error occurred while adding manager.'
+          );
+        }
+      },
     });
   }
 
   toBack() {
     this.router.navigate(['company/' + this.companyId + '/manager']);
+  }
+
+  //유효성 검사
+  isButtonDisabled(): any {
+    const emailRequiredError = this.addManagerForm
+      .get('email')
+      ?.hasError('required');
+    const emailEmailError = this.addManagerForm.get('email')?.hasError('email');
+    const usernameError = this.addManagerForm
+      .get('username')
+      ?.hasError('required');
+    const passwordRequiredError = this.addManagerForm
+      .get('password')
+      ?.hasError('required');
+    const passwordMinLengthError = this.addManagerForm
+      .get('password')
+      ?.hasError('minlength');
+    const phoneNumberError = this.addManagerForm
+      .get('phoneNumber')
+      ?.hasError('pattern');
+
+    return (
+      emailRequiredError ||
+      emailEmailError ||
+      usernameError ||
+      passwordRequiredError ||
+      passwordMinLengthError ||
+      phoneNumberError
+    );
   }
 }

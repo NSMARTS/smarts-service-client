@@ -13,49 +13,47 @@ export class CompanyService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
 
-  companyId = signal<string>('')
+  companyId = signal<string>('');
 
   constructor(private http: HttpClient) {
-    effect(() => console.log('회사 ID :', this.companyId()))
+    effect(() => console.log('회사 ID :', this.companyId()));
   }
 
   //회사 등록
   addCompany(companyData: any) {
     return this.http
       .post(this.baseUrl + '/companies', companyData)
-      .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   //회사 목록 조회
   getCompanyList(): Observable<HttpResMsg<Company[]>> {
     return this.http
       .get<HttpResMsg<Company[]>>(this.baseUrl + '/companies')
-      .pipe(takeUntilDestroyed(this.destroyRef));
+  }
+
+  //회사 목록과 회사별 직원, 매니저 수 조회
+  getCompanyListWith(): Observable<HttpResMsg<Company[]>> {
+    return this.http.get<HttpResMsg<Company[]>>(
+      this.baseUrl + '/companies/with'
+    );
   }
 
   // 회사 상세 조회 HttpParams 방법
-  getCompanyInfo(id: any): Observable<HttpResMsg<Company>> {
+  getCompanyInfo(companyId: any): Observable<HttpResMsg<Company>> {
     return this.http
-      .get<HttpResMsg<Company>>(this.baseUrl + '/companies/' + id)
+      .get<HttpResMsg<Company>>(this.baseUrl + '/companies/view/' + companyId)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   // 회사 수정
-  editCompany(id: string, companyData: any) {
+  editCompany(companyId: string, companyData: any) {
     return this.http
-      .patch(this.baseUrl + '/companies/' + id, companyData)
+      .patch(this.baseUrl + '/companies/' + companyId, companyData)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
   // 회사 삭제
-  deleteCompany(id: any) {
-    return this.http.delete(this.baseUrl + '/companies/' + id);
-  }
-
-  // 회사목록 & 회사 별 직원 수 조회
-  findAllWithEmployeesNum(): Observable<HttpResMsg<Company[]>> {
-    return this.http.get<HttpResMsg<Company[]>>(
-      this.baseUrl + '/companies/findAllWithEmployeesNum'
-    );
+  deleteCompany(companyId: any) {
+    return this.http.delete(this.baseUrl + '/companies/' + companyId);
   }
 }
