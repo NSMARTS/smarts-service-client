@@ -22,11 +22,12 @@ export class CompanyListComponent {
     'name',
     'employees',
     'managers',
+    'superManagers',
     'detail',
     'btns',
   ];
 
-  company: Company[] = []
+  company: Company[] = [];
   companyId: WritableSignal<String>;
 
   dataSource: MatTableDataSource<Company> = new MatTableDataSource<Company>([]);
