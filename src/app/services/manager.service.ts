@@ -44,6 +44,13 @@ export class ManagerService {
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
+  // 매니저 비밀번호 리셋
+  resetManagerPassword(managerId: string) {
+    return this.http
+      .get(this.baseUrl + '/managers/' + managerId + '/resetPassword')
+      .pipe(takeUntilDestroyed(this.destroyRef));
+  }
+
   // 매니저 삭제
   deleteManager(managerId: any) {
     return this.http.delete(this.baseUrl + '/managers/' + managerId);

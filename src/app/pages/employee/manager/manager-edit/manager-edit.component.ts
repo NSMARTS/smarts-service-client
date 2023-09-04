@@ -37,7 +37,6 @@ export class ManagerEditComponent {
     this.editManagerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
       phoneNumber: ['', [Validators.pattern(/^[0-9]*$/)]],
       address: [''],
     });
@@ -81,23 +80,12 @@ export class ManagerEditComponent {
     const usernameError = this.editManagerForm
       .get('username')
       ?.hasError('required');
-    const passwordRequiredError = this.editManagerForm
-      .get('password')
-      ?.hasError('required');
-    const passwordMinLengthError = this.editManagerForm
-      .get('password')
-      ?.hasError('minlength');
     const phoneNumberError = this.editManagerForm
       .get('phoneNumber')
       ?.hasError('pattern');
 
     return (
-      emailRequiredError ||
-      emailEmailError ||
-      usernameError ||
-      passwordRequiredError ||
-      passwordMinLengthError ||
-      phoneNumberError
+      emailRequiredError || emailEmailError || usernameError || phoneNumberError
     );
   }
 
@@ -129,6 +117,28 @@ export class ManagerEditComponent {
   //Cancel 버튼 클릭
   onCancel(): void {
     this.router.navigate(['company/' + this.companyId + '/manager']);
+  }
+
+  resetManagerPassword() {
+    this.dialogService
+      .openDialogConfirm('Do you reset this manager password?')
+      .subscribe((result: any) => {
+        if (result) {
+          this.managerService.resetManagerPassword(this.managerId).subscribe({
+            next: () => {
+              this.dialogService.openDialogPositive(
+                'Successfully, the manager password has been reset.'
+              );
+              this.router.navigate(['company/' + this.companyId + '/manager']);
+            },
+            error: (err: any) => {
+              console.error(err);
+              this.dialogService.openDialogNegative('Loadings Docs Error');
+              alert(err.error.message);
+            },
+          });
+        }
+      });
   }
 
   ////////////////////*Right mat-card*////////////////////

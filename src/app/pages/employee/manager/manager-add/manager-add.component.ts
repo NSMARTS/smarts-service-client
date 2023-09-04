@@ -34,10 +34,6 @@ export class ManagerAddComponent {
     this.addManagerForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(4),
-      ]),
       phoneNumber: new FormControl('', [Validators.pattern(/^[0-9]*$/)]),
       address: new FormControl(''),
     });
@@ -88,23 +84,12 @@ export class ManagerAddComponent {
     const usernameError = this.addManagerForm
       .get('username')
       ?.hasError('required');
-    const passwordRequiredError = this.addManagerForm
-      .get('password')
-      ?.hasError('required');
-    const passwordMinLengthError = this.addManagerForm
-      .get('password')
-      ?.hasError('minlength');
     const phoneNumberError = this.addManagerForm
       .get('phoneNumber')
       ?.hasError('pattern');
 
     return (
-      emailRequiredError ||
-      emailEmailError ||
-      usernameError ||
-      passwordRequiredError ||
-      passwordMinLengthError ||
-      phoneNumberError
+      emailRequiredError || emailEmailError || usernameError || phoneNumberError
     );
   }
 }

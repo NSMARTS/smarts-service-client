@@ -47,22 +47,6 @@
                         </div>
                     </div>
 
-                    <!-- manager password -->
-                    <div class="lineDivider" fxLayout="row">
-                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                            <div class="leftBox">
-                                <span>Password</span>
-                            </div>
-                        </div>
-                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
-                                <mat-label>Password</mat-label>
-                                <input matInput type="password" placeholder="Password" name="password"
-                                    formControlName="password" autocomplete="password">
-                            </mat-form-field>
-                        </div>
-                    </div>
-
                     <!-- manager phone -->
                     <div class="lineDivider" fxLayout="row">
                         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
@@ -104,6 +88,9 @@
                         <button mat-raised-button class="tableBtn" (click)="onCancel()">Cancel</button>
                     </div>
                 </div>
+            </div>
+            <div (click)="resetManagerPassword()">
+                비밀번호를 초기화 하시겠습니까?
             </div>
         </form>
         </mat-card>
