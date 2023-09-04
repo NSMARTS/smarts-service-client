@@ -1,0 +1,95 @@
+@import '../../../../styles.scss'; 
+
+.item {
+    cursor: pointer;
+    width: 100%;
+    user-select: none;
+    transition: all 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+    min-height: 48px;
+    padding: 0.5rem 1.5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    
+    &:hover, &.active {
+        background-color: $side_nav_active_color !important;
+
+        .item_icon {
+            color: $side_nav_active_font_color !important;
+        }
+    
+        .item_label {
+            color: $side_nav_active_font_color !important;
+        }
+    
+        .item_dropdown_icon {
+            color: $side_nav_active_font_color !important;
+        }
+    }
+
+    &.open { 
+        .item_dropdown_icon {
+            transform: rotate(90deg) !important;
+        }
+    }
+}
+
+@for $i from 1 through 3 {
+    // host -> https://angular.io/guide/component-styles , https://stackoverflow.com/questions/32853924/angular-2-how-to-style-host-element-of-the-component
+    // #{} -> https://stackoverflow.com/questions/42121858/what-does-sharp-e-g-variable-mean-in-scss
+    :host(.item-level-#{$i}) .item {
+      background: white !important;
+      // background: #f2bd94cc;
+      //ackground: repeating-linear-gradient(45deg, #f2bd94, #f2bd94 4px, #f2bd94a4 0, #f2bd94a4 6px);
+      // padding-inline-start: calc(var(--sidenav-item-icon-size) + var(--sidenav-item-icon-gap) + var(--sidenav-item-padding) + (var(--sidenav-item-dropdown-gap) * #{$i - 1}));
+      // rtl 안할꺼라서... padding left로 변경 https://stackoverflow.com/questions/19582969/what-is-the-difference-between-padding-left-and-padding-start
+      padding-left: calc(24px + 0.5rem + 12px * #{$i - 1});
+  
+      &:hover {
+        // background: #131721;
+        background: #01091d;
+      }
+    }
+  }
+
+
+.item_icon {
+    font-size: 24px;
+    height: 24px;
+    margin-right: 16px;
+    width: 24px;
+
+}
+
+.item_label {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.item_dropdown_icon {
+    font-size: 18px;
+    height: 18px;
+    line-height: 18px;
+    margin-left: 8px;
+    transform: rotate(0deg) !important;
+    width: 18px;
+    transition: all 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.item_dropdown {
+    overflow: hidden;
+}
+
+.subheading {
+    box-sizing: border-box;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+}

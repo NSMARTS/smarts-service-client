@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyHolidayService } from 'src/app/services/company-holiday.service';
 

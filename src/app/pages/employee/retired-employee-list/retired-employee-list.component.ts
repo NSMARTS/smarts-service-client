@@ -8,7 +8,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { CommonService } from 'src/app/services/common.service';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { DataService } from 'src/app/stores/data/data.service';
 import { Employee } from 'src/app/interfaces/employee.interface';
 

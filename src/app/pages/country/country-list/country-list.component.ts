@@ -12,10 +12,9 @@ import { CountryAddComponent } from '../country-add/country-add.component';
 import { CountryHolidayAddComponent } from '../country-holiday-add/country-holiday-add.component';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { CountryEditComponent } from '../country-edit/country-edit.component';
-
 
 // view table
 export interface PeriodicElement {
@@ -87,7 +86,7 @@ export class CountryListComponent implements OnInit {
     });
   }
 
-  // dialog에 아이디를 보내야함 
+  // dialog에 아이디를 보내야함
   editCountry(countryId: any) {
     const dialogRef = this.dialog.open(CountryEditComponent, {
       data: { countryId: countryId },

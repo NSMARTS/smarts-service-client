@@ -1,13 +1,32 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { dropdownAnimation } from 'src/app/animations/dropdown.animation';
-import { NavigationDropdown, NavigationItem, SidenavViewPolicy } from 'src/app/interfaces/navigation-item.interface';
+import {
+  NavigationDropdown,
+  NavigationItem,
+  SidenavViewPolicy,
+} from 'src/app/interfaces/navigation-item.interface';
 
-import { ActivatedRoute, IsActiveMatchOptions, NavigationEnd, Router, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  IsActiveMatchOptions,
+  NavigationEnd,
+  Router,
+  RouterModule,
+} from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription, filter, tap } from 'rxjs';
+import { filter, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationService } from 'src/app/stores/layout/navigation.service';
 
@@ -18,7 +37,6 @@ import { NavigationService } from 'src/app/stores/layout/navigation.service';
   templateUrl: './sidenav-item.component.html',
   styleUrls: ['./sidenav-item.component.scss'],
   animations: [dropdownAnimation],
-
 })
 export class SidenavItemComponent implements OnInit, OnChanges {
   @Input() item!: NavigationItem;
@@ -27,12 +45,12 @@ export class SidenavItemComponent implements OnInit, OnChanges {
 
   isOpen: boolean = false;
   isActive: boolean = false;
-  router = inject(Router)
-  route = inject(ActivatedRoute)
+  router = inject(Router);
+  route = inject(ActivatedRoute);
   destroyRef = inject(DestroyRef);
 
-  navigationService = inject(NavigationService)
-  selectedDropDownItem = this.navigationService.selectedDropDownItem
+  navigationService = inject(NavigationService);
+  selectedDropDownItem = this.navigationService.selectedDropDownItem;
 
   isLink = this.navigationService.isLink;
   isDropdown = this.navigationService.isDropdown;
@@ -50,9 +68,7 @@ export class SidenavItemComponent implements OnInit, OnChanges {
   get levelClass() {
     return `item-level-${this.level}`;
   }
-  constructor(
-    public dialog2: MatDialog,
-  ) { }
+  constructor(public dialog2: MatDialog) {}
 
   ngOnInit(): void {
     // console.log('[[ side nav item ]]', this.flag);
@@ -77,11 +93,10 @@ export class SidenavItemComponent implements OnInit, OnChanges {
       // ).subscribe(() => this.onRouteChange());
 
       this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         tap(() => this.onRouteChange()),
         takeUntilDestroyed(this.destroyRef)
-      )
-
+      );
 
       /*--------------------------------------------
         Drop down menu의 변경 여부 (open <-> closed)
@@ -95,60 +110,60 @@ export class SidenavItemComponent implements OnInit, OnChanges {
     }
   }
 
-
   /**
-  * 현재 메뉴가 Dropdown menu인 경우
-  * 클릭시 open <-> close 전환
-  */
+   * 현재 메뉴가 Dropdown menu인 경우
+   * 클릭시 open <-> close 전환
+   */
   toggleOpen() {
     this.isOpen = !this.isOpen;
     this.navigationService.triggerOpenChange(this.item as NavigationDropdown);
     // this.cd.markForCheck(); // --> OnPush
   }
 
-  createSpaceDialog() {
-
-  }
+  createSpaceDialog() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes && changes.hasOwnProperty('item') && this.isDropdown(this.item)) { // this.item -> changes.item.currentValue로 해도 됩
+    if (
+      changes &&
+      changes.hasOwnProperty('item') &&
+      this.isDropdown(this.item)
+    ) {
+      // this.item -> changes.item.currentValue로 해도 됩
       this.onRouteChange();
     }
   }
 
-
   /**
-      * dropdown state 변경이 발생한 item이 현재 dropdown menu의 child (하위 모두 포함)인가?
-      *  --> ok : true 반환
-      *  --> no : child의 child에 대해 recursion 수행.
-      *
-      * @param parent 현재 component에 해당하는  Dropdown menu item
-      * @param item state 변경이 일어난 dropdown menu item
-      */
+   * dropdown state 변경이 발생한 item이 현재 dropdown menu의 child (하위 모두 포함)인가?
+   *  --> ok : true 반환
+   *  --> no : child의 child에 대해 recursion 수행.
+   *
+   * @param parent 현재 component에 해당하는  Dropdown menu item
+   * @param item state 변경이 일어난 dropdown menu item
+   */
   isChildrenOf(parent: NavigationDropdown, item: NavigationDropdown): any {
     if (parent?.children?.indexOf(item) !== -1) {
-      console.log(parent?.children?.indexOf(item) !== -1)
+      console.log(parent?.children?.indexOf(item) !== -1);
       return true;
     }
 
     // 더 하위 child drop menu에 대한 check 수행.
     return parent?.children
-      .filter(child => this.isDropdown(child))
-      .some(child => this.isChildrenOf(child as NavigationDropdown, item));
+      .filter((child) => this.isDropdown(child))
+      .some((child) => this.isChildrenOf(child as NavigationDropdown, item));
   }
 
   /**
-  * Dropdown [open <-> close] state (openChange$) 전환 발생에 따른 처리.
-  * (다른 dropdown menu가 변경된 상태에도 들어옴)
-  *
-  * state 전환이 발생한 dropdown menu가 현재 자신인지 아닌지 check.
-  * - 다른 dropdown 메뉴였다면 내 dropdown 메뉴는 close.
-  * - (예외 1) 내 자식 dropdown 메뉴인 경우에는 현재 상태 유지
-  * - (예외 2) 내 자식의 링크 중 하나가 active인 경우에는 현재 상태 유지
-  * @param item NavigationDropdown
-  */
+   * Dropdown [open <-> close] state (openChange$) 전환 발생에 따른 처리.
+   * (다른 dropdown menu가 변경된 상태에도 들어옴)
+   *
+   * state 전환이 발생한 dropdown menu가 현재 자신인지 아닌지 check.
+   * - 다른 dropdown 메뉴였다면 내 dropdown 메뉴는 close.
+   * - (예외 1) 내 자식 dropdown 메뉴인 경우에는 현재 상태 유지
+   * - (예외 2) 내 자식의 링크 중 하나가 active인 경우에는 현재 상태 유지
+   * @param item NavigationDropdown
+   */
   onOpenChange(item: NavigationDropdown) {
-
     // Dropdown 상태 변화가 발생한 item이 내 자식 (모든 하위 자식 포함)인 경우
     //   --> 현재 상태에서 변경할 필요 없음
     if (this.isChildrenOf(this.item as NavigationDropdown, item)) {
@@ -196,7 +211,6 @@ export class SidenavItemComponent implements OnInit, OnChanges {
     }
   }
 
-
   /**
    * 현재 dropdown item의 children 중에 Active한 child가 존재하는지 check
    * @param parent NavigationDropdown
@@ -214,8 +228,8 @@ export class SidenavItemComponent implements OnInit, OnChanges {
           paths: 'exact',
           matrixParams: 'exact',
           queryParams: 'subset',
-          fragment: 'ignored'
-        }
+          fragment: 'ignored',
+        };
         // https://angular.io/api/router/Router
         // isActive(url: string | UrlTree, exact: boolean): boolean
         // TO CHECK : exact parameter 영향

@@ -9,7 +9,8 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { ManagerEmployeesAddComponent } from '../../../../dialog/manager-employees-add/manager-employees-add.component';
 import { ManagerService } from 'src/app/services/manager.service';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
+
 import { Employee } from 'src/app/interfaces/employee.interface';
 import { lastValueFrom } from 'rxjs';
 

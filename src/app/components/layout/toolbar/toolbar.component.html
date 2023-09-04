@@ -1,105 +1,36 @@
-<mat-toolbar class="tb-color">
-  <!-- fxHide: https://github.com/angular/flex-layout/wiki/Responsive-API -->
-  <button (click)="openSidenav()" fxHide.gt-md mat-icon-button aria-label="menu" [hidden]="!isSidenavRequired">
-    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-  </button>
-  <!-- <span class="toolbarLeftTitle">
-	
-	</span> -->
-  <span class="example-spacer"></span>
-  <div fxLayout="row" fxLayoutGap="20px">
-    <div>
-      <button [routerLink]="['/company']">Company</button>│
-      <button [routerLink]="['/country']">Country</button>
-      <button mat-button [matMenuTriggerFor]="notification" class="mat-icon-button" matTooltip="Notification"
-        matTooltipPosition="above" [matTooltipShowDelay]="500">
-        <mat-icon *ngIf="notiItemsLength > 0" matBadge="{{notiItemsLength}}"
-          matBadgeColor="warn">notifications</mat-icon>
-        <mat-icon *ngIf="notiItemsLength == 0">notifications</mat-icon>
-      </button>
-      <mat-menu #notification="matMenu" xPosition="before" class="dropdown-box">
-        <div class="dropdown">
-          <div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
-            <div>
-              <div class="dropdown-heading">Notifications</div>
-              <div class="dropdown-subheading">You have {{ notiItemsLength }} new notifications.</div>
-            </div>
-            <div>
-              <mat-icon>apps</mat-icon>
-            </div>
-          </div>
-          <div class="dropdown-content">
-            <div *ngFor="let item of notiItems; let last=last">
-              <div matRipple fxLayout="row" fxLayoutAlign="space-between center"
-                class="notification notification-cursor" (click)="moveToPage(item)"
-                [ngClass]="{'isReadTrue': item.isRead === true, 'newNotification': item.isRead === false}">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                  <mat-icon class="icon-box-1" ngClass="{{item.notiType}}">{{ item.iconText }}
-                  </mat-icon>
+<mat-toolbar color="primary" class="toolbar mat-elevation-z6">
+    <button (click)="openSidenav()" mat-icon-button fxHide.gt-md>
+        <mat-icon>menu</mat-icon>
+    </button>
 
-                  <div>
-                    <div class="notification-label">{{ item.notiLabel }}</div>
-                    <div class="notification-description">{{ item.period }}</div>
-                  </div>
-                </div>
+    <span style="flex: 1"></span>
 
-                <mat-icon class="icon-box-2">keyboard_arrow_right</mat-icon>
+    <div [routerLink]="['/company']">Company</div>│
+    <div [routerLink]="['/country']">Country</div>
 
-              </div>
-              <mat-divider *ngIf="!last"></mat-divider>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <button mat-icon-button>
+            <mat-icon>notifications</mat-icon>
+        </button>
+        <button mat-button [matMenuTriggerFor]="profile">
+            <div class="profile_button">
+                <img class="profile_image" [src]="userProfileData?.profile_img" alt="" />
+                <span>{{userProfileData?.username}}</span>
             </div>
-          </div>
-          <div class="dropdown-footer" fxLayout="row" fxLayoutAlign="center center">
-            <button mat-button color="primary" (click)="allRead()">MARK ALL AS READ</button>
-          </div>
-        </div>
-      </mat-menu>
+        </button>
     </div>
 
-    <div>
-      <button mat-button [matMenuTriggerFor]="profile" matTooltip="Profile" matTooltipPosition="above"
-        [matTooltipShowDelay]="500">
-        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
-          <!-- <mat-icon>person</mat-icon> -->
-          <img class="toolbar-profile-img" [src]="profileImg" alt="">
-          <span class="profileName">{{userProfileData?.name}}</span>
-        </div>
-      </button>
-      <mat-menu #profile="matMenu" xPosition="before" class="dropdown-box">
-        <div class="dropdown">
-          <div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
-            <div fxLayout="row" fxLayoutAlign="start center">
-              <!-- <mat-icon class="dropdown-profile-icon">person</mat-icon> -->
-              <img class="profile-img" [src]="profileImg" alt="">
-              <div class="dropdown-profile-heading">
-                {{userProfileData?.name}}
-              </div>
-            </div>
-            <mat-icon>apps</mat-icon>
-          </div>
-          <div class="dropdown-content">
-            <div matRipple fxLayout="row" fxLayoutAlign="space-between center" class="notification notification-cursor"
-              [routerLink]="['/profile']">
-              <div fxLayout="row" fxLayoutAlign="start center">
+    <!-- 알람 부분 -->
 
-                <mat-icon class="icon-box-1 company-request">account_circle</mat-icon>
-                <div>
-                  <div class="notification-label">My Profile</div>
-                  <div class="notification-description">Personal Information</div>
-                </div>
-              </div>
-
-              <mat-icon class="icon-box-2">keyboard_arrow_right</mat-icon>
-
-            </div>
-            <!-- <mat-divider></mat-divider> -->
-
-          </div>
-          <div class="dropdown-footer" fxLayout="row" fxLayoutAlign="center center" (click)="logOut();">
-            <button mat-button color="primary">LOGOUT</button>
-          </div>
-        </div>
-      </mat-menu>
-    </div>
-  </div>
+    <!-- 로그아웃 메뉴 부분 -->
+    <mat-menu #profile>
+        <button mat-menu-item [routerLink]="['/profile']">
+            <mat-icon>info</mat-icon>
+            <span>About</span>
+        </button>
+        <button mat-menu-item (click)="signOut();">
+            <mat-icon>logout</mat-icon>
+            <span>Sign out</span>
+        </button>
+    </mat-menu>
 </mat-toolbar>

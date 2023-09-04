@@ -11,7 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { PeriodicElement } from '../country-list/country-list.component';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
@@ -24,7 +24,6 @@ import { CountryService } from 'src/app/services/country.service';
 // } from '@angular/material-moment-adapter';
 import { MatYearView } from '@angular/material/datepicker';
 import { CustomDateDirectiveModule } from './custom-date-directive.module';
-
 
 // import { PeriodicElement } from '../../company-mngmt/company-list/company-list.component';
 // import * as _moment from 'moment';
@@ -46,7 +45,6 @@ import { CustomDateDirectiveModule } from './custom-date-directive.module';
 //     monthYearA11yLabel: 'YYYY',
 //   },
 // };
-
 
 @Component({
   selector: 'app-country-holiday-add',

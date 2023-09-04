@@ -11,9 +11,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { DialogService } from 'src/app/dialog/dialog.service';
 import { Employee } from 'src/app/interfaces/employee.interface';
 import { MaterialsModule } from 'src/app/materials/materials.module';
+import { DialogService } from 'src/app/services/dialog.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ManagerService } from 'src/app/services/manager.service';
 

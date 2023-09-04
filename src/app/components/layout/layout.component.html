@@ -1,10 +1,10 @@
 <div class="sidenav">
 
   <!-- 0. sidenav container -->
-  <mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-container style="height: 100vh">
 
     <!-- 1. side nav -->
-    <mat-sidenav #sidenav class="sidenav" [autoFocus]="false" [opened]="isDesktop() && isSidenavRequired"
+    <mat-sidenav #sidenav [autoFocus]="false" [opened]="isDesktop() && isSidenavRequired"
       [mode]="isDesktop() ? 'side' : 'over'" [disableClose]="isDesktop()" [fixedInViewport]="!isDesktop()">
 
       <app-sidenav *ngIf="isSidenavRequired"></app-sidenav>
@@ -12,14 +12,14 @@
     </mat-sidenav>
 
     <!-- 2. side nav content -->
-    <mat-sidenav-content class="sidenav-content">
+    <mat-sidenav-content style="display: flex; flex-direction: column;">
       <!-- 2.1 상단 toolbar  -->
       <app-toolbar [isSidenavRequired]="isSidenavRequired"></app-toolbar>
 
 
 
       <!-- 2.2 main contents -->
-      <main>
+      <main class="main_area" style="flex: 1; ">
         <!-- <p>{{isDesktop$|async}}</p> -->
         <!-- router 주석 지우지마!!! -->
         <router-outlet></router-outlet>

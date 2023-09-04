@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
 

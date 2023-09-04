@@ -1,0 +1,20 @@
+<div class="dialog_container">
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px;">
+        <div>
+            <mat-icon class="confirm_icon">help_outline</mat-icon>
+        </div>
+
+        <h1 class="making_sure">
+            Are you sure?
+        </h1>
+
+        <span class="confirm_content">
+            {{ data.content }}
+        </span>
+
+        <div class="button_box" style="display: flex; gap: 20px;">
+            <button mat-raised-button class="confirm_button" [mat-dialog-close]="true">Confirm</button>
+            <button mat-raised-button class="cancel_button" [mat-dialog-close]="false">Cancel</button>
+        </div>
+    </div>
+</div>

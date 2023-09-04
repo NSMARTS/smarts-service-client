@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { ManagerService } from 'src/app/services/manager.service';
 import { Manager } from 'src/app/interfaces/manager.interface';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-manager-add',

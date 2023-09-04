@@ -2,10 +2,13 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { ActivatedRoute } from '@angular/router';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { Subject, takeUntil } from 'rxjs';
 import { MemberDataStorageService } from 'src/app/stores/data/member-data-storage.service';
 import { MeetingService } from 'src/app/services/meeting.service';
@@ -14,8 +17,8 @@ import { MeetingListStorageService } from 'src/app/stores/data/meeting-list-stor
 
 //view table
 export interface PeriodicElement {
-    Meeting: String;
-    Date: Date;
+  Meeting: String;
+  Date: Date;
 }
 
 @Component({
@@ -136,7 +139,6 @@ export class MeetingComponent implements OnInit {
 
   deleteMeeting(data: any) {}
 }
-
 
 ///////////////////////////////////////////////////////////
 // 미팅 생성하는 dialog

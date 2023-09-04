@@ -7,7 +7,7 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/interfaces/company.interface';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-company-list',

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
@@ -39,7 +44,7 @@ export class ToolbarComponent {
     // this.getNotificationData();
   }
 
-  logOut() {
+  signOut() {
     // console.log('logout');
     // this.authService.logOut();
     // this.snackbar.open('Logout Goodbye ' + this.userProfileData.name, 'Close', {

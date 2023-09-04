@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
-import { DialogService } from 'src/app/dialog/dialog.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { CountryService } from 'src/app/services/country.service';
 
@@ -64,8 +64,8 @@ export class CountryEditComponent implements OnInit {
     console.log(countryData);
     this.countryService.editCountry(countryData).subscribe({
       next: (data: any) => {
-          this.dialogRef.close();
-          this.dialogService.openDialogPositive('Success edit country.');
+        this.dialogRef.close();
+        this.dialogService.openDialogPositive('Success edit country.');
       },
       error: (e) => {
         if (e.error.message == 'The country code is duplicated.') {
