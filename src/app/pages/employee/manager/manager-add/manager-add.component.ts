@@ -23,6 +23,7 @@ export class ManagerAddComponent {
   addManagerForm: FormGroup;
   nationList: Manager[] = [];
   companyId: any;
+  isSuperManager = false;
 
   constructor(
     private router: Router,
@@ -36,6 +37,7 @@ export class ManagerAddComponent {
       username: new FormControl('', [Validators.required]),
       phoneNumber: new FormControl('', [Validators.pattern(/^[0-9]*$/)]),
       address: new FormControl(''),
+      isSuperManager: new FormControl(false),
     });
 
     this.companyId = this.route.snapshot.params['id'];

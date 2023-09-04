@@ -39,6 +39,7 @@ export class ManagerEditComponent {
       username: ['', [Validators.required]],
       phoneNumber: ['', [Validators.pattern(/^[0-9]*$/)]],
       address: [''],
+      isSuperManager: [''],
     });
 
     this.companyId = this.route.snapshot.params['id'];
@@ -49,6 +50,7 @@ export class ManagerEditComponent {
     this.managerService.getManagerInfo(this.managerId).subscribe({
       next: (res) => {
         const managerData = res.data;
+        console.log(managerData);
         this.editManagerForm.patchValue(managerData);
       },
       error: (err) => {

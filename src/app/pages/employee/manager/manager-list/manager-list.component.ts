@@ -17,7 +17,14 @@ import { Manager } from 'src/app/interfaces/manager.interface';
   styleUrls: ['./manager-list.component.scss'],
 })
 export class ManagerListComponent {
-  displayedColumns: string[] = ['name', 'email', 'phone', 'address', 'btns'];
+  displayedColumns: string[] = [
+    'name',
+    'email',
+    'phone',
+    'address',
+    'superManager',
+    'btns',
+  ];
   companyId: any;
 
   dataSource: MatTableDataSource<Manager> = new MatTableDataSource<Manager>([]);

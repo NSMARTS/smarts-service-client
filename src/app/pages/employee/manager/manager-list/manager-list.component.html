@@ -35,6 +35,11 @@
                     <td mat-cell *matCellDef="let element"> {{element.address}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="superManager">
+                    <th mat-header-cell *matHeaderCellDef> SuperManager </th>
+                    <td mat-cell *matCellDef="let element"> {{element.isSuperManager}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="btns">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let element">
