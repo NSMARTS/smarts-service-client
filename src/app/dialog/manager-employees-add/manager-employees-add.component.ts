@@ -39,7 +39,7 @@ export class ManagerEmployeesAddComponent implements OnInit {
 
   companyId: string; // 회사아이디 params
   managerId: string; // 회사아이디 params
-  boldRowIds: any[] = [];
+  clickRowIds: any[] = [];
 
   filterValues: any = {};
   filterSelectObj: any = [];
@@ -79,7 +79,7 @@ export class ManagerEmployeesAddComponent implements OnInit {
   addmanagerEmployees() {
     const addManagerEmployees = {
       managerId: this.managerId,
-      employeesId: this.boldRowIds,
+      employeesId: this.clickRowIds,
     };
 
     this.managerService.addManagerEmployees(addManagerEmployees).subscribe({
@@ -118,16 +118,16 @@ export class ManagerEmployeesAddComponent implements OnInit {
   }
 
   clickManagerEmployees(row: any) {
-    row.isBold = !row.isBold;
+    row.isClick = !row.isClick;
 
     // 만약 .bold-row 클래스가 적용된 행이 bold 상태로 변경되었다면, ID를 배열에 추가합니다.
-    if (row.isBold) {
-      this.boldRowIds.push(row._id);
+    if (row.isClick) {
+      this.clickRowIds.push(row._id);
     } else {
       // .bold-row 클래스가 제거된 행이 bold 상태에서 굵지 않게 변경되었다면, ID를 배열에서 제거합니다.
-      const index = this.boldRowIds.indexOf(row._id);
+      const index = this.clickRowIds.indexOf(row._id);
       if (index !== -1) {
-        this.boldRowIds.splice(index, 1);
+        this.clickRowIds.splice(index, 1);
       }
     }
   }
