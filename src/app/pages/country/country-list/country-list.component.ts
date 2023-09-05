@@ -20,6 +20,7 @@ import { CountryEditComponent } from '../country-edit/country-edit.component';
 export interface PeriodicElement {
   countryName: string;
   countryCode: string;
+  holiday: any;
   btns: any;
 }
 
@@ -38,7 +39,12 @@ export interface PeriodicElement {
 })
 export class CountryListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-  displayedColumns: string[] = ['countryName', 'countryCode', 'btns'];
+  displayedColumns: string[] = [
+    'countryName',
+    'countryCode',
+    'holiday',
+    'btns',
+  ];
   countryList: MatTableDataSource<PeriodicElement> =
     new MatTableDataSource<PeriodicElement>([]);
   countryInfo: any;
@@ -120,5 +126,15 @@ export class CountryListComponent implements OnInit {
           });
         }
       });
+  }
+
+  // 회사 이름 필터
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.countryList.filter = filterValue.trim().toLowerCase();
+
+    if (this.countryList.paginator) {
+      this.countryList.paginator.firstPage();
+    }
   }
 }
