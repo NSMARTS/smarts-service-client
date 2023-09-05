@@ -1,12 +1,10 @@
 <div class="mainContentContainer">
-  <div class="mainContent">
-    <div fxLayout="row">
       <div class="mainTitle">Add Company</div>
-    </div>
+
 
     <form [formGroup]="addCompanyForm" (ngSubmit)="onSubmit()">
       <div class="leaveTableContainer">
-        <div fxLayout="column" class="br_ltop">
+
 
           <!-- company name -->
           <div class="lineDivider" fxLayout="row">
@@ -240,9 +238,8 @@
               <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
             </div>
           </div>
-        </div>
+
       </div>
     </form>
 
-  </div>
 </div>

@@ -3,17 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-// import { DialogService } from 'src/app/dialog/dialog.service';
 import { CountryService } from 'src/app/services/country.service';
 import { DataService } from 'src/app/stores/data/data.service';
 import { CountryAddComponent } from '../country-add/country-add.component';
-import { CountryHolidayAddComponent } from '../country-holiday-add/country-holiday-add.component';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { DialogService } from 'src/app/services/dialog.service';
-import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { CountryEditComponent } from '../country-edit/country-edit.component';
 
 // view table
@@ -51,7 +46,6 @@ export class CountryListComponent implements OnInit {
   company: any;
   manager: any;
   userInfo: any;
-  // router: any;
 
   constructor(
     public dataService: DataService,

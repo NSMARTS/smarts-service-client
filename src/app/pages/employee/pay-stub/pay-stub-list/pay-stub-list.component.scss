@@ -1,17 +1,17 @@
-.container {
-  display: flex;
-  flex-direction: row;
+// .container {
+//   display: flex;
+//   flex-direction: row;
 
-  @media (max-width:816px) {
-    flex-direction: column;
+//   @media (max-width:816px) {
+//     flex-direction: column;
 
-  }
+//   }
 
-  .form_section {
-    flex: 1;
-  }
+//   .form_section {
+//     flex: 1;
+//   }
 
-  .pdf_display_section {
-    flex: 1;
-  }
-}
+//   .pdf_display_section {
+//     flex: 1;
+//   }
+// }

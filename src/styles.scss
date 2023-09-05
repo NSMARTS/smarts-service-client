@@ -137,15 +137,48 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     display: flex;
     justify-content: flex-end; /* 내용을 오른쪽으로 정렬 */
     align-items: center; /* 수직 방향 중앙 정렬 */
-
 }
 
 .tableAddBtn {
     margin-left: auto; /* 남은 공간을 모두 차지하도록 설정 */
     margin-right: 30px; /* 원하는 간격 설정 */
-  }
+}
 
-@media screen and (max-width: 1050px) { 
+.tableDeleteBtn.mat-mdc-unelevated-button.mat-unthemed {
+    --mdc-filled-button-container-color: #ff4081;
+    --mdc-filled-button-label-text-color: #fff;
+}  
+
+@media screen and (max-width: 1400px) { 
+    .mainContentContainer {
+        padding: 10px 10px;
+    }
+
+    .mainTitle {
+        margin: 10px;
+    }    
+
+    .historyTableBox {
+        word-break: break-all;
+
+
+        th {
+            padding: 3px 5px;
+        }
+
+        td {
+            padding: 2px 5px;
+            font-size: 1em;
+
+            button {
+                width: 70px;
+                padding: 0;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) { 
     .mainContentContainer {
         padding: 10px 10px;
     }
@@ -179,69 +212,69 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 작성일: 2023-08-28
 설멍: 공통 search, table css 설정
 */
-.page_header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+// .page_header{
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+// }
 
-.page_title{
-    padding: 0;
-    margin: 0 !important;
-    text-decoration: none;
-}
+// .page_title{
+//     padding: 0;
+//     margin: 0 !important;
+//     text-decoration: none;
+// }
 
-.search_section{
-    margin-top: 20px;
-}
+// .search_section{
+//     margin-top: 20px;
+// }
 
-.table_section {
-    margin-top: 50px;
-}
+// .table_section {
+//     margin-top: 50px;
+// }
 
 
-.input_group_layout{
-    display: flex;
+// .input_group_layout{
+//     display: flex;
 
-    @media (max-width: 816px) {
-        flex-direction: column;
+//     @media (max-width: 816px) {
+//         flex-direction: column;
 
-        .left_box {
-            width: 100% !important;
-            padding: 0px !important;
-            box-sizing: border-box;
-            background-color: #fff !important;
-            color: #000 !important;
-        }
+//         .left_box {
+//             width: 100% !important;
+//             padding: 0px !important;
+//             box-sizing: border-box;
+//             background-color: #fff !important;
+//             color: #000 !important;
+//         }
 
-        .right_box {
-            border-bottom: none !important;
-            padding: 10px 0px !important;
-        }
-    }
+//         .right_box {
+//             border-bottom: none !important;
+//             padding: 10px 0px !important;
+//         }
+//     }
     
-    .left_box {
-        display: flex;
-        background-color: $smart_service_primary_color;
-        color: #fff;
-        padding: 20px;
-        font-weight: 700;
-        width: 200px;
-        margin: 1px;
-        align-items: center;
-        border-radius: 4px;
-    }
+//     .left_box {
+//         display: flex;
+//         background-color: $smart_service_primary_color;
+//         color: #fff;
+//         padding: 20px;
+//         font-weight: 700;
+//         width: 200px;
+//         margin: 1px;
+//         align-items: center;
+//         border-radius: 4px;
+//     }
         
-    .no_border_bottom {
-        border-bottom: none !important;
-    }
+//     .no_border_bottom {
+//         border-bottom: none !important;
+//     }
 
-    .right_box {
-        display: flex;
-        flex: 1;
-        padding: 20px;
-        gap: 10px;
-        align-items: center;
-        border-bottom: solid 1px rgb(224, 224, 224);
-    }
-}
+//     .right_box {
+//         display: flex;
+//         flex: 1;
+//         padding: 20px;
+//         gap: 10px;
+//         align-items: center;
+//         border-bottom: solid 1px rgb(224, 224, 224);
+//     }
+// }

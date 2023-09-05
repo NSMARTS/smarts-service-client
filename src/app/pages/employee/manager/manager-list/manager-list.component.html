@@ -1,8 +1,5 @@
 <div class="mainContentContainer">
-    <div class="mainContent">
-        <div fxLayout="row">
-            <div class="mainTitle">Manager List</div>
-        </div>
+    <div class="mainTitle">Manager List</div>
 
         <div class="historyTableBox">
 
@@ -11,7 +8,7 @@
                     <mat-label>Filter</mat-label>
                     <input matInput (keyup)="applyFilter($event)" placeholder="Manager" #input>
                 </mat-form-field>
-                <button class="addManagerBtn" mat-raised-button color="primary" (click)="addManager()">Add Manager</button>
+                <button class="tableAddBtn" mat-raised-button color="primary" (click)="addManager()">Add Manager</button>
             </div>
 
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
@@ -65,6 +62,5 @@
             </mat-paginator>
             
         </div>
-
-    </div>
+        
 </div>

@@ -34,8 +34,9 @@ export class EmployeeListComponent implements OnInit {
     'advanceLeave',
     'annualPolicy',
     'empStartDate',
-    'edit',
-    'retire',
+    'btns',
+    // 'edit',
+    // 'retire',
   ];
 
   companyId: string; // 회사아이디 params
@@ -103,7 +104,7 @@ export class EmployeeListComponent implements OnInit {
         this.getEmployees(this.companyId);
         console.log(data);
       },
-      error: (err: any) => { },
+      error: (err: any) => {},
     });
   }
 }

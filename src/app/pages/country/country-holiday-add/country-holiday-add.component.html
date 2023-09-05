@@ -1,14 +1,14 @@
 <div class="mainContentContainer">
-	<div class="mainContent">
-		<div fxLayout="row" fxLayoutAlign="start center">
+
+
 			<div class="mainTitle">Country Holiday List</div>
-			<span class="example-spacer"></span>
+			<!-- <span class="example-spacer"></span> -->
 			<!-- <span class="disableReason" *ngIf="company == null || manager == null">
 				You need to register a company and manager to activate!
 			</span>
 			<button
 			class="requestBtn" [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday Day</button> -->
-		</div>
+
 
 		<mat-form-field dateFormat-year>
 			<input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
@@ -98,10 +98,10 @@
 				
 			
 				<ng-container matColumnDef="btns">
-					<th mat-header-cell *matHeaderCellDef> - </th>
+					<th mat-header-cell *matHeaderCellDef></th>
 					<td mat-cell *matCellDef="let element">
 						<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
-							<button mat-flat-button class="deleteCountryHolidayBtn" (click)="deleteCountryHoliday(element._id)">Delete</button>
+							<button mat-flat-button class="tableDeleteBtn" (click)="deleteCountryHoliday(element._id)">Delete</button>
 						</div>
 					</td>
 				</ng-container>
@@ -128,5 +128,5 @@
 
 		
 
-	</div>
+
 </div>

@@ -1,8 +1,5 @@
 <div class="mainContentContainer">
-	<div class="mainContent">
-		<div fxLayout="column" fxLayoutAlign="center">
-			<div class="mainTitle">Retire Employee</div>
-		</div>
+		<div class="mainTitle">Retire Employee</div>
 
 		<div class="historyTableBox">
 			<div class="content">
@@ -13,7 +10,7 @@
                           <mat-label>Filter</mat-label>
                           <input matInput (keyup)="applyFilter($event)" placeholder="Company" #input>
                         </mat-form-field>
-
+                        <div class="tableAddBtn"></div>
                       </div>
 
 					<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
@@ -43,7 +40,7 @@
 						<ng-container matColumnDef="cancel">
 							<th mat-header-cell *matHeaderCellDef></th>
 							<td mat-cell *matCellDef="let element">
-								<button mat-flat-button class="employeeBtn"
+								<button mat-flat-button class="tableDeleteBtn"
 									(click)="cancelRetireEmployee(element._id)">
 									Cancel
 								</button>
@@ -64,5 +61,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
+
 </div>
