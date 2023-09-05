@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class RetiredEmployeeService {
+export class RetireEmployeeService {
   private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}

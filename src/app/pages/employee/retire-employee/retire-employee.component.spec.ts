@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RetiredEmployeeListComponent } from './retired-employee-list.component';
+import { RetiredEmployeeListComponent } from './retire-employee.component';
 
 describe('RetiredEmployeeListComponent', () => {
   let component: RetiredEmployeeListComponent;
@@ -8,7 +8,7 @@ describe('RetiredEmployeeListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RetiredEmployeeListComponent]
+      imports: [RetiredEmployeeListComponent],
     });
     fixture = TestBed.createComponent(RetiredEmployeeListComponent);
     component = fixture.componentInstance;

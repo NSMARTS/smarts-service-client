@@ -141,19 +141,17 @@ export class EmployeeService {
     );
   }
 
-  // 퇴사자 목록
-  // retired employee list
-  getRetiredEmployee(companyName: string) {
-    console.log(companyName);
+  // 퇴사 직원 목록
+  getRetireEmployees(companyId: string) {
     return this.http.get<HttpResMsg<Employee[]>>(
-      this.baseUrl + '/employees/' + companyName + '/retire'
+      this.baseUrl + '/employees/' + companyId + '/retire'
     );
   }
 
-  cancelRetireEmployee(id: string): Observable<HttpResMsg<Employee[]>> {
-    console.log(id);
+  // 퇴사 직원 취소
+  cancelRetireEmployee(employeeId: string): Observable<HttpResMsg<Employee[]>> {
     return this.http.delete<HttpResMsg<Employee[]>>(
-      this.baseUrl + '/employees/' + id + '/retire'
+      this.baseUrl + '/employees/' + employeeId + '/retire'
     );
   }
 }
