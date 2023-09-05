@@ -207,6 +207,53 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     }
 }
 
+//공통 add
+.leaveTableContainer {
+    padding: 20px 20px;
+    border: 1px solid rgba(238, 238, 238, 0.548);
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+    font-size: 14px;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+
+    .br_ltop {
+        border-radius: 4px;
+    }
+}
+
+.lineDivider {
+    border-bottom: 1px solid rgb(224 224 224);
+}
+
+.leftTable {
+    border-radius: 4px;
+    margin: 1px;
+    padding: 20px;
+    color: #fff;
+    font-weight: 700;
+    background-color:  #3f51b5;
+}
+
+.rightTable {
+    border-left: 1px solid rgb(224 224 224);
+    padding: 20px;
+}
+
+.formFieldBox {
+    /* 원하는 최대 너비로 조절하세요 */
+    max-width: 200px;
+    /* 또는 너비를 조절하는 다른 스타일을 여기에 추가하세요 */
+  }
+
+.booterBtn {
+    margin: 20px 0 0 0;
+}
+
+//공통 edit
+
+
+
 /**
 작성자: 임호균
 작성일: 2023-08-28
