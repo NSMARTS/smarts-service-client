@@ -5,11 +5,11 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
 import { CountryService } from 'src/app/services/country.service';
 import { DataService } from 'src/app/stores/data/data.service';
-import { CountryAddComponent } from '../country-add/country-add.component';
+import { CountryAddComponent } from '../../../dialog/country-add/country-add.component';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { DialogService } from 'src/app/services/dialog.service';
-import { CountryEditComponent } from '../country-edit/country-edit.component';
+import { CountryEditComponent } from 'src/app/dialog/country-edit/country-edit.component';
 
 // view table
 export interface PeriodicElement {

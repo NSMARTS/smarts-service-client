@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CountryAddComponent } from '../country-add/country-add.component';
-
-
+import { CountryAddComponent } from '../../../dialog/country-add/country-add.component';
 
 describe('CountryAddComponent', () => {
   let component: CountryAddComponent;
@@ -9,7 +7,7 @@ describe('CountryAddComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CountryAddComponent]
+      imports: [CountryAddComponent],
     });
     fixture = TestBed.createComponent(CountryAddComponent);
     component = fixture.componentInstance;

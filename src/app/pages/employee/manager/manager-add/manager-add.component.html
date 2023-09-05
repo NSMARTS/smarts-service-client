@@ -1,12 +1,8 @@
 <div class="mainContentContainer">
-    <div class="mainContent">
-        <div fxLayout="row">
-            <div class="mainTitle">Add Manager</div>
-        </div>
+        <div class="mainTitle">Add Manager</div>
 
         <form [formGroup]="addManagerForm" (ngSubmit)="onSubmit()">
             <div class="leaveTableContainer">
-                <div fxLayout="column" class="br_ltop">
 
                     <!-- manager email -->
                     <div class="lineDivider" fxLayout="row">
@@ -83,17 +79,15 @@
                             <mat-checkbox class="checkbox-margin" formControlName="isSuperManager"></mat-checkbox>
                         </div>
                     </div>
-                </div>
 
                 <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
-                    <div class="btnSection_1">
-                        <button mat-raised-button class="tableBtn" type="submit" color="primary" [disabled]="isButtonDisabled()">Add Manager</button>
-                    </div>
-                    <div>
-                        <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
-                    </div>
+                    <button mat-raised-button class="tableBtn" type="submit" color="primary"
+                      [disabled]="isButtonDisabled()">Request</button>
+                    <div style="width: 20px;"></div>
+                    <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
                 </div>
+
             </div>
         </form>
-    </div>
+
 </div>

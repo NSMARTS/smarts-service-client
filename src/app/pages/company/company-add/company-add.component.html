@@ -1,10 +1,8 @@
 <div class="mainContentContainer">
       <div class="mainTitle">Add Company</div>
 
-
     <form [formGroup]="addCompanyForm" (ngSubmit)="onSubmit()">
       <div class="leaveTableContainer">
-
 
           <!-- company name -->
           <div class="lineDivider" fxLayout="row">
@@ -197,30 +195,33 @@
             </div>
             <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
               <div formArrayName="leaveStandards"
-                *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index" fxLayout="column"
-                fxLayoutGap="30px">
-                <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-                  <div>
-                    <input type="hidden" formControlName="year" />
-                    <div class="yearLabel"> {{ i + 1 }} year</div>
-                  </div>
-                  <div fxFlex="column" fxFlexAlign="center center">
+                *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index" 
+                >
+                <div [formGroupName]="i">
+
+                  <div class="form-row">
+                    <div class="form-field">
+                        <input type="hidden" formControlName="year" />
+                        <div class="yearLabel"> {{ i + 1 }} year</div>
+                      </div>
+                  <div class="form-field">
                     <mat-form-field appearance="outline" class="formFieldBox">
                       <mat-label>Annual Leave</mat-label>
                       <input matInput type="number" class="numeric-input" formControlName="annualLeave" />
                     </mat-form-field>
                   </div>
-                  <div fxFlex="column" fxFlexAlign="center">
+                  <div class="form-field">
                     <mat-form-field appearance="outline" class="formFieldBox">
                       <mat-label>Sick Leave</mat-label>
                       <input matInput type="number" class="numeric-input" formControlName="sickLeave" />
                     </mat-form-field>
                   </div>
                   <div *ngIf="i <= 0" class="empty">
-                  </div>
-                  <div *ngIf="i > 0" class="clickBtn" (click)="cancelItem(i)">
-                    <mat-icon class="addMark">remove</mat-icon>
-                  </div>
+                </div>
+                <div *ngIf="i > 0" class="clickBtn" (click)="cancelItem(i)">
+                  <mat-icon class="addMark">remove</mat-icon>
+                </div>
+                </div>
                 </div>
               </div>
               <div class="addclickBtn" (click)="addItem()">
@@ -230,13 +231,10 @@
           </div>
 
           <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
-            <div class="btnSection_1">
               <button mat-raised-button class="tableBtn" type="submit" color="primary"
                 [disabled]="isButtonDisabled()">Request</button>
-            </div>
-            <div>
+              <div style="width: 20px;"></div>
               <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
-            </div>
           </div>
 
       </div>

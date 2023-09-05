@@ -1,24 +1,14 @@
 <div class="mainContentContainer">
-  <div class="headerContainer">
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-
-      <div class="headerTitle" fxFlex=90>Employment Information</div>
-
-      <button fxFlex=6 mat-raised-button class="cancelBtn" (click)="backManagerList();">Back</button>
-
-    </div>
-
-    <mat-divider></mat-divider>
-  </div>
+    <div class="mainTitle">Employment Information</div>
 
 
 
-  <div class="gridBoxContainer">
-    <div class="cardBox" fxLayout="row">
-      <mat-card fxLayout="column" fxFlex=50>
+
+    <div class="leaveTableContainer">
+      <div fxFlex=50>
         <form [formGroup]="editEmployeeForm" novalidate>
           <mat-card-content class="card-content">
-            <p class="editTitle">Employment Detail</p>
+            <p class="editTitle">Edit Employee</p>
             <p>
               <mat-form-field appearance="outline">
                 <mat-label>Name</mat-label>
@@ -73,9 +63,9 @@
           <button mat-raised-button class="editBtn" (click)="updateProfileInfo();">Edit</button>
           <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
         </mat-card-actions>
-      </mat-card>
+      </div>
 
-      <mat-card fxLayout="column" fxFlex=50>
+      <div fxFlex=50>
         <form [formGroup]="editEmployeeForm">
           <mat-card-content class="ca©≈rd-content">
             <p class="editTitle">Leave</p>
@@ -236,7 +226,7 @@
           <button mat-raised-button class="editBtn" (click)="updateLeaveInfo();">Edit</button>
           <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
         </mat-card-actions>
-      </mat-card>
     </div>
+
   </div>
 </div>
