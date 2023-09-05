@@ -23,22 +23,26 @@
                                             matTooltipPosition="above"
                                             matTooltipShowDelay="500">
                                         </mat-slide-toggle>
-                                        <!-- <mat-slide-toggle (click)="meetingItems[i]=!meetingItems[i];] toggle(data);"></mat-slide-toggle> -->
                                     </div>
                                 </div>
                                 <div class="card-title">
                                     Status : {{ data.status | titlecase }}
                                 </div>
-                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                <!-- <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div class="card-title">
                                         Host : {{ data.manager_name }}
                                     </div>
                                     <img class="profile-img" [src]="data.manager_profile" alt=""
                                         [matTooltip]="data.manager_name" matTooltipPosition="above">
-                                </div>
+                                </div> -->
+
                             </mat-card-title>
                             <mat-card-subtitle>
-                                <h4>{{ data.meetingDescription }}</h4>
+                                <div>
+                                    <p *ngIf="data.managers">Managers: {{ data.managers }}</p>
+                                    <p *ngIf="data.employees">Employees: {{ data.employees }}</p>
+                                </div>
+                                <p>{{ data.meetingDescription }}</p>
                                 {{ data.start_date }} {{ data.start_time }}
                             </mat-card-subtitle>
                         </mat-card-header>

@@ -53,19 +53,21 @@
                 </mat-form-field>   
             </div>
             <div class="w-100p">
-                <mat-form-field class="example-full-width">
-                    <mat-label>Member</mat-label>
-                    <input type="text"
-                        placeholder="Pick member"
-                        aria-label="Number"
-                        matInput
-                        [formControl]="enlistedMember"
-                        [matAutocomplete]="auto">
-                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of enlistedMember | async" [value]="option">
-                        {{option}}
-                    </mat-option>
-                    </mat-autocomplete>
+                <mat-form-field class="w-100p">
+                <mat-label>Managers</mat-label>
+                <mat-select formControlName="managers" multiple>
+                   
+                    <mat-option *ngFor="let member of managers" [value]="member._id">{{member.username}} ({{member.email}})</mat-option>
+                </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="w-100p">
+                <mat-form-field class="w-100p">
+                <mat-label>Employees</mat-label>
+                <mat-select formControlName="employees" multiple>
+                   
+                    <mat-option *ngFor="let member of employees" [value]="member._id">{{member.username}} ({{member.email}})</mat-option>
+                </mat-select>
                 </mat-form-field>
             </div>
             <div class="w-100p">
