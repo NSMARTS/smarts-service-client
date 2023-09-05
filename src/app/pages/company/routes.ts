@@ -49,6 +49,13 @@ export const COMPANY_ROUTES: Route[] = [
           import('../space/meeting/routes').then((m) => m.MEETING_ROUTES),
       },
       {
+        path: ':id/retire-employee',
+        loadChildren: () =>
+          import('../employee/retire-employee/routes').then(
+            (m) => m.RETIRED_EMPLOYEE_ROUTES
+          ),
+      },
+      {
         path: ':id/pay-stub',
         loadChildren: () =>
           import('../employee/pay-stub/routes').then((m) => m.PAY_STUB_ROUTES),

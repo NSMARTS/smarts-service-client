@@ -44,8 +44,8 @@ export const sidenavRouteInfo: NavigationItem[] = [
       },
       {
         type: 'link',
-        label: 'Retired Employee',
-        route: '/retired/',
+        label: 'Retire Employee',
+        route: '/retire-employee/',
         icon: 'groups',
         isAdmin: true,
       },
