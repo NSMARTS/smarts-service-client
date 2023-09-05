@@ -67,13 +67,61 @@ export class MeetingComponent implements OnInit {
     // });
   }
 
+  // // 미팅 목록 조회
+  // getMeetingList(companyId: string) {
+  //   this.meetingService.getMeetingList(companyId).subscribe({
+  //     next: (data: any) => {
+  //       console.log(data.meetingList);
+  //       this.meetingArray = data.meetingList.sort((a: any, b: any) => {
+  //         return new Date(a.start_date).getTime() - new Date(b.start_date).getTime();
+  //       });
+  //       console.log(this.meetingArray)
+  //     },
+  //     error: (err: any) => {
+  //       console.log(err);
+  //     },
+  //   });
+  // }
+
   // 미팅 목록 조회
   getMeetingList(companyId: string) {
     this.meetingService.getMeetingList(companyId).subscribe({
       next: (data: any) => {
-        console.log(data.meetingList);
-        this.meetingArray = data.meetingList.sort((a: any, b: any) => {
-          return new Date(a.start_date).getTime() - new Date(b.start_date).getTime();
+        // 1. 서버 response를 meetingList라는 변수에 복사 (clone)
+        const meetingList = structuredClone(data.meetingList);
+
+        // 2. meetingList에 날짜와 시간이 합쳐진 "meetingDate라는 변수를 추가"
+        meetingList.map((item: any) => {
+          // start time (ex; PM 12 : 00 ) 을 공백으로 split 하면 ['PM', '12', ':', '00]
+          const meetingTime = {
+            am_pm: item.start_time.split(' ')[0], // 배열[0]은 AM PM에 해당
+            time: Number(item.start_time.split(' ')[1]), // 배열[1]은 시간에 해당
+            minute: Number(item.start_time.split(' ')[3]), // 배열[3]은 분에 해당
+          };
+
+          // PM이고 12시인 경우만 12시이고 그 외의 PM은 +12를 해줌 (ex: PM 11 -> 23)
+          if (meetingTime.am_pm == 'PM' && meetingTime.time != 12)
+            meetingTime.time += 12;
+          // AM이고 12시인 경우 00시를 의미하므로 해당 case만 0으로 변경
+          if (meetingTime.am_pm == 'AM' && meetingTime.time == 12)
+            meetingTime.time = 0;
+
+          // meetingDate라는 변수에 미팅 일자와 시간을 통합하여 저장
+          item.meetingDate = new Date(
+            `${item.start_date} ${meetingTime.time}:${meetingTime.minute}`
+          );
+          return item;
+        });
+
+        // console.log(meetingList);
+
+        // 3.meetingDate를 기준으로 sorting하고 해당 값을 this.meetingArray에 저장
+        // (현재는 최근일수로 위로 오도록 sort => 과거 미팅을 위에 오게 하려면 b와 a의 위치 변경 )
+        this.meetingArray = meetingList.sort((a: any, b: any) => {
+          return (
+            new Date(a.meetingDate).getTime() -
+            new Date(b.meetingDate).getTime()
+          );
         });
         console.log(this.meetingArray);
       },

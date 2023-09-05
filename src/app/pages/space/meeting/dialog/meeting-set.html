@@ -53,6 +53,22 @@
                 </mat-form-field>   
             </div>
             <div class="w-100p">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Member</mat-label>
+                    <input type="text"
+                        placeholder="Pick member"
+                        aria-label="Number"
+                        matInput
+                        [formControl]="enlistedMember"
+                        [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of enlistedMember | async" [value]="option">
+                        {{option}}
+                    </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="w-100p">
                 <mat-form-field class="w-100p" appearance="outline">
                     <mat-label>Meeting Link</mat-label>
                     <input matInput formControlName="meetingLink" value="">
