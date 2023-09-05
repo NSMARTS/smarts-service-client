@@ -29,18 +29,24 @@ interface SignUp {
 
 export interface UserInfo {
   _id: string;
+  location: string;
   email: string;
   username: string;
   profileImgPath: string;
   isAdmin: boolean;
+  phoneNumber: string;
+  address: string;
 }
 
 const initUserInfo: UserInfo = {
   _id: '',
   email: '',
   username: '',
+  location: '',
   profileImgPath: '',
+  phoneNumber: '',
   isAdmin: false,
+  address: '',
 };
 
 @Injectable({

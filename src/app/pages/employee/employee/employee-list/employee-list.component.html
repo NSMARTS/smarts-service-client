@@ -17,9 +17,19 @@
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
 
 
+        <ng-container matColumnDef="profile">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <img [src]="element.profileImgPath">
+          </td>
+        </ng-container>
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
           <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
         </ng-container>
 
         <ng-container matColumnDef="year">
@@ -115,10 +125,10 @@
         </ng-container>
 
         <ng-container matColumnDef="retire">
-            <th mat-header-cell *matHeaderCellDef> Retire </th>
-            <td mat-cell *matCellDef="let element">
-                <button (click)="retireEmployee(element?._id)">retire</button>
-            </td>
+          <th mat-header-cell *matHeaderCellDef> Retire </th>
+          <td mat-cell *matCellDef="let element">
+            <button (click)="retireEmployee(element?._id)">retire</button>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef=" displayedColumns; sticky: true"></tr>
