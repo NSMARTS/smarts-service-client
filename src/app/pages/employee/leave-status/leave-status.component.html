@@ -1,12 +1,10 @@
 <div class="mainContentContainer">
-  <div class="mainContent">
-    <div fxLayout="row">
       <div class="mainTitle">Employee Leave Status</div>
-    </div>
+
     <form [formGroup]="searchLeaveStatusForm" novalidate>
-      <div class="selectContainer">
+      <div class="historyTableBox">
         <div class="selectContent" fxLayout="row wrap" fxLayoutAlign="start none">
-          <div class="selectBoxContent" fxFlex="35">
+          <div class="selectBoxContent">
             <div class="selectBox">
               <span class="selectLabel">
                 <label for="type" class="optionLabel fontBold">Type</label>
@@ -22,7 +20,28 @@
             </div>
           </div>
 
-          <div class="selectBoxContent" fxFlex="65">
+          <div class="selectBoxContent">
+            <div class="selectBox">
+              <span class="selectLabel">
+                <label for="email" class="optionLabel fontBold">Email</label>
+              </span>
+              <mat-form-field class="formEmailFieldBox" appearance="outline">
+                <mat-label>E-MAIL</mat-label>
+                <!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
+                <input matInput type="email" spellcheck="false" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                  formControlName="emailFormControl" [matAutocomplete]="auto" />
+                <mat-error>an e-mail is required</mat-error>
+                <mat-error>Please input a correct e-mail!</mat-error>
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
+                    {{option.email}} ({{option.username}})
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+        </div>
+
+          <div class="selectBoxContent">
             <div class="selectBox">
               <span class="selectLabel">
                 <label for="period" class="optionLabel fontBold">Period</label>
@@ -43,26 +62,7 @@
             </div>
           </div>
 
-          <div fxFlex>
-            <div class="selectBox">
-              <span class="selectLabel">
-                <label for="email" class="optionLabel fontBold">Email</label>
-              </span>
-              <mat-form-field class="formEmailFieldBox" appearance="outline">
-                <mat-label>E-MAIL</mat-label>
-                <!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
-                <input matInput type="email" spellcheck="false" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                  formControlName="emailFormControl" [matAutocomplete]="auto" />
-                <mat-error>an e-mail is required</mat-error>
-                <mat-error>Please input a correct e-mail!</mat-error>
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
-                    {{option.email}} ({{option.username}})
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </div>
-          </div>
+
         </div>
       </div>
     </form>
@@ -147,5 +147,5 @@
       </mat-paginator>
 
     </div>
-  </div> <!-- mainContent -->
+
 </div> <!-- mainContentContainer -->

@@ -53,7 +53,7 @@ export const sidenavRouteInfo: NavigationItem[] = [
         type: 'link',
         label: 'Leave Status',
         route: '/leave-status/',
-        icon: 'update',
+        icon: 'event_note',
         isAdmin: true,
       },
       {
