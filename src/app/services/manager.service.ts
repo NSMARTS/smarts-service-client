@@ -14,7 +14,7 @@ export class ManagerService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //매니저 등록
   addManager(managerData: any) {
@@ -56,21 +56,21 @@ export class ManagerService {
     return this.http.delete(this.baseUrl + '/managers/' + managerId);
   }
 
-  // 매니저 직원 등록
+  // 매니저가 관리할 직원 등록
   addManagerEmployees(managerEmployeesData: any) {
     return this.http
       .post(this.baseUrl + '/managers/employees', managerEmployeesData)
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
-  // 매니저 직원 목록 조회
+  // 매니저가 관리하는 직원 목록 조회
   getManagerEmployees(managerId: string): Observable<HttpResMsg<Employee[]>> {
     return this.http.get<HttpResMsg<Employee[]>>(
       this.baseUrl + '/managers/employees/' + managerId
     );
   }
 
-  // 매니저 직원 빼고 직원 목록 조회
+  // 관리하지 않은 나머지 직원 목록 조회
   getManagerEmployeesWithout(
     companyId: string
   ): Observable<HttpResMsg<Employee[]>> {
@@ -79,7 +79,7 @@ export class ManagerService {
     );
   }
 
-  // 매니저 직원 삭제
+  // 매니저가 관리하고 있는 직원 삭제
   deleteManagerEmployees(employeeId: any) {
     return this.http.delete(this.baseUrl + '/managers/employee/' + employeeId);
   }

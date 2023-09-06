@@ -1,3 +1,4 @@
+import { ProfileComponent } from './pages/profile/profile.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
@@ -42,11 +43,10 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./pages/main/routes').then((m) => m.MAIN_ROUTES),
       },
-
-      // {
-      //     path: 'profile',
-      //     loadChildren: () => import(`./pages/profile-edit/profile-edit.module`).then(m => m.ProfileEditModule),
-      // },
+      {
+        path: 'profile',
+        loadComponent: () => import(`./pages/profile/profile.component`).then(m => m.ProfileComponent),
+      },
       {
         path: 'company',
         loadChildren: () =>

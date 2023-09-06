@@ -35,6 +35,8 @@ export class EmployeeEditComponent {
 
   employee!: Employee;
 
+  email = new FormControl({ value: '', disabled: true });
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -172,6 +174,8 @@ export class EmployeeEditComponent {
 
   // 상태저장중인 Employee가 있을 경우 호출
   getEmployeeStatus(employee: Employee) {
+    this.employee = employee;
+    this.email.patchValue(this.employee.email)
     this.editEmployeeForm.patchValue(employee);
     this.editEmployeeForm.patchValue(employee.personalLeave);
     this.patchLeaveStadard(employee); // 직원들 중 상태 관리하는 애들이 없으면
@@ -182,6 +186,7 @@ export class EmployeeEditComponent {
     this.employeeService.getEmployee(this.employeeId).subscribe({
       next: (res) => {
         this.employee = res.data;
+        this.email.patchValue(this.employee.email)
         this.editEmployeeForm.patchValue(this.employee);
         this.editEmployeeForm.patchValue(this.employee?.personalLeave);
         this.patchLeaveStadard(this.employee);

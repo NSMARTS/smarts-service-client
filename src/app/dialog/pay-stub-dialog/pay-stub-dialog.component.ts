@@ -98,12 +98,20 @@ export class PayStubDialogComponent implements OnInit {
 
   selectFile(event: any): void {
     if (event.target.files && event.target.files[0]) {
-      const file: File = event.target.files[0];
-      this.currentFile = file;
+      if (event.target.files[0].name.toLowerCase().endsWith('.pdf')) {
+        // Image resize and update
+        const file: File = event.target.files[0];
+        this.currentFile = file;
 
-      this.renderPdf(file)
+        this.renderPdf(file)
 
-      this.fileName = this.currentFile.name;
+        this.fileName = this.currentFile.name;
+      } else {
+        // this.dialogService.openDialogNegative('Profile photos are only available for PNG and JPG.');
+        alert('PDF만 가능합니다.');
+      }
+
+
     } else {
       this.fileName = 'Select File';
     }

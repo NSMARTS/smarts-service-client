@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/auth.service';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +8,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -22,18 +23,17 @@ export class ToolbarComponent {
   // isSideNavOpen Boolean 사이드 nav 켰어 안켰어
   isSideNavOpen = this.sidenavService.isSideNavOpen;
 
+  authService = inject(AuthService);
+  userInfoStore = this.authService.userInfoStore;
+
+  router = inject(Router);
+
   userProfileData: any; // 유저 프로필. 나중에 타입 추가
   notiItems: any = []; // 알림 객체 형식을 아직 모름. 나중에 타입 추가
   notiItemsLength = 0; // 알림 온 숫자 표시
   profileImg: string = '';
 
   ngOnInit(): void {
-    // this.profileService.getUserProfile().subscribe((data: any) => {
-    //     if (data.result) {
-    //         // console.log(data.user.profileImgPath);
-    //         this.profileImg = data.user.profileImgPath;
-    //     }
-    // });
     // this.notificationService.getNotification().subscribe(
     //     (data: any) => {
     //         if (data.result) {
@@ -104,5 +104,10 @@ export class ToolbarComponent {
   openSidenav() {
     //isSideNavOpen 를 true로 바꿈
     this.sidenavService.openSidenav();
+  }
+
+  signout() {
+    this.authService.signOut();
+    this.router.navigate(['welcome']);
   }
 }

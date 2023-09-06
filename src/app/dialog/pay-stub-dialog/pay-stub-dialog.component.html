@@ -25,7 +25,7 @@
 
           <div class="file-input">
             <input matInput [value]="fileName" [placeholder]="'Pdf upload'" disabled />
-            <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput" />
+            <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput" accept="application/pdf" />
           </div>
 
 

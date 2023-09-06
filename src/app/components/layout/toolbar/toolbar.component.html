@@ -20,17 +20,50 @@
         </button>
     </div>
 
-    <!-- 알람 부분 -->
+    <div>
+      <button mat-button [matMenuTriggerFor]="profile" matTooltip="Profile" matTooltipPosition="above"
+        [matTooltipShowDelay]="500">
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+          <!-- <mat-icon>person</mat-icon> -->
+          <img class="toolbar-profile-img" [src]="userInfoStore().profileImgPath" alt="">
+          <span class="profileName">{{userInfoStore().username}}</span>
+        </div>
+      </button>
+      <mat-menu #profile="matMenu" xPosition="before" class="dropdown-box">
+        <div class="dropdown">
+          <div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <!-- <mat-icon class="dropdown-profile-icon">person</mat-icon> -->
+              <img class="profile-img" [src]="userInfoStore().profileImgPath" alt="">
+              <div class="dropdown-profile-heading">
+                {{userInfoStore().username}}
+              </div>
+            </div>
+            <mat-icon>apps</mat-icon>
+          </div>
+          <div class="dropdown-content">
+            <div matRipple fxLayout="row" fxLayoutAlign="space-between center" class="notification notification-cursor"
+              [routerLink]="['/profile']">
+              <div fxLayout="row" fxLayoutAlign="start center">
 
-    <!-- 로그아웃 메뉴 부분 -->
-    <mat-menu #profile>
-        <button mat-menu-item [routerLink]="['/profile']">
-            <mat-icon>info</mat-icon>
-            <span>About</span>
-        </button>
-        <button mat-menu-item (click)="signOut();">
-            <mat-icon>logout</mat-icon>
-            <span>Sign out</span>
-        </button>
-    </mat-menu>
+                <mat-icon class="icon-box-1 company-request">account_circle</mat-icon>
+                <div>
+                  <div class="notification-label">My Profile</div>
+                  <div class="notification-description">Personal Information</div>
+                </div>
+              </div>
+
+              <mat-icon class="icon-box-2">keyboard_arrow_right</mat-icon>
+
+            </div>
+            <!-- <mat-divider></mat-divider> -->
+
+          </div>
+          <div class="dropdown-footer" fxLayout="row" fxLayoutAlign="center center" (click)="logOut();">
+            <button mat-button color="primary" (click)="signout()">LOGOUT</button>
+          </div>
+        </div>
+      </mat-menu>
+    </div>
+  </div>
 </mat-toolbar>

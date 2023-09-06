@@ -25,7 +25,9 @@ import { lastValueFrom } from 'rxjs';
 })
 export class EmployeeListComponent implements OnInit {
   displayedColumns: string[] = [
+    'profile',
     'name',
+    'email',
     'year',
     'entitlement',
     'rollover',

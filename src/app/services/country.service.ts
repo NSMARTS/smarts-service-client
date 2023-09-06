@@ -10,7 +10,7 @@ export class CountryService {
   constructor(private http: HttpClient) {}
   private baseUrl = environment.apiUrl;
 
-  // 나라 목록 불러오기
+  // 나라 목록 조회
   getCountryList() {
     return this.http.get(this.baseUrl + '/countries');
   }
@@ -22,10 +22,7 @@ export class CountryService {
 
   // 나라 수정
   editCountry(countryData: any) {
-    return this.http.put(
-      this.baseUrl + '/countries' ,
-      countryData
-    );
+    return this.http.put(this.baseUrl + '/countries', countryData);
   }
 
   /***
@@ -53,10 +50,12 @@ export class CountryService {
     return this.http.delete(this.baseUrl + '/countries/' + countryId);
   }
 
-  // 나라 정보 가져오기
+  // 나라별 공휴일 목록 조회
   getCountryInfo(data: any) {
     // console.log(data.countryId);
-    return this.http.get(this.baseUrl + '/countries/holiday/' + data.countryId);
+    return this.http.get(
+      this.baseUrl + '/countries/' + data.countryId + '/holiday'
+    );
   }
 
   // 나라별 공휴일 추가
