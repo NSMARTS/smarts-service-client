@@ -53,24 +53,6 @@
                 </mat-form-field>   
             </div>
             <div class="w-100p">
-                <mat-form-field class="w-100p">
-                <mat-label>Managers</mat-label>
-                <mat-select formControlName="managers" multiple>
-                   
-                    <mat-option *ngFor="let member of managers" [value]="member._id">{{member.username}} ({{member.email}})</mat-option>
-                </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="w-100p">
-                <mat-form-field class="w-100p">
-                <mat-label>Employees</mat-label>
-                <mat-select formControlName="employees" multiple>
-                   
-                    <mat-option *ngFor="let member of employees" [value]="member._id">{{member.username}} ({{member.email}})</mat-option>
-                </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="w-100p">
                 <mat-form-field class="w-100p" appearance="outline">
                     <mat-label>Meeting Link</mat-label>
                     <input matInput formControlName="meetingLink" value="">
@@ -78,7 +60,7 @@
             </div>
           
             <div class="createMeeting">
-                <button mat-raised-button class="clickBtn" (click)="createMeeting()" [disabled]="setMeetingForm.invalid">create</button>
+                <button mat-raised-button class="clickBtn" (click)="editMeeting()" [disabled]="setMeetingForm.invalid">edit</button>
             </div>
         </div>
     </div>

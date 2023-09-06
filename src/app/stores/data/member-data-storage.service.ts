@@ -13,8 +13,9 @@ export class MemberDataStorageService {
   get state() {
     return this.membersSubject$.getValue();
   }
-  // updateMembers(membersData: any) {
-  //   // console.log('updatedData', profileData);
-  //   this.membersSubject$.next(membersData);
-  // }
+  
+  updateMembers(membersData: any) {
+    // console.log('updatedData', profileData);
+    this.membersSubject$.next(membersData);
+  }
 }
