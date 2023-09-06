@@ -2,7 +2,7 @@
   <div class="headerContainer">
     <div fxLayout="row" fxLayoutAlign="space-between center">
 
-      <div class="headerTitle" fxFlex=90>Employment Information</div>
+      <div class="headerTitle" fxFlex=90>Employment Information </div>
 
       <button fxFlex=6 mat-raised-button class="cancelBtn" (click)="backManagerList();">Back</button>
 
@@ -21,23 +21,16 @@
             <p class="editTitle">Employment Detail</p>
             <p>
               <mat-form-field appearance="outline">
-                <mat-label>Name</mat-label>
-                <input matInput formControlName="username">
+                <mat-label>Email</mat-label>
+                <input matInput [formControl]="email" [disabled]="true">
                 <mat-icon matSuffix>assignment_ind</mat-icon>
               </mat-form-field>
             </p>
             <p>
               <mat-form-field appearance="outline">
-                <mat-label>Department</mat-label>
-                <input matInput formControlName="department">
-                <mat-icon matSuffix>work_outline</mat-icon>
-              </mat-form-field>
-            </p>
-            <p>
-              <mat-form-field appearance="outline">
-                <mat-label>Position</mat-label>
-                <input matInput formControlName="position">
-                <mat-icon matSuffix>work_outline</mat-icon>
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="username">
+                <mat-icon matSuffix>assignment_ind</mat-icon>
               </mat-form-field>
             </p>
             <p>
@@ -67,6 +60,20 @@
                 <mat-datepicker #picker2></mat-datepicker>
               </mat-form-field>
             </p>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Department</mat-label>
+                <input matInput formControlName="department">
+                <mat-icon matSuffix>work_outline</mat-icon>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Position</mat-label>
+                <input matInput formControlName="position">
+                <mat-icon matSuffix>work_outline</mat-icon>
+              </mat-form-field>
+            </p>
           </mat-card-content>
         </form>
         <mat-card-actions fxLayoutAlign="center">
@@ -74,6 +81,8 @@
           <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
         </mat-card-actions>
       </mat-card>
+
+
 
       <mat-card fxLayout="column" fxFlex=50>
         <form [formGroup]="editEmployeeForm">

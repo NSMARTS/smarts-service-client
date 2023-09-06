@@ -2,12 +2,7 @@ import { Route } from '@angular/router';
 import { CompanyListComponent } from './company-list/company-list.component';
 import { CompanyAddComponent } from './company-add/company-add.component';
 import { CompanyEditComponent } from './company-edit/company-edit.component';
-import { InfoComponent } from '../corporation/info/info.component';
-import { HolidayComponent } from '../corporation/holiday/holiday.component';
-import { ManagerListComponent } from '../employee/manager/manager-list/manager-list.component';
-import { ManagerAddComponent } from '../employee/manager/manager-add/manager-add.component';
-import { ManagerEditComponent } from '../employee/manager/manager-edit/manager-edit.component';
-import { LayoutComponent } from 'src/app/components/layout/layout.component';
+
 import { CompanyService } from 'src/app/services/company.service';
 
 export const COMPANY_ROUTES: Route[] = [
@@ -59,6 +54,11 @@ export const COMPANY_ROUTES: Route[] = [
         path: ':id/pay-stub',
         loadChildren: () =>
           import('../employee/pay-stub/routes').then((m) => m.PAY_STUB_ROUTES),
+      },
+      {
+        path: ':id/leave-status',
+        loadChildren: () =>
+          import('../employee/leave-status/routes').then((m) => m.LEAVE_STATUS_ROUTES),
       },
     ],
   },

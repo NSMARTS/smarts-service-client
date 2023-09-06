@@ -158,7 +158,7 @@ export class LayoutComponent {
 
         // check /company/24 hex length object_id
         this.isSidenavRequired = false;
-        if (splittedUrl[1] === 'company' && splittedUrl[2].length == 24) {
+        if (splittedUrl[1] === 'company' && splittedUrl[2]?.length == 24) {
           console.log("current url>> ", currentUrl);
           this.isSidenavRequired = true;
         }

@@ -51,6 +51,13 @@ export const sidenavRouteInfo: NavigationItem[] = [
       },
       {
         type: 'link',
+        label: 'Leave Status',
+        route: '/leave-status/',
+        icon: 'update',
+        isAdmin: true,
+      },
+      {
+        type: 'link',
         label: 'Pay Stub',
         route: '/pay-stub/',
         icon: 'update',

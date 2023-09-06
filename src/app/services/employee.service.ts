@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { Observable, tap } from 'rxjs';
 import { HttpResMsg } from '../interfaces/http-response.interfac';
 import * as moment from 'moment';
+import { LeaveRequest } from '../interfaces/leave-request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class EmployeeService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
   employees = signal<Employee[]>([]);
-  constructor(private http: HttpClient, private commonService: CommonService) {}
+  constructor(private http: HttpClient, private commonService: CommonService) { }
 
   //회사 등록
   addEmployee(companyData: any) {
@@ -153,5 +154,15 @@ export class EmployeeService {
     return this.http.delete<HttpResMsg<Employee[]>>(
       this.baseUrl + '/employees/' + employeeId + '/retire'
     );
+  }
+
+  /**
+   * 
+   * @param id companyId
+   * @param data {emailFormControl: 'string', leaveStartDate: '2023-09-01', leaveEndDate: '2023-09-30', leaveType: 'all'} 
+   * @returns LeaveRequest[]
+   */
+  getEmployeeLeaveListSearch(id: string, data: any): Observable<HttpResMsg<LeaveRequest[]>> {
+    return this.http.get<HttpResMsg<LeaveRequest[]>>(this.baseUrl + '/employees/' + id + '/leaves/', { params: data });
   }
 }

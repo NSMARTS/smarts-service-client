@@ -61,8 +61,8 @@
         [matTooltipShowDelay]="500">
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
           <!-- <mat-icon>person</mat-icon> -->
-          <img class="toolbar-profile-img" [src]="profileImg" alt="">
-          <span class="profileName">{{userProfileData?.name}}</span>
+          <img class="toolbar-profile-img" [src]="userInfoStore().profileImgPath" alt="">
+          <span class="profileName">{{userInfoStore().username}}</span>
         </div>
       </button>
       <mat-menu #profile="matMenu" xPosition="before" class="dropdown-box">
@@ -70,9 +70,9 @@
           <div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
             <div fxLayout="row" fxLayoutAlign="start center">
               <!-- <mat-icon class="dropdown-profile-icon">person</mat-icon> -->
-              <img class="profile-img" [src]="profileImg" alt="">
+              <img class="profile-img" [src]="userInfoStore().profileImgPath" alt="">
               <div class="dropdown-profile-heading">
-                {{userProfileData?.name}}
+                {{userInfoStore().username}}
               </div>
             </div>
             <mat-icon>apps</mat-icon>
@@ -96,7 +96,7 @@
 
           </div>
           <div class="dropdown-footer" fxLayout="row" fxLayoutAlign="center center" (click)="logOut();">
-            <button mat-button color="primary">LOGOUT</button>
+            <button mat-button color="primary" (click)="signout()">LOGOUT</button>
           </div>
         </div>
       </mat-menu>
