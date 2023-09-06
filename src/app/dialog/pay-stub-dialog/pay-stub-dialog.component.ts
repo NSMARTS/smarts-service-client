@@ -128,7 +128,6 @@ export class PayStubDialogComponent implements OnInit {
         company: this.data.companyId,
         writer: this.userInfoStore()._id
       }
-      console.log('formData : ', formData)
 
       this.payStubService.upload(formData).subscribe({
         next: (event: any) => {

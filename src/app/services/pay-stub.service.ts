@@ -44,8 +44,8 @@ export class PayStubService {
   }
 
   getPdf(url: string): Observable<ArrayBuffer> {
+    // url 한글깨짐 방지용
     const encodedUrl = encodeURIComponent(url);
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/pdf',
       'Accept': 'application/pdf'
