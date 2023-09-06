@@ -251,8 +251,49 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 }
 
 //공통 edit
+.editTitle{
+    font-size: 16px;
+    font-weight: bold;
+    padding: 20px 0;
+}
 
+.leaveTableContainer2 {
+    display: flex;
 
+    padding: 20px;
+    border: 1px solid rgba(238, 238, 238, 0.548);
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+    font-size: 14px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+
+    .br_ltop {
+        border-radius: 4px;
+    }
+}
+
+.leaveTableContainerLeft {
+    flex: 3; /* 각 요소가 동일한 공간을 차지하도록 설정 */
+    margin: 10px; /* 간격을 원하는 만큼 추가 */
+}
+
+.leaveTableContainerRight {
+    flex: 7; /* 각 요소가 동일한 공간을 차지하도록 설정 */
+    margin: 10px; /* 간격을 원하는 만큼 추가 */
+}
+
+/* 화면 폭이 1000px 이하일 때 스타일 수정 */
+@media screen and (max-width: 1000px) {
+    .leaveTableContainer2 {
+        flex-wrap: wrap; /* 줄바꿈을 허용하도록 설정 */
+    }
+    .leaveTableContainerLeft, .leaveTableContainerRight {
+        width: 100%; /* 전체 너비를 차지하도록 설정 */
+        box-sizing: border-box;
+        margin-bottom: 10px; /* 아래 여백을 추가하여 다음 줄로 넘어가도록 함 */
+    }
+}
 
 /**
 작성자: 임호균

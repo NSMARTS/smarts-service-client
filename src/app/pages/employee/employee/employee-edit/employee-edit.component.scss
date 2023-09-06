@@ -1,0 +1,24 @@
+.form-row {
+    display: flex; /* 수평으로 배열 */
+    justify-content: space-between; /* 요소 사이의 간격을 넓혀줍니다 */
+  }
+
+  .form-field {
+    flex: 1; /* 각각의 요소가 동일한 너비를 갖도록 설정 */
+    margin-right: 20px; /* 요소 사이의 간격을 설정 (원하는 간격으로 조절) */
+  }
+
+  .formFieldBox {
+    width: 130PX;
+}
+
+@media screen and (max-width: 775px) {  
+    .yearLabel {
+        font-size: 0.7em;
+    }
+
+    .formFieldBox {
+            width: 80PX;
+        }
+}
+

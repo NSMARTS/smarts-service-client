@@ -1,0 +1,41 @@
+@media screen and (max-width: 1670px) { 
+    .historyTableBox2 {
+        word-break: break-all;
+
+
+        th {
+            padding: 3px 5px;
+        }
+
+        td {
+            padding: 2px 5px;
+            font-size: 1em;
+
+            button {
+                width: 70px;
+                padding: 0;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) { 
+    .historyTableBox2 {
+        word-break: break-all;
+
+
+        th {
+            padding: 3px 5px;
+        }
+
+        td {
+            padding: 2px 5px;
+            font-size: 0.7em;
+
+            button {
+                width: 70px;
+                padding: 0;
+            }
+        }
+    }
+}
