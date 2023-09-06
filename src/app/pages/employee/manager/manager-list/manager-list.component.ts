@@ -18,6 +18,7 @@ import { Manager } from 'src/app/interfaces/manager.interface';
 })
 export class ManagerListComponent {
   displayedColumns: string[] = [
+    'profile',
     'name',
     'email',
     'phone',

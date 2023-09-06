@@ -12,6 +12,14 @@
             </div>
 
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
+                
+                <ng-container matColumnDef="profile">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                      <img [src]="element.profileImgPath">
+                    </td>
+                  </ng-container>
+                
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Name </th>
                     <td mat-cell *matCellDef="let element"> {{element.username}} </td>
