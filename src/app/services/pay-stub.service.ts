@@ -44,11 +44,13 @@ export class PayStubService {
   }
 
   getPdf(url: string): Observable<ArrayBuffer> {
+    const encodedUrl = encodeURIComponent(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/pdf',
       'Accept': 'application/pdf'
     });
-    return this.http.get(this.baseUrl + '/statements/findPdf/' + url, {
+    return this.http.get(this.baseUrl + `/statements/findPdf/${encodedUrl}`, {
       headers: headers,
       responseType: 'arraybuffer'
     });

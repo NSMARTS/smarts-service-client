@@ -85,8 +85,14 @@
     </div> -->
 
     <div class="historyTableBox">
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable" matSort matSortActive="createdAt"
-        matSortDisableClear matSortDirection="desc">
+      <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+          API rate limit has been reached. It will be reset in one minute.
+        </div>
+      </div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable" matSort
+        matSortActive="leaveStartDate" matSortDisableClear matSortDirection="desc">
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->

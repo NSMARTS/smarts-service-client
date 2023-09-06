@@ -7,7 +7,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from 'src/app/services/common.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { Observable, lastValueFrom, map, startWith } from 'rxjs';
+import { Observable, lastValueFrom, map, merge, startWith, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as moment from 'moment';
@@ -48,6 +48,10 @@ export class LeaveStatusComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  isLoadingResults = true;
+  isRateLimitReached = false;
+
 
   constructor(
     private fb: FormBuilder,
@@ -127,14 +131,30 @@ export class LeaveStatusComponent {
     }
 
     // 조건에 따른 사원들 휴가 가져오기
-    this.employeeService.getEmployeeLeaveListSearch(this.companyId, myEmployeeInfo).subscribe({
-      next: (res) => {
-        console.log(res.data)
-        this.dataSource = new MatTableDataSource<LeaveRequest>(res.data);
-        this.dataSource.paginator = this.paginator;
-      },
-      error: (error) => console.log(error)
-    })
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.employeeService.getEmployeeLeaveListSearch(this.companyId, myEmployeeInfo).pipe()
+        }),
+        map((res: any) => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingResults = false;
+          this.isRateLimitReached = res.datt === null;
+
+          this.dataSource = new MatTableDataSource<LeaveRequest>(res.data);
+          this.dataSource.paginator = this.paginator;
+
+
+          // Only refresh the result length if there is new data. In case of rate
+          // limit errors, we do not want to reset the paginator to zero, as that
+          // would prevent users from re-triggering requests.
+          return res.data;
+        }),
+      )
+      .subscribe();
   }
 
   // openDialogPendingLeaveDetail(data) {

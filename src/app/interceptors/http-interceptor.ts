@@ -8,7 +8,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, catchError, switchMap, tap, throwError } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { AccessToken, AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
 /**
@@ -64,14 +64,14 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         // access token이 만료되면 재발행 요청
         return this.authService.refreshToken().pipe(
           // 새로 발급 받은 accessToken을 메모리에 저장
-          tap((data) => this.authService.accessToken.set(data)),
+          tap(async (data: AccessToken) => await this.authService.setAccessToken(data)),
           switchMap((data) => {
             this.isRefreshing = false;
             request = request.clone({
               withCredentials: true,
               headers: request.headers.set(
                 'Authorization',
-                'Bearer ' + this.authService.accessToken()?.accessToken
+                'Bearer ' + data.accessToken
               ),
             });
             console.log('refresh token 재요청');

@@ -16,7 +16,7 @@ interface SignIn {
   email: string;
   password: string;
 }
-interface AccessToken {
+export interface AccessToken {
   accessToken: string;
 }
 
