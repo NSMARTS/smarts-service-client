@@ -120,7 +120,7 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.updateProfile(patchData).subscribe({
       next: (res) => {
-        this.refreshProfie()
+        if (res) this.refreshProfie()
       },
       error: (error) => { console.log(error) },
     })
@@ -128,7 +128,7 @@ export class ProfileComponent implements OnInit {
 
   refreshProfie() {
     this.authService.refreshToken().subscribe({
-      next: (data) => this.authService.setAccessToken(data),
+      next: async (data) => await this.authService.setAccessToken(data),
       error: (error) => console.log(error)
     })
   }

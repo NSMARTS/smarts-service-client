@@ -75,17 +75,17 @@ export class LeaveStatusComponent {
 
   ngOnInit(): void {
     this.getEmployees()
-    this.myEmployeeLeaveListSearch();
   }
 
   async getEmployees() {
     const employees = await lastValueFrom(this.employeeService.getEmployees(this.companyId))
     await this.employeeService.setEmployees(employees.data)
+    console.log(employees.data)
     this.setAutoComplete() // employeeList를 불러와서 자동완성에 사용
   }
 
   /**
-   * email 폼 자동완성 코드
+   * email 폼 자동완성 코드 ---------------------------------
    */
   setAutoComplete() {
     // auto complete
@@ -97,6 +97,8 @@ export class LeaveStatusComponent {
         map(employees => this.filteredEmployee.set(employees)),
         takeUntilDestroyed(this.destroyRef)
       ).subscribe()
+
+    this.myEmployeeLeaveListSearch();
   }
 
   private _filterStates(email: string): Employee[] {
@@ -108,6 +110,9 @@ export class LeaveStatusComponent {
     );
   }
 
+  /**
+   * 휴가 사용 내역 목록 조회
+   */
   myEmployeeLeaveListSearch() {
     const formValue = this.searchLeaveStatusForm.value;
     // 검색 범위 시작일을 YYYY-MM-DD 포맷으로 변경
