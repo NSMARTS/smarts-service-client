@@ -241,9 +241,7 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 }
 
 .formFieldBox {
-    /* 원하는 최대 너비로 조절하세요 */
     max-width: 200px;
-    /* 또는 너비를 조절하는 다른 스타일을 여기에 추가하세요 */
   }
 
 .booterBtn {
@@ -293,6 +291,11 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
         box-sizing: border-box;
         margin-bottom: 10px; /* 아래 여백을 추가하여 다음 줄로 넘어가도록 함 */
     }
+}
+
+//공통 dialog
+.leaveDialogContainer {
+    padding: 20px 30px;
 }
 
 /**

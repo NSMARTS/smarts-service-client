@@ -1,15 +1,12 @@
 <div class="mainContentContainer">
-	<div class="mainContent">
-		<div fxLayout="row">
-			<div class="mainTitle">Add Manager Employees</div>
-		</div>
-
+		<div class="mainTitle">Add Manager's Employees</div>
+        Click on the employees you want to add and press the request button.
         <div class="filter">
             <mat-form-field>
               <mat-label>Filter</mat-label>
-              <input matInput (keyup)="applyFilter($event)" placeholder="addManagerEmployees" #input>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Manager's Employees" #input>
             </mat-form-field>
-            <button mat-button (click)="addmanagerEmployees()">Add Manager Employees</button>
+            <button mat-flat-button class="tableAddBtn" (click)="addmanagerEmployees()">Request</button>
           </div>
 
         <div class="table-container">
@@ -114,5 +111,4 @@
           </table>
         </div>
 
-	</div>
 </div>
