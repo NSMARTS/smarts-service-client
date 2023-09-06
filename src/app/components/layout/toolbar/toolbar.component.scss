@@ -6,11 +6,22 @@
     gap: 5px;
 }
 
-.profile_image {
-   width: 35px; 
+.toolbar-profile-img {
+    width: 35px;
+    border: 0;
+    height: auto;
+    border-radius: 100%;
+    margin-right: 15px;
 }
 
-
+.profile-img {
+    width: 40px;
+    border: 0;
+    height: auto;
+    border-radius: 100%;
+    // right:0;
+    margin-right: 15px;
+}
 
 .menu_header {
     padding: 1rem 1.5rem;

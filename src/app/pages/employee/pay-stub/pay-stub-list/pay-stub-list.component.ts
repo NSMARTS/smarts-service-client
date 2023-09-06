@@ -114,7 +114,9 @@ export class PayStubListComponent {
 
             this.pdfViewer.nativeElement.width = viewport.width;
             this.pdfViewer.nativeElement.height = viewport.height;
-
+            // pdf 를 그려주는 canvas태그 최대 크기 지정
+            // this.pdfViewer.nativeElement.style.maxWidth = viewport.width + 'px';
+            // this.pdfViewer.nativeElement.style.maxHeight = viewport.height + 'px';
             const renderContext = {
               canvasContext: context!,
               viewport: viewport,
