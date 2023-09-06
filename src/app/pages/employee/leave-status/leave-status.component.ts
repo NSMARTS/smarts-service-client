@@ -13,6 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as moment from 'moment';
 import { MatTableDataSource } from '@angular/material/table';
 import { LeaveRequest } from 'src/app/interfaces/leave-request.interface';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-leave-status',
@@ -45,9 +46,8 @@ export class LeaveStatusComponent {
 
   searchLeaveStatusForm: FormGroup;
 
-
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private fb: FormBuilder,
