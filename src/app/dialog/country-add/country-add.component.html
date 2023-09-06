@@ -4,47 +4,30 @@
 		<form [formGroup]="countryForm" novalidate>
 			<div class="leaveDialogContainer">
 				<div fxLayout="column" class="br_ltop">
-					<div class="lineDivider" fxLayout="row">
-						<div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-							<div class="leftBox">
-								<span>Name</span>	
-							</div>
-						</div>
-						<div class="rightTable" fxFlex>
-							<div>
+
+
                                 <mat-form-field appearance="outline" class="countryFormFieldBox">
                                     <mat-label>Country Name</mat-label>
                                     <input matInput type="text" formControlName="countryName"/>
                                 </mat-form-field>
-							</div>
-						</div>
-					</div>
-					<div class="lineDivider" fxLayout="row">
-						<div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-							<div>
-								<span>Code</span>	
-							</div>
-						</div>
-                        <div class="rightTable" fxFlex>
-							<div>
+
+
+
                                 <mat-form-field appearance="outline" class="countryFormFieldBox">
                                     <mat-label>Country Code</mat-label>
                                     <input matInput type="text" formControlName="countryCode"/>
                                 </mat-form-field>
-							</div>
-						</div>
-						
-					</div>
-					<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="booterBtn">
+
+					<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
 						<button 
                         mat-flat-button
 							class="approveBtn" 
 							(click)="addCountry()" 
 							[disabled]="countryForm.invalid"
 						> 
-							Request 
+							Create
 						</button>
-						<button  mat-raised-button class="cancelBtn" mat-dialog-close> Cancel </button>
+						
 					</div>
 				</div>
 			</div>

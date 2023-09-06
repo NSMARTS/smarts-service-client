@@ -108,19 +108,19 @@
 //     padding: 0 30px;
 // }
 
-.companyFormFieldBox {
-    width: 200px;
-}
+// .companyFormFieldBox {
+//     width: 200px;
+// }
 
-.leftTable {
+// .leftTable {
     //border-radius: 4px;
     //margin: 1px;
     //padding: 20px;
     //color: #fff;
     //font-weight: 700;
     //background-color: #3f51b5;
-    margin-bottom: 20px;
-}
+//     margin-bottom: 20px;
+// }
 
 //.rightTable {
 //    border-left: 1px solid #000;
@@ -131,13 +131,13 @@
 //     padding-bottom: 0;
 // }
 
-.confirmBtn {
-    // background: #273da0;
-    // color: #fff;
-    // padding: 0 30px;
-    width: 120px;
+// .confirmBtn {
+//     // background: #273da0;
+//     // color: #fff;
+//     // padding: 0 30px;
+//     width: 120px;
     
-}
+// }
 
 // .rejectBtn {
 //     background: #ff4081;
@@ -146,15 +146,29 @@
 //     width: 120px;
 // }
 
-.cancelBtn {
-    //background: #c1c1c1;
-    //color: #fff;
-    // padding: 0 30px;
-    width: 120px;
+// .cancelBtn {
+//     //background: #c1c1c1;
+//     //color: #fff;
+//     // padding: 0 30px;
+//     width: 120px;
+// }
+
+.leftTable {
+    margin-bottom: 20px;
 }
 
 .mt-30 {
     margin-top:30px;
 }
 
+.selectContent {
+    justify-content: space-evenly;
+  }
+  
+  .addCountryBtn {
+    margin-bottom: 20px;
+  }
 
+  .leaveTableContainer {
+    padding-bottom: 0px;
+  }

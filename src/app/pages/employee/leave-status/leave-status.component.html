@@ -2,8 +2,8 @@
       <div class="mainTitle">Employee Leave Status</div>
 
     <form [formGroup]="searchLeaveStatusForm" novalidate>
-      <div class="historyTableBox">
-        <div class="selectContent" fxLayout="row wrap" fxLayoutAlign="start none">
+      <div class="leaveTableContainer" fxLayoutAlign="center center">
+        <div class="selectContent" fxLayout="row wrap" >
           <div class="selectBoxContent">
             <div class="selectBox">
               <span class="selectLabel">
@@ -30,7 +30,7 @@
                 <!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
                 <input matInput type="email" spellcheck="false" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                   formControlName="emailFormControl" [matAutocomplete]="auto" />
-                <mat-error>an e-mail is required</mat-error>
+                <!-- <mat-error>an e-mail is required</mat-error> -->
                 <mat-error>Please input a correct e-mail!</mat-error>
                 <mat-autocomplete #auto="matAutocomplete">
                   <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
@@ -61,17 +61,18 @@
               </mat-form-field>
             </div>
           </div>
-
+          <div class="searchBox" fxLayout="column nowrap" fxLayoutAlign="center center">
+            <div>
+              <button mat-flat-button class="searchBtn" (click)="myEmployeeLeaveListSearch();">Search</button>
+            </div>
+          </div>
+      </div>
 
         </div>
-      </div>
+
     </form>
 
-    <div class="searchBox" fxLayout="column nowrap" fxLayoutAlign="center center">
-      <div>
-        <button mat-raised-button class="searchBtn" (click)="myEmployeeLeaveListSearch();">Search</button>
-      </div>
-    </div>
+
 
     <!-- excel dowonload -->
 

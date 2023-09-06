@@ -52,9 +52,29 @@
 //   margin: 0 5px;
 // }
 
-// .fontBold {
-//   font-weight: bold;
-// }
+.selectContent {
+    justify-content: space-evenly;
+  }
+
+.fontBold {
+  font-weight: bold;
+  margin: 10px 10px;
+}
+
+.searchBtn{
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1000px) { 
+    .mat-mdc-form-field{
+        width: 150px;
+    }
+}
+
+.leaveTableContainer {
+    padding-bottom: 0px;
+  }
 
 // .searchBtn {
 //   background: #00154F;

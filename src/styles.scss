@@ -120,6 +120,11 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     
     td {
         text-align: center;
+
+        img {
+            width: 40px;
+            padding-top: 5px;
+        }
     }
 
     box-shadow: none;
@@ -149,7 +154,7 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     --mdc-filled-button-label-text-color: #fff;
 }  
 
-@media screen and (max-width: 1400px) { 
+@media screen and (max-width: 1580px) { 
     .mainContentContainer {
         padding: 10px 10px;
     }
@@ -174,6 +179,10 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
                 width: 70px;
                 padding: 0;
             }
+
+            img {
+            width: 0px;
+        }
         }
     }
 }
@@ -208,7 +217,7 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     }
 }
 
-//공통 add
+//공통 add, fiter
 .leaveTableContainer {
     padding: 20px 20px;
     border: 1px solid rgba(238, 238, 238, 0.548);
@@ -297,6 +306,15 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 //공통 dialog
 .leaveDialogContainer {
     padding: 20px 30px;
+
+    .mat-mdc-form-field {
+        width: 320px;
+        margin-bottom: 20px;
+    }
+
+    .mat-mdc-unelevated-button {
+        width: 320px;
+    }
 }
 
 /**

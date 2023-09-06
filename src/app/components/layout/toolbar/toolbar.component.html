@@ -43,7 +43,17 @@
             <span class="profileName">{{userInfoStore().username}}</span>
           </div>
         </button>
-        <mat-menu #profile="matMenu" xPosition="before" class="dropdown-box">
+            <mat-menu #profile>
+        <button mat-menu-item [routerLink]="['/profile']">
+            <mat-icon>info</mat-icon>
+            <span>About</span>
+        </button>
+        <button mat-menu-item (click)="signout();">
+            <mat-icon>logout</mat-icon>
+            <span>Sign out</span>
+        </button>
+    </mat-menu>
+        <!-- <mat-menu #profile="matMenu" xPosition="before" class="dropdown-box">
           <div class="dropdown">
             <div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
               <div fxLayout="row" fxLayoutAlign="start center">
@@ -77,7 +87,7 @@
               <button mat-button color="primary" (click)="signout()">LOGOUT</button>
             </div>
           </div>
-        </mat-menu>
+        </mat-menu> -->
       </div>
 
 </mat-toolbar>
