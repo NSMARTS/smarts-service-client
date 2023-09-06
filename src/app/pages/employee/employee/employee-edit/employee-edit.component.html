@@ -1,18 +1,12 @@
 <div class="mainContentContainer">
     <div class="mainTitle">Employment Information</div>
 
-
-
-      <button fxFlex=6 mat-raised-button class="cancelBtn" (click)="backManagerList();">Back</button>
-
-
-
-
-
-  <div class="gridBoxContainer">
-    <div class="cardBox" fxLayout="row">
-      <mat-card fxLayout="column" fxFlex=50>
-        <form [formGroup]="editEmployeeForm" novalidate>
+    <div class="leaveTableContainer2">
+        
+      <div class="leaveTableContainerLeft">
+        <p class="editTitle">Edit Employee</p>
+        <!-- <button fxFlex=6 mat-raised-button class="cancelBtn" (click)="backManagerList();">Back</button> -->
+        <form [formGroup]="editEmployeeForm" novalidate fxLayoutAlign="center">
           <mat-card-content class="card-content">
             <p>
               <mat-form-field appearance="outline">
@@ -75,7 +69,7 @@
           <button mat-flat-button class="editBtn" (click)="updateProfileInfo();">Edit</button>
           <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
         </mat-card-actions>
-      </mat-card>
+      </div>
 
       <div class="leaveTableContainerRight">
         <form [formGroup]="editEmployeeForm" >
