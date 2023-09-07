@@ -4,7 +4,7 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/dialog/dialog.service';
 import { Subject, forkJoin, map, startWith, takeUntil } from 'rxjs';
 import { MeetingService } from 'src/app/services/meeting.service';
@@ -41,8 +41,8 @@ export class MeetingComponent implements OnInit {
     'meetingTitle',
     'meetingDescription',
     'meetingLink',
-    'start_date',
-    'start_time',
+    'startDate',
+    'startTime',
     'managers',
     'employees',
   ];
@@ -50,7 +50,7 @@ export class MeetingComponent implements OnInit {
   employees: any[] = [];
   managers: Member[] = [];
   companyId: string; // 회사아이디 params
-  showAllMeetings = false;
+  showAllMeetings: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -146,9 +146,9 @@ export class MeetingComponent implements OnInit {
         const meetingList = data.meetingList.map((item: any) => {
           // start time (ex; PM 12 : 00 ) 을 공백으로 split 하면 ['PM', '12', ':', '00]
           const meetingTime = {
-            am_pm: item.start_time.split(' ')[0], // 배열[0]은 AM PM에 해당
-            time: Number(item.start_time.split(' ')[1]), // 배열[1]은 시간에 해당
-            minute: Number(item.start_time.split(' ')[3]), // 배열[3]은 분에 해당
+            am_pm: item.startTime.split(' ')[0], // 배열[0]은 AM PM에 해당
+            time: Number(item.startTime.split(' ')[1]), // 배열[1]은 시간에 해당
+            minute: Number(item.startTime.split(' ')[3]), // 배열[3]은 분에 해당
           };
 
           // PM이고 12시인 경우만 12시이고 그 외의 PM은 +12를 해줌 (ex: PM 11 -> 23)
@@ -160,7 +160,7 @@ export class MeetingComponent implements OnInit {
 
           // meetingDate라는 변수에 미팅 일자와 시간을 통합하여 저장
           const meetingDate = new Date(
-            `${item.start_date} ${meetingTime.time}:${meetingTime.minute}`
+            `${item.startDate} ${meetingTime.time}:${meetingTime.minute}`
           );
 
           console.log(item.managers, this.managers, this.employees);
@@ -243,7 +243,7 @@ export class MeetingComponent implements OnInit {
       spaceId: meetingData.spaceId,
       status: 'Open',
     };
-    this.meetingService.openMeeting(data).subscribe({
+    this.meetingService.editMeeting(data).subscribe({
       next: (data: any) => {
         console.log(data);
       },
@@ -263,7 +263,7 @@ export class MeetingComponent implements OnInit {
       spaceId: meetingData.spaceId,
       status: 'Close',
     };
-    this.meetingService.closeMeeting(data).subscribe({
+    this.meetingService.editMeeting(data).subscribe({
       next: (data: any) => {
         console.log(data);
       },
@@ -338,7 +338,7 @@ export class MeetingComponent implements OnInit {
   providers: [MeetingService],
 })
 export class DialogMeetingSetComponent {
-  today = new Date();
+today = new Date();
 
   setMeetingForm = new FormGroup({
     startDate: new FormControl(this.today),
@@ -450,7 +450,7 @@ export class DialogMeetingSetComponent {
 // 미팅 편집하는 dialog
 
 @Component({
-  selector: 'app-meeting-set',
+  selector: 'app-meeting-edit',
   standalone: true,
   templateUrl: './dialog/meeting-edit.html',
   styleUrls: ['./meeting.component.scss'],
@@ -459,8 +459,8 @@ export class DialogMeetingSetComponent {
 })
 export class MeetingEditComponent {
   setMeetingForm = new FormGroup({
-    startDate: new FormControl(''),
-    meetingTitle: new FormControl(),
+    startDate: new FormControl('', [Validators.required]),
+    meetingTitle: new FormControl('', [Validators.required]),
     meetingDescription: new FormControl(),
     meetingLink: new FormControl(),
     startHour: new FormControl('12'),
@@ -516,8 +516,11 @@ export class MeetingEditComponent {
     this.meetingList = this.data.list.filter(
       (e: any) => e._id === this.data.meetingId
     );
-    this.setMeetingForm.controls.startDate.patchValue(this.meetingList[0].meetingDate);
+    // this.setMeetingForm.controls.startDate.patchValue(
+    //   this.meetingList[0].meetingDate
+    // );
     this.setMeetingForm.patchValue(this.meetingList[0]);
+    console.log(this.setMeetingForm.value)
   }
 
   // 미팅 수정
@@ -542,7 +545,6 @@ export class MeetingEditComponent {
               formValue.startMin,
             managers: formValue.managers,
             employees: formValue.employees,
-            status: 'open',
           };
           console.log(setMeeting);
           if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {

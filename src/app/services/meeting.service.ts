@@ -1,5 +1,4 @@
 import { HttpClient } from "@angular/common/http";
-import { MeetingListStorageService } from "../stores/data/meeting-list-storage.service";
 import { shareReplay, tap } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Injectable } from "@angular/core";
@@ -12,7 +11,6 @@ export class MeetingService {
 
   constructor(
     private http: HttpClient,
-    private meetingListStorageService: MeetingListStorageService // private mdsService: MemberDataStorageService, // private ddsService: DocDataStorageService, // private scrumService: ScrumBoardStorageService
   ) {}
   private baseUrl = environment.apiUrl;
 
@@ -39,14 +37,14 @@ export class MeetingService {
     return this.http.put(this.baseUrl + '/meetings', setMeeting);
   }
 
-  // 미팅 오픈
-  openMeeting(data: any) {
-    return this.http.put(this.baseUrl + '/meetings', data);
-  }
+  // // 미팅 오픈
+  // openMeeting(data: any) {
+  //   return this.http.put(this.baseUrl + '/meetings', data);
+  // }
 
-  // 미팅 클로즈
-  closeMeeting(data: any) {
-    return this.http.put(this.baseUrl + '/meetings', data);
-  }
+  // // 미팅 클로즈
+  // closeMeeting(data: any) {
+  //   return this.http.put(this.baseUrl + '/meetings', data);
+  // }
 
 }
