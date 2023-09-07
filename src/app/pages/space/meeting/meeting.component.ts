@@ -345,7 +345,7 @@ export class MeetingComponent implements OnInit {
 @Component({
   selector: 'app-meeting-set',
   standalone: true,
-  templateUrl: './dialog/meeting-set.html',
+  templateUrl: '../../../dialog/meeting/meeting-set.html',
   styleUrls: ['./meeting.component.scss'],
   imports: [MaterialsModule, CommonModule],
   providers: [MeetingService],
@@ -464,7 +464,7 @@ export class DialogMeetingSetComponent {
 @Component({
   selector: 'app-meeting-edit',
   standalone: true,
-  templateUrl: './dialog/meeting-edit.html',
+  templateUrl: '../../../dialog/meeting/meeting-edit.html',
   styleUrls: ['./meeting.component.scss'],
   imports: [MaterialsModule, CommonModule],
   providers: [MeetingService],

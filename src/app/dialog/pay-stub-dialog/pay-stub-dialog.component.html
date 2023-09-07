@@ -1,44 +1,54 @@
-<div class="container">
-  <section class="statement_form_section">
-    <h1 mat-dialog-title>Upload Statement</h1>
-    <div mat-dialog-content>
+<div class="mainContentContainer" style="height: 600px;">
+    <div class="mainTitle" fxLayoutAlign="center">Upload Statement</div>
+
+
       <form [formGroup]="statementForm">
-        <mat-form-field class="full-width">
-          <input matInput [placeholder]="'Title'" formControlName="title" required>
-        </mat-form-field>
+        <div class="leaveDialogContainer2">
+            <!-- <div fxLayout="column" class="br_ltop"> -->
+            <div class="leaveDialogContainerLeft">
+                <mat-form-field appearance="outline" >
+                    <mat-label>Title</mat-label>
+                <input matInput formControlName="title" required>
+                </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <input matInput [placeholder]="'Employee Email'" [matAutocomplete]="auto" formControlName="employee" required>
-        </mat-form-field>
+                <mat-form-field appearance="outline" >
+                    <mat-label>Employee Email</mat-label>
+                <input matInput [matAutocomplete]="auto" formControlName="employee" required>
+                </mat-form-field>
 
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
-            {{ option.username }} ({{ option.email }})
-          </mat-option>
-        </mat-autocomplete>
+                <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
+                    {{ option.username }} ({{ option.email }})
+                </mat-option>
+                </mat-autocomplete>
 
-        <div class="upload-section">
-          <mat-toolbar *ngIf="currentFile" class="progress-bar">
-            <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
-            <span class="progress">{{ progress }}%</span>
-          </mat-toolbar>
+                <div class="upload-section">
+                <mat-toolbar *ngIf="currentFile" class="progress-bar" style="width: 320px;">
+                    <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
+                    <span class="progress">{{ progress }}%</span>
+                </mat-toolbar>
 
-          <div class="file-input">
-            <input matInput [value]="fileName" [placeholder]="'Pdf upload'" disabled />
-            <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput" accept="application/pdf" />
-          </div>
+                <div class="file-input">
+                    <mat-form-field appearance="outline" >
+                        <input matInput [value]="fileName" [placeholder]="'Pdf upload'" disabled />
+                    </mat-form-field>
+                </div>
 
-
-
-          <button mat-raised-button color="primary" [disabled]="!currentFile" (click)="upload()">
-            Upload
-          </button>
+                <input type="file" id="fileInput" #fileInputElement style="display: none;" (change)="selectFile($event)" name="fileInput" accept="application/pdf" />
+                    <button mat-flat-button type="button" class="custom-file-input-button" (click)="fileInputElement.click()">Choose PDF File</button>
+                </div>
+            </div>
+        <div class="leaveDialogContainerRight"  fxLayoutAlign="center center">
+            <canvas id="myCanvas" #pdfViewer></canvas>
         </div>
-      </form>
-    </div>
-  </section>
 
-  <section class="statement_pdf_container">
-    <canvas id="myCanvas" #pdfViewer></canvas>
-  </section>
+
+    <!-- </div> -->
+    </div>
+        <div class="mt-30" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+            <button mat-flat-button  color="primary" [disabled]="!currentFile" (click)="upload()">
+                Upload
+              </button>
+            </div>
+      </form>
 </div>

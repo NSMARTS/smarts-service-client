@@ -141,8 +141,6 @@ export class PayStubListComponent {
 
   openDialog() {
     this.dialog.open(PayStubDialogComponent, {
-      width: '1200px',
-      height: '700px',
       data: {
         companyId: this.companyId,
       },
