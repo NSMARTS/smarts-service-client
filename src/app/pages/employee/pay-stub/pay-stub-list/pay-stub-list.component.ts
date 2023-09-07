@@ -54,6 +54,9 @@ export class PayStubListComponent {
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
 
+  isLoadingResults = false;
+  isRateLimitReached = false;
+
   constructor(
     private employeeService: EmployeeService,
     private commonService: CommonService,
@@ -99,6 +102,11 @@ export class PayStubListComponent {
     this.selection.select(row);
     this.imgSrc = row?.location;
     this.getPdf(row?.key);
+    this.isLoadingResults = true;
+  }
+
+  onCanvasClick() {
+    this.isLoadingResults = false;
   }
 
   getPdf(url: string) {
@@ -115,8 +123,8 @@ export class PayStubListComponent {
             this.pdfViewer.nativeElement.width = viewport.width;
             this.pdfViewer.nativeElement.height = viewport.height;
             // pdf 를 그려주는 canvas태그 최대 크기 지정
-            // this.pdfViewer.nativeElement.style.maxWidth = viewport.width + 'px';
-            // this.pdfViewer.nativeElement.style.maxHeight = viewport.height + 'px';
+            this.pdfViewer.nativeElement.style.maxWidth = 1000 + 'px';
+            this.pdfViewer.nativeElement.style.maxHeight = 2000 + 'px';
             const renderContext = {
               canvasContext: context!,
               viewport: viewport,
