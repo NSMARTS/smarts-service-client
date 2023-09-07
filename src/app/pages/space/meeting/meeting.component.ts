@@ -16,19 +16,17 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { FormControl, FormGroup } from '@angular/forms';
 
-import { Subject, map, startWith, takeUntil } from 'rxjs';
-import { MemberDataStorageService } from 'src/app/stores/data/member-data-storage.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { Subject, forkJoin, map, startWith, takeUntil } from 'rxjs';
 import { MeetingService } from 'src/app/services/meeting.service';
-import { DataService } from 'src/app/stores/data/data.service';
-import { MeetingListStorageService } from 'src/app/stores/data/meeting-list-storage.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/interfaces/employee.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { ManagerService } from 'src/app/services/manager.service';
 import { Manager } from 'src/app/interfaces/manager.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from 'src/app/services/dialog.service';
 
 //view table
@@ -57,8 +55,8 @@ export class MeetingComponent implements OnInit {
     'meetingTitle',
     'meetingDescription',
     'meetingLink',
-    'start_date',
-    'start_time',
+    'startDate',
+    'startTime',
     'managers',
     'employees',
   ];
@@ -66,6 +64,7 @@ export class MeetingComponent implements OnInit {
   employees: any[] = [];
   managers: Member[] = [];
   companyId: string; // 회사아이디 params
+  showAllMeetings: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -73,27 +72,55 @@ export class MeetingComponent implements OnInit {
     private employeeService: EmployeeService,
     private managerService: ManagerService,
     private meetingService: MeetingService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private snackbar: MatSnackBar
   ) {
     this.companyId = this.route.snapshot.params['id'];
   }
 
+  // ngOnInit(): void {
+  //   // employee list
+  //   this.getEmployees(this.companyId);
+
+  //   // meeting list
+  //   this.getMeetingList(this.companyId);
+
+  //   // manager list
+  //   this.getManagerList(this.companyId);
+  // }
+
   ngOnInit(): void {
-    // employee list
-    this.getEmployees(this.companyId);
+    // 여러 http 요청을 배열로 설정
+    const multipleHttpRequest = [
+      this.managerService.getManagerList(this.companyId),
+      this.employeeService.getEmployees(this.companyId),
+    ];
 
-    // meeting list
-    this.getMeetingList(this.companyId);
+    // 2개의 http 요청 먼저 진행
+    forkJoin(multipleHttpRequest).subscribe({
+      next: (res: any) => {
+        // res가 배열로 나옵니다. (요청한 순서대로))
+        console.log(res);
 
-    // manager list
-    this.getManagerList(this.companyId);
+        this.managers = res[0].data;
+        this.employees = res[1].data;
+
+        // 직원 명단 저장 후 Meeting Lsit 요청
+        // 사실 3가지 요청을 동시에 하는게 가장 효율적이지만 코드를 조금 더 건드려야 함...
+        // 기존 코드를 유지하는 차원에서는 이 방식이 가장 편함
+        this.getMeetingList(this.companyId);
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+    });
   }
 
   // manager list
   getManagerList(companyId: string) {
     this.managerService.getManagerList(this.companyId).subscribe({
       next: (res: HttpResMsg<Manager[]>) => {
-        this.managers = res.data;
+        // this.managers = res.data;
         console.log('manager list: ', this.managers);
       },
       error: (err) => {
@@ -111,7 +138,7 @@ export class MeetingComponent implements OnInit {
   getEmployees(companyId: string) {
     this.employeeService.getEmployees(this.companyId).subscribe({
       next: (res: HttpResMsg<Employee[]>) => {
-        this.employees = res.data;
+        // this.employees = res.data;
         console.log('employee list: ', this.employees);
       },
       error: (err) => {
@@ -133,9 +160,9 @@ export class MeetingComponent implements OnInit {
         const meetingList = data.meetingList.map((item: any) => {
           // start time (ex; PM 12 : 00 ) 을 공백으로 split 하면 ['PM', '12', ':', '00]
           const meetingTime = {
-            am_pm: item.start_time.split(' ')[0], // 배열[0]은 AM PM에 해당
-            time: Number(item.start_time.split(' ')[1]), // 배열[1]은 시간에 해당
-            minute: Number(item.start_time.split(' ')[3]), // 배열[3]은 분에 해당
+            am_pm: item.startTime.split(' ')[0], // 배열[0]은 AM PM에 해당
+            time: Number(item.startTime.split(' ')[1]), // 배열[1]은 시간에 해당
+            minute: Number(item.startTime.split(' ')[3]), // 배열[3]은 분에 해당
           };
 
           // PM이고 12시인 경우만 12시이고 그 외의 PM은 +12를 해줌 (ex: PM 11 -> 23)
@@ -147,21 +174,33 @@ export class MeetingComponent implements OnInit {
 
           // meetingDate라는 변수에 미팅 일자와 시간을 통합하여 저장
           const meetingDate = new Date(
-            `${item.start_date} ${meetingTime.time}:${meetingTime.minute}`
+            `${item.startDate} ${meetingTime.time}:${meetingTime.minute}`
           );
 
-          console.log(item.managers, this.managers);
-          let newManager = item.managers.map((part: any) => {
-            const productName = this.managers.filter((item) => {
-              return part === item._id;
-            })[0].username;
+          console.log(item.managers, this.managers, this.employees);
 
-            console.log(productName);
-            return productName;
+          // 참여 매니저 id에 맞는 username 등록
+          let newManager = item.managers.map((part: any) => {
+            const userName = this.managers.filter((item) => {
+              return part === item._id;
+            })[0]?.username;
+
+            console.log(userName);
+            return userName;
+          });
+
+          // 참여 직원 id에 맞는 username 등록
+          let newEmployee = item.employees.map((part: any) => {
+            const userName = this.employees.filter((item) => {
+              return part === item._id;
+            })[0]?.username;
+
+            console.log(userName);
+            return userName;
           });
 
           // 객체를 반환하여 meetingList 변수에 순차적으로 저장
-          return { ...item, newManager, meetingDate };
+          return { ...item, newManager, newEmployee, meetingDate };
         });
 
         console.log(meetingList);
@@ -199,11 +238,59 @@ export class MeetingComponent implements OnInit {
     });
   }
 
-  trackById(index: number, data: any): number {
-    return data._id;
+  toggle(meetingData: any, index: any) {
+    // console.log('data status', meetingData);
+    // 1단계 status가 Open 일때
+    if (meetingData.status == 'Open') {
+      // meetingData.status = 'Close';
+      console.log('data status', meetingData.status);
+      this.closeMeeting(meetingData);
+    } else if (meetingData.status == 'Close') {
+      console.log('data status', meetingData.status);
+      this.openMeeting(meetingData);
+    }
   }
 
-  toggle(meetingData: any, index: any) {}
+  openMeeting(meetingData: any) {
+    let data = {
+      _id: meetingData._id,
+      spaceId: meetingData.spaceId,
+      status: 'Open',
+    };
+    this.meetingService.editMeeting(data).subscribe({
+      next: (data: any) => {
+        console.log(data);
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+    this.snackbar.open('Meeting Open', 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+    });
+  }
+
+  closeMeeting(meetingData: any) {
+    let data = {
+      _id: meetingData._id,
+      spaceId: meetingData.spaceId,
+      status: 'Close',
+    };
+    this.meetingService.editMeeting(data).subscribe({
+      next: (data: any) => {
+        console.log(data);
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+    this.snackbar.open('Meeting close', 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      // verticalPosition: "top",
+    });
+  }
 
   enterMeeting(data: any) {
     window.open(data.meetingLink);
@@ -215,7 +302,8 @@ export class MeetingComponent implements OnInit {
       data: {
         list: this.meetingArray,
         meetingId: data._id,
-        enlistedMember: this.managers,
+        managers: this.managers,
+        employees: this.employees,
       },
     });
 
@@ -336,7 +424,7 @@ export class DialogMeetingSetComponent {
               formValue.startMin,
             managers: formValue.managers,
             employees: formValue.employees,
-            status: 'pending',
+            status: 'Open',
           };
           console.log(setMeeting);
 
@@ -374,7 +462,7 @@ export class DialogMeetingSetComponent {
 // 미팅 편집하는 dialog
 
 @Component({
-  selector: 'app-meeting-set',
+  selector: 'app-meeting-edit',
   standalone: true,
   templateUrl: './dialog/meeting-edit.html',
   styleUrls: ['./meeting.component.scss'],
@@ -382,18 +470,18 @@ export class DialogMeetingSetComponent {
   providers: [MeetingService],
 })
 export class MeetingEditComponent {
-  today = new Date();
-
   setMeetingForm = new FormGroup({
-    startDate: new FormControl(this.today),
-    meetingTitle: new FormControl(),
+    startDate: new FormControl('', [Validators.required]),
+    meetingTitle: new FormControl('', [Validators.required]),
     meetingDescription: new FormControl(),
     meetingLink: new FormControl(),
     startHour: new FormControl('12'),
     startMin: new FormControl('00'),
     startUnit: new FormControl('PM'),
+    managers: new FormControl(''),
+    employees: new FormControl(''),
   });
-  meetingList: any;
+  meetingList: any[] = [];
 
   hourList = [
     { value: '1' },
@@ -417,15 +505,19 @@ export class MeetingEditComponent {
   ];
   timeUnit = [{ value: 'PM' }, { value: 'AM' }];
 
-  enlistedMember: any = [];
-  private unsubscribe$ = new Subject<void>();
+  managers: any = [];
+  employees: any = [];
 
   constructor(
     public dialogRef: MatDialogRef<MeetingEditComponent>,
     private dialogService: DialogService,
     private meetingService: MeetingService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.managers = this.data.managers;
+    this.employees = this.data.employees;
+    console.log(this.managers, this.employees);
+  }
 
   ngOnInit(): void {
     this.getMeeting();
@@ -436,14 +528,17 @@ export class MeetingEditComponent {
     this.meetingList = this.data.list.filter(
       (e: any) => e._id === this.data.meetingId
     );
-    console.log(this.meetingList);
+    // this.setMeetingForm.controls.startDate.patchValue(
+    //   this.meetingList[0].meetingDate
+    // );
     this.setMeetingForm.patchValue(this.meetingList[0]);
+    console.log(this.setMeetingForm.value);
   }
 
-  // 미팅 만들기
+  // 미팅 수정
   editMeeting() {
     this.dialogService
-      .openDialogConfirm('Do you want to set up a meeting?')
+      .openDialogConfirm('Do you want to edit a meeting?')
       .subscribe((result) => {
         if (result) {
           const formValue = this.setMeetingForm.value;
@@ -460,10 +555,10 @@ export class MeetingEditComponent {
               formValue.startHour +
               ' : ' +
               formValue.startMin,
-            enlistedMembers: this.enlistedMember,
-            status: 'pending',
+            managers: formValue.managers,
+            employees: formValue.employees,
           };
-          console.log(this.meetingList[0].company);
+          console.log(setMeeting);
           if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {
             this.dialogService.openDialogNegative(
               'Please, check the meeting title and date.'
