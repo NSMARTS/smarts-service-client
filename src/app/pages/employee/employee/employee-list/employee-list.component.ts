@@ -70,16 +70,11 @@ export class EmployeeListComponent implements OnInit {
   async getEmployees(companyId: string) {
     // lastValueFrom은 rxjs 비동기 통신을하기위 사용
     // 서버에 값을 받아올때까지 멈춘다.
-    const employees = await lastValueFrom(
-      this.employeeService.getEmployees(companyId)
-    );
-    console.log(employees);
-    // signal을 통한 상태관리
+    const employees = await lastValueFrom(this.employeeService.getEmployees(companyId));
     await this.employeeService.setEmployees(employees.data);
-
     this.dataSource = new MatTableDataSource(this.employeeService.employees());
-    console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
+    console.log(this.dataSource)
   }
 
   applyFilter(event: Event) {
@@ -106,7 +101,7 @@ export class EmployeeListComponent implements OnInit {
         this.getEmployees(this.companyId);
         console.log(data);
       },
-      error: (err: any) => {},
+      error: (err: any) => { },
     });
   }
 }

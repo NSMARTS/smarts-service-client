@@ -44,7 +44,7 @@ export class EmployeeService {
   async setEmployees(employees: Employee[]) {
     // 회사 별 직원들 연차 계산
     const calculatedEmployees = await this.calculateEmployeesYear(employees);
-    this.employees.set(calculatedEmployees);
+    return this.employees.set(calculatedEmployees);
   }
 
   /***
