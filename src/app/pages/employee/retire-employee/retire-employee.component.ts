@@ -19,8 +19,8 @@ export class RetiredEmployeeListComponent {
   displayedColumns: string[] = [
     'name',
     'email',
-    'emp_start_date',
-    'resignation_date',
+    'dateOfEnter',
+    'resignationDate',
     'cancel',
   ];
 

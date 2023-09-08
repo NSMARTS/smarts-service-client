@@ -1,10 +1,10 @@
-<div class="mainContentContainer">
-    <div class="mainTitle">Manager Information</div>
+<div class="page">
+    <div class="page_title">Manager Information</div>
   
-      <div class="leaveTableContainer2">
+      <div class="edit_twin_container">
 
-      <div class="leaveTableContainerLeft">
-        <p class="editTitle">Edit Manager</p>
+      <div class="edit_left_container">
+        <p class="edit_title">Edit Manager</p>
           <form [formGroup]="editManagerForm" (ngSubmit)="onSubmit()" fxLayoutAlign="center">
 
                 <div fxLayout="column" class="br_ltop">
@@ -62,18 +62,18 @@
 
     </div>
   
-      <div class="leaveTableContainerRight">
-        <p class="editTitle" >Employees managed by managers</p>
+      <div class="edit_right_container">
+        <p class="edit_title" >Employees managed by managers</p>
         <div class="historyTableBox2">
           <div class="filter">
             <mat-form-field>
               <mat-label>Filter</mat-label>
               <input matInput (keyup)="applyFilter($event)" placeholder="manager's Employees" #input>
             </mat-form-field>
-            <button mat-flat-button class="tableAddBtn" (click)="addManagerEmployees()">Add Manager's Employees</button>
+            <button mat-flat-button class="table_add_button" (click)="addManagerEmployees()">Add Manager's Employees</button>
           </div>
 
-		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
+		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
 
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -167,7 +167,7 @@
             <ng-container matColumnDef="delete">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-flat-button class="tableDeleteBtn" (click)="deleteManagerEmployees(element?._id)">Delete</button>
+                    <button mat-flat-button class="table_delete_button" (click)="deleteManagerEmployees(element?._id)">Delete</button>
                 </td>
             </ng-container>
     

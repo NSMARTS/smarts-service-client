@@ -25,11 +25,7 @@ export interface PeriodicElement {
 })
 export class HolidayComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = [
-    'companyHolidayName',
-    'companyHolidayDate',
-    'delete',
-  ];
+  displayedColumns: string[] = ['name', 'date', 'delete'];
   companyHolidayList: any = new MatTableDataSource();
   private unsubscribe$ = new Subject<void>();
   companyId: any;
@@ -53,7 +49,8 @@ export class HolidayComponent implements OnInit {
     this.unsubscribe$.complete();
   }
 
-  openAddCompanuHoliday() {
+  // 회사 공휴일 추가 dialog 오픈
+  openAddCompanyHoliday() {
     const dialogRef = this.dialog.open(HolidayAddComponent, {
       data: {
         companyHolidayList: this.companyHolidayList,
@@ -66,6 +63,7 @@ export class HolidayComponent implements OnInit {
     });
   }
 
+  // 회사 공휴일 목록 조회
   getCompanyHolidayList() {
     this.holidayMngmtService.getCompanyHolidayList(this.companyId).subscribe({
       next: (data: any) => {
@@ -81,6 +79,7 @@ export class HolidayComponent implements OnInit {
     });
   }
 
+  // 회사 공휴일 삭제
   deleteCompanyHoliday(HolidayId: any) {
     this.dialogService
       .openDialogConfirm('Do you want cancel this request?')

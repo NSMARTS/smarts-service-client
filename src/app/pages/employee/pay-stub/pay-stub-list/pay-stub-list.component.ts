@@ -32,11 +32,11 @@ export class PayStubListComponent {
   selection = new SelectionModel<any>(false, []);
   imgSrc: string = '';
   displayedColumns: string[] = [
-    'employee',
+    'employeeName',
     'title',
     'uploadDate',
     'detail',
-    'location',
+    'download',
   ];
 
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>(

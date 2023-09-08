@@ -1,10 +1,10 @@
-<div class="mainContentContainer">
+<div class="page">
   <div class="mainContent">
     <div fxLayout="row">
-      <div class="mainTitle">Company List</div>
+      <div class="page_title">Company List</div>
     </div>
 
-    <div class="historyTableBox">
+    <div class="table_container">
       <!-- <div class="content">
 				<div class="example-container mat-elevation-z8"> -->
 
@@ -16,7 +16,7 @@
       </div>
 
 
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
 
         <ng-container matColumnDef="companyCode">
           <th mat-header-cell *matHeaderCellDef> Code </th>

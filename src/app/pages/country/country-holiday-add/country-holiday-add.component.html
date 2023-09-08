@@ -1,16 +1,15 @@
-<div class="mainContentContainer">
+<div class="page">
+	<div class="page_title">Country Holiday List</div>
 
-
-			<div class="mainTitle">Country Holiday List</div>
-			<!-- <span class="example-spacer"></span> -->
-			<!-- <span class="disableReason" *ngIf="company == null || manager == null">
+        <!------------ 여기부터 정리 필요 ------------>
+		<!-- <span class="example-spacer"></span> -->
+		<!-- <span class="disableReason" *ngIf="company == null || manager == null">
 				You need to register a company and manager to activate!
-			</span>
-			<button
-			class="requestBtn" [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday Day</button> -->
+		</span>
+		<button class="requestBtn" [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday Day</button> -->
 
-		<form [formGroup]="countryHolidayForm" novalidate >
-			<div class="leaveTableContainer">
+	<form [formGroup]="countryHolidayForm" novalidate>
+			<div class="add_container">
 				<div fxLayout="column"  style="max-width: 800px;">
 					<div class="selectContent" fxLayout="row wrap" fxLayoutGap="20px">
 						<div fxLayout="row" fxLayoutAlign="center center">
@@ -66,72 +65,57 @@
 				</div>
 			</div>
 		</form>
+        <!------------ 여기까지 정리 필요 ------------>
 
-		<div class="historyTableBox mt-30">
+	<div class="table_container mt-30">
 
-            <div class="filter">
-                <mat-form-field dateFormat-year>
-                    <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
-                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                    <mat-datepicker #dp
-                                    startView="multi-year"
-                                    (yearSelected)="chosenYearHandler($event, dp)"
-                                    panelClass="example-month-picker">
-                    </mat-datepicker>
-                </mat-form-field>
-                <div class="tableAddBtn"></div>
-              </div>
+        <div class="filter">
+            <mat-form-field dateFormat-year>
+                <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp startView="multi-year"
+                    (yearSelected)="chosenYearHandler($event, dp)"
+                    panelClass="example-month-picker">
+                </mat-datepicker>
+            </mat-form-field>
+            <div class="table_add_button"></div>
+        </div>
 
-			<table mat-table [dataSource]="countryHolidayList" class="mat-elevation-z8 historyTable" #filteredTable>
+		<table mat-table [dataSource]="countryHolidayList" class="mat-elevation-z8 table" #filteredTable>
 
-				<!--- Note that these columns can be defined in any order.
-					  The actual rendered columns are set as a property on the row definition" -->
-                
-                <!-- name Column -->
-				<ng-container matColumnDef="holidayName">
-					<th mat-header-cell *matHeaderCellDef> Name </th>
-					<td mat-cell *matCellDef="let element"> {{element?.holidayName}} </td>
-				</ng-container>
+			<ng-container matColumnDef="holidayName">
+				<th mat-header-cell *matHeaderCellDef> Name </th>
+				<td mat-cell *matCellDef="let element"> {{element?.holidayName}} </td>
+			</ng-container>
 
-				<!-- date Column -->
-				<ng-container matColumnDef="holidayDate">
-					<th mat-header-cell *matHeaderCellDef> Date </th>
-					<td mat-cell *matCellDef="let element"> {{element?.holidayDate | date: 'yyyy-MM-dd'}}</td>
-				</ng-container>
+			<ng-container matColumnDef="holidayDate">
+				<th mat-header-cell *matHeaderCellDef> Date </th>
+				<td mat-cell *matCellDef="let element"> {{element?.holidayDate | date: 'yyyy-MM-dd'}}</td>
+			</ng-container>
 
-				<th mat-header-cell *matHeaderCellDef> - </th>
+			<!-- <th mat-header-cell *matHeaderCellDef> - </th> -->
 				
-			
-				<ng-container matColumnDef="btns">
-					<th mat-header-cell *matHeaderCellDef></th>
-					<td mat-cell *matCellDef="let element">
-						<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
-							<button mat-flat-button class="tableDeleteBtn" (click)="deleteCountryHoliday(element._id)">Delete</button>
-						</div>
-					</td>
-				</ng-container>
+			<ng-container matColumnDef="delete">
+				<th mat-header-cell *matHeaderCellDef></th>
+				<td mat-cell *matCellDef="let element">
+					<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+						<button mat-flat-button class="table_delete_button" (click)="deleteCountryHoliday(element._id)">Delete</button>
+					</div>
+				</td>
+			</ng-container>
 
-				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-				<tr class="mat-row" *matNoDataRow>
-					<td class="mat-cell" colspan="9999">
-						No data
-					</td>
-				</tr>
-			</table>
-			<mat-paginator 
-			  [length]="100"
-              [pageSize]="10"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page">
-			</mat-paginator>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			<tr class="mat-row" *matNoDataRow>
+				<td class="mat-cell" colspan="9999">
+					No data
+				</td>
+			</tr>
 
-		</div>
+		</table>
 
-        
+        <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 50]" showFirstLastButtons></mat-paginator>
 
-
-		
-
+	</div>
 
 </div>

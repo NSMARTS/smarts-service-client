@@ -1,16 +1,16 @@
-<div class="mainContentContainer">
-		<div class="mainTitle">Add Manager's Employees</div>
+<div class="page">
+		<div class="page_title">Add Manager's Employees</div>
         Click on the employees you want to add and press the request button.
         <div class="filter">
             <mat-form-field>
               <mat-label>Filter</mat-label>
               <input matInput (keyup)="applyFilter($event)" placeholder="Manager's Employees" #input>
             </mat-form-field>
-            <button mat-flat-button class="tableAddBtn" (click)="addmanagerEmployees()">Request</button>
+            <button mat-flat-button class="table_add_button" (click)="addmanagerEmployees()">Request</button>
           </div>
 
         <div class="table-container">
-		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
+		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
 
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name </th>

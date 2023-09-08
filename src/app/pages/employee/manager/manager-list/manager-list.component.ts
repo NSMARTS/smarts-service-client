@@ -24,7 +24,7 @@ export class ManagerListComponent {
     'phone',
     'address',
     'superManager',
-    'btns',
+    'buttons',
   ];
   companyId: any;
 

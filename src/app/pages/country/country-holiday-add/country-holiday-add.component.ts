@@ -73,7 +73,7 @@ import { CustomDateDirectiveModule } from './custom-date-directive.module';
 export class CountryHolidayAddComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // // view table
-  displayedColumns: string[] = ['holidayName', 'holidayDate', 'btns'];
+  displayedColumns: string[] = ['holidayName', 'holidayDate', 'delete'];
   countryHolidayList: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   wholeHolodayList: any;
   countryId: any;

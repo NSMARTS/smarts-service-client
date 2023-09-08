@@ -26,7 +26,7 @@ export class CompanyListComponent {
     'superManagers',
     'payDay',
     'detail',
-    'btns',
+    'buttons',
   ];
 
   company: Company[] = [];
@@ -106,7 +106,7 @@ export class CompanyListComponent {
       });
   }
 
-  // 회사 이름 필터
+  // 회사 필터
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

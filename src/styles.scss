@@ -92,24 +92,25 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 }
 
 //공통 table
-.mainContentContainer {
+.page {
     padding: 0 20px;
     margin: 0 auto;
 }
 
-.mainTitle {
+.page_title {
     font-size: 22px;
     font-weight: bold;
     margin: 20px 0;
 }
 
-.historyTableBox {
+.table_container {
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
 }
 
-.historyTable {
+.table {
 	width: 100%;
 	text-align: center;
+    box-shadow: none;
 
 	th {
 		text-align: center;
@@ -123,13 +124,6 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
             padding-top: 5px;
         }
     }
-
-    box-shadow: none;
-}
-
-.mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: #3f51b5;
-    --mdc-filled-button-label-text-color: #fff;
 }
 
 .filter{
@@ -140,28 +134,32 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     align-items: center; /* 수직 방향 중앙 정렬 */
 }
 
-.tableAddBtn {
+.table_add_button {
     margin-left: auto; /* 남은 공간을 모두 차지하도록 설정 */
     margin-right: 30px; /* 원하는 간격 설정 */
 }
 
-.tableDeleteBtn.mat-mdc-unelevated-button.mat-unthemed {
+.mat-mdc-unelevated-button.mat-unthemed {
+    --mdc-filled-button-container-color: #3f51b5;
+    --mdc-filled-button-label-text-color: #fff;
+}
+
+.table_delete_button.mat-mdc-unelevated-button.mat-unthemed {
     --mdc-filled-button-container-color: #ff4081;
     --mdc-filled-button-label-text-color: #fff;
 }  
 
 @media screen and (max-width: 1580px) { 
-    .mainContentContainer {
+    .page {
         padding: 10px 10px;
     }
 
-    .mainTitle {
+    .page_title {
         margin: 10px;
     }    
 
-    .historyTableBox {
+    .table_container {
         word-break: break-all;
-
 
         th {
             padding: 3px 5px;
@@ -178,21 +176,21 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 
             img {
             width: 0px;
-        }
+            }
         }
     }
 }
 
 @media screen and (max-width: 1000px) { 
-    .mainContentContainer {
+    .page {
         padding: 10px 10px;
     }
 
-    .mainTitle {
+    .page_title {
         margin: 10px;
     }    
 
-    .historyTableBox {
+    .table_container {
         word-break: break-all;
 
 
@@ -213,8 +211,8 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     }
 }
 
-//공통 add, fiter
-.leaveTableContainer {
+//공통 add
+.add_container {
     padding: 20px 20px;
     border: 1px solid rgba(238, 238, 238, 0.548);
     border-radius: 4px;
@@ -255,15 +253,14 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 }
 
 //공통 edit
-.editTitle{
+.edit_title{
     font-size: 16px;
     font-weight: bold;
     padding: 20px 0;
 }
 
-.leaveTableContainer2 {
+.edit_twin_container {
     display: flex;
-
     padding: 20px;
     border: 1px solid rgba(238, 238, 238, 0.548);
     border-radius: 4px;
@@ -277,22 +274,22 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     }
 }
 
-.leaveTableContainerLeft {
+.edit_left_container {
     flex: 3; /* 각 요소가 동일한 공간을 차지하도록 설정 */
     margin: 10px; /* 간격을 원하는 만큼 추가 */
 }
 
-.leaveTableContainerRight {
+.edit_right_container {
     flex: 7; /* 각 요소가 동일한 공간을 차지하도록 설정 */
     margin: 10px; /* 간격을 원하는 만큼 추가 */
 }
 
 /* 화면 폭이 1000px 이하일 때 스타일 수정 */
 @media screen and (max-width: 1000px) {
-    .leaveTableContainer2 {
+    .edit_twin_container {
         flex-wrap: wrap; /* 줄바꿈을 허용하도록 설정 */
     }
-    .leaveTableContainerLeft, .leaveTableContainerRight {
+    .edit_left_container, .edit_right_container {
         width: 100%; /* 전체 너비를 차지하도록 설정 */
         box-sizing: border-box;
         margin-bottom: 10px; /* 아래 여백을 추가하여 다음 줄로 넘어가도록 함 */
@@ -300,7 +297,7 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 }
 
 //공통 dialog
-.leaveDialogContainer {
+.dialog_container {
     padding: 20px 30px;
 
     .mat-mdc-form-field {
@@ -313,9 +310,8 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     }
 }
 
-.leaveDialogContainer2 {
+.dialog_twin_container {
     display: flex;
-
     padding: 20px 30px;
 
     .mat-mdc-form-field {
@@ -328,14 +324,13 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     }
 }
 
-.leaveDialogContainerLeft {
+.dialog_left_container {
     width: 400px;
     flex: 5; /* 각 요소가 동일한 공간을 차지하도록 설정 */
     margin: 10px; /* 간격을 원하는 만큼 추가 */
-
 }
 
-.leaveDialogContainerRight {
+.dialog_right_container {
     width: 330px;
     height: 452px;
     flex: 5; /* 각 요소가 동일한 공간을 차지하도록 설정 */
@@ -343,89 +338,27 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
     border: 1px solid #ccc; /* 1px 두께의 회색 선 추가 */
 }
 
-
-/* 화면 폭이 1000px 이하일 때 스타일 수정 */
 @media screen and (max-width: 900px) {
-    .leaveDialogContainer2 {
-
-
+    .dialog_twin_container {
         flex-wrap: wrap; /* 줄바꿈을 허용하도록 설정 */
     }
-    .leaveDialogContainerLeft, .leaveTableContainerRight {
+    .dialog_left_container, .edit_right_container {
         width: 100%; /* 전체 너비를 차지하도록 설정 */
         box-sizing: border-box;
         margin-bottom: 10px; /* 아래 여백을 추가하여 다음 줄로 넘어가도록 함 */
     }
 }
 
-/**
-작성자: 임호균
-작성일: 2023-08-28
-설멍: 공통 search, table css 설정
-*/
-// .page_header{
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-// }
-
-// .page_title{
-//     padding: 0;
-//     margin: 0 !important;
-//     text-decoration: none;
-// }
-
-// .search_section{
-//     margin-top: 20px;
-// }
-
-// .table_section {
-//     margin-top: 50px;
-// }
-
-
-// .input_group_layout{
-//     display: flex;
-
-//     @media (max-width: 816px) {
-//         flex-direction: column;
-
-//         .left_box {
-//             width: 100% !important;
-//             padding: 0px !important;
-//             box-sizing: border-box;
-//             background-color: #fff !important;
-//             color: #000 !important;
-//         }
-
-//         .right_box {
-//             border-bottom: none !important;
-//             padding: 10px 0px !important;
-//         }
-//     }
-    
-//     .left_box {
-//         display: flex;
-//         background-color: $smart_service_primary_color;
-//         color: #fff;
-//         padding: 20px;
-//         font-weight: 700;
-//         width: 200px;
-//         margin: 1px;
-//         align-items: center;
-//         border-radius: 4px;
-//     }
-        
-//     .no_border_bottom {
-//         border-bottom: none !important;
-//     }
-
-//     .right_box {
-//         display: flex;
-//         flex: 1;
-//         padding: 20px;
-//         gap: 10px;
-//         align-items: center;
-//         border-bottom: solid 1px rgb(224, 224, 224);
-//     }
-// }
+// 공통 loading
+.example-loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}  

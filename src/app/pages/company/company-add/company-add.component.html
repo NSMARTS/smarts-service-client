@@ -1,8 +1,8 @@
-<div class="mainContentContainer">
-      <div class="mainTitle">Add Company</div>
+<div class="page">
+      <div class="page_title">Add Company</div>
 
     <form [formGroup]="addCompanyForm" (ngSubmit)="onSubmit()">
-      <div class="leaveTableContainer">
+      <div class="add_container">
 
           <!-- company name -->
           <div class="lineDivider" fxLayout="row">
@@ -11,7 +11,7 @@
                 <span>Company Name</span>
               </div>
             </div>
-            <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+            <div class="rightTable" fxFlex>
               <mat-form-field appearance="outline" class="companyFormFieldBox">
                 <mat-label>Company Name</mat-label>
                 <input matInput type="text" formControlName="companyName" />
