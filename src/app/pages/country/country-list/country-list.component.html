@@ -18,7 +18,7 @@
                 <mat-label>Filter</mat-label>
                 <input matInput (keyup)="applyFilter($event)" placeholder="Country" #input>
             </mat-form-field>
-            <button mat-raised-button mat-raise color="primary" class="table_add_button" (click)="openAddCountry();">Add Country</button>
+            <button mat-raised-button color="primary" class="table_add_button" (click)="openAddCountry();">Add Country</button>
         </div>
 
 		<table mat-table class="table" [dataSource]="countryList">

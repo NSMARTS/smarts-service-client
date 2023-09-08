@@ -13,6 +13,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CountryService } from 'src/app/services/country.service';
 import { Country } from 'src/app/interfaces/employee.interface';
 import { CommonService } from 'src/app/services/common.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-employee-add',
@@ -33,7 +34,8 @@ export class EmployeeAddComponent {
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
     private countryService: CountryService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private dialogService: DialogService
   ) {
     this.companyId = this.route.snapshot.params['id'];
     this.addEmployeeForm = this.formBuilder.group({
@@ -64,7 +66,9 @@ export class EmployeeAddComponent {
         this.addEmployeeForm.value['empStartDate']
       ),
       empEndDate: this.addEmployeeForm.value['empEndDate']
-        ? this.commonService.dateFormatting(this.addEmployeeForm.value['empEndDate'])
+        ? this.commonService.dateFormatting(
+            this.addEmployeeForm.value['empEndDate']
+          )
         : null,
     };
 
@@ -72,7 +76,18 @@ export class EmployeeAddComponent {
       next: (res) => {
         this.router.navigate([`/company/${this.companyId}/employee`]);
       },
-      error: (e) => console.error(e),
+      error: (err) => {
+        console.error(err);
+        if (err.status === 409) {
+          this.dialogService.openDialogNegative(
+            'Employee email is duplicated.'
+          );
+        } else {
+          this.dialogService.openDialogNegative(
+            'An error occurred while adding employee.'
+          );
+        }
+      },
     });
   }
 
