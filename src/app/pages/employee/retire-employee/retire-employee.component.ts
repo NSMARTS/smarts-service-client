@@ -67,6 +67,9 @@ export class RetiredEmployeeListComponent {
           this.employeeMngmtService.cancelRetireEmployee(employeeId).subscribe({
             next: () => {
               this.getMyRetireEmployees();
+              this.dialogService.openDialogPositive(
+                'Successfully, the employee has been retire cancel.'
+              );
             },
             error: (err: any) => {
               console.error(err);

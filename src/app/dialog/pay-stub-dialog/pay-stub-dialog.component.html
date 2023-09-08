@@ -1,7 +1,6 @@
 <div class="page" style="height: 600px;">
     <div class="page_title" fxLayoutAlign="center">Upload Statement</div>
 
-
       <form [formGroup]="statementForm">
         <div class="dialog_twin_container">
             <!-- <div fxLayout="column" class="br_ltop"> -->
@@ -42,11 +41,10 @@
             <canvas id="myCanvas" #pdfViewer></canvas>
         </div>
 
-
     <!-- </div> -->
     </div>
         <div class="mt-30" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-            <button mat-flat-button  color="primary" [disabled]="!currentFile" (click)="upload()">
+            <button mat-flat-button (click)="onSubmit()">
                 Upload
               </button>
             </div>

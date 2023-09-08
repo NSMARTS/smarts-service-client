@@ -110,6 +110,9 @@ export class EmployeeListComponent implements OnInit {
           this.employeeService.retireEmployee(id).subscribe({
             next: (data: any) => {
               this.getEmployees(this.companyId);
+              this.dialogService.openDialogPositive(
+                'Successfully, the employee has been retire.'
+              );
               console.log(data);
             },
             error: (err: any) => {},

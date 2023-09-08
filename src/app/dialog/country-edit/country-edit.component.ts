@@ -54,6 +54,15 @@ export class CountryEditComponent implements OnInit {
     });
   }
 
+  onSubmit() {
+    if (this.hasErrors()) {
+      //유효성 검사 실패 시 빨갛게 나옴
+    } else {
+      // 유효성 검사 통과 시
+      this.editCountry();
+    }
+  }
+
   editCountry() {
     const formValue = this.countryForm.value;
     const countryData = {
@@ -79,5 +88,17 @@ export class CountryEditComponent implements OnInit {
         }
       },
     });
+  }
+
+  // 유효성 검사 함수
+  private hasErrors() {
+    const countryNameError = this.countryForm
+      .get('countryName')
+      ?.hasError('required');
+    const countryCodeError = this.countryForm
+      .get('countryCode')
+      ?.hasError('required');
+
+    return countryNameError || countryCodeError;
   }
 }

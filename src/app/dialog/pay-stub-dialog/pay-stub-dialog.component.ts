@@ -28,6 +28,7 @@ import { PayStubService } from 'src/app/services/pay-stub.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Statment } from 'src/app/interfaces/statement.interface';
 import * as pdfjsLib from 'pdfjs-dist';
+import { DialogService } from 'src/app/services/dialog.service';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({
   selector: 'app-pay-stub-dialog',
@@ -59,7 +60,8 @@ export class PayStubDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
     private authService: AuthService,
-    private payStubService: PayStubService
+    private payStubService: PayStubService,
+    private dialogService: DialogService
   ) {
     this.statementForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
@@ -136,6 +138,18 @@ export class PayStubDialogComponent implements OnInit {
     }
   }
 
+  onSubmit() {
+    if (this.hasErrors()) {
+      //유효성 검사 실패 시 빨갛게 나옴
+      if (this.fileName === 'Select File') {
+        this.dialogService.openDialogNegative('Could not upload the file.');
+      }
+    } else {
+      // 유효성 검사 통과 시
+      this.upload();
+    }
+  }
+
   upload(): void {
     this.progress = 0;
     this.message = '';
@@ -155,6 +169,7 @@ export class PayStubDialogComponent implements OnInit {
           if (event.type === HttpEventType.UploadProgress) {
             console.log(event);
             this.progress = Math.round((100 * event.loaded) / event.total);
+            this.dialogService.openDialogPositive('Success upload contract.');
           } else if (event instanceof HttpResponse) {
             this.message = event.body.message;
             // this.fileInfos = this.payStubService.getFiles();
@@ -172,6 +187,15 @@ export class PayStubDialogComponent implements OnInit {
         },
       });
     }
+  }
+  // 유효성 검사 함수
+  private hasErrors() {
+    const titleError = this.statementForm.get('title')?.hasError('required');
+    const employeeError = this.statementForm
+      .get('employee')
+      ?.hasError('required');
+
+    return titleError || employeeError;
   }
 
   renderPdf(file: File) {

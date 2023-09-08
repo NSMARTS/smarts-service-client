@@ -44,6 +44,15 @@ export class HolidayAddComponent implements OnInit {
     this.unsubscribe$.complete();
   }
 
+  onSubmit() {
+    if (this.hasErrors()) {
+      //유효성 검사 실패 시 빨갛게 나옴
+    } else {
+      // 유효성 검사 통과 시
+      this.addCompanyHoliday();
+    }
+  }
+
   addCompanyHoliday() {
     const formValue = this.companyHolidayForm.value;
     const convertDate = moment(formValue.holidayDate).format('YYYY-MM-DD');
@@ -77,5 +86,17 @@ export class HolidayAddComponent implements OnInit {
 
   datePickChange(dateValue: any) {
     this.companyHolidayForm.get('holidayDate')?.setValue(dateValue);
+  }
+
+  // 유효성 검사 함수
+  private hasErrors() {
+    const holidayNameError = this.companyHolidayForm
+      .get('holidayName')
+      ?.hasError('required');
+    const holidayDateError = this.companyHolidayForm
+      .get('holidayDate')
+      ?.hasError('required');
+
+    return holidayNameError || holidayDateError;
   }
 }
