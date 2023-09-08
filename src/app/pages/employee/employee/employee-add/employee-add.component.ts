@@ -42,7 +42,7 @@ export class EmployeeAddComponent {
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
-      isManager: new FormControl(false, [Validators.required]),
+      isManager: new FormControl(false),
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),
       department: new FormControl(''),
@@ -58,6 +58,15 @@ export class EmployeeAddComponent {
   }
 
   onSubmit() {
+    if (this.hasErrors()) {
+      //유효성 검사 실패 시 빨갛게 나옴
+    } else {
+      // 유효성 검사 통과 시
+      this.addEmployee();
+    }
+  }
+
+  addEmployee() {
     const postData = {
       ...this.addEmployeeForm.value,
       company: this.companyId,
@@ -75,6 +84,9 @@ export class EmployeeAddComponent {
     this.employeeService.addEmployee(postData).subscribe({
       next: (res) => {
         this.router.navigate([`/company/${this.companyId}/employee`]);
+        this.dialogService.openDialogPositive(
+          'Successfully, the employee has been add.'
+        );
       },
       error: (err) => {
         console.error(err);
@@ -89,6 +101,29 @@ export class EmployeeAddComponent {
         }
       },
     });
+  }
+
+  // 유효성 검사 함수
+  private hasErrors() {
+    const emailError = this.addEmployeeForm.get('email')?.hasError('required');
+    const emailtypeError = this.addEmployeeForm.get('email')?.hasError('email');
+    const usernameError = this.addEmployeeForm
+      .get('username')
+      ?.hasError('required');
+    const countryError = this.addEmployeeForm
+      .get('country')
+      ?.hasError('required');
+    const empStartDateError = this.addEmployeeForm
+      .get('empStartDate')
+      ?.hasError('required');
+
+    return (
+      emailError ||
+      emailtypeError ||
+      usernameError ||
+      countryError ||
+      empStartDateError
+    );
   }
 
   toBack() {

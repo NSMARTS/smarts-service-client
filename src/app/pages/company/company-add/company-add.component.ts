@@ -96,9 +96,14 @@ export class CompanyAddComponent {
     this.router.navigate(['company']);
   }
 
-  //Request 버튼 클릭
+  // Request 버튼 클릭
   onSubmit() {
-    this.addCompany();
+    if (this.hasErrors()) {
+      //유효성 검사 실패 시 빨갛게 나옴
+    } else {
+      // 유효성 검사 통과 시
+      this.addCompany();
+    }
   }
 
   //회사 등록
@@ -123,6 +128,9 @@ export class CompanyAddComponent {
     this.companyService.addCompany(companyData).subscribe({
       next: (res) => {
         this.router.navigate(['company']);
+        this.dialogService.openDialogPositive(
+          'Successfully, the company has been add.'
+        );
       },
       error: (err) => {
         console.error(err);
@@ -137,8 +145,8 @@ export class CompanyAddComponent {
     });
   }
 
-  //유효성 검사
-  isButtonDisabled(): any {
+  // 유효성 검사 함수
+  private hasErrors(): boolean {
     const companyNameError = this.addCompanyForm
       .get('companyName')
       ?.hasError('required');
@@ -184,6 +192,7 @@ export class CompanyAddComponent {
       inputElement.value = numericValue;
     }
   }
+
   errorAlert(err: any) {
     switch (err) {
       case 'Duplicate requestLeave':
