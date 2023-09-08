@@ -16,7 +16,7 @@ export interface PeriodicElement {
   countryName: string;
   countryCode: string;
   holiday: any;
-  btns: any;
+  menu: any;
 }
 
 @Component({
@@ -38,7 +38,7 @@ export class CountryListComponent implements OnInit {
     'countryName',
     'countryCode',
     'holiday',
-    'btns',
+    'menu',
   ];
   countryList: MatTableDataSource<PeriodicElement> =
     new MatTableDataSource<PeriodicElement>([]);

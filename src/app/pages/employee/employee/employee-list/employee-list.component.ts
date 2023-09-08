@@ -36,7 +36,7 @@ export class EmployeeListComponent implements OnInit {
     'advanceLeave',
     'annualPolicy',
     'empStartDate',
-    'btns',
+    'menu',
     // 'edit',
     // 'retire',
   ];

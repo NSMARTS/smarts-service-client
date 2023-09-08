@@ -26,7 +26,7 @@ export class CompanyListComponent {
     'superManagers',
     'payDay',
     'detail',
-    'buttons',
+    'menu',
   ];
 
   company: Company[] = [];
