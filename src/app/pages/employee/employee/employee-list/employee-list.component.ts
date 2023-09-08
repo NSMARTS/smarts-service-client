@@ -15,6 +15,7 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { Employee } from 'src/app/interfaces/employee.interface';
 import * as moment from 'moment';
 import { lastValueFrom } from 'rxjs';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -58,7 +59,8 @@ export class EmployeeListComponent implements OnInit {
     private employeeService: EmployeeService,
     private commonService: CommonService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService
   ) {
     this.companyId = this.route.snapshot.params['id'];
     this.employees = this.employeeService.employees;
@@ -101,12 +103,18 @@ export class EmployeeListComponent implements OnInit {
   // 퇴사자 추가
   retireEmployee(id: string) {
     console.log(id);
-    this.employeeService.retireEmployee(id).subscribe({
-      next: (data: any) => {
-        this.getEmployees(this.companyId);
-        console.log(data);
-      },
-      error: (err: any) => {},
-    });
+    this.dialogService
+      .openDialogConfirm('Do you retire this employee?')
+      .subscribe((result: any) => {
+        if (result) {
+          this.employeeService.retireEmployee(id).subscribe({
+            next: (data: any) => {
+              this.getEmployees(this.companyId);
+              console.log(data);
+            },
+            error: (err: any) => {},
+          });
+        }
+      });
   }
 }

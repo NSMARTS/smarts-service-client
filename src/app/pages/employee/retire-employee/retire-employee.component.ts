@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Employee } from 'src/app/interfaces/employee.interface';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-retire-employee',
@@ -34,7 +35,8 @@ export class RetiredEmployeeListComponent {
   constructor(
     public dialog: MatDialog,
     private employeeMngmtService: EmployeeService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialogService: DialogService
   ) {
     this.companyId = this.route.snapshot.params['id'];
   }
@@ -56,13 +58,26 @@ export class RetiredEmployeeListComponent {
     });
   }
 
+  // 퇴사자 퇴사 취소
   cancelRetireEmployee(employeeId: string) {
-    this.employeeMngmtService.cancelRetireEmployee(employeeId).subscribe(() => {
-      this.getMyRetireEmployees();
-    });
+    this.dialogService
+      .openDialogConfirm('Do you want cancel this request?')
+      .subscribe((result: any) => {
+        if (result) {
+          this.employeeMngmtService.cancelRetireEmployee(employeeId).subscribe({
+            next: () => {
+              this.getMyRetireEmployees();
+            },
+            error: (err: any) => {
+              console.error(err);
+              this.dialogService.openDialogNegative('An error has occurred.');
+            },
+          });
+        }
+      });
   }
 
-  // 회사 이름 필터
+  // 퇴사자 필터
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
