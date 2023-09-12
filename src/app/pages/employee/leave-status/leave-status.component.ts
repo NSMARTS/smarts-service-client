@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ViewChild, WritableSignal, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ViewChild, WritableSignal, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { MatTableDataSource } from '@angular/material/table';
 import { LeaveRequest } from 'src/app/interfaces/leave-request.interface';
 import { MatSort } from '@angular/material/sort';
+import { LeaveStatusDetailDialogComponent } from 'src/app/dialog/leave-status-detail-dialog/leave-status-detail-dialog.component';
 
 @Component({
   selector: 'app-leave-status',
@@ -22,7 +23,7 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './leave-status.component.html',
   styleUrls: ['./leave-status.component.scss']
 })
-export class LeaveStatusComponent {
+export class LeaveStatusComponent implements AfterViewInit {
 
   companyId: string; // parameter
 
@@ -51,6 +52,7 @@ export class LeaveStatusComponent {
 
   isLoadingResults = true;
   isRateLimitReached = false;
+  resultsLength = 0;
 
 
   constructor(
@@ -77,14 +79,13 @@ export class LeaveStatusComponent {
     })
   }
 
-  ngOnInit(): void {
-    this.getEmployees()
+  ngAfterViewInit() {
+    this.getEmployees();
   }
 
   async getEmployees() {
     const employees = await lastValueFrom(this.employeeService.getEmployees(this.companyId))
-    await this.employeeService.setEmployees(employees.data)
-    console.log(employees.data)
+    await this.employeeService.employees.set(employees.data)
     this.setAutoComplete() // employeeList를 불러와서 자동완성에 사용
   }
 
@@ -124,11 +125,7 @@ export class LeaveStatusComponent {
     // 검색 범위 마지막 일을 YYYY-MM-DD 포맷으로 변경
     const convertedLeaveEndDate = this.commonService.dateFormatting(this.searchLeaveStatusForm.controls['leaveEndDate'].value)
 
-    const myEmployeeInfo = {
-      ...formValue,
-      leaveStartDate: convertedLeaveStartDate,
-      leaveEndDate: convertedLeaveEndDate,
-    }
+
 
     // 조건에 따른 사원들 휴가 가져오기
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -137,55 +134,38 @@ export class LeaveStatusComponent {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
+          const myEmployeeInfo = {
+            ...formValue,
+            leaveStartDate: convertedLeaveStartDate,
+            leaveEndDate: convertedLeaveEndDate,
+            active: this.sort.active,
+            direction: this.sort.direction,
+            pageIndex: this.paginator.pageIndex,
+            pageSize: this.paginator.pageSize
+          }
+
           return this.employeeService.getEmployeeLeaveListSearch(this.companyId, myEmployeeInfo).pipe()
         }),
         map((res: any) => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
-          this.isRateLimitReached = res.datt === null;
-
+          this.isRateLimitReached = res.data === null;
+          this.resultsLength = res.total_count;
           this.dataSource = new MatTableDataSource<LeaveRequest>(res.data);
-          this.dataSource.paginator = this.paginator;
-
-
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
           return res.data;
         }),
       )
       .subscribe();
   }
 
-  // openDialogPendingLeaveDetail(data) {
+  openLeaveStatusDetailDialog(data: LeaveRequest) {
+    console.log(data)
+    const dialogRef = this.dialog.open(LeaveStatusDetailDialogComponent, {
+      maxWidth: '600px',
+      width: '100%',
+      data
+    });
+  }
 
-  //   const dialogRef = this.dialog.open(LeaveRequestDetailsComponent, {
-  //     // width: '600px',
-  //     // height: '614px',
 
-  //     data: {
-  //       requestor: data._id,
-  //       requestorName: data.name,
-  //       leaveType: data.leaveType,
-  //       leaveDuration: data.duration,
-  //       leave_end_date: data.endDate,
-  //       leave_start_date: data.startDate,
-  //       leave_reason: data.leave_reason,
-  //       status: data.status,
-  //       createdAt: data.createdAt,
-  //       approver: data.approver,
-  //       rejectReason: data.rejectReason
-  //     }
-
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('dialog close');
-  //   })
-  // }
-
-  // exportData() {
-  //   this.excelSrv.exportToData(this.dataSource.filteredData);
-
-  // }
 }

@@ -1,18 +1,55 @@
 <div class="mainContentContainer">
-    <div class="mainTitle">Pay Stub List</div>
+  <div class="mainTitle">Pay Stub List</div>
 
-        <div class="historyTableBox">
+  <div class="historyTableBox">
+    <form [formGroup]="searchPayStubForm" novalidate>
 
-            <div class="filter">
-                <mat-form-field>
-                    <mat-label>Filter</mat-label>
-                    <input matInput (keyup)="applyFilter($event)" placeholder="Pay Stub" #input>
-                </mat-form-field>
-                <button class="tableAddBtn" mat-raised-button color="primary" (click)="openDialog()">Upload Contract</button>
-            </div>
+      <div class="filter">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput formControlName="emailFormControl" [matAutocomplete]="auto" placeholder="Email">
+          <mat-error>an e-mail is required</mat-error>
+          <mat-error>Please input a correct e-mail!</mat-error>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
+              {{option.email}} ({{option.username}})
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <div class="selectBoxContent">
+          <div class="selectBox">
+            <span class="selectLabel">
+              <label for="period" class="optionLabel fontBold">Period</label>
+            </span>
+            <mat-form-field class="formFieldBox" appearance="outline">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker1" formControlName="uploadStartDate">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <label class="calenderLabel waveSpacer"> ~ </label>
+            <mat-form-field class="formFieldBox" appearance="outline">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker2" formControlName="uploadEndDate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <button class="tableAddBtn" mat-raised-button color="primary" (click)="getPayStubsByQuery()">Search</button>
+
+        <button class="tableAddBtn" mat-raised-button color="primary" (click)="openDialog()">Upload Contract</button>
+
+      </div>
+
+    </form>
+
 
     <!-- <button mat-button (click)="openDialog()">Upload Contract</button> -->
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 historyTable" matSort matSortActive="updatedAt"
+      matSortDisableClear matSortDirection="desc">
 
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
@@ -59,11 +96,11 @@
         </td>
       </tr>
     </table>
-    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 30]" aria-label="Select page">
+    <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 30]" aria-label="Select page">
     </mat-paginator>
 
 
-</div>
+  </div>
   <section class="pdf_display_section">
     <div class="pdf_container">
       <canvas id="myCanvas" #pdfViewer></canvas>

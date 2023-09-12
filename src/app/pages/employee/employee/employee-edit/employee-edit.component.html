@@ -1,245 +1,262 @@
 <div class="mainContentContainer">
-    <div class="mainTitle">Employment Information</div>
+  <div class="mainTitle">Employment Information</div>
 
-    <div class="leaveTableContainer2">
-        
-      <div class="leaveTableContainerLeft">
-        <p class="editTitle">Edit Employee</p>
-        <!-- <button fxFlex=6 mat-raised-button class="cancelBtn" (click)="backManagerList();">Back</button> -->
-        <form [formGroup]="editEmployeeForm" novalidate fxLayoutAlign="center">
-          <mat-card-content class="card-content">
-            <p>
-              <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input matInput [formControl]="email" [disabled]="true">
-                <mat-icon matSuffix>assignment_ind</mat-icon>
-              </mat-form-field>
-            </p>
-            <p>
-              <mat-form-field appearance="outline">
-                <mat-label>Name</mat-label>
-                <input matInput formControlName="username">
-                <mat-icon matSuffix>assignment_ind</mat-icon>
-              </mat-form-field>
-            </p>
-            <p>
-              <mat-form-field appearance="outline">
-                <mat-label>Location</mat-label>
-                <mat-select formControlName="country" required>
-                  <mat-option *ngFor="let country of countryList" [value]="country._id">
-                    {{country.countryName}}
-                  </mat-option>
-                </mat-select>
-                <mat-icon matSuffix>find_in_page</mat-icon>
-              </mat-form-field>
-            </p>
-            <p>
-              <mat-form-field appearance="outline">
-                <mat-label>Start Date</mat-label>
-                <input matInput [matDatepicker]="picker1" formControlName="empStartDate">
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-              </mat-form-field>
-            </p>
-            <p>
-              <mat-form-field appearance="outline">
-                <mat-label>End Date</mat-label>
-                <input matInput [matDatepicker]="picker2" formControlName="empEndDate">
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-              </mat-form-field>
-            </p>
-            <p>
-              <mat-form-field appearance="outline">
-                <mat-label>Department</mat-label>
-                <input matInput formControlName="department">
-                <mat-icon matSuffix>work_outline</mat-icon>
-              </mat-form-field>
-            </p>
-            <p>
-              <mat-form-field appearance="outline">
-                <mat-label>Position</mat-label>
-                <input matInput formControlName="position">
-                <mat-icon matSuffix>work_outline</mat-icon>
-              </mat-form-field>
-            </p>
-          </mat-card-content>
-        </form>
-        <mat-card-actions fxLayoutAlign="center" >
-          <button mat-flat-button class="editBtn" (click)="updateProfileInfo();">Edit</button>
-          <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
-        </mat-card-actions>
-      </div>
+  <div class="leaveTableContainer2">
 
-      <div class="leaveTableContainerRight">
-        <form [formGroup]="editEmployeeForm" >
-          <mat-card-content class="ca©≈rd-content">
-            <p class="editTitle" >Leave</p>
+    <div class="leaveTableContainerLeft">
+      <p class="editTitle">Edit Employee</p>
+      <!-- <button fxFlex=6 mat-raised-button class="cancelBtn" (click)="backManagerList();">Back</button> -->
+      <form [formGroup]="editEmployeeForm" novalidate fxLayoutAlign="center">
+        <mat-card-content class="card-content">
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput [formControl]="email" [disabled]="true">
+              <mat-icon matSuffix>assignment_ind</mat-icon>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="username">
+              <mat-icon matSuffix>assignment_ind</mat-icon>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>Location</mat-label>
+              <mat-select formControlName="country" required [disabled]="true">
+                <mat-option *ngFor="let country of countryList" [value]="country._id">
+                  {{country.countryName}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>find_in_page</mat-icon>
+            </mat-form-field>
+          </p>
 
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>Manager List</mat-label>
+              <mat-select [formControl]="manager">
+                <mat-option *ngFor="let manager of employee?.managers" [value]="manager.email">
+                  {{manager.email}}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>find_in_page</mat-icon>
+              <mat-hint>
+                "The manager list can't be edited."
+              </mat-hint>
+            </mat-form-field>
 
-            <!-- leave standard -->
-            <div class="lineDivider" fxLayout="row">
-                <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                  <div class="leftBox">
-                    <span>Annual Leave</span>
-                  </div>
-                </div>
-                <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-            <div id="leaveStandards_{{i+1}}" formArrayName="leaveStandards"
-              *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index" fxLayout="column"
-              fxLayoutGap="30px">
-              <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+          </p>
 
-                <div class="form-row">
-                    <div class="form-field">
-                        <input type="hidden" formControlName="year" />
-                        <div class="yearLabel"> {{ i + 1 }} year</div>
-                      </div>
-                  <div class="form-field">
-                    <mat-form-field appearance="outline" class="formFieldBox">
-                      <mat-label>Annual Leave</mat-label>
-                      <input matInput type="number" class="numeric-input" formControlName="annualLeave" />
-                    </mat-form-field>
-                  </div>
-                  <div class="form-field">
-                    <mat-form-field appearance="outline" class="formFieldBox">
-                      <mat-label>Sick Leave</mat-label>
-                      <input matInput type="number" class="numeric-input" formControlName="sickLeave" />
-                    </mat-form-field>
-                  </div>
-                  <div *ngIf="i <= 0" class="empty">
-                </div>
-                <div *ngIf="i > 0" class="clickBtn" (click)="cancelItem(i)">
-                  <mat-icon class="addMark">remove</mat-icon>
-                </div>
-                </div>
-              </div>
-            </div>
-        </div>
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>Start Date</mat-label>
+              <input matInput [matDatepicker]="picker1" formControlName="empStartDate">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>End Date</mat-label>
+              <input matInput [matDatepicker]="picker2" formControlName="empEndDate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>Department</mat-label>
+              <input matInput formControlName="department">
+              <mat-icon matSuffix>work_outline</mat-icon>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field appearance="outline">
+              <mat-label>Position</mat-label>
+              <input matInput formControlName="position">
+              <mat-icon matSuffix>work_outline</mat-icon>
+            </mat-form-field>
+          </p>
+        </mat-card-content>
+      </form>
+      <mat-card-actions fxLayoutAlign="center">
+        <button mat-flat-button class="editBtn" (click)="updateProfileInfo();">Edit</button>
+        <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
+      </mat-card-actions>
     </div>
 
-            <!-- rollover -->
-            <div class="lineDivider" fxLayout="row wrap">
-              <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                <div class="leftBox">
-                  <span>Rollover</span>
-                </div>
-              </div>
-              <div class="rightTable" fxFlex>
-                <mat-radio-group mat-radio-group name="grpName">
-                  <input type="radio" formControlName="isRollover" [value]="true"
-                    [checked]="editEmployeeForm.get('isRollover')?.value" />Yes
-                  <input type="radio" formControlName="isRollover" [value]="false"
-                    [checked]="!editEmployeeForm.get('isRollover')?.value" />No
-                </mat-radio-group>
+    <div class="leaveTableContainerRight">
+      <form [formGroup]="editEmployeeForm">
+        <mat-card-content class="ca©≈rd-content">
+          <p class="editTitle">Leave</p>
+
+
+          <!-- leave standard -->
+          <div class="lineDivider" fxLayout="row">
+            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+              <div class="leftBox">
+                <span>Annual Leave</span>
               </div>
             </div>
-            <div *ngIf="editEmployeeForm.get('isRollover')?.value === true">
-              <!-- rollover max month -->
-              <div class="lineDivider" fxLayout="row wrap">
-                <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                  <div class="leftBox">
-                    <span>Rollover Max Month</span>
+            <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+              <div id="leaveStandards_{{i+1}}" formArrayName="leaveStandards"
+                *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index" fxLayout="column"
+                fxLayoutGap="30px">
+                <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+
+                  <div class="form-row">
+                    <div class="form-field">
+                      <input type="hidden" formControlName="year" />
+                      <div class="yearLabel"> {{ i + 1 }} year</div>
+                    </div>
+                    <div class="form-field">
+                      <mat-form-field appearance="outline" class="formFieldBox">
+                        <mat-label>Annual Leave</mat-label>
+                        <input matInput type="number" class="numeric-input" formControlName="annualLeave" />
+                      </mat-form-field>
+                    </div>
+                    <div class="form-field">
+                      <mat-form-field appearance="outline" class="formFieldBox">
+                        <mat-label>Sick Leave</mat-label>
+                        <input matInput type="number" class="numeric-input" formControlName="sickLeave" />
+                      </mat-form-field>
+                    </div>
+                    <div *ngIf="i <= 0" class="empty">
+                    </div>
+                    <div *ngIf="i > 0" class="clickBtn" (click)="cancelItem(i)">
+                      <mat-icon class="addMark">remove</mat-icon>
+                    </div>
                   </div>
                 </div>
-                <div class="rightTable" fxFlex>
-                  <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                    <input matInput type="number" class="numeric-input" formControlName="rolloverMaxMonth"
-                      placeholder="Rollover Max Month" />
-                  </mat-form-field>
-                </div>
-              </div>
-              <!-- rollover max day -->
-              <div class="lineDivider" fxLayout="row wrap">
-                <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                  <div class="leftBox">
-                    <span>Rollover Max Day</span>
-                  </div>
-                </div>
-                <div class="rightTable" fxFlex>
-                  <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                    <input matInput type="number" class="numeric-input" formControlName="rolloverMaxDay"
-                      placeholder="Rollover Max Day" />
-                  </mat-form-field>
-                </div>
               </div>
             </div>
+          </div>
 
-            <!-- Replacement Day -->
+          <!-- rollover -->
+          <div class="lineDivider" fxLayout="row wrap">
+            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+              <div class="leftBox">
+                <span>Rollover</span>
+              </div>
+            </div>
+            <div class="rightTable" fxFlex>
+              <mat-radio-group mat-radio-group name="grpName">
+                <input type="radio" formControlName="isRollover" [value]="true"
+                  [checked]="editEmployeeForm.get('isRollover')?.value" />Yes
+                <input type="radio" formControlName="isRollover" [value]="false"
+                  [checked]="!editEmployeeForm.get('isRollover')?.value" />No
+              </mat-radio-group>
+            </div>
+          </div>
+          <div *ngIf="editEmployeeForm.get('isRollover')?.value === true">
+            <!-- rollover max month -->
             <div class="lineDivider" fxLayout="row wrap">
               <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                 <div class="leftBox">
-                  <span>Replacement Day</span>
+                  <span>Rollover Max Month</span>
                 </div>
               </div>
               <div class="rightTable" fxFlex>
-                <mat-radio-group mat-radio-group name="grpName">
-                  <input type="radio" formControlName="isReplacementDay" [value]="true"
-                    [checked]="editEmployeeForm.get('isReplacementDay')?.value " />Yes
-                  <input type="radio" formControlName="isReplacementDay" [value]="false"
-                    [checked]="!editEmployeeForm.get('isReplacementDay')?.value " />No
-                </mat-radio-group>
+                <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+                  <input matInput type="number" class="numeric-input" formControlName="rolloverMaxMonth"
+                    placeholder="Rollover Max Month" />
+                </mat-form-field>
               </div>
             </div>
-
+            <!-- rollover max day -->
             <div class="lineDivider" fxLayout="row wrap">
               <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                 <div class="leftBox">
-                  <span>Advance Annual Leave</span>
+                  <span>Rollover Max Day</span>
                 </div>
               </div>
               <div class="rightTable" fxFlex>
-                <mat-radio-group mat-radio-group name="grpName">
-                  <input type="radio" formControlName="isAdvanceLeave" [value]="true"
-                    [checked]="editEmployeeForm.get('isAdvanceLeave')?.value" />Yes
-                  <input type="radio" formControlName="isAdvanceLeave" [value]="false"
-                    [checked]="!editEmployeeForm.get('isAdvanceLeave')?.value" />No
-
-                </mat-radio-group>
+                <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+                  <input matInput type="number" class="numeric-input" formControlName="rolloverMaxDay"
+                    placeholder="Rollover Max Day" />
+                </mat-form-field>
               </div>
             </div>
-            <!-- RD Validity Day -->
-            <div *ngIf="editEmployeeForm.get('isReplacementDay')?.value == true">
-              <div class="lineDivider" fxLayout="row wrap">
-                <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                  <div class="leftBox">
-                    <span>RD Validity Term</span>
-                  </div>
-                </div>
-                <div class="rightTable" fxFlex>
-                  <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                    <input matInput type="number" class="numeric-input" formControlName="rdValidityTerm"
-                      placeholder="RD Validity Term" />
-                  </mat-form-field> month(s)
-                </div>
+          </div>
+
+          <!-- Replacement Day -->
+          <div class="lineDivider" fxLayout="row wrap">
+            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+              <div class="leftBox">
+                <span>Replacement Day</span>
               </div>
             </div>
+            <div class="rightTable" fxFlex>
+              <mat-radio-group mat-radio-group name="grpName">
+                <input type="radio" formControlName="isReplacementDay" [value]="true"
+                  [checked]="editEmployeeForm.get('isReplacementDay')?.value " />Yes
+                <input type="radio" formControlName="isReplacementDay" [value]="false"
+                  [checked]="!editEmployeeForm.get('isReplacementDay')?.value " />No
+              </mat-radio-group>
+            </div>
+          </div>
 
+          <div class="lineDivider" fxLayout="row wrap">
+            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+              <div class="leftBox">
+                <span>Advance Annual Leave</span>
+              </div>
+            </div>
+            <div class="rightTable" fxFlex>
+              <mat-radio-group mat-radio-group name="grpName">
+                <input type="radio" formControlName="isAdvanceLeave" [value]="true"
+                  [checked]="editEmployeeForm.get('isAdvanceLeave')?.value" />Yes
+                <input type="radio" formControlName="isAdvanceLeave" [value]="false"
+                  [checked]="!editEmployeeForm.get('isAdvanceLeave')?.value" />No
 
-            <!-- Annual Policy -->
+              </mat-radio-group>
+            </div>
+          </div>
+          <!-- RD Validity Day -->
+          <div *ngIf="editEmployeeForm.get('isReplacementDay')?.value == true">
             <div class="lineDivider" fxLayout="row wrap">
               <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                 <div class="leftBox">
-                  <span>Annual Policy</span>
+                  <span>RD Validity Term</span>
                 </div>
               </div>
               <div class="rightTable" fxFlex>
-                <mat-radio-group mat-radio-group name="grpName">
-                  <input type="radio" value="byYear" formControlName="annualPolicy"
-                    [checked]="editEmployeeForm.get('annualPolicy')?.value === 'byYear' ? true : false" />by
-                  year
-                  <input type="radio" value="byContract" formControlName="annualPolicy"
-                    [checked]="editEmployeeForm.get('annualPolicy')?.value === 'byContract' ? true : false" />by
-                  contract
-                </mat-radio-group>
+                <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+                  <input matInput type="number" class="numeric-input" formControlName="rdValidityTerm"
+                    placeholder="RD Validity Term" />
+                </mat-form-field> month(s)
               </div>
             </div>
-          </mat-card-content>
-        </form>
-        <mat-card-actions fxLayoutAlign="center" class="booterBtn">
-          <button mat-flat-button class="editBtn" (click)="updateLeaveInfo();">Edit</button>
-          <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
-        </mat-card-actions>
+          </div>
+
+
+          <!-- Annual Policy -->
+          <div class="lineDivider" fxLayout="row wrap">
+            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+              <div class="leftBox">
+                <span>Annual Policy</span>
+              </div>
+            </div>
+            <div class="rightTable" fxFlex>
+              <mat-radio-group mat-radio-group name="grpName">
+                <input type="radio" value="byYear" formControlName="annualPolicy"
+                  [checked]="editEmployeeForm.get('annualPolicy')?.value === 'byYear' ? true : false" />by
+                year
+                <input type="radio" value="byContract" formControlName="annualPolicy"
+                  [checked]="editEmployeeForm.get('annualPolicy')?.value === 'byContract' ? true : false" />by
+                contract
+              </mat-radio-group>
+            </div>
+          </div>
+        </mat-card-content>
+      </form>
+      <mat-card-actions fxLayoutAlign="center" class="booterBtn">
+        <button mat-flat-button class="editBtn" (click)="updateLeaveInfo();">Edit</button>
+        <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
+      </mat-card-actions>
     </div>
 
   </div>

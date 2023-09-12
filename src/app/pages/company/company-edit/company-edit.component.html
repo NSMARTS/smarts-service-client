@@ -1,252 +1,259 @@
 <div class="mainContentContainer">
-    <div class="mainTitle">Edit Company</div>
+  <div class="mainTitle">Edit Company</div>
 
-    <form [formGroup]="editCompanyForm" (ngSubmit)="onSubmit()">
-      <div class="leaveTableContainer">
+  <form [formGroup]="editCompanyForm" (ngSubmit)="onSubmit()">
+    <div class="leaveTableContainer">
 
-          <!-- company name -->
-          <div class="lineDivider" fxLayout="row wrap">
-            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <div class="leftBox">
-                <span>Company Name</span>
-              </div>
-            </div>
-            <div class="rightTable" fxFlex="50" fxFlex.gt-md="70">
-              <mat-form-field appearance="outline" class="companyFormFieldBox">
-                <mat-label>Company Name</mat-label>
-                <input matInput type="text" formControlName="companyName" />
-              </mat-form-field>
+      <!-- company name -->
+      <div class="lineDivider" fxLayout="row wrap">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Company Name</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="50" fxFlex.gt-md="70">
+          <mat-form-field appearance="outline" class="companyFormFieldBox">
+            <mat-label>Company Name</mat-label>
+            <input matInput type="text" formControlName="companyName" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Annual Policy -->
+      <div class="lineDivider" fxLayout="row wrap">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Annual Policy</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex>
+          <mat-radio-group mat-radio-group name="grpName">
+            <input type="radio" value="byYear" formControlName="annualPolicy"
+              [checked]="editCompanyForm.get('annualPolicy')?.value === 'byYear' ? true : false" />by
+            year
+            <input type="radio" value="byContract" formControlName="annualPolicy"
+              [checked]="editCompanyForm.get('annualPolicy')?.value === 'byContract' ? true : false" />by
+            contract
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <!-- rollover -->
+      <div class="lineDivider" fxLayout="row wrap">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Rollover</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex>
+          <mat-radio-group mat-radio-group name="grpName">
+            <input type="radio" formControlName="isRollover" [value]="true"
+              [checked]="editCompanyForm.get('isRollover')?.value" />Yes
+            <input type="radio" formControlName="isRollover" [value]="false"
+              [checked]="!editCompanyForm.get('isRollover')?.value" />No
+          </mat-radio-group>
+        </div>
+      </div>
+      <div *ngIf="editCompanyForm.get('isRollover')?.value === true">
+        <!-- rollover max month -->
+        <div class="lineDivider" fxLayout="row wrap">
+          <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+            <div class="leftBox">
+              <span>Rollover Max Month</span>
             </div>
           </div>
+          <div class="rightTable" fxFlex>
+            <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+              <input matInput type="number" class="numeric-input" formControlName="rolloverMaxMonth"
+                placeholder="Rollover Max Month" />
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- rollover max day -->
+        <div class="lineDivider" fxLayout="row wrap">
+          <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+            <div class="leftBox">
+              <span>Rollover Max Day</span>
+            </div>
+          </div>
+          <div class="rightTable" fxFlex>
+            <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+              <input matInput type="number" class="numeric-input" formControlName="rolloverMaxDay"
+                placeholder="Rollover Max Day" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
 
-          <!-- Annual Policy -->
-          <div class="lineDivider" fxLayout="row wrap">
-            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <div class="leftBox">
-                <span>Annual Policy</span>
-              </div>
-            </div>
-            <div class="rightTable" fxFlex>
-              <mat-radio-group mat-radio-group name="grpName">
-                <input type="radio" value="byYear" formControlName="annualPolicy"
-                  [checked]="editCompanyForm.get('annualPolicy')?.value === 'byYear' ? true : false" />by
-                year
-                <input type="radio" value="byContract" formControlName="annualPolicy"
-                  [checked]="editCompanyForm.get('annualPolicy')?.value === 'byContract' ? true : false" />by
-                contract
-              </mat-radio-group>
+      <!-- Replacement Day -->
+      <div class="lineDivider" fxLayout="row wrap">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Replacement Day</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex>
+          <mat-radio-group mat-radio-group name="grpName">
+            <input type="radio" formControlName="isReplacementDay" [value]="true"
+              [checked]="editCompanyForm.get('isReplacementDay')?.value " />Yes
+            <input type="radio" formControlName="isReplacementDay" [value]="false"
+              [checked]="!editCompanyForm.get('isReplacementDay')?.value " />No
+          </mat-radio-group>
+        </div>
+      </div>
+
+
+      <!-- RD Validity Day -->
+      <div *ngIf="editCompanyForm.get('isReplacementDay')?.value == true">
+        <div class="lineDivider" fxLayout="row wrap">
+          <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+            <div class="leftBox">
+              <span>RD Validity Term</span>
             </div>
           </div>
-          
-          <!-- rollover -->
-          <div class="lineDivider" fxLayout="row wrap">
-            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <div class="leftBox">
-                <span>Rollover</span>
-              </div>
-            </div>
-            <div class="rightTable" fxFlex>
-              <mat-radio-group mat-radio-group name="grpName">
-                <input type="radio" formControlName="isRollover" [value]="true"
-                  [checked]="editCompanyForm.get('isRollover')?.value" />Yes
-                <input type="radio" formControlName="isRollover" [value]="false"
-                  [checked]="!editCompanyForm.get('isRollover')?.value" />No
-              </mat-radio-group>
-            </div>
+          <div class="rightTable" fxFlex>
+            <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+              <input matInput type="number" class="numeric-input" formControlName="rdValidityTerm"
+                placeholder="RD Validity Term" />
+            </mat-form-field> month(s)
           </div>
-          <div *ngIf="editCompanyForm.get('isRollover')?.value === true">
-            <!-- rollover max month -->
-            <div class="lineDivider" fxLayout="row wrap">
-              <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                <div class="leftBox">
-                  <span>Rollover Max Month</span>
+        </div>
+      </div>
+
+      <!-- Advance Annual Leave -->
+      <div class="lineDivider" fxLayout="row wrap">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Advance Annual Leave</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex>
+          <mat-radio-group mat-radio-group name="grpName">
+            <input type="radio" formControlName="isAdvanceLeave" [value]="true"
+              [checked]="editCompanyForm.get('isAdvanceLeave')?.value" />Yes
+            <input type="radio" formControlName="isAdvanceLeave" [value]="false"
+              [checked]="!editCompanyForm.get('isAdvanceLeave')?.value" />No
+
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <!--  Approval of Leave -->
+      <div class="lineDivider" fxLayout="row wrap">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Approval of Leave</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex>
+          <mat-radio-group mat-radio-group name="grpName">
+            <input type="radio" [value]="true" formControlName="isPending" />Yes
+            <input type="radio" [value]="false" formControlName="isPending" />No
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <!-- Contract Date -->
+      <div class="lineDivider" fxLayout="row">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Contract Date</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-form-field appearance="outline" class="companyFormFieldBox">
+            <mat-label>Contract Date</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="contractDate"
+              (dateChange)="contractDatePickChange($event.value)">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Pay Day -->
+      <div class="lineDivider" fxLayout="row">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Pay Day</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-form-field appearance="outline" class="companyFormFieldBox">
+            <mat-label>Pay Day</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="payDay"
+              (dateChange)="payDayPickChange($event.value)">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Payment Required -->
+      <div class="lineDivider" fxLayout="row">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Payment Required</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-radio-group mat-radio-group name="grpName">
+            <input type="radio" [value]="true" formControlName="paymentRequired" />Yes
+            <input type="radio" [value]="false" formControlName="paymentRequired" />No
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <!-- leave standard -->
+      <div class="lineDivider" fxLayout="row">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Leave Standard</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <div formArrayName="leaveStandards" *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index">
+            <div [formGroupName]="i">
+
+              <div class="form-row">
+                <div class="form-field">
+                  <input type="hidden" formControlName="year" />
+                  <div class="yearLabel"> {{ i + 1 }} year</div>
                 </div>
-              </div>
-              <div class="rightTable" fxFlex>
-                <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                  <input matInput type="number" class="numeric-input" formControlName="rolloverMaxMonth"
-                    placeholder="Rollover Max Month" />
-                </mat-form-field>
-              </div>
-            </div>
-            <!-- rollover max day -->
-            <div class="lineDivider" fxLayout="row wrap">
-              <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                <div class="leftBox">
-                  <span>Rollover Max Day</span>
+                <div class="form-field">
+                  <mat-form-field appearance="outline" class="formFieldBox">
+                    <mat-label>Annual Leave</mat-label>
+                    <input matInput type="number" class="numeric-input" formControlName="annualLeave" />
+                  </mat-form-field>
                 </div>
-              </div>
-              <div class="rightTable" fxFlex>
-                <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                  <input matInput type="number" class="numeric-input" formControlName="rolloverMaxDay"
-                    placeholder="Rollover Max Day" />
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-
-          <!-- Replacement Day -->
-          <div class="lineDivider" fxLayout="row wrap">
-            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <div class="leftBox">
-                <span>Replacement Day</span>
-              </div>
-            </div>
-            <div class="rightTable" fxFlex>
-              <mat-radio-group mat-radio-group name="grpName">
-                <input type="radio" formControlName="isReplacementDay" [value]="true"
-                  [checked]="editCompanyForm.get('isReplacementDay')?.value " />Yes
-                <input type="radio" formControlName="isReplacementDay" [value]="false"
-                  [checked]="!editCompanyForm.get('isReplacementDay')?.value " />No
-              </mat-radio-group>
-            </div>
-          </div>
-
-
-          <!-- RD Validity Day -->
-          <div *ngIf="editCompanyForm.get('isReplacementDay')?.value == true">
-            <div class="lineDivider" fxLayout="row wrap">
-              <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                <div class="leftBox">
-                  <span>RD Validity Term</span>
+                <div class="form-field">
+                  <mat-form-field appearance="outline" class="formFieldBox">
+                    <mat-label>Sick Leave</mat-label>
+                    <input matInput type="number" class="numeric-input" formControlName="sickLeave" />
+                  </mat-form-field>
                 </div>
-              </div>
-              <div class="rightTable" fxFlex>
-                <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                  <input matInput type="number" class="numeric-input" formControlName="rdValidityTerm"
-                    placeholder="RD Validity Term" />
-                </mat-form-field> month(s)
-              </div>
-            </div>
-          </div>
-
-          <!-- Minus Annual Leave -->
-          <div class="lineDivider" fxLayout="row wrap">
-            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <div class="leftBox">
-                <span>Minus Annual Leave</span>
-              </div>
-            </div>
-            <div class="rightTable" fxFlex>
-              <mat-radio-group mat-radio-group name="grpName">
-                <input type="radio" formControlName="isAdvanceLeave" [value]="true"
-                  [checked]="editCompanyForm.get('isAdvanceLeave')?.value" />Yes
-                <input type="radio" formControlName="isAdvanceLeave" [value]="false"
-                  [checked]="!editCompanyForm.get('isAdvanceLeave')?.value" />No
-
-              </mat-radio-group>
-            </div>
-          </div>
-
-          <!-- Contract Date -->
-          <div class="lineDivider" fxLayout="row">
-            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <div class="leftBox">
-                <span>Contract Date</span>
-              </div>
-            </div>
-            <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                <mat-form-field appearance="outline" class="companyFormFieldBox">
-                    <mat-label>Contract Date</mat-label>
-                    <input 
-                        matInput 
-                        [matDatepicker]="picker1" 
-                        formControlName="contractDate"
-                        (dateChange)="contractDatePickChange($event.value)">
-                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-            </div>
-          </div>
-
-          <!-- Pay Day -->
-          <div class="lineDivider" fxLayout="row">
-            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <div class="leftBox">
-                <span>Pay Day</span>
-              </div>
-            </div>
-            <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                <mat-form-field appearance="outline" class="companyFormFieldBox">
-                    <mat-label>Pay Day</mat-label>
-                    <input 
-                        matInput 
-                        [matDatepicker]="picker2" 
-                        formControlName="payDay"
-                        (dateChange)="payDayPickChange($event.value)">
-                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field>
-            </div>
-          </div>
-          
-          <!-- Payment Required -->
-          <div class="lineDivider" fxLayout="row">
-            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <div class="leftBox">
-                <span>Payment Required</span>
-              </div>
-            </div>
-            <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                <mat-radio-group mat-radio-group name="grpName">
-                    <input type="radio" [value]="true" formControlName="paymentRequired" />Yes
-                    <input type="radio" [value]="false" formControlName="paymentRequired" />No
-                </mat-radio-group>
-            </div>
-          </div>
-
-          <!-- leave standard -->
-          <div class="lineDivider" fxLayout="row">
-            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <div class="leftBox">
-                <span>Leave Standard</span>
-              </div>
-            </div>
-            <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-              <div formArrayName="leaveStandards"
-                *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index" 
-                >
-                <div [formGroupName]="i">
-
-                  <div class="form-row">
-                    <div class="form-field">
-                        <input type="hidden" formControlName="year" />
-                        <div class="yearLabel"> {{ i + 1 }} year</div>
-                      </div>
-                  <div class="form-field">
-                    <mat-form-field appearance="outline" class="formFieldBox">
-                      <mat-label>Annual Leave</mat-label>
-                      <input matInput type="number" class="numeric-input" formControlName="annualLeave" />
-                    </mat-form-field>
-                  </div>
-                  <div class="form-field">
-                    <mat-form-field appearance="outline" class="formFieldBox">
-                      <mat-label>Sick Leave</mat-label>
-                      <input matInput type="number" class="numeric-input" formControlName="sickLeave" />
-                    </mat-form-field>
-                  </div>
-                  <div *ngIf="i <= 0" class="empty">
+                <div *ngIf="i <= 0" class="empty">
                 </div>
                 <div *ngIf="i > 0" class="clickBtn" (click)="cancelItem(i)">
                   <mat-icon class="addMark">remove</mat-icon>
                 </div>
-                </div>
-                </div>
-              </div>
-              <div class="addclickBtn" (click)="addItem()">
-                <mat-icon class="addMark">add</mat-icon>
               </div>
             </div>
           </div>
-
-          <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
-            <button mat-raised-button class="tableBtn" type="submit" color="primary"
-              [disabled]="isButtonDisabled()">Edit</button>
-            <div style="width: 20px;"></div>
-            <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
+          <div class="addclickBtn" (click)="addItem()">
+            <mat-icon class="addMark">add</mat-icon>
+          </div>
         </div>
-        
       </div>
-    </form>
+
+      <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
+        <button mat-raised-button class="tableBtn" type="submit" color="primary"
+          [disabled]="isButtonDisabled()">Edit</button>
+        <div style="width: 20px;"></div>
+        <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
+      </div>
+
+    </div>
+  </form>
 
 </div>

@@ -1,5 +1,6 @@
 import { Company } from 'src/app/interfaces/company.interface';
-export interface Employee {
+import { Manager } from './manager.interface';
+export interface Employee extends UsedLeaveData {
   _id: string,
   email: string, // 이메일
   username: string, // 사용자 이름
@@ -12,8 +13,8 @@ export interface Employee {
   usedLeave: UsedLeave,
   isRetired: boolean,
   department: boolean,
-  isManager: boolean,
   personalLeave: Company, // 개인이 가지고 있는 휴가정책. 컴퍼니의 연차정책 타입이 같다
+  managers: Manager[],
 }
 
 // 사용한 휴가
@@ -27,7 +28,20 @@ export interface UsedLeave {
   profileImgPath: string // 프로필 이미지 경로
 }
 
-// 사용한 휴가
+
+// 휴가
+export interface UsedLeaveData {
+  usedLeaveData: number, // 갖고 있던 연차 휴가 갯수
+  totalAnnualLeave: number,
+  usedRollover: number, // 연차 휴가 사용 횟수
+  totalRollover: number,
+  usedSickData: number,
+  totalSickLeave: number,
+  usedReplacement: number,
+  totalReplacement: number,
+  year: number,
+}
+
 export interface Country {
   _id: string,
   countryName: string,

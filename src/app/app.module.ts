@@ -12,6 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { catchError, lastValueFrom, of, tap } from 'rxjs';
 import { AccessToken, AuthService } from './services/auth.service';
 import { provideRouter, withRouterConfig } from '@angular/router';
+import { LeaveStatusDetailDialogComponent } from './dialog/leave-status-detail-dialog/leave-status-detail-dialog.component';
 
 
 /**
@@ -31,6 +32,7 @@ export function appInitializer(authService: AuthService) {
       authService.isLoggedIn.set(true)
       return authService.refreshToken()
         .pipe(
+          tap(() => console.log('app initial : refresh token 재발급')),
           catchError(() => of())
         );
     }

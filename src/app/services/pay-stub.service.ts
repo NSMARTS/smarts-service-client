@@ -35,8 +35,8 @@ export class PayStubService {
     return this.http.get<HttpResMsg<any>>(this.baseUrl + '/files');
   }
 
-  getPayStubs(id: string): Observable<HttpResMsg<any[]>> {
-    return this.http.get<HttpResMsg<any[]>>(this.baseUrl + '/statements/' + id)
+  getPayStubs(id: string, data: any): Observable<HttpResMsg<any[]>> {
+    return this.http.get<HttpResMsg<any[]>>(this.baseUrl + '/statements/' + id + '/', { params: data })
   }
 
   setPayStubs(data: any[]) {

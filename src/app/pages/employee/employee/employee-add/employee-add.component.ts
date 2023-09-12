@@ -40,7 +40,6 @@ export class EmployeeAddComponent {
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
-      isManager: new FormControl(false, [Validators.required]),
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),
       department: new FormControl(''),

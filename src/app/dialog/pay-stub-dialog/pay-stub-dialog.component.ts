@@ -2,7 +2,7 @@ import { AuthService, UserInfo } from 'src/app/services/auth.service';
 import { Component, DestroyRef, ElementRef, Inject, OnInit, ViewChild, WritableSignal, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { Observable, map, startWith, tap, filter, lastValueFrom } from 'rxjs';
@@ -12,6 +12,7 @@ import { PayStubService } from 'src/app/services/pay-stub.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Statment } from 'src/app/interfaces/statement.interface';
 import * as pdfjsLib from "pdfjs-dist";
+import { DialogService } from 'src/app/services/dialog.service';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({
   selector: 'app-pay-stub-dialog',
@@ -39,13 +40,18 @@ export class PayStubDialogComponent implements OnInit {
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
 
+  isLoadingResults = false;
+
 
   constructor(
+    public dialogRef: MatDialogRef<PayStubDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
     private authService: AuthService,
-    private payStubService: PayStubService
+    private payStubService: PayStubService,
+    private dialogService: DialogService
+
   ) {
 
     this.statementForm = this.formBuilder.group({
@@ -100,6 +106,8 @@ export class PayStubDialogComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].name.toLowerCase().endsWith('.pdf')) {
         // Image resize and update
+
+        this.isLoadingResults = true;
         const file: File = event.target.files[0];
         this.currentFile = file;
 
@@ -131,15 +139,10 @@ export class PayStubDialogComponent implements OnInit {
 
       this.payStubService.upload(formData).subscribe({
         next: (event: any) => {
-          console.log(event)
-
-          if (event.type === HttpEventType.UploadProgress) {
-            console.log(event)
-            this.progress = Math.round(100 * event.loaded / event.total);
-          } else if (event instanceof HttpResponse) {
-            this.message = event.body.message;
-            // this.fileInfos = this.payStubService.getFiles();
-          }
+          this.isLoadingResults = false;
+          this.dialogService.openDialogPositive('Statement has successfully uploaded.').subscribe(() => {
+            this.dialogRef.close(true)
+          })
         },
         error: (err: any) => {
           console.log(err);
@@ -166,7 +169,7 @@ export class PayStubDialogComponent implements OnInit {
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
         loadingTask.promise.then(pdfDocument => {
           // Assuming you want to render the first page
-          pdfDocument.getPage(1).then(page => {
+          pdfDocument.getPage(1).then(async (page) => {
             const viewport = page.getViewport({ scale: 1 });
             const context = this.pdfViewer.nativeElement.getContext('2d');
 
@@ -177,7 +180,8 @@ export class PayStubDialogComponent implements OnInit {
               canvasContext: context!,
               viewport: viewport
             };
-            page.render(renderContext);
+            await page.render(renderContext);
+            this.isLoadingResults = false;
           });
         });
       }
