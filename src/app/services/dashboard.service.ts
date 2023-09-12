@@ -24,4 +24,9 @@ export class DashboardService {
   getAllCountry() {
     return this.http.get(this.baseUrl + '/dashboard/country');
   }
+
+  //회사별 모든 개수 목록 조회
+  getAllCompanyCount(companyId: any) {
+    return this.http.get(this.baseUrl + '/dashboard/company/' + companyId);
+  }
 }

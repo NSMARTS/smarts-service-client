@@ -1,1 +1,62 @@
-<p>info works!</p>
+<div class="page">
+    <div class="page_title">회사이름 회사날짜</div>
+
+    <div class="dashboard_container">
+        <div class="dashboard_top_container">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-subtitle>EMPLOYEE</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{allCompanyCount?.employeeCount}}</p>
+                    <mat-divider></mat-divider>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>EMPLOYEE</button>
+                </mat-card-actions>
+            </mat-card>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-subtitle>SUPER MANAGER</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{allCompanyCount?.superManagerCount}}</p>
+                    <mat-divider></mat-divider>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>MANAGER</button>
+                </mat-card-actions>
+            </mat-card>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-subtitle>MANAGER</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{allCompanyCount?.managerCount}}</p>
+                    <mat-divider></mat-divider>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>MANAGER</button>
+                </mat-card-actions>
+            </mat-card>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-subtitle>PAY DAY</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{allCompanyCount?.payCount}}</p>
+                    <mat-divider></mat-divider>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>PAY STUB</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+        <div class="dashboard_bottom_container">
+            <mat-card>
+                <mat-card-content>Simple card</mat-card-content>
+              </mat-card>
+        </div>
+    </div>
+    
+</div>
