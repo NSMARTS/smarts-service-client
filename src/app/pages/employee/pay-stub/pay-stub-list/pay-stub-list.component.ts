@@ -140,10 +140,15 @@ export class PayStubListComponent {
   }
 
   openDialog() {
-    this.dialog.open(PayStubDialogComponent, {
+    const dialogRef = this.dialog.open(PayStubDialogComponent, {
       data: {
         companyId: this.companyId,
       },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.getEmployees(this.companyId);
+      this.getPayStubs(this.companyId);
     });
   }
 

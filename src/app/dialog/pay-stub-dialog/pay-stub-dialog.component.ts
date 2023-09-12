@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   FormBuilder,
   FormControl,
@@ -29,6 +29,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Statment } from 'src/app/interfaces/statement.interface';
 import * as pdfjsLib from 'pdfjs-dist';
 import { DialogService } from 'src/app/services/dialog.service';
+import { PayStubComapnyListComponent } from 'src/app/pages/employee/pay-stub/comapny-list/comapny-list.component';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({
   selector: 'app-pay-stub-dialog',
@@ -61,7 +62,8 @@ export class PayStubDialogComponent implements OnInit {
     private employeeService: EmployeeService,
     private authService: AuthService,
     private payStubService: PayStubService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    public dialogRef: MatDialogRef<PayStubComapnyListComponent>
   ) {
     this.statementForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
@@ -140,11 +142,11 @@ export class PayStubDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.hasErrors()) {
+    } else {
       //유효성 검사 실패 시 빨갛게 나옴
       if (this.fileName === 'Select File') {
         this.dialogService.openDialogNegative('Could not upload the file.');
       }
-    } else {
       // 유효성 검사 통과 시
       this.upload();
     }
@@ -165,11 +167,11 @@ export class PayStubDialogComponent implements OnInit {
       this.payStubService.upload(formData).subscribe({
         next: (event: any) => {
           console.log(event);
+          this.dialogRef.close();
+          this.dialogService.openDialogPositive('Success upload contract.');
 
           if (event.type === HttpEventType.UploadProgress) {
-            console.log(event);
             this.progress = Math.round((100 * event.loaded) / event.total);
-            this.dialogService.openDialogPositive('Success upload contract.');
           } else if (event instanceof HttpResponse) {
             this.message = event.body.message;
             // this.fileInfos = this.payStubService.getFiles();
@@ -188,6 +190,7 @@ export class PayStubDialogComponent implements OnInit {
       });
     }
   }
+
   // 유효성 검사 함수
   private hasErrors() {
     const titleError = this.statementForm.get('title')?.hasError('required');
