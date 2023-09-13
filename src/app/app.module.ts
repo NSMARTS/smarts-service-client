@@ -13,6 +13,8 @@ import { catchError, lastValueFrom, of, tap } from 'rxjs';
 import { AccessToken, AuthService } from './services/auth.service';
 import { provideRouter, withRouterConfig } from '@angular/router';
 import { LeaveStatusDetailDialogComponent } from './dialog/leave-status-detail-dialog/leave-status-detail-dialog.component';
+import { QuillModule } from 'ngx-quill'
+import { provideQuillConfig } from 'ngx-quill/config';
 
 
 /**
@@ -50,6 +52,31 @@ export function appInitializer(authService: AuthService) {
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['blockquote', 'code-block'],
+
+          [{ header: 1 }, { header: 2 }],               // custom button values
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
+          [{ indent: '-1' }, { indent: '+1' }],          // outdent/indent
+          [{ direction: 'rtl' }],                         // text direction
+
+          [{ size: ['small', false, 'large', 'huge'] }],  // custom dropdown
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+          [{ color: [] }, { background: [] }],          // dropdown with defaults from theme
+          [{ align: [] }],
+
+          ['clean'],                                         // remove formatting button
+
+          ['link', 'image', 'video']                         // link and image, video
+        ]
+      }
+    })
+
   ],
   providers: [
     // APP_INITIALIZER 는 app.compnent가 실행 되기전에 제일 먼저 실행한다. 로그인을 했으면 Access Token 발급

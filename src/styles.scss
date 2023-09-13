@@ -3,6 +3,10 @@
 // @tailwind components;
 // @tailwind utilities;
 
+// ngx-quill 텍스트 편집기 설정
+// https://mehul-kothari.medium.com/medium-like-text-editor-in-angular-quill-editor-38c0011a880b
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
 
 $sidenav-width: 279px;
 $sidenav-toolbar-height: 64px; // material default
@@ -28,8 +32,15 @@ $sidenav-active-color: #ebf8f6;
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 /** 
 작성자: 임호균
@@ -48,443 +59,493 @@ $smart_service_background_color: rgba(250, 250, 250, 255);
 $smart_service_primary_color: rgba(63, 81, 181, 255);
 
 .side_nav {
-    width: 278px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 100%;
+  width: 278px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
 }
 
 .side_nav_toolbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 64px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
 
-    h1 { 
-        margin: 0;
-    }
+  h1 {
+    margin: 0;
+  }
 }
 
 .side_nav_items {
-    flex: 1;
-    position: relative;
+  flex: 1;
+  position: relative;
 }
 
 .scroll {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
+
 .scroll::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .toolbar {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 //공통 table
 .page {
-    padding: 0 20px;
-    margin: 0 auto;
+  padding: 0 20px;
+  margin: 0 auto;
 }
 
 .page_title {
-    font-size: 22px;
-    font-weight: bold;
-    margin: 20px 0;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px 0;
 }
 
 .table_container {
-    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
 }
 
 .table {
-	width: 100%;
-	text-align: center;
-    box-shadow: none;
+  width: 100%;
+  text-align: center;
+  box-shadow: none;
 
-	th {
-		text-align: center;
-	} 
-    
-    td {
-        text-align: center;
+  th {
+    text-align: center;
+  }
 
-        img {
-            width: 40px;
-            padding-top: 5px;
-        }
+  td {
+    text-align: center;
+
+    img {
+      width: 40px;
+      padding-top: 5px;
     }
+  }
 }
 
-.filter{
-    background-color: #fff;
-    flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
-    display: flex;
-    justify-content: flex-end; /* 내용을 오른쪽으로 정렬 */
-    align-items: center; /* 수직 방향 중앙 정렬 */
+.filter {
+  background-color: #fff;
+  flex: 1;
+  /* 남은 공간을 모두 차지하도록 설정 */
+  display: flex;
+  justify-content: flex-end;
+  /* 내용을 오른쪽으로 정렬 */
+  align-items: center;
+  /* 수직 방향 중앙 정렬 */
 }
 
 .table_add_button {
-    margin-left: auto; /* 남은 공간을 모두 차지하도록 설정 */
-    margin-right: 30px; /* 원하는 간격 설정 */
+  margin-left: auto;
+  /* 남은 공간을 모두 차지하도록 설정 */
+  margin-right: 30px;
+  /* 원하는 간격 설정 */
 }
 
 .mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: #3f51b5;
-    --mdc-filled-button-label-text-color: #fff;
+  --mdc-filled-button-container-color: #3f51b5;
+  --mdc-filled-button-label-text-color: #fff;
 }
 
 .table_delete_button.mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: #ff4081;
-    --mdc-filled-button-label-text-color: #fff;
-}  
-
-@media screen and (max-width: 1580px) { 
-    .page {
-        padding: 10px 10px;
-    }
-
-    .page_title {
-        margin: 10px;
-    }    
-
-    .table_container {
-        word-break: break-all;
-
-        th {
-            padding: 3px 5px;
-        }
-
-        td {
-            padding: 2px 5px;
-            font-size: 1em;
-
-            button {
-                width: 70px;
-                padding: 0;
-            }
-
-            img {
-            width: 0px;
-            }
-        }
-    }
+  --mdc-filled-button-container-color: #ff4081;
+  --mdc-filled-button-label-text-color: #fff;
 }
 
-@media screen and (max-width: 1000px) { 
-    .page {
-        padding: 10px 10px;
+@media screen and (max-width: 1580px) {
+  .page {
+    padding: 10px 10px;
+  }
+
+  .page_title {
+    margin: 10px;
+  }
+
+  .table_container {
+    word-break: break-all;
+
+    th {
+      padding: 3px 5px;
     }
 
-    .page_title {
-        margin: 10px;
-    }    
+    td {
+      padding: 2px 5px;
+      font-size: 1em;
 
-    .table_container {
-        word-break: break-all;
+      button {
+        width: 70px;
+        padding: 0;
+      }
 
-
-        th {
-            padding: 3px 5px;
-            font-size: 0.8em;
-        }
-
-        td {
-            padding: 2px 5px;
-            font-size: 0.7em;
-
-            button {
-                width: 70px;
-                padding: 0;
-            }
-        }
+      img {
+        width: 0px;
+      }
     }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .page {
+    padding: 10px 10px;
+  }
+
+  .page_title {
+    margin: 10px;
+  }
+
+  .table_container {
+    word-break: break-all;
+
+
+    th {
+      padding: 3px 5px;
+      font-size: 0.8em;
+    }
+
+    td {
+      padding: 2px 5px;
+      font-size: 0.7em;
+
+      button {
+        width: 70px;
+        padding: 0;
+      }
+    }
+  }
 }
 
 //공통 add
 .add_container {
-    padding: 20px 20px;
-    border: 1px solid rgba(238, 238, 238, 0.548);
-    border-radius: 4px;
-    background-color: #fff;
-    box-sizing: border-box;
-    font-size: 14px;
-    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+  padding: 20px 20px;
+  border: 1px solid rgba(238, 238, 238, 0.548);
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+  font-size: 14px;
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
 
-    .br_ltop {
-        border-radius: 4px;
-    }
+  .br_ltop {
+    border-radius: 4px;
+  }
 }
 
 .lineDivider {
-    border-bottom: 1px solid rgb(224 224 224);
+  border-bottom: 1px solid rgb(224 224 224);
 }
 
 .leftTable {
-    border-radius: 4px;
-    margin: 1px;
-    padding: 20px;
-    color: #fff;
-    font-weight: 700;
-    background-color:  #3f51b5;
+  border-radius: 4px;
+  margin: 1px;
+  padding: 20px;
+  color: #fff;
+  font-weight: 700;
+  background-color: #3f51b5;
 }
 
 .rightTable {
-    border-left: 1px solid rgb(224 224 224);
-    padding: 20px;
+  border-left: 1px solid rgb(224 224 224);
+  padding: 20px;
 }
 
 .formFieldBox {
-    max-width: 200px;
-  }
+  max-width: 200px;
+}
 
 .booterBtn {
-    margin: 20px 0 0 0;
+  margin: 20px 0 0 0;
 }
 
 //공통 edit
-.edit_title{
-    font-size: 16px;
-    font-weight: bold;
-    padding: 20px 0;
+.edit_title {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 20px 0;
 }
 
 .edit_twin_container {
-    display: flex;
-    padding: 20px;
-    border: 1px solid rgba(238, 238, 238, 0.548);
-    border-radius: 4px;
-    background-color: #fff;
-    box-sizing: border-box;
-    font-size: 14px;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  display: flex;
+  padding: 20px;
+  border: 1px solid rgba(238, 238, 238, 0.548);
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+  font-size: 14px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
 
-    .br_ltop {
-        border-radius: 4px;
-    }
+  .br_ltop {
+    border-radius: 4px;
+  }
 }
 
 .edit_left_container {
-    flex: 3; /* 각 요소가 동일한 공간을 차지하도록 설정 */
-    margin: 10px; /* 간격을 원하는 만큼 추가 */
+  flex: 3;
+  /* 각 요소가 동일한 공간을 차지하도록 설정 */
+  margin: 10px;
+  /* 간격을 원하는 만큼 추가 */
 }
 
 .edit_right_container {
-    flex: 7; /* 각 요소가 동일한 공간을 차지하도록 설정 */
-    margin: 10px; /* 간격을 원하는 만큼 추가 */
+  flex: 7;
+  /* 각 요소가 동일한 공간을 차지하도록 설정 */
+  margin: 10px;
+  /* 간격을 원하는 만큼 추가 */
 }
 
 /* 화면 폭이 1000px 이하일 때 스타일 수정 */
 @media screen and (max-width: 1000px) {
-    .edit_twin_container {
-        flex-wrap: wrap; /* 줄바꿈을 허용하도록 설정 */
-    }
-    .edit_left_container, .edit_right_container {
-        width: 100%; /* 전체 너비를 차지하도록 설정 */
-        box-sizing: border-box;
-        margin-bottom: 10px; /* 아래 여백을 추가하여 다음 줄로 넘어가도록 함 */
-    }
+  .edit_twin_container {
+    flex-wrap: wrap;
+    /* 줄바꿈을 허용하도록 설정 */
+  }
+
+  .edit_left_container,
+  .edit_right_container {
+    width: 100%;
+    /* 전체 너비를 차지하도록 설정 */
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    /* 아래 여백을 추가하여 다음 줄로 넘어가도록 함 */
+  }
 }
 
 //공통 dialog
 .dialog_container {
-    padding: 20px 30px;
+  padding: 20px 30px;
 
-    .mat-mdc-form-field {
-        width: 320px;
-        margin-bottom: 20px;
-    }
+  .mat-mdc-form-field {
+    width: 320px;
+    margin-bottom: 20px;
+  }
 
-    .mat-mdc-unelevated-button {
-        width: 320px;
-    }
+  .mat-mdc-unelevated-button {
+    width: 320px;
+  }
 }
 
 .dialog_twin_container {
-    display: flex;
-    padding: 20px 30px;
+  display: flex;
+  padding: 20px 30px;
 
-    .mat-mdc-form-field {
-        width: 320px;
-        margin-bottom: 20px;
-    }
+  .mat-mdc-form-field {
+    width: 320px;
+    margin-bottom: 20px;
+  }
 
-    .mat-mdc-unelevated-button {
-        width: 320px;
-    }
+  .mat-mdc-unelevated-button {
+    width: 320px;
+  }
 }
 
 .dialog_left_container {
-    width: 400px;
-    flex: 5; /* 각 요소가 동일한 공간을 차지하도록 설정 */
-    margin: 10px; /* 간격을 원하는 만큼 추가 */
+  width: 400px;
+  flex: 5;
+  /* 각 요소가 동일한 공간을 차지하도록 설정 */
+  margin: 10px;
+  /* 간격을 원하는 만큼 추가 */
 }
 
 .dialog_right_container {
-    width: 330px;
-    height: 452px;
-    flex: 5; /* 각 요소가 동일한 공간을 차지하도록 설정 */
-    margin: 10px; /* 간격을 원하는 만큼 추가 */
-    border: 1px solid #ccc; /* 1px 두께의 회색 선 추가 */
+  width: 330px;
+  height: 452px;
+  flex: 5;
+  /* 각 요소가 동일한 공간을 차지하도록 설정 */
+  margin: 10px;
+  /* 간격을 원하는 만큼 추가 */
+  border: 1px solid #ccc;
+  /* 1px 두께의 회색 선 추가 */
 }
 
 @media screen and (max-width: 900px) {
-    .dialog_twin_container {
-        flex-wrap: wrap; /* 줄바꿈을 허용하도록 설정 */
-    }
-    .dialog_left_container, .edit_right_container {
-        width: 100%; /* 전체 너비를 차지하도록 설정 */
-        box-sizing: border-box;
-        margin-bottom: 10px; /* 아래 여백을 추가하여 다음 줄로 넘어가도록 함 */
-    }
+  .dialog_twin_container {
+    flex-wrap: wrap;
+    /* 줄바꿈을 허용하도록 설정 */
+  }
+
+  .dialog_left_container,
+  .edit_right_container {
+    width: 100%;
+    /* 전체 너비를 차지하도록 설정 */
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    /* 아래 여백을 추가하여 다음 줄로 넘어가도록 함 */
+  }
 }
 
 // 공통 loading
 .example-loading-shade {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0px;
-    right: 0;
-    background: rgba(0, 0, 0, 0.15);
-    z-index: 101;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}  
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 //공통 dashboard
 .dashboard_container {
-    margin-top: 30px; /* 간격을 원하는 만큼 추가 */
-    margin-right: 15px;
+  margin-top: 30px;
+  /* 간격을 원하는 만큼 추가 */
+  margin-right: 15px;
 }
 
 .dashboard_top_container {
-    display: flex;
-    flex-wrap: wrap; /* 요소들이 줄바꿈을 허용하도록 설정 */
-    justify-content: space-evenly;
+  display: flex;
+  flex-wrap: wrap;
+  /* 요소들이 줄바꿈을 허용하도록 설정 */
+  justify-content: space-evenly;
 
-    mat-card {
-        width: 355px;
-        margin-right: 15px;
-        margin-bottom: 15px; /* 아래쪽 마진을 추가하여 줄바꿈을 유도 */
-        text-align: center;
-        p {
-            font-size: 30px;
-            margin: 30px;
-            font-weight: bold;
-        }
-    }
+  mat-card {
+    width: 355px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    /* 아래쪽 마진을 추가하여 줄바꿈을 유도 */
+    text-align: center;
 
-    mat-card-header, mat-card-actions {
-        text-align: center; /* 헤더 내용을 가운데 정렬합니다. */
-        justify-content: center !important; /* 중앙 정렬을 강제로 적용합니다. */
-        align-items: center !important; /* 중앙 정렬을 강제로 적용합니다. */
+    p {
+      font-size: 30px;
+      margin: 30px;
+      font-weight: bold;
     }
+  }
+
+  mat-card-header,
+  mat-card-actions {
+    text-align: center;
+    /* 헤더 내용을 가운데 정렬합니다. */
+    justify-content: center !important;
+    /* 중앙 정렬을 강제로 적용합니다. */
+    align-items: center !important;
+    /* 중앙 정렬을 강제로 적용합니다. */
+  }
 }
 
 
 .dashboard_bottom_container {
-    margin-top: 30px; /* 간격을 원하는 만큼 추가 */
-    margin-right: 15px;
+  margin-top: 30px;
+  /* 간격을 원하는 만큼 추가 */
+  margin-right: 15px;
 
-    mat-card {
-        height: 500px;
-    }
+  mat-card {
+    height: 500px;
+  }
 }
 
 .dashboard_twin_container {
-    display: flex;
-    flex-wrap: wrap; /* 요소들이 줄바꿈을 허용하도록 설정 */
-    justify-content: space-evenly;
+  display: flex;
+  flex-wrap: wrap;
+  /* 요소들이 줄바꿈을 허용하도록 설정 */
+  justify-content: space-evenly;
 }
 
 .dashboard_left_container {
-    margin: 10px; /* 간격을 원하는 만큼 추가 */
+  margin: 10px;
+  /* 간격을 원하는 만큼 추가 */
 }
 
 .dashboard_left_top_container {
-    display: flex;
-    flex-wrap: wrap; /* 요소들이 줄바꿈을 허용하도록 설정 */
-    justify-content: space-evenly;
+  display: flex;
+  flex-wrap: wrap;
+  /* 요소들이 줄바꿈을 허용하도록 설정 */
+  justify-content: space-evenly;
 
-    mat-card {
-        width: 330px;
-        margin-right: 15px;
-        margin-bottom: 15px; /* 아래쪽 마진을 추가하여 줄바꿈을 유도 */
-        text-align: center;
-        p {
-            font-size: 30px;
-            margin: 30px;
-            font-weight: bold;
-        }
-    }
+  mat-card {
+    width: 330px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    /* 아래쪽 마진을 추가하여 줄바꿈을 유도 */
+    text-align: center;
 
-    mat-card-header, mat-card-actions {
-        text-align: center; /* 헤더 내용을 가운데 정렬합니다. */
-        justify-content: center !important; /* 중앙 정렬을 강제로 적용합니다. */
-        align-items: center !important; /* 중앙 정렬을 강제로 적용합니다. */
+    p {
+      font-size: 30px;
+      margin: 30px;
+      font-weight: bold;
     }
+  }
+
+  mat-card-header,
+  mat-card-actions {
+    text-align: center;
+    /* 헤더 내용을 가운데 정렬합니다. */
+    justify-content: center !important;
+    /* 중앙 정렬을 강제로 적용합니다. */
+    align-items: center !important;
+    /* 중앙 정렬을 강제로 적용합니다. */
+  }
 }
 
 
 .dashboard_left_bottom_container {
-    margin-top: 30px; /* 간격을 원하는 만큼 추가 */
-    margin-right: 15px;
+  margin-top: 30px;
+  /* 간격을 원하는 만큼 추가 */
+  margin-right: 15px;
 
-    mat-card {
-        height: 500px;
-    }
+  mat-card {
+    height: 500px;
+  }
 }
 
 .dashboard_right_container {
-    margin: 10px; /* 간격을 원하는 만큼 추가 */
-    width: 330px;
+  margin: 10px;
+  /* 간격을 원하는 만큼 추가 */
+  width: 330px;
 
-    mat-card {
-        text-align: center;
-        height: 715px;
+  mat-card {
+    text-align: center;
+    height: 715px;
+  }
+
+  mat-card-content {
+    p {
+      font-size: 22px;
+      font-weight: bold;
     }
 
-    mat-card-content {
-        p {
-            font-size: 22px;
-            font-weight: bold;
-        }
+    mat-divider {
+      margin-top: 30px;
+      margin-left: -16px;
+      width: 330px;
+    }
+  }
 
-        mat-divider {
-            margin-top: 30px;
-            margin-left: -16px;
-            width: 330px;
-        }
+  mat-card-header {
+    text-align: center;
+    /* 헤더 내용을 가운데 정렬합니다. */
+    justify-content: center !important;
+    /* 중앙 정렬을 강제로 적용합니다. */
+    align-items: center !important;
+    /* 중앙 정렬을 강제로 적용합니다. */
+  }
+
+  mat-card-footer {
+    mat-card-subtitle {
+      margin-top: 40px;
+      // margin-left: 40px;
+      // text-align: left; 
     }
 
-    mat-card-header {
-        text-align: center; /* 헤더 내용을 가운데 정렬합니다. */
-        justify-content: center !important; /* 중앙 정렬을 강제로 적용합니다. */
-        align-items: center !important; /* 중앙 정렬을 강제로 적용합니다. */
+    p {
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
-
-    mat-card-footer {
-        mat-card-subtitle {
-            margin-top: 40px;
-            // margin-left: 40px;
-            // text-align: left; 
-        }
-
-        p {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-    }
+  }
 }
