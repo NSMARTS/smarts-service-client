@@ -156,11 +156,12 @@ export class ManagerEditComponent {
 
   displayedColumns: string[] = [
     'name',
+    'email',
     'year',
     'entitlement',
-    'rollover',
     'sickLeave',
     'replacementDay',
+    'rollover',
     'advanceLeave',
     'annualPolicy',
     'empStartDate',
