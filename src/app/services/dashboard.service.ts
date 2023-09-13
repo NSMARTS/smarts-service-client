@@ -29,4 +29,9 @@ export class DashboardService {
   getAllCompanyCount(companyId: any) {
     return this.http.get(this.baseUrl + '/dashboard/company/' + companyId);
   }
+
+  // 미팅정보 조회
+  getMeetingInfo(companyId: any) {
+    return this.http.get(this.baseUrl + '/dashboard/meetings/' + companyId);
+  };
 }

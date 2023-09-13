@@ -78,17 +78,6 @@ export class MeetingComponent implements OnInit {
     this.companyId = this.route.snapshot.params['id'];
   }
 
-  // ngOnInit(): void {
-  //   // employee list
-  //   this.getEmployees(this.companyId);
-
-  //   // meeting list
-  //   this.getMeetingList(this.companyId);
-
-  //   // manager list
-  //   this.getManagerList(this.companyId);
-  // }
-
   ngOnInit(): void {
     // 여러 http 요청을 배열로 설정
     const multipleHttpRequest = [
@@ -159,23 +148,23 @@ export class MeetingComponent implements OnInit {
         // 1. meetingList에 날짜와 시간이 합쳐진 "meetingDate라는 변수를 추가"
         const meetingList = data.meetingList.map((item: any) => {
           // start time (ex; PM 12 : 00 ) 을 공백으로 split 하면 ['PM', '12', ':', '00]
-          const meetingTime = {
-            am_pm: item.startTime.split(' ')[0], // 배열[0]은 AM PM에 해당
-            time: Number(item.startTime.split(' ')[1]), // 배열[1]은 시간에 해당
-            minute: Number(item.startTime.split(' ')[3]), // 배열[3]은 분에 해당
-          };
+          // const meetingTime = {
+          //   am_pm: item.startTime.split(' ')[0], // 배열[0]은 AM PM에 해당
+          //   time: Number(item.startTime.split(' ')[1]), // 배열[1]은 시간에 해당
+          //   minute: Number(item.startTime.split(' ')[3]), // 배열[3]은 분에 해당
+          // };
 
-          // PM이고 12시인 경우만 12시이고 그 외의 PM은 +12를 해줌 (ex: PM 11 -> 23)
-          if (meetingTime.am_pm == 'PM' && meetingTime.time != 12)
-            meetingTime.time += 12;
-          // AM이고 12시인 경우 00시를 의미하므로 해당 case만 0으로 변경
-          if (meetingTime.am_pm == 'AM' && meetingTime.time == 12)
-            meetingTime.time = 0;
+          // // PM이고 12시인 경우만 12시이고 그 외의 PM은 +12를 해줌 (ex: PM 11 -> 23)
+          // if (meetingTime.am_pm == 'PM' && meetingTime.time != 12)
+          //   meetingTime.time += 12;
+          // // AM이고 12시인 경우 00시를 의미하므로 해당 case만 0으로 변경
+          // if (meetingTime.am_pm == 'AM' && meetingTime.time == 12)
+          //   meetingTime.time = 0;
 
-          // meetingDate라는 변수에 미팅 일자와 시간을 통합하여 저장
-          const meetingDate = new Date(
-            `${item.startDate} ${meetingTime.time}:${meetingTime.minute}`
-          );
+          // // meetingDate라는 변수에 미팅 일자와 시간을 통합하여 저장
+          // const meetingDate = new Date(
+          //   `${item.startDate} ${meetingTime.time}:${meetingTime.minute}`
+          // );
 
           console.log(item.managers, this.managers, this.employees);
 
@@ -200,7 +189,7 @@ export class MeetingComponent implements OnInit {
           });
 
           // 객체를 반환하여 meetingList 변수에 순차적으로 저장
-          return { ...item, newManager, newEmployee, meetingDate };
+          return { ...item, newManager, newEmployee };
         });
 
         console.log(meetingList);
@@ -260,6 +249,8 @@ export class MeetingComponent implements OnInit {
     this.meetingService.editMeeting(data).subscribe({
       next: (data: any) => {
         console.log(data);
+        // this.getMeetingList(this.companyId) 
+        meetingData.status = 'Open';
       },
       error: (err: any) => {
         console.log(err);
@@ -280,6 +271,8 @@ export class MeetingComponent implements OnInit {
     this.meetingService.editMeeting(data).subscribe({
       next: (data: any) => {
         console.log(data);
+        // this.getMeetingList(this.companyId); 
+        meetingData.status = 'Close';
       },
       error: (err: any) => {
         console.log(err);

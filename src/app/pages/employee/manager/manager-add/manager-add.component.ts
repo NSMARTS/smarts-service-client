@@ -51,6 +51,15 @@ export class ManagerAddComponent {
   }
 
   onSubmit() {
+    if (this.hasErrors()) {
+      //유효성 검사 실패 시 빨갛게 나옴
+    } else {
+      // 유효성 검사 통과 시
+      this.addManager();
+    }
+  }
+
+  addManager() {
     const postData = {
       ...this.addManagerForm.value,
       companyId: this.companyId,
@@ -59,6 +68,9 @@ export class ManagerAddComponent {
     this.managerService.addManager(postData).subscribe({
       next: (res) => {
         this.router.navigate(['company/' + this.companyId + '/manager']);
+        this.dialogService.openDialogPositive(
+          'Successfully, the manager has been add.'
+        );
       },
       error: (err) => {
         console.error(err);
@@ -78,7 +90,7 @@ export class ManagerAddComponent {
   }
 
   //유효성 검사
-  isButtonDisabled(): any {
+  private hasErrors() {
     const emailRequiredError = this.addManagerForm
       .get('email')
       ?.hasError('required');
