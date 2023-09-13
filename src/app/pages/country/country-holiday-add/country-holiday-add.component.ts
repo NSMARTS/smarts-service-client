@@ -166,17 +166,26 @@ export class CountryHolidayAddComponent implements OnInit {
       holidayId: _id,
     };
     console.log(countryHolidayData);
-    this.countryService.deleteCountryHoliday(countryHolidayData).subscribe({
-      next: (data: any) => {
-        this.dialogService.openDialogPositive(
-          'Success delete country holiday.'
-        );
-        this.getCountryHolidayList();
-      },
-      error: (err: any) => {
-        this.dialogService.openDialogNegative('An error has occured.');
-      },
-    });
+
+    this.dialogService
+      .openDialogConfirm('Do you delete this company?')
+      .subscribe((result: any) => {
+        if (result) {
+          this.countryService
+            .deleteCountryHoliday(countryHolidayData)
+            .subscribe({
+              next: (data: any) => {
+                this.dialogService.openDialogPositive(
+                  'Success delete country holiday.'
+                );
+                this.getCountryHolidayList();
+              },
+              error: (err: any) => {
+                this.dialogService.openDialogNegative('An error has occured.');
+              },
+            });
+        }
+      });
   }
 
   datePickChange(dateValue: any) {
