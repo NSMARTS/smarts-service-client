@@ -151,7 +151,7 @@ export class LayoutComponent {
         }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => {});
+      .subscribe(() => { });
 
     // url navigation
     this.router.events
@@ -176,7 +176,7 @@ export class LayoutComponent {
     // For browser refresh
     console.log('init url>> ', this.router.url);
     const splittedUrl = this.router.url.split('/');
-    if (splittedUrl[1] === 'company' && splittedUrl[2].length == 24) {
+    if (splittedUrl[1] === 'company' && splittedUrl[2]?.length == 24) {
       this.isSidenavRequired = true;
     }
     /*-----------------------------------------

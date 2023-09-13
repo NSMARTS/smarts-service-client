@@ -194,7 +194,7 @@ export class ManagerEditComponent {
     );
     // signal을 통한 상태관리
     await this.employeeService.setEmployees(managerEmployees.data);
-
+    console.log(this.employeeService.employees())
     this.dataSource.data = this.employeeService.employees();
     this.dataSource.paginator = this.paginator;
   }

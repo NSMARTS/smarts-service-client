@@ -107,10 +107,12 @@ export class AuthService {
    */
   refreshToken() {
     return this.http.get<AccessToken>(this.baseUrl + '/auth/refreshToken').pipe(
+      tap((data) => this.accessToken.set(data)),
+      tap((data) => this.decode_jwt(data)),
       takeUntilDestroyed(this.destroyRef), // 컴포넌트가 삭제될때 까지 구독. 삭제되면 메모리를 지운다.
       shareReplay(1), // 데이터 캐싱
       catchError(this.handleError)
-    );
+    )
   }
 
   /**

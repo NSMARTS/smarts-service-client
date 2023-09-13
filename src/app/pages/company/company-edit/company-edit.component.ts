@@ -41,6 +41,7 @@ export class CompanyEditComponent implements OnInit {
       isReplacementDay: [false],
       rdValidityTerm: [0, [Validators.min(0)]],
       isAdvanceLeave: [false],
+      isPending: [false],
       annualPolicy: ['byContract'],
       contractDate: [''],
       payDay: [''],

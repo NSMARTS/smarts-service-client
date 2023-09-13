@@ -9,7 +9,7 @@ import { NegativeDialogComponent } from '../dialog/negative-dialog/negative-dial
   providedIn: 'root',
 })
 export class DialogService {
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) { }
 
   // confirm
   openDialogConfirm(data: any): Observable<boolean> {
@@ -35,6 +35,8 @@ export class DialogService {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('dialog close');
     });
+
+    return dialogRef.afterClosed()
   }
 
   // negative
