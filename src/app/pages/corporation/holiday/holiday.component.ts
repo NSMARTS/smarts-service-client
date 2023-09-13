@@ -89,6 +89,9 @@ export class HolidayComponent implements OnInit {
             .deleteCompanyHoliday(this.companyId, HolidayId)
             .subscribe({
               next: () => {
+                this.dialogService.openDialogPositive(
+                  'Successfully, the holiday has been delete.'
+                );
                 this.getCompanyHolidayList();
               },
               error: (err: any) => {

@@ -46,7 +46,7 @@ export class PayStubListComponent implements AfterViewInit {
     'download',
   ];
 
-  filteredEmployee = signal<Employee[]>([]) // 자동완성에 들어갈 emploeeList
+  filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
 
   searchPayStubForm: FormGroup;
 
@@ -64,7 +64,7 @@ export class PayStubListComponent implements AfterViewInit {
   destroyRef = inject(DestroyRef);
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   isLoadingResults = false;
@@ -80,7 +80,7 @@ export class PayStubListComponent implements AfterViewInit {
     public dialog: MatDialog,
     private payStubService: PayStubService
   ) {
-    // 이번 달 기준 첫째날 
+    // 이번 달 기준 첫째날
     const startOfMonth = moment().startOf('month').format();
     // 이번 달 기준 마지막날
     const endOfMonth = moment().endOf('month').format();
@@ -96,7 +96,7 @@ export class PayStubListComponent implements AfterViewInit {
       uploadStartDate: new FormControl(startOfMonth),
       uploadEndDate: new FormControl(endOfMonth),
       leaveType: new FormControl('all'),
-    })
+    });
   }
   ngAfterViewInit(): void {
     this.getEmployees(this.companyId);
@@ -111,22 +111,25 @@ export class PayStubListComponent implements AfterViewInit {
     );
     // signal을 통한 상태관리
     await this.employeeService.setEmployees(employees.data);
-    this.setAutoComplete()
+    this.setAutoComplete();
   }
 
   /**
-  * email 폼 자동완성 코드 ---------------------------------
-  */
+   * email 폼 자동완성 코드 ---------------------------------
+   */
   setAutoComplete() {
     // auto complete
     this.searchPayStubForm.controls['emailFormControl'].valueChanges
       .pipe(
         startWith(''),
-        map(employee => (employee ? this._filterStates(employee) : this.employees().slice())),
+        map((employee) =>
+          employee ? this._filterStates(employee) : this.employees().slice()
+        ),
         // 배열로 가져온거 시그널에 등록
-        map(employees => this.filteredEmployee.set(employees)),
+        map((employees) => this.filteredEmployee.set(employees)),
         takeUntilDestroyed(this.destroyRef)
-      ).subscribe()
+      )
+      .subscribe();
 
     this.getPayStubsByQuery();
   }
@@ -134,27 +137,21 @@ export class PayStubListComponent implements AfterViewInit {
   private _filterStates(email: string): Employee[] {
     const filterValue = email.toLowerCase();
     return this.employees().filter(
-      state =>
+      (state) =>
         state.email.toLowerCase().includes(filterValue) ||
         state.username.toLowerCase().includes(filterValue)
     );
   }
 
   getPayStubsByQuery() {
-
-    // 쿼리할때 pdf 그려진거 초기화
-    const canvas = this.pdfViewer.nativeElement;
-    const context = canvas.getContext('2d')!;
-
-    // Canvas의 크기와 내용 초기화
-    canvas.width = 0;
-    canvas.height = 0;
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
     const formValue = this.searchPayStubForm.value;
-    const convertedLeaveStartDate = this.commonService.dateFormatting(this.searchPayStubForm.controls['uploadStartDate'].value)
+    const convertedLeaveStartDate = this.commonService.dateFormatting(
+      this.searchPayStubForm.controls['uploadStartDate'].value
+    );
     // 검색 범위 마지막 일을 YYYY-MM-DD 포맷으로 변경
-    const convertedLeaveEndDate = this.commonService.dateFormatting(this.searchPayStubForm.controls['uploadEndDate'].value)
+    const convertedLeaveEndDate = this.commonService.dateFormatting(
+      this.searchPayStubForm.controls['uploadEndDate'].value
+    );
     // 조건에 따른 사원들 휴가 가져오기
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
     merge(this.sort.sortChange, this.paginator.page)
@@ -169,9 +166,9 @@ export class PayStubListComponent implements AfterViewInit {
             active: this.sort.active,
             direction: this.sort.direction,
             pageIndex: this.paginator.pageIndex,
-            pageSize: this.paginator.pageSize
-          }
-          return this.payStubService.getPayStubs(this.companyId, query).pipe()
+            pageSize: this.paginator.pageSize,
+          };
+          return this.payStubService.getPayStubs(this.companyId, query).pipe();
         }),
         map((res: any) => {
           // Flip flag to show that loading has finished.
@@ -180,7 +177,7 @@ export class PayStubListComponent implements AfterViewInit {
           this.resultsLength = res.total_count;
           this.dataSource = new MatTableDataSource<any>(res.data);
           return res.data;
-        }),
+        })
       )
       .subscribe();
   }
@@ -195,6 +192,15 @@ export class PayStubListComponent implements AfterViewInit {
 
   onCanvasClick() {
     this.isLoadingResults = false;
+
+    // 쿼리할때 pdf 그려진거 초기화
+    const canvas = this.pdfViewer.nativeElement;
+    const context = canvas.getContext('2d')!;
+
+    // Canvas의 크기와 내용 초기화
+    canvas.width = 0;
+    canvas.height = 0;
+    context.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   getPdf(url: string) {
@@ -237,7 +243,6 @@ export class PayStubListComponent implements AfterViewInit {
       if (result) {
         this.getPayStubsByQuery();
       }
-    })
+    });
   }
-
 }

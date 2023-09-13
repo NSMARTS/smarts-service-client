@@ -2,24 +2,39 @@
   <div class="page_title">Pay Stub List</div>
 
   <div class="table_container">
-
+    <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+          API rate limit has been reached. It will be reset in one minute.
+        </div>
+      </div>
     <div class="example-loading-shade" (click)="onCanvasClick()" [ngClass]="{'hidden': !isLoadingResults}">
-      <canvas id="myCanvas" #pdfViewer></canvas>
+        <canvas id="myCanvas" #pdfViewer></canvas>
     </div>
 
-    <div class="filter">
       <form [formGroup]="searchPayStubForm" novalidate>
-        <mat-form-field>
-          <mat-label>Filter</mat-label>
-          <input matInput formControlName="emailFormControl" [matAutocomplete]="auto" placeholder="Email">
-          <mat-error>an e-mail is required</mat-error>
-          <mat-error>Please input a correct e-mail!</mat-error>
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
-              {{option.email}} ({{option.username}})
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+        <div class="add_container" fxLayoutAlign="center center">
+            <div class="selectContent" fxLayout="row wrap">
+              <div class="selectBoxContent">
+                <div class="selectBox">
+                  <span class="selectLabel">
+                    <label for="type" class="optionLabel fontBold">Email</label>
+                  </span>
+                  <mat-form-field class="formEmailFieldBox" appearance="outline">
+                    <mat-label>E-MAIL</mat-label>
+                    <!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
+                    <input matInput type="email" spellcheck="false" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      formControlName="emailFormControl" [matAutocomplete]="auto" />
+                    <!-- <mat-error>an e-mail is required</mat-error> -->
+                    <mat-error>Please input a correct e-mail!</mat-error>
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
+                        {{option.email}} ({{option.username}})
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+    </div>
+</div>
 
         <div class="selectBoxContent">
           <div class="selectBox">
@@ -41,16 +56,20 @@
             </mat-form-field>
           </div>
         </div>
-
-        <button class="table_add_button" mat-raised-button color="primary"
+        <div class="searchBox" fxLayout="column nowrap" fxLayoutAlign="center center">
+            <div>
+        <button class="searchBtn" mat-raised-button color="primary"
           (click)="getPayStubsByQuery()">Search</button>
 
-        <button class="table_add_button" mat-raised-button color="primary" (click)="openDialog()">Upload
+        <button class="searchBtn" mat-raised-button color="primary" (click)="openDialog()">Upload
           Contract</button>
-
-
-      </form>
+        </div>
     </div>
+
+  </div>
+
+</div>
+      </form>
 
     <table mat-table class="table" [dataSource]="dataSource" matSort matSortActive="updatedAt" matSortDisableClear
       matSortDirection="desc">

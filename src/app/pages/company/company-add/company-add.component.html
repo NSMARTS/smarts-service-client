@@ -43,14 +43,6 @@
               formControlName="isRollover" />No
           </mat-radio-group>
         </div>
-      </div>
-      <div class="rightTable" fxFlex>
-        <mat-form-field appearance="outline" class="companyFormFieldBox formSpacer">
-          <input matInput type="number" class="numeric-input" formControlName="rdValidityTerm"
-            placeholder="RD Validity Term" />
-        </mat-form-field>
-        month(s)
-      </div>
     </div>
 
     <div *ngIf="addCompanyForm.get('isRollover')?.value === true">
@@ -224,6 +216,8 @@
       <div style="width: 20px;"></div>
       <button mat-raised-button (click)="toBack()">Cancel</button>
     </div>
+
+   </div>
 
   </form>
 
