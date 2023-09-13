@@ -24,6 +24,7 @@ export class MainComponent {
   displayedColumns: string[] = ['date', 'content', 'company', 'detail'];
   displayedColumns2: string[] = ['countryName', 'detail'];
   allCount: any;
+  allList: any = new MatTableDataSource();
   allPayList: any = new MatTableDataSource();
   allMeetingList: any = new MatTableDataSource();
   allCountry: any;
@@ -44,7 +45,6 @@ export class MainComponent {
   getAllCount() {
     this.dashboardService.getAllCount().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.allCount = res.data;
       },
       error: (err: any) => {
@@ -58,16 +58,18 @@ export class MainComponent {
     this.dashboardService.getAllList().subscribe({
       next: (res: any) => {
         console.log(res);
+        this.allList = new MatTableDataSource<PeriodicElement>(res.allList);
+        this.allPayList.paginator = this.paginator;
+
         this.allPayList = new MatTableDataSource<PeriodicElement>(
           res.allPayList
         );
         this.allPayList.paginator = this.paginator;
-        console.log(this.allPayList);
+
         this.allMeetingList = new MatTableDataSource<PeriodicElement>(
           res.allmeetingList
         );
         this.allMeetingList.paginator = this.paginator;
-        console.log(this.allMeetingList);
       },
       error: (err: any) => {
         console.error(err);
@@ -79,7 +81,6 @@ export class MainComponent {
   getAllCountry() {
     this.dashboardService.getAllCountry().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.allCountry = res.data;
         this.allCountryCount = res.count;
       },
@@ -90,7 +91,6 @@ export class MainComponent {
   }
 
   selectHoliday(countryId: any) {
-    console.log(countryId);
     this.router.navigate(['/country/' + countryId]);
   }
 }
