@@ -148,10 +148,11 @@ export class ProfileComponent implements OnInit {
   }
 
   refreshProfie() {
-    this.authService.refreshToken().subscribe({
-      next: async (data) => await this.authService.setAccessToken(data),
-      error: (error) => console.log(error),
-    });
+    // this.authService.refreshToken().subscribe({
+    //   next: async (data) => await this.authService.setAccessToken(data),
+    //   error: (error) => console.log(error),
+    // });
+    this.authService.refreshToken().subscribe()
   }
 
   getErrorMessage() {

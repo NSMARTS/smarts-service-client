@@ -1,52 +1,54 @@
 <div class="page" style="height: 600px;">
-    <div class="page_title" fxLayoutAlign="center">Upload Statement</div>
+  <div class="page_title" fxLayoutAlign="center">Upload Statement</div>
 
-      <form [formGroup]="statementForm">
-        <div class="dialog_twin_container">
-            <!-- <div fxLayout="column" class="br_ltop"> -->
-            <div class="dialog_left_container">
-                <mat-form-field appearance="outline" >
-                    <mat-label>Title</mat-label>
-                <input matInput formControlName="title" required>
-                </mat-form-field>
+  <form [formGroup]="statementForm">
+    <div class="dialog_twin_container">
+      <!-- <div fxLayout="column" class="br_ltop"> -->
+      <div class="dialog_left_container">
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" required>
+        </mat-form-field>
 
-                <mat-form-field appearance="outline" >
-                    <mat-label>Employee Email</mat-label>
-                <input matInput [matAutocomplete]="auto" formControlName="employee" required>
-                </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Employee Email</mat-label>
+          <input matInput [matAutocomplete]="auto" formControlName="employee" required>
+        </mat-form-field>
 
-                <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
-                    {{ option.username }} ({{ option.email }})
-                </mat-option>
-                </mat-autocomplete>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
+            {{ option.username }} ({{ option.email }})
+          </mat-option>
+        </mat-autocomplete>
 
-                <div class="upload-section">
-                <mat-toolbar *ngIf="currentFile" class="progress-bar" style="width: 320px;">
-                    <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
-                    <span class="progress">{{ progress }}%</span>
-                </mat-toolbar>
+        <div class="upload-section">
+          <mat-toolbar *ngIf="currentFile" class="progress-bar" style="width: 320px;">
+            <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
+            <span class="progress">{{ progress }}%</span>
+          </mat-toolbar>
 
-                <div class="file-input">
-                    <mat-form-field appearance="outline" >
-                        <input matInput [value]="fileName" [placeholder]="'Pdf upload'" disabled />
-                    </mat-form-field>
-                </div>
+          <div class="file-input">
+            <mat-form-field appearance="outline">
+              <input matInput [value]="fileName" [placeholder]="'Pdf upload'" disabled />
+            </mat-form-field>
+          </div>
 
-                <input type="file" id="fileInput" #fileInputElement style="display: none;" (change)="selectFile($event)" name="fileInput" accept="application/pdf" />
-                    <button mat-flat-button type="button" class="custom-file-input-button" (click)="fileInputElement.click()">Choose PDF File</button>
-                </div>
-            </div>
-        <div class="dialog_right_container"  fxLayoutAlign="center center">
-            <canvas id="myCanvas" #pdfViewer></canvas>
+          <input type="file" id="fileInput" #fileInputElement style="display: none;" (change)="selectFile($event)"
+            name="fileInput" accept="application/pdf" />
+          <button mat-flat-button type="button" class="custom-file-input-button"
+            (click)="fileInputElement.click()">Choose PDF File</button>
         </div>
+      </div>
+      <div class="dialog_right_container" fxLayoutAlign="center center">
+        <canvas id="myCanvas" #pdfViewer></canvas>
+      </div>
 
-    <!-- </div> -->
+      <!-- </div> -->
     </div>
-        <div class="mt-30" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-            <button mat-flat-button (click)="onSubmit()">
-                Upload
-              </button>
-            </div>
-      </form>
+    <div class="mt-30" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button mat-flat-button (click)="onSubmit()">
+        Upload
+      </button>
+    </div>
+  </form>
 </div>

@@ -9,9 +9,10 @@ import { httpInterceptorProviders } from './interceptors/http-interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { catchError, of, tap } from 'rxjs';
-import { AuthService } from './services/auth.service';
+import { catchError, lastValueFrom, of, tap } from 'rxjs';
+import { AccessToken, AuthService } from './services/auth.service';
 import { provideRouter, withRouterConfig } from '@angular/router';
+import { LeaveStatusDetailDialogComponent } from './dialog/leave-status-detail-dialog/leave-status-detail-dialog.component';
 
 
 /**
@@ -28,16 +29,16 @@ import { provideRouter, withRouterConfig } from '@angular/router';
 export function appInitializer(authService: AuthService) {
   return () => {
     if (window.localStorage.getItem('isLoggedIn')) {
+      authService.isLoggedIn.set(true)
       return authService.refreshToken()
         .pipe(
-          tap(async (data) => await authService.setAccessToken(data)),
+          tap(() => console.log('app initial : refresh token 재발급')),
           catchError(() => of())
         );
     }
     return;
   }
 }
-
 
 @NgModule({
   declarations: [AppComponent],

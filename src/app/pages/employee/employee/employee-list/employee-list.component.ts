@@ -1,11 +1,15 @@
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonService } from 'src/app/services/common.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import {
+  AfterViewInit,
   Component,
+  DestroyRef,
   OnInit,
   ViewChild,
   WritableSignal,
   effect,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -14,8 +18,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { Employee } from 'src/app/interfaces/employee.interface';
 import * as moment from 'moment';
-import { lastValueFrom } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
+import { lastValueFrom, map, merge, startWith, switchMap } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-employee-list',
@@ -24,16 +29,16 @@ import { DialogService } from 'src/app/services/dialog.service';
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss'],
 })
-export class EmployeeListComponent implements OnInit {
+export class EmployeeListComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'profile',
     'name',
     'email',
     'year',
     'entitlement',
-    'rollover',
     'sickLeave',
     'replacementDay',
+    'rollover',
     'advanceLeave',
     'annualPolicy',
     'empStartDate',
@@ -50,10 +55,16 @@ export class EmployeeListComponent implements OnInit {
   isRollover = false;
   employees: WritableSignal<Employee[]>;
 
-  dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>(
+  dataSource = new MatTableDataSource<Employee>(
     []
   );
+
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  isLoadingResults = true;
+  isRateLimitReached = false;
+  resultsLength = 0;
 
   constructor(
     private employeeService: EmployeeService,
@@ -65,23 +76,40 @@ export class EmployeeListComponent implements OnInit {
     this.companyId = this.route.snapshot.params['id'];
     this.employees = this.employeeService.employees;
   }
-  ngOnInit(): void {
-    this.getEmployees(this.companyId);
+
+  ngAfterViewInit() {
+    this.getEmployees();
   }
 
-  async getEmployees(companyId: string) {
-    // lastValueFrom은 rxjs 비동기 통신을하기위 사용
-    // 서버에 값을 받아올때까지 멈춘다.
-    const employees = await lastValueFrom(
-      this.employeeService.getEmployees(companyId)
-    );
-    console.log(employees);
-    // signal을 통한 상태관리
-    await this.employeeService.setEmployees(employees.data);
+  async getEmployees() {
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.employeeService.getEmployeesWithQueryParameters(
+            this.companyId,
+            this.sort.active,
+            this.sort.direction,
+            this.paginator.pageIndex,
+            this.paginator.pageSize
+          ).pipe()
+        }),
+        map(async (res: any) => {
+          // https://material.angular.io/components/table/examples
+          this.isLoadingResults = false;
+          this.isRateLimitReached = res.data === null;
+          this.resultsLength = res.total_count;
 
-    this.dataSource = new MatTableDataSource(this.employeeService.employees());
-    console.log(this.dataSource);
-    this.dataSource.paginator = this.paginator;
+          console.log(res.data)
+          await this.employeeService.setEmployees(res.data);
+          this.dataSource = new MatTableDataSource<Employee>(this.employees());
+
+          return this.employees();
+        }),
+      )
+      .subscribe();
   }
 
   applyFilter(event: Event) {
@@ -109,13 +137,13 @@ export class EmployeeListComponent implements OnInit {
         if (result) {
           this.employeeService.retireEmployee(id).subscribe({
             next: (data: any) => {
-              this.getEmployees(this.companyId);
+              this.getEmployees();
               this.dialogService.openDialogPositive(
                 'Successfully, the employee has been retire.'
               );
               console.log(data);
             },
-            error: (err: any) => {},
+            error: (err: any) => { },
           });
         }
       });
