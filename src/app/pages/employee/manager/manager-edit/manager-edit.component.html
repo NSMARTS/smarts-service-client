@@ -54,11 +54,12 @@
                         <div style="color:#3f51b5;" (click)="resetManagerPassword()">
                             Would you like to reset password?
                         </div>
+
+                        <div fxLayout="row" fxLayoutAlign="center" class="booterBtn">
+                            <button mat-raised-button class="tableBtn" type="submit" color="primary">Edit</button>
+                        </div>
                 </div>
         </form>
-        <div fxLayout="row" fxLayoutAlign="center" class="booterBtn">
-            <button mat-raised-button class="tableBtn" type="submit" color="primary" [disabled]="isButtonDisabled()">Edit</button>
-        </div>
 
     </div>
   

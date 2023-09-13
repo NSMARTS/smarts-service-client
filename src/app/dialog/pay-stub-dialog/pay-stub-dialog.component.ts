@@ -29,7 +29,6 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Statment } from 'src/app/interfaces/statement.interface';
 import * as pdfjsLib from 'pdfjs-dist';
 import { DialogService } from 'src/app/services/dialog.service';
-import { PayStubComapnyListComponent } from 'src/app/pages/employee/pay-stub/comapny-list/comapny-list.component';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({
   selector: 'app-pay-stub-dialog',
@@ -56,14 +55,18 @@ export class PayStubDialogComponent implements OnInit {
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
 
+  isLoadingResults = false;
+
+
   constructor(
+    public dialogRef: MatDialogRef<PayStubDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
     private authService: AuthService,
     private payStubService: PayStubService,
     private dialogService: DialogService,
-    public dialogRef: MatDialogRef<PayStubComapnyListComponent>
+    // public dialogRef: MatDialogRef<PayStubComapnyListComponent>
   ) {
     this.statementForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
@@ -125,6 +128,8 @@ export class PayStubDialogComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].name.toLowerCase().endsWith('.pdf')) {
         // Image resize and update
+
+        this.isLoadingResults = true;
         const file: File = event.target.files[0];
         this.currentFile = file;
 
@@ -176,6 +181,10 @@ export class PayStubDialogComponent implements OnInit {
             this.message = event.body.message;
             // this.fileInfos = this.payStubService.getFiles();
           }
+          this.isLoadingResults = false;
+          this.dialogService.openDialogPositive('Statement has successfully uploaded.').subscribe(() => {
+            this.dialogRef.close(true)
+          })
         },
         error: (err: any) => {
           console.log(err);
@@ -226,6 +235,7 @@ export class PayStubDialogComponent implements OnInit {
               viewport: viewport,
             };
             page.render(renderContext);
+            this.isLoadingResults = false;
           });
         });
       }

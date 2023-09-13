@@ -1,4 +1,3 @@
-import { PayStubComapnyListComponent } from './comapny-list/comapny-list.component';
 import { Route } from '@angular/router';
 import { PayStubListComponent } from './pay-stub-list/pay-stub-list.component';
 

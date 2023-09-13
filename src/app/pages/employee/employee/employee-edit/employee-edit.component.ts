@@ -36,6 +36,7 @@ export class EmployeeEditComponent {
   employee!: Employee;
 
   email = new FormControl({ value: '', disabled: true });
+  manager = new FormControl('');
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +52,6 @@ export class EmployeeEditComponent {
     this.editEmployeeForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
-      isManager: new FormControl(false, [Validators.required]),
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),
       department: new FormControl(''),
@@ -176,6 +176,8 @@ export class EmployeeEditComponent {
   getEmployeeStatus(employee: Employee) {
     this.employee = employee;
     this.email.patchValue(this.employee.email)
+    this.manager.patchValue(this.employee.managers[0]?.email);
+
     this.editEmployeeForm.patchValue(employee);
     this.editEmployeeForm.patchValue(employee.personalLeave);
     this.patchLeaveStadard(employee); // 직원들 중 상태 관리하는 애들이 없으면
@@ -187,6 +189,8 @@ export class EmployeeEditComponent {
       next: (res) => {
         this.employee = res.data;
         this.email.patchValue(this.employee.email)
+        this.manager.patchValue(this.employee.managers[0]?.email);
+
         this.editEmployeeForm.patchValue(this.employee);
         this.editEmployeeForm.patchValue(this.employee?.personalLeave);
         this.patchLeaveStadard(this.employee);

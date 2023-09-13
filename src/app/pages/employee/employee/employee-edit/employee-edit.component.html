@@ -34,6 +34,20 @@
               </mat-form-field>
             </p>
             <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Manager List</mat-label>
+                  <mat-select [formControl]="manager">
+                    <mat-option *ngFor="let manager of employee?.managers" [value]="manager.email">
+                      {{manager.email}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matSuffix>find_in_page</mat-icon>
+                  <mat-hint>
+                    "The manager list can't be edited."
+                  </mat-hint>
+                </mat-form-field>
+              </p>
+            <p>
               <mat-form-field appearance="outline">
                 <mat-label>Start Date</mat-label>
                 <input matInput [matDatepicker]="picker1" formControlName="empStartDate">
@@ -237,7 +251,8 @@
           </mat-card-content>
         </form>
         <mat-card-actions fxLayoutAlign="center" class="booterBtn">
-          <button mat-flat-button class="editBtn" (click)="updateLeaveInfo();">Edit</button>
+          <!-- <button mat-flat-button class="editBtn" (click)="updateLeaveInfo();">Edit</button> -->
+          <button mat-flat-button class="editBtn" (click)="updateProfileInfo();">Edit</button>
           <!-- <button mat-raised-button class="cancelBtn" (click)="backManagerList();">Cancel</button> -->
         </mat-card-actions>
     </div>

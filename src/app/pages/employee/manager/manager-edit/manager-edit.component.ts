@@ -72,34 +72,22 @@ export class ManagerEditComponent {
     this.router.navigate(['company/' + this.companyId + '/manager']);
   }
 
-  //유효성 검사
-  isButtonDisabled(): any {
-    const emailRequiredError = this.editManagerForm
-      .get('email')
-      ?.hasError('required');
-    const emailEmailError = this.editManagerForm
-      .get('email')
-      ?.hasError('email');
-    const usernameError = this.editManagerForm
-      .get('username')
-      ?.hasError('required');
-    const phoneNumberError = this.editManagerForm
-      .get('phoneNumber')
-      ?.hasError('pattern');
-
-    return (
-      emailRequiredError || emailEmailError || usernameError || phoneNumberError
-    );
-  }
-
   ////////////////////*Left mat-card*////////////////////
 
-  //Edit Manager 버튼 클릭
   onSubmit() {
+    if (this.hasErrors()) {
+      //유효성 검사 실패 시 빨갛게 나옴
+    } else {
+      // 유효성 검사 통과 시
+      this.editManager();
+    }
+  }
+
+  //Edit Manager 버튼 클릭
+  editManager() {
     const managerData = {
       ...this.editManagerForm.value,
     };
-
     this.managerService.editManager(this.managerId, managerData).subscribe({
       next: () => {
         this.router.navigate(['company/' + this.companyId + '/manager']);
@@ -142,6 +130,26 @@ export class ManagerEditComponent {
           });
         }
       });
+  }
+
+  //유효성 검사
+  private hasErrors() {
+    const emailRequiredError = this.editManagerForm
+      .get('email')
+      ?.hasError('required');
+    const emailEmailError = this.editManagerForm
+      .get('email')
+      ?.hasError('email');
+    const usernameError = this.editManagerForm
+      .get('username')
+      ?.hasError('required');
+    const phoneNumberError = this.editManagerForm
+      .get('phoneNumber')
+      ?.hasError('pattern');
+
+    return (
+      emailRequiredError || emailEmailError || usernameError || phoneNumberError
+    );
   }
 
   ////////////////////*Right mat-card*////////////////////
@@ -194,7 +202,7 @@ export class ManagerEditComponent {
     );
     // signal을 통한 상태관리
     await this.employeeService.setEmployees(managerEmployees.data);
-
+    console.log(this.employeeService.employees());
     this.dataSource.data = this.employeeService.employees();
     this.dataSource.paginator = this.paginator;
   }

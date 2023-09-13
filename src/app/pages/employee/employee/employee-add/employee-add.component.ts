@@ -42,7 +42,6 @@ export class EmployeeAddComponent {
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
-      isManager: new FormControl(false),
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),
       department: new FormControl(''),
@@ -76,8 +75,8 @@ export class EmployeeAddComponent {
       ),
       empEndDate: this.addEmployeeForm.value['empEndDate']
         ? this.commonService.dateFormatting(
-            this.addEmployeeForm.value['empEndDate']
-          )
+          this.addEmployeeForm.value['empEndDate']
+        )
         : null,
     };
 

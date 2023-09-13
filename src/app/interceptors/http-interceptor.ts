@@ -63,8 +63,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         console.log('refresh token 재발급');
         // access token이 만료되면 재발행 요청
         return this.authService.refreshToken().pipe(
-          // 새로 발급 받은 accessToken을 메모리에 저장
-          tap(async (data: AccessToken) => await this.authService.setAccessToken(data)),
           switchMap((data) => {
             this.isRefreshing = false;
             request = request.clone({
@@ -89,7 +87,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             ) {
               // 로그아웃 하고 signin 페이지로 이동
               this.authService.signOut();
-              this.router.navigate(['signin']);
+              this.router.navigate(['sign-in']);
             }
 
             return throwError(() => error);
