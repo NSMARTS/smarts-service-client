@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DashboardService } from 'src/app/services/dashboard.service';
 
 export interface PeriodicElement {
-  payDay: string;
+  payDate: string;
   content: string;
   companyName: string;
 }
@@ -24,7 +24,8 @@ export class MainComponent {
   displayedColumns: string[] = ['date', 'content', 'company', 'detail'];
   displayedColumns2: string[] = ['countryName', 'detail'];
   allCount: any;
-  allList: any = new MatTableDataSource();
+  allPayList: any = new MatTableDataSource();
+  allMeetingList: any = new MatTableDataSource();
   allCountry: any;
   allCountryCount: any;
 
@@ -57,9 +58,16 @@ export class MainComponent {
     this.dashboardService.getAllList().subscribe({
       next: (res: any) => {
         console.log(res);
-        this.allList = new MatTableDataSource<PeriodicElement>(res.data);
-        this.allList.paginator = this.paginator;
-        console.log(this.allList);
+        this.allPayList = new MatTableDataSource<PeriodicElement>(
+          res.allPayList
+        );
+        this.allPayList.paginator = this.paginator;
+        console.log(this.allPayList);
+        this.allMeetingList = new MatTableDataSource<PeriodicElement>(
+          res.allmeetingList
+        );
+        this.allMeetingList.paginator = this.paginator;
+        console.log(this.allMeetingList);
       },
       error: (err: any) => {
         console.error(err);

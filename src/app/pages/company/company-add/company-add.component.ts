@@ -42,7 +42,7 @@ export class CompanyAddComponent {
       isPending: [false],
       annualPolicy: ['byContract'],
       contractDate: [''],
-      payDay: [''],
+      payDate: [''],
       paymentRequired: [false],
     });
 
@@ -57,7 +57,7 @@ export class CompanyAddComponent {
   }
 
   payDayPickChange(dateValue: any) {
-    this.addCompanyForm.get('payDay')?.setValue(dateValue);
+    this.addCompanyForm.get('payDate')?.setValue(dateValue);
   }
 
   getLeaveStandardsControls() {

@@ -44,7 +44,7 @@
                     <mat-card-subtitle>PAY DAY</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                    <p>{{allCompanyCount?.payDay | date: 'dd'}}</p>
+                    <p>{{allCompanyCount?.payDate | date: 'dd'}}</p>
                     <mat-divider></mat-divider>
                 </mat-card-content>
                 <mat-card-actions>
@@ -54,6 +54,7 @@
         </div>
 
         <div class="dashboard_bottom_container">
+            <mat-card>
             <mat-tab-group>
                 <mat-tab label="All">
                     <div>헤이루</div>
@@ -85,6 +86,7 @@
                     <div>안녕</div>
                 </mat-tab>
             </mat-tab-group>
+            </mat-card>
         </div>
     </div>
     
