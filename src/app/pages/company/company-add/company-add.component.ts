@@ -56,7 +56,7 @@ export class CompanyAddComponent {
     this.addCompanyForm.get('contractDate')?.setValue(dateValue);
   }
 
-  payDayPickChange(dateValue: any) {
+  payDatePickChange(dateValue: any) {
     this.addCompanyForm.get('payDate')?.setValue(dateValue);
   }
 

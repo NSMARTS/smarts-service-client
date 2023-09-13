@@ -86,7 +86,7 @@ export class CompanyEditComponent implements OnInit {
     this.editCompanyForm.get('contractDate')?.setValue(dateValue);
   }
 
-  payDayPickChange(dateValue: any) {
+  payDatePickChange(dateValue: any) {
     this.editCompanyForm.get('payDate')?.setValue(dateValue);
   }
 

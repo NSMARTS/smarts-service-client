@@ -171,18 +171,18 @@
         </div>
       </div>
 
-      <!-- Pay Day -->
+      <!-- Pay Date -->
       <div class="lineDivider" fxLayout="row">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
           <div class="leftBox">
-            <span>Pay Day</span>
+            <span>Pay Date</span>
           </div>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline" class="companyFormFieldBox">
-            <mat-label>Pay Day</mat-label>
+            <mat-label>Pay Date</mat-label>
             <input matInput [matDatepicker]="picker2" formControlName="payDate"
-              (dateChange)="payDayPickChange($event.value)">
+              (dateChange)="payDatePickChange($event.value)">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
