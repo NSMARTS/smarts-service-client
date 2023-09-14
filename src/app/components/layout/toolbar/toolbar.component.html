@@ -1,14 +1,16 @@
-<mat-toolbar color="primary" class="toolbar mat-elevation-z6">
+<mat-toolbar class="toolbar">
     <button (click)="openSidenav()" mat-icon-button fxHide.gt-md>
         <mat-icon>menu</mat-icon>
     </button>
 
-    <span style="flex: 1"></span>
+    <div style="flex: 1"></div>
 
-    <div [routerLink]="['/company']">Company</div>│
-    <div [routerLink]="['/country']">Country</div>
+    <div class="btns">
+      <button class="btn" mat-flat-button [routerLink]="['/company']">Company</button>
+      <button class="btn" mat-flat-button [routerLink]="['/country']">Country</button>
+    </div>
 
-    <div style="display: flex; align-items: center; gap: 10px;">
+    <div class="notice">
         <button mat-icon-button>
             <mat-icon>notifications</mat-icon>
         </button>

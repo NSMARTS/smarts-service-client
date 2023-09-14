@@ -24,7 +24,7 @@ export class CompanyListComponent {
     'employees',
     'managers',
     'superManagers',
-    'payDay',
+    'payDate',
     'detail',
     'menu',
   ];

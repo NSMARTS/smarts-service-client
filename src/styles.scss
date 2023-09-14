@@ -8,7 +8,7 @@
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.snow.css';
 
-$sidenav-width: 279px;
+$sidenav-width: 290px;
 $sidenav-toolbar-height: 64px; // material default
 $sidenav-toolbar-height-mobile: 56px; // material default <599px
 // //$sidenav-bgColor: #1a202e;
@@ -37,10 +37,40 @@ body {
   height: 100%;
 }
 
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
+
+:root {
+  --point-color: #96CDCA;
+  --text-color: #333333;
+  --mat-standard-button-toggle-selected-state-background-color: #ffffff;
+  --mat-standard-button-toggle-background-color: #E9EBEF;
+  ;
+}
+
+// angular material overwrite
+
+.mat-mdc-standard-chip.pay {
+  --mdc-chip-elevated-container-color: #e6fbf0;
+  --mdc-chip-label-text-color: #09d166;
+  --mdc-chip-label-text-weight: 500;
+}
+
+.mat-mdc-standard-chip.meeting {
+  --mdc-chip-elevated-container-color: #EFECFF;
+  --mdc-chip-label-text-color: #5A48C4;
+  --mdc-chip-label-text-weight: 500;
+}
+
+.mat-mdc-standard-chip.notice {
+  --mdc-chip-elevated-container-color: #FFEFE7;
+  --mdc-chip-label-text-color: #FD7C3A;
+  --mdc-chip-label-text-weight: 500;
+}
+
 
 /** 
 작성자: 임호균
@@ -54,9 +84,10 @@ side_nav_toolbar
 */
 $side_nav_active_color: #eeeeee;
 // $side_nav_active_font_color: rgba(255, 64, 129, 255);
-$side_nav_active_font_color: rgba(63, 81, 181, 255);
-$smart_service_background_color: rgba(250, 250, 250, 255);
-$smart_service_primary_color: rgba(63, 81, 181, 255);
+$side_nav_active_font_color: var(--point-color);
+$smart_service_background_color: var(--text-color);
+$smart_service_primary_color: var(--point-color);
+
 
 .side_nav {
   width: 278px;
@@ -64,6 +95,12 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
   flex-direction: column;
   overflow: hidden;
   height: 100%;
+
+  h1 {
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
 }
 
 .side_nav_toolbar {
@@ -103,6 +140,30 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 .toolbar {
   display: flex;
   align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #D3D3D3;
+
+  .btns {
+    display: flex;
+    gap: 10px;
+    margin-right: 10px;
+  }
+
+  .btn {
+    background: var(--point-color);
+    color: #ffffff;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 0px 15px;
+    border-radius: 5px;
+  }
+
+  h1 {
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding-left: 30px;
+  }
 }
 
 //공통 table
@@ -126,17 +187,17 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
   text-align: center;
   box-shadow: none;
 
-  th {
-    text-align: center;
-  }
-
   td {
-    text-align: center;
-
     img {
       width: 40px;
       padding-top: 5px;
     }
+  }
+
+  .mat-column-enter,
+  .mat-column-menu {
+    width: 100px;
+    text-align: center;
   }
 }
 
@@ -159,13 +220,45 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 }
 
 .mat-mdc-unelevated-button.mat-unthemed {
-  --mdc-filled-button-container-color: #3f51b5;
-  --mdc-filled-button-label-text-color: #fff;
+  --mdc-filled-button-container-color: #DDF5F4;
+  --mdc-filled-button-label-text-color: #56B1AC;
 }
 
 .table_delete_button.mat-mdc-unelevated-button.mat-unthemed {
-  --mdc-filled-button-container-color: #ff4081;
-  --mdc-filled-button-label-text-color: #fff;
+  --mdc-filled-button-container-color: #EFECFF;
+  --mdc-filled-button-label-text-color: #5A48C4;
+}
+
+@media screen and (max-width: 1580px) {
+  .page {
+    padding: 10px 10px;
+  }
+
+  .page_title {
+    margin: 10px;
+  }
+
+  .table_container {
+    word-break: break-all;
+
+    th {
+      padding: 3px 5px;
+    }
+
+    td {
+      padding: 2px 5px;
+      font-size: 1em;
+
+      button {
+        width: 70px;
+        padding: 0;
+      }
+
+      img {
+        width: 0px;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1580px) {
@@ -405,147 +498,252 @@ $smart_service_primary_color: rgba(63, 81, 181, 255);
 .dashboard_container {
   margin-top: 30px;
   /* 간격을 원하는 만큼 추가 */
-  margin-right: 15px;
 }
 
 .dashboard_top_container {
   display: flex;
   flex-wrap: wrap;
   /* 요소들이 줄바꿈을 허용하도록 설정 */
-  justify-content: space-evenly;
+  justify-content: space-between;
+
+  .mat-mdc-card {
+    box-shadow: none;
+  }
 
   mat-card {
-    width: 355px;
-    margin-right: 15px;
+    width: 24%;
+    height: 190px;
     margin-bottom: 15px;
     /* 아래쪽 마진을 추가하여 줄바꿈을 유도 */
-    text-align: center;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+
+    mat-card-header {
+      margin: 10px 0;
+
+      mat-card-subtitle {
+        font-weight: bold;
+      }
+    }
 
     p {
       font-size: 30px;
-      margin: 30px;
       font-weight: bold;
+    }
+
+    .img {
+      position: absolute;
+      bottom: 0;
+      height: auto;
+      margin-bottom: 0 !important;
+    }
+
+    .employeeImg {
+      width: 115px;
+    }
+
+    .superManagerImg {
+      width: 70px;
+    }
+
+    .managerImg {
+      width: 62px;
+    }
+
+    .payDateImg {
+      width: 70px;
+      margin-bottom: 15px !important;
+      padding-left: 8px !important;
+    }
+
+    .companyImg {
+      width: 80px;
+    }
+
+    .employeeImg {
+      width: 115px;
+    }
+
+    .superManagerImg {
+      width: 70px;
+    }
+
+    .managerImg {
+      width: 62px;
     }
   }
 
-  mat-card-header,
-  mat-card-actions {
-    text-align: center;
-    /* 헤더 내용을 가운데 정렬합니다. */
-    justify-content: center !important;
-    /* 중앙 정렬을 강제로 적용합니다. */
-    align-items: center !important;
-    /* 중앙 정렬을 강제로 적용합니다. */
+  p {
+    font-size: 30px;
+    margin: 30px;
+    font-weight: bold;
   }
 }
+
+mat-card-header,
+mat-card-actions {
+  text-align: center;
+  /* 헤더 내용을 가운데 정렬합니다. */
+  justify-content: center !important;
+  /* 중앙 정렬을 강제로 적용합니다. */
+  align-items: center !important;
+  /* 중앙 정렬을 강제로 적용합니다. */
+}
+
 
 
 .dashboard_bottom_container {
   margin-top: 30px;
   /* 간격을 원하는 만큼 추가 */
-  margin-right: 15px;
 
   mat-card {
     height: 500px;
+    display: contents;
+
+    .button {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      p {
+        color: var(--text-color);
+        font-size: 18px;
+        font-weight: 700;
+      }
+    }
+  }
+
+  // .meeting {
+  //     mat-chip {background-color: #EFECFF!important; margin-right: 10px!important;}   
+  // }
+  .mat-button-toggle-group-appearance-standard {
+    border: none;
+    border-radius: 5px 5px 0 0;
+  }
+
+  mat-icon {
+    color: #e9ebef;
   }
 }
 
 .dashboard_twin_container {
   display: flex;
-  flex-wrap: wrap;
-  /* 요소들이 줄바꿈을 허용하도록 설정 */
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .dashboard_left_container {
   margin: 10px;
   /* 간격을 원하는 만큼 추가 */
-}
-
-.dashboard_left_top_container {
-  display: flex;
-  flex-wrap: wrap;
-  /* 요소들이 줄바꿈을 허용하도록 설정 */
-  justify-content: space-evenly;
-
-  mat-card {
-    width: 330px;
-    margin-right: 15px;
-    margin-bottom: 15px;
-    /* 아래쪽 마진을 추가하여 줄바꿈을 유도 */
-    text-align: center;
-
-    p {
-      font-size: 30px;
-      margin: 30px;
-      font-weight: bold;
-    }
-  }
-
-  mat-card-header,
-  mat-card-actions {
-    text-align: center;
-    /* 헤더 내용을 가운데 정렬합니다. */
-    justify-content: center !important;
-    /* 중앙 정렬을 강제로 적용합니다. */
-    align-items: center !important;
-    /* 중앙 정렬을 강제로 적용합니다. */
-  }
-}
-
-
-.dashboard_left_bottom_container {
-  margin-top: 30px;
-  /* 간격을 원하는 만큼 추가 */
-  margin-right: 15px;
-
-  mat-card {
-    height: 500px;
-  }
+  width: 80%;
 }
 
 .dashboard_right_container {
   margin: 10px;
   /* 간격을 원하는 만큼 추가 */
-  width: 330px;
 
   mat-card {
     text-align: center;
-    height: 715px;
+    height: 705px;
+    box-shadow: none;
   }
 
-  mat-card-content {
-    p {
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    mat-divider {
-      margin-top: 30px;
-      margin-left: -16px;
-      width: 330px;
-    }
+  .example-container {
+    margin: 0 auto;
+    width: 230px;
   }
 
-  mat-card-header {
-    text-align: center;
-    /* 헤더 내용을 가운데 정렬합니다. */
-    justify-content: center !important;
-    /* 중앙 정렬을 강제로 적용합니다. */
-    align-items: center !important;
-    /* 중앙 정렬을 강제로 적용합니다. */
+  .mat-mdc-card-content {
+    padding: 0px;
   }
 
-  mat-card-footer {
-    mat-card-subtitle {
-      margin-top: 40px;
-      // margin-left: 40px;
-      // text-align: left; 
-    }
+  .mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
 
-    p {
-      margin-top: 20px;
-      margin-bottom: 20px;
+  table thead tr {
+    height: 0px;
+  }
+
+  .mat-mdc-header-cell {
+    border-bottom: 1px solid transparent;
+    height: 0px;
+  }
+
+  span {
+    color: #e9ebef;
+    font-size: 10px;
+  }
+
+  mat-icon {
+    color: #e9ebef;
+  }
+
+  mat-divider {
+    margin-top: 30px;
+    margin-left: -16px;
+    width: 330px;
+  }
+}
+
+mat-divider {
+  margin-top: 70px;
+  width: 330px;
+}
+
+
+mat-card-header {
+  text-align: center;
+  /* 헤더 내용을 가운데 정렬합니다. */
+  justify-content: center !important;
+  /* 중앙 정렬을 강제로 적용합니다. */
+  align-items: center !important;
+  /* 중앙 정렬을 강제로 적용합니다. */
+
+  mat-card-subtitle {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 40px 0;
+  }
+}
+
+mat-card-footer {
+  mat-card-subtitle {
+    margin-top: 40px;
+    margin-right: 180px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+
+@media screen and (max-width: 900px) {
+  .dashboard_twin_container {
+    flex-wrap: wrap;
+    /* 요소들이 줄바꿈을 허용하도록 설정 */
+  }
+
+  .dashboard_left_container {
+    width: 100%;
+  }
+
+  .dashboard_right_container {
+    width: 100%;
+
+    mat-card-content {
+      mat-divider {
+        margin: 0 auto;
+        margin-top: 70px;
+        width: 403px;
+      }
     }
   }
 }

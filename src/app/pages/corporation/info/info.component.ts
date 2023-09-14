@@ -8,14 +8,10 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 // view table
 export interface PeriodicElement {
-  _id: any,
-  company: any,
-  managers: any,
-  employees: any,
-  meetingTitle: string,
-  startDate: any,
-  startTime: any,
-  status: any,
+  _id: any;
+  meetingTitle: string;
+  startDate: any;
+  startTime: any;
 }
 
 @Component({
@@ -26,16 +22,18 @@ export interface PeriodicElement {
   styleUrls: ['./info.component.scss'],
 })
 export class InfoComponent {
-  displayedColumns: string[] = ['date', 'content'];
+  displayedColumns: string[] = ['date', 'content', 'enter'];
+  toggleValue: any = 'all';
+  toggleList: any = new MatTableDataSource();
+  allList: any[] = [];
   allCompanyCount: any;
   companyId: any;
   companyName: any;
   contractDate: any;
-  meetingArray: any = new MatTableDataSource();
+  paginator: any;
 
   constructor(
     private dashboardService: DashboardService,
-    private companyService: CompanyService,
     private route: ActivatedRoute
   ) {
     this.companyId = this.route.snapshot.params['id'];
@@ -43,7 +41,7 @@ export class InfoComponent {
 
   ngOnInit(): void {
     this.getAllCompanyCount();
-    this.getMeetingInfo();
+    this.getAllList();
   }
 
   // 회사별 모든 개수 조회
@@ -62,18 +60,41 @@ export class InfoComponent {
   }
 
   // 미팅 정보 가져오기
-  getMeetingInfo() {
+  getAllList() {
     this.dashboardService.getMeetingInfo(this.companyId).subscribe({
       next: (res: any) => {
         console.log(res);
-        this.meetingArray = new MatTableDataSource<PeriodicElement>(
-          res.meetingList
-        );
-        console.log(this.meetingArray);
+        this.allList = res.meetingList;
+        console.log(this.allList);
+
+        this.toggleList = new MatTableDataSource<PeriodicElement>();
+        this.toggleList.paginator = this.paginator;
+        this.onToggleChange();
       },
       error: (err: any) => {
         console.error(err);
       },
     });
+  }
+
+  onToggleChange() {
+    switch (this.toggleValue) {
+      case 'all':
+        this.toggleList = this.allList;
+        break;
+      case 'meeting':
+        this.toggleList = this.allList.filter(
+          (item) => item.type === 'meeting'
+        );
+        break;
+      case 'notice':
+        //this.toogleList = this.allList.filter(
+        //    (item) => item.type === 'notice'
+        //  );
+        break;
+      default:
+        this.toggleList = [];
+        break;
+    }
   }
 }

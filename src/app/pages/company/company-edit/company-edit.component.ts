@@ -44,7 +44,7 @@ export class CompanyEditComponent implements OnInit {
       isPending: [false],
       annualPolicy: ['byContract'],
       contractDate: [''],
-      payDay: [''],
+      payDate: [''],
       paymentRequired: [false],
     });
     this.leaveStandards = this.editCompanyForm.get(
@@ -86,8 +86,8 @@ export class CompanyEditComponent implements OnInit {
     this.editCompanyForm.get('contractDate')?.setValue(dateValue);
   }
 
-  payDayPickChange(dateValue: any) {
-    this.editCompanyForm.get('payDay')?.setValue(dateValue);
+  payDatePickChange(dateValue: any) {
+    this.editCompanyForm.get('payDate')?.setValue(dateValue);
   }
 
   /////////////////////////////////////////////////////////////////////////////

@@ -66,6 +66,9 @@ export class MeetingComponent implements OnInit {
   companyId: string; // 회사아이디 params
   showAllMeetings: boolean = false;
 
+  isLoadingResults = true;
+  isRateLimitReached = false;
+
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -168,6 +171,9 @@ export class MeetingComponent implements OnInit {
 
           console.log(item.managers, this.managers, this.employees);
 
+          this.isLoadingResults = false;
+          this.isRateLimitReached = data.data === null;
+
           // 참여 매니저 id에 맞는 username 등록
           let newManager = item.managers.map((part: any) => {
             const userName = this.managers.filter((item) => {
@@ -249,7 +255,7 @@ export class MeetingComponent implements OnInit {
     this.meetingService.editMeeting(data).subscribe({
       next: (data: any) => {
         console.log(data);
-        // this.getMeetingList(this.companyId) 
+        // this.getMeetingList(this.companyId)
         meetingData.status = 'Open';
       },
       error: (err: any) => {
@@ -271,7 +277,7 @@ export class MeetingComponent implements OnInit {
     this.meetingService.editMeeting(data).subscribe({
       next: (data: any) => {
         console.log(data);
-        // this.getMeetingList(this.companyId); 
+        // this.getMeetingList(this.companyId);
         meetingData.status = 'Close';
       },
       error: (err: any) => {

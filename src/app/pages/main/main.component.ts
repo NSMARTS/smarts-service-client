@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DashboardService } from 'src/app/services/dashboard.service';
 
 export interface PeriodicElement {
-  payDay: string;
+  date: string;
   content: string;
   companyName: string;
 }
@@ -21,10 +21,12 @@ export interface PeriodicElement {
 })
 export class MainComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['date', 'content', 'company', 'detail'];
-  displayedColumns2: string[] = ['countryName', 'detail'];
+  displayedColumns: string[] = ['date', 'content', 'company', 'enter'];
+  displayedColumns2: string[] = ['countryName', 'enter'];
   allCount: any;
-  allList: any = new MatTableDataSource();
+  toggleValue: any = 'all';
+  toggleList: any = new MatTableDataSource();
+  allList: any[] = [];
   allCountry: any;
   allCountryCount: any;
 
@@ -43,7 +45,6 @@ export class MainComponent {
   getAllCount() {
     this.dashboardService.getAllCount().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.allCount = res.data;
       },
       error: (err: any) => {
@@ -57,9 +58,11 @@ export class MainComponent {
     this.dashboardService.getAllList().subscribe({
       next: (res: any) => {
         console.log(res);
-        this.allList = new MatTableDataSource<PeriodicElement>(res.data);
-        this.allList.paginator = this.paginator;
-        console.log(this.allList);
+        this.allList = res.allList;
+
+        this.toggleList = new MatTableDataSource<PeriodicElement>();
+        this.toggleList.paginator = this.paginator;
+        this.onToggleChange();
       },
       error: (err: any) => {
         console.error(err);
@@ -67,11 +70,34 @@ export class MainComponent {
     });
   }
 
+  onToggleChange() {
+    switch (this.toggleValue) {
+      case 'all':
+        this.toggleList = this.allList;
+        break;
+      case 'pay':
+        this.toggleList = this.allList.filter((item) => item.type === 'pay');
+        break;
+      case 'meeting':
+        this.toggleList = this.allList.filter(
+          (item) => item.type === 'meeting'
+        );
+        break;
+      case 'notice':
+        //this.toogleList = this.allList.filter(
+        //    (item) => item.type === 'notice'
+        //  );
+        break;
+      default:
+        this.toggleList = [];
+        break;
+    }
+  }
+
   // 모든 개수 조회
   getAllCountry() {
     this.dashboardService.getAllCountry().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.allCountry = res.data;
         this.allCountryCount = res.count;
       },
@@ -82,7 +108,6 @@ export class MainComponent {
   }
 
   selectHoliday(countryId: any) {
-    console.log(countryId);
     this.router.navigate(['/country/' + countryId]);
   }
 }
