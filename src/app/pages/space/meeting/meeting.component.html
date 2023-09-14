@@ -5,6 +5,14 @@
                 <button class="scheduleBtn" mat-raised-button color="primary"
                     (click)="openDialogDocMeetingSet()">Schedule a meeting</button>
             </div>
+
+                <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+                    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+                    <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+                        API rate limit has been reached. It will be reset in one minute.
+                    </div>
+                </div>
+
             <mat-divider></mat-divider>
             <mat-checkbox class="example-margin" [(ngModel)]="showAllMeetings">전체 회의</mat-checkbox>
             <div class="meetingBox" fxLayout="row wrap" fxLayoutAlign="flex-start">

@@ -22,7 +22,7 @@ export interface PeriodicElement {
   styleUrls: ['./info.component.scss'],
 })
 export class InfoComponent {
-  displayedColumns: string[] = ['date', 'content'];
+  displayedColumns: string[] = ['date', 'content', 'detail'];
   toggleValue: any = 'all';
   toggleList: any = new MatTableDataSource();
   allList: any[] = [];
