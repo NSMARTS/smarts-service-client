@@ -8,10 +8,10 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 // view table
 export interface PeriodicElement {
-  _id: any,
-  meetingTitle: string,
-  startDate: any,
-  startTime: any,
+  _id: any;
+  meetingTitle: string;
+  startDate: any;
+  startTime: any;
 }
 
 @Component({
@@ -22,7 +22,7 @@ export interface PeriodicElement {
   styleUrls: ['./info.component.scss'],
 })
 export class InfoComponent {
-  displayedColumns: string[] = ['date', 'content', 'detail'];
+  displayedColumns: string[] = ['date', 'content', 'enter'];
   toggleValue: any = 'all';
   toggleList: any = new MatTableDataSource();
   allList: any[] = [];

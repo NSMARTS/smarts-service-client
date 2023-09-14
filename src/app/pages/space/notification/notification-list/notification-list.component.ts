@@ -23,7 +23,9 @@ export class NotificationListComponent implements AfterViewInit {
   companyId!: string;
 
   // ['전체','일반 공지', '회의 공지', '급여 공지', '정책 변경 공지', '기타...']
+  // categoryList = ['All', 'Notice', 'Meeting', 'Pay', 'Policy', 'Issue', 'Etc']
   categoryList = ['All', 'Notice', 'Meeting', 'Pay', 'Policy', 'Issue', 'Etc']
+
   selectedCategory: string = 'All';
 
   searchConditionList = ['title', 'writer']
