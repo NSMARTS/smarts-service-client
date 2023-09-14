@@ -1,0 +1,57 @@
+<div class="page">
+  <div class="page_title">Notification</div>
+  <div class="example-loading-shade" *ngIf="isLoadingResults ">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    <div class="example-rate-limit-reached">
+      API rate limit has been reached. It will be reset in one minute.
+    </div>
+  </div>
+  <form [formGroup]="editNotificationForm" (ngSubmit)="onSubmit()">
+    <div class="add_container">
+
+      <!-- title -->
+      <div class="lineDivider">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <span>Title</span>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput type="text" formControlName="title">
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <!-- title -->
+      <div class="lineDivider">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <span>Category</span>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select matInput type="text" formControlName="category">
+              <mat-option *ngFor="let category of categoryList" [value]="category">
+                {{category}}
+              </mat-option>
+            </mat-select>
+
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Editor -->
+      <quill-editor #quillEditor [formControl]="form" [styles]="{ flex: '1 1 auto' }">
+      </quill-editor>
+
+      <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
+        <button mat-raised-button class="tableBtn" type="submit" color="primary">Edit</button>
+        <div style="width: 20px;"></div>
+        <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
+      </div>
+
+    </div>
+
+  </form>
+</div>

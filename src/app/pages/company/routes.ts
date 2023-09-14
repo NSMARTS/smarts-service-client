@@ -1,3 +1,6 @@
+import { NotificationModule } from './../space/notification/notification.module';
+import { routes } from './../../app-routing.module';
+
 import { Route } from '@angular/router';
 import { CompanyListComponent } from './company-list/company-list.component';
 import { CompanyAddComponent } from './company-add/company-add.component';
@@ -59,6 +62,11 @@ export const COMPANY_ROUTES: Route[] = [
         path: ':id/leave-status',
         loadChildren: () =>
           import('../employee/leave-status/routes').then((m) => m.LEAVE_STATUS_ROUTES),
+      },
+      {
+        path: ':id/notification',
+        loadChildren: () =>
+          import('../space/notification/notification.module').then((m) => m.NotificationModule),
       },
     ],
   },
