@@ -153,7 +153,7 @@ export class LeaveStatusComponent implements AfterViewInit {
           this.resultsLength = res.total_count;
           this.dataSource = new MatTableDataSource<LeaveRequest>(res.data);
           return res.data;
-        }),
+        })
       )
       .subscribe();
   }

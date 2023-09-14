@@ -15,7 +15,11 @@ export class NotificationService {
     private http: HttpClient,
   ) { }
 
-  createNotification(data: any): Observable<HttpResMsg<Notification[]>> {
-    return this.http.post<HttpResMsg<Notification[]>>(this.baseUrl + '/notifications', data)
+  createNotification(data: any): Observable<HttpResMsg<Notification>> {
+    return this.http.post<HttpResMsg<Notification>>(this.baseUrl + '/notifications', data)
+  }
+
+  getNotifications(id: string, data: any): Observable<HttpResMsg<Notification[]>> {
+    return this.http.get<HttpResMsg<Notification[]>>(this.baseUrl + '/notifications/' + id + '/', { params: data })
   }
 }
