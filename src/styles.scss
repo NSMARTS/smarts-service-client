@@ -4,7 +4,7 @@
 // @tailwind utilities;
 
 
-$sidenav-width: 279px;
+$sidenav-width: 290px;
 $sidenav-toolbar-height: 64px; // material default
 $sidenav-toolbar-height-mobile: 56px; // material default <599px
 // //$sidenav-bgColor: #1a202e;
@@ -148,14 +148,8 @@ $smart_service_primary_color: var(--point-color);
 	width: 100%;
 	text-align: center;
     box-shadow: none;
-
-	th {
-		text-align: center;
-	} 
     
     td {
-        text-align: center;
-
         img {
             width: 40px;
             padding-top: 5px;
@@ -177,13 +171,13 @@ $smart_service_primary_color: var(--point-color);
 }
 
 .mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: #3f51b5;
-    --mdc-filled-button-label-text-color: #fff;
+    --mdc-filled-button-container-color: #DDF5F4;
+    --mdc-filled-button-label-text-color: #56B1AC;
 }
 
 .table_delete_button.mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: #ff4081;
-    --mdc-filled-button-label-text-color: #fff;
+    --mdc-filled-button-container-color: #EFECFF;
+    --mdc-filled-button-label-text-color: #5A48C4;
 }  
 
 @media screen and (max-width: 1580px) { 
@@ -403,22 +397,21 @@ $smart_service_primary_color: var(--point-color);
 //공통 dashboard
 .dashboard_container {
     margin-top: 30px; /* 간격을 원하는 만큼 추가 */
-    margin-right: 15px;
 }
 
 .dashboard_top_container {
     display: flex;
     flex-wrap: wrap; /* 요소들이 줄바꿈을 허용하도록 설정 */
-    justify-content: space-evenly;
+    justify-content: space-between;
     .mat-mdc-card {box-shadow: none;}
     mat-card {
-        width: 355px;
+        width: 24%;
         height: 190px;
-        margin-right: 15px;
         margin-bottom: 15px; /* 아래쪽 마진을 추가하여 줄바꿈을 유도 */
         display: flex;
         align-items: center;
         position: relative;
+        overflow: hidden;
         mat-card-header {margin: 10px 0;
             mat-card-subtitle {font-weight: bold;}
         }
@@ -430,7 +423,7 @@ $smart_service_primary_color: var(--point-color);
         .employeeImg {width: 115px;}
         .superManagerImg {width: 70px;}
         .managerImg {width: 62px;}
-        .payDayImg {width: 70px; margin-bottom: 15px!important; padding-left: 15px!important;}
+        .payDateImg {width: 70px; margin-bottom: 15px!important; padding-left: 15px!important;}
     }
 
     mat-card-header, mat-card-actions {
@@ -443,10 +436,10 @@ $smart_service_primary_color: var(--point-color);
 
 .dashboard_bottom_container {
     margin-top: 30px; /* 간격을 원하는 만큼 추가 */
-    margin-right: 15px;
 
     mat-card {
         height: 500px;
+        display:contents;
     }
     // .meeting {
     //     mat-chip {background-color: #EFECFF!important; margin-right: 10px!important;}   
