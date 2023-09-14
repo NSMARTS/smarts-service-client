@@ -695,12 +695,17 @@ $smart_service_primary_color: var(--point-color);
 
   .dashboard_right_container {
     width: 100%;
+    mat-card {
+      height: auto;
+      padding: 30px;
+    }
 
     mat-card-content {
       mat-divider {
         margin: 0 auto;
         margin-top: 70px;
         width: 403px;
+
       }
     }
   }
