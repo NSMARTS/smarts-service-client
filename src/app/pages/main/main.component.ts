@@ -25,7 +25,7 @@ export class MainComponent {
   displayedColumns2: string[] = ['countryName', 'detail'];
   allCount: any;
   toggleValue: any = 'all';
-  toogleList: any = new MatTableDataSource();
+  toggleList: any = new MatTableDataSource();
   allList: any[] = [];
   allCountry: any;
   allCountryCount: any;
@@ -60,8 +60,8 @@ export class MainComponent {
         console.log(res);
         this.allList = res.allList;
 
-        this.toogleList = new MatTableDataSource<PeriodicElement>();
-        this.toogleList.paginator = this.paginator;
+        this.toggleList = new MatTableDataSource<PeriodicElement>();
+        this.toggleList.paginator = this.paginator;
         this.onToggleChange();
       },
       error: (err: any) => {
@@ -73,13 +73,13 @@ export class MainComponent {
   onToggleChange() {
     switch (this.toggleValue) {
       case 'all':
-        this.toogleList = this.allList;
+        this.toggleList = this.allList;
         break;
       case 'pay':
-        this.toogleList = this.allList.filter((item) => item.type === 'pay');
+        this.toggleList = this.allList.filter((item) => item.type === 'pay');
         break;
       case 'meeting':
-        this.toogleList = this.allList.filter(
+        this.toggleList = this.allList.filter(
           (item) => item.type === 'meeting'
         );
         break;
@@ -89,7 +89,7 @@ export class MainComponent {
         //  );
         break;
       default:
-        this.toogleList = [];
+        this.toggleList = [];
         break;
     }
   }
