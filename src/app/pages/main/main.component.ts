@@ -21,8 +21,8 @@ export interface PeriodicElement {
 })
 export class MainComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['date', 'content', 'company', 'detail'];
-  displayedColumns2: string[] = ['countryName', 'detail'];
+  displayedColumns: string[] = ['date', 'content', 'company', 'enter'];
+  displayedColumns2: string[] = ['countryName', 'enter'];
   allCount: any;
   toggleValue: any = 'all';
   toggleList: any = new MatTableDataSource();
