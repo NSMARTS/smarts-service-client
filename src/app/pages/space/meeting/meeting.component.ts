@@ -67,7 +67,6 @@ export class MeetingComponent implements OnInit {
   showAllMeetings: boolean = false;
 
   isLoadingResults = true;
-  isRateLimitReached = false;
 
   constructor(
     public dialog: MatDialog,
@@ -172,7 +171,6 @@ export class MeetingComponent implements OnInit {
           console.log(item.managers, this.managers, this.employees);
 
           this.isLoadingResults = false;
-          this.isRateLimitReached = data.data === null;
 
           // 참여 매니저 id에 맞는 username 등록
           let newManager = item.managers.map((part: any) => {
