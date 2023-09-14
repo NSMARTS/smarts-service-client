@@ -24,6 +24,8 @@ export class MainComponent {
   displayedColumns: string[] = ['date', 'content', 'company', 'detail'];
   displayedColumns2: string[] = ['countryName', 'detail'];
   allCount: any;
+  toggleValue: any;
+  toogleList: any[] = [];
   allList: any = new MatTableDataSource();
   allPayList: any = new MatTableDataSource();
   allMeetingList: any = new MatTableDataSource();
@@ -58,6 +60,7 @@ export class MainComponent {
     this.dashboardService.getAllList().subscribe({
       next: (res: any) => {
         console.log(res);
+
         this.allList = new MatTableDataSource<PeriodicElement>(res.allList);
         this.allPayList.paginator = this.paginator;
 
@@ -75,6 +78,18 @@ export class MainComponent {
         console.error(err);
       },
     });
+  }
+
+  onToggleChange() {
+    if (this.toggleValue === 'all') {
+      this.toogleList = this.allList;
+    } else if (this.toggleValue === 'pay') {
+      this.toogleList = this.allPayList;
+    } else if (this.toggleValue === 'meeting') {
+      this.toogleList = this.allMeetingList;
+    } else if (this.toggleValue === 'notice') {
+      //this.toogleList = this.allNotice;
+    }
   }
 
   // 모든 개수 조회
