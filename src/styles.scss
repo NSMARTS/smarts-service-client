@@ -35,8 +35,9 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
 :root {
     --point-color: #96CDCA;
     --text-color: #333333;
-    --mat-standard-button-toggle-selected-state-background-color: #ffffff;
-    --mat-standard-button-toggle-background-color: #E9EBEF;;
+
+    --mat-standard-button-toggle-selected-state-background-color: #ffffff!important;
+    --mat-standard-button-toggle-background-color: #E9EBEF!important;
 }
 
  // angular material overwrite
