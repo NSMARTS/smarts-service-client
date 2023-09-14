@@ -53,12 +53,15 @@
             </div>
             <div class="dashboard_left_bottom_container">
                 <mat-card>
-                    <mat-button-toggle-group [(ngModel)]="toggleValue" (ngModelChange)="onToggleChange()">
-                        <mat-button-toggle value="all">All</mat-button-toggle>
-                        <mat-button-toggle value="pay">Pay</mat-button-toggle>
-                        <mat-button-toggle value="meeting">Meeting</mat-button-toggle>
-                        <mat-button-toggle value="notice">Notice</mat-button-toggle>
-                      </mat-button-toggle-group>
+                    <div class="button">
+                        <p>Announcement</p>                
+                        <mat-button-toggle-group [(ngModel)]="toggleValue" (ngModelChange)="onToggleChange()">
+                            <mat-button-toggle value="all">All</mat-button-toggle>
+                            <mat-button-toggle value="pay">Pay</mat-button-toggle>
+                            <mat-button-toggle value="meeting">Meeting</mat-button-toggle>
+                            <mat-button-toggle value="notice">Notice</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
 
                             <table mat-table class="table" [dataSource]="toggleList">
 

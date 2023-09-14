@@ -476,20 +476,6 @@ $smart_service_primary_color: var(--point-color);
     width: 80%;
 }
 
-@media screen and (max-width: 900px) {
-    .dashboard_twin_container {
-        flex-wrap: wrap; /* 요소들이 줄바꿈을 허용하도록 설정 */
-    }
-
-    .dashboard_left_container {
-        width: 100%;
-    }
-
-    .dashboard_right_container {
-        width: 100%;
-    }
-}
-
 .dashboard_left_top_container {
     display: flex;
     flex-wrap: wrap; /* 요소들이 줄바꿈을 허용하도록 설정 */
@@ -530,14 +516,16 @@ $smart_service_primary_color: var(--point-color);
     mat-card {
         height: 500px;
         display:contents;
+        .button {width: 100%; display: flex; justify-content: space-between;
+        align-items: center;
+        p {color: var(--text-color); font-size: 18px; font-weight: 700;}
     }
+    }
+    .mat-button-toggle-group-appearance-standard {border: none; border-radius: 5px 5px 0 0; }
+
     mat-icon {
         color: #e9ebef;
     }
-    .mat-button-toggle-appearance-standard.mat-button-toggle-checked {
-        background-color: #ffffff;
-    }
-
 }
 
 .dashboard_right_container {
@@ -621,6 +609,26 @@ $smart_service_primary_color: var(--point-color);
         p {
             margin-top: 20px;
             margin-bottom: 20px;
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .dashboard_twin_container {
+        flex-wrap: wrap; /* 요소들이 줄바꿈을 허용하도록 설정 */
+    }
+
+    .dashboard_left_container {
+        width: 100%;
+    }
+
+    .dashboard_right_container {
+        width: 100%;
+
+        mat-card-content {
+            mat-divider {
+                margin: 0 auto;
+            }
         }
     }
 }
