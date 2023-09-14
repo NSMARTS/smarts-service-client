@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DashboardService } from 'src/app/services/dashboard.service';
 
 export interface PeriodicElement {
-  payDate: string;
+  date: string;
   content: string;
   companyName: string;
 }
@@ -24,11 +24,9 @@ export class MainComponent {
   displayedColumns: string[] = ['date', 'content', 'company', 'detail'];
   displayedColumns2: string[] = ['countryName', 'detail'];
   allCount: any;
-  toggleValue: any;
-  toogleList: any[] = [];
-  allList: any = new MatTableDataSource();
-  allPayList: any = new MatTableDataSource();
-  allMeetingList: any = new MatTableDataSource();
+  toggleValue: any = 'all';
+  toogleList: any = new MatTableDataSource();
+  allList: any[] = [];
   allCountry: any;
   allCountryCount: any;
 
@@ -60,19 +58,11 @@ export class MainComponent {
     this.dashboardService.getAllList().subscribe({
       next: (res: any) => {
         console.log(res);
+        this.allList = res.allList;
 
-        this.allList = new MatTableDataSource<PeriodicElement>(res.allList);
-        this.allPayList.paginator = this.paginator;
-
-        this.allPayList = new MatTableDataSource<PeriodicElement>(
-          res.allPayList
-        );
-        this.allPayList.paginator = this.paginator;
-
-        this.allMeetingList = new MatTableDataSource<PeriodicElement>(
-          res.allmeetingList
-        );
-        this.allMeetingList.paginator = this.paginator;
+        this.toogleList = new MatTableDataSource<PeriodicElement>();
+        this.toogleList.paginator = this.paginator;
+        this.onToggleChange();
       },
       error: (err: any) => {
         console.error(err);
@@ -81,14 +71,26 @@ export class MainComponent {
   }
 
   onToggleChange() {
-    if (this.toggleValue === 'all') {
-      this.toogleList = this.allList;
-    } else if (this.toggleValue === 'pay') {
-      this.toogleList = this.allPayList;
-    } else if (this.toggleValue === 'meeting') {
-      this.toogleList = this.allMeetingList;
-    } else if (this.toggleValue === 'notice') {
-      //this.toogleList = this.allNotice;
+    switch (this.toggleValue) {
+      case 'all':
+        this.toogleList = this.allList;
+        break;
+      case 'pay':
+        this.toogleList = this.allList.filter((item) => item.type === 'pay');
+        break;
+      case 'meeting':
+        this.toogleList = this.allList.filter(
+          (item) => item.type === 'meeting'
+        );
+        break;
+      case 'notice':
+        //this.toogleList = this.allList.filter(
+        //    (item) => item.type === 'notice'
+        //  );
+        break;
+      default:
+        this.toogleList = [];
+        break;
     }
   }
 
