@@ -1,37 +1,37 @@
-import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { QuillEditorComponent } from 'ngx-quill';
 import { map, startWith } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { NotificationService } from 'src/app/services/notification.service';
-import { QuillEditorComponent } from 'ngx-quill';
-import { AuthService } from 'src/app/services/auth.service';
-
 
 @Component({
-  selector: 'app-notification-add',
-  templateUrl: './notification-add.component.html',
+  selector: 'app-notification-edit',
+  templateUrl: './notification-edit.component.html',
   styleUrls: [
-    './notification-add.component.scss',
-    '../../../../../../node_modules/quill/dist/quill.snow.css'
+    './notification-edit.component.scss', '../../../../../../node_modules/quill/dist/quill.snow.css'
   ]
 })
-export class NotificationAddComponent implements OnInit {
+export class NotificationEditComponent implements AfterViewInit {
   text: string = '';
   form = new UntypedFormControl(this.text);
+
   destroyRef = inject(DestroyRef);
+
   companyId!: string; //params id
+  notificationId!: string //params id
+
   maxBytes = 5 * 1024 * 1024; // 5MB
   // ['일반 공지', '회의 공지', '급여 공지', '정책 변경 공지', '기타...']
   categoryList = ['Notice', 'Meeting', 'Pay', 'Policy', 'Issue', 'Etc']
-  addNotificationForm: FormGroup;
+  editNotificationForm: FormGroup;
 
   @ViewChild('quillEditor') quillEditor!: QuillEditorComponent;
 
   isLoadingResults = false;
-
-
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -42,12 +42,12 @@ export class NotificationAddComponent implements OnInit {
   ) {
 
     this.companyId = this.route.snapshot.params['id'];
+    this.notificationId = this.route.snapshot.params['notificationId'];
 
-    this.addNotificationForm = this.fb.group({
+    this.editNotificationForm = this.fb.group({
       title: new FormControl('', [Validators.required]),
       category: new FormControl('Notice', [Validators.required]),
     });
-
   }
 
   ngOnInit(): void {
@@ -63,6 +63,16 @@ export class NotificationAddComponent implements OnInit {
       .subscribe();
   }
 
+  ngAfterViewInit() {
+    this.notificationService.getNotification(this.companyId, this.notificationId).subscribe({
+      next: (res) => {
+        this.editNotificationForm.patchValue(res.data)
+        this.form.patchValue(res.data.contents)
+      },
+      error: (error) => console.log(error)
+    })
+  }
+
   onSubmit() {
     this.isLoadingResults = true;
 
@@ -74,15 +84,14 @@ export class NotificationAddComponent implements OnInit {
     }
 
     const body = {
-      ...this.addNotificationForm.value,
-      company: this.companyId,
-      writer: this.authService.userInfoStore()._id,
-      contents: this.text
+      ...this.editNotificationForm.value,
+      updator: this.authService.userInfoStore()._id,
+      contents: this.text,
     }
 
-    this.notificationService.createNotification(body).subscribe({
+    this.notificationService.updateNotification(this.companyId, this.notificationId, body).subscribe({
       next: (res) => {
-        if (res) {
+        if (res.success) {
           this.isLoadingResults = false;
           this.router.navigate([`/company/${this.companyId}/notification/`]);
         }
@@ -96,5 +105,4 @@ export class NotificationAddComponent implements OnInit {
   toBack() {
     this.router.navigate([`/company/${this.companyId}/notification/`]);
   }
-
 }

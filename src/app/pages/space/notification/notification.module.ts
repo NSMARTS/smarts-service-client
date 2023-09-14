@@ -6,12 +6,16 @@ import { NotificationAddComponent } from './notification-add/notification-add.co
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NotificationRoutingModule } from './notification-routing.module';
+import { NotificationEditComponent } from './notification-edit/notification-edit.component';
+import { NotificationDetailComponent } from './notification-detail/notification-detail.component';
 
 
 @NgModule({
   declarations: [
     NotificationListComponent,
-    NotificationAddComponent
+    NotificationAddComponent,
+    NotificationEditComponent,
+    NotificationDetailComponent
   ],
   imports: [
     CommonModule,

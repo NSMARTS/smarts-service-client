@@ -1,7 +1,4 @@
-import { QuillModule } from 'ngx-quill';
 import { AfterViewInit, Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MaterialsModule } from 'src/app/materials/materials.module';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
 import { map, merge, startWith, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -42,6 +39,7 @@ export class NotificationListComponent implements AfterViewInit {
     'title',
     'writer',
     'createdAt',
+    'menu'
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -80,10 +78,6 @@ export class NotificationListComponent implements AfterViewInit {
     });
   }
 
-  ngOnInit() {
-    // this.getNotifications();
-
-  }
   ngAfterViewInit(): void {
     this.getNotifications('All');
 
@@ -122,7 +116,6 @@ export class NotificationListComponent implements AfterViewInit {
 
         }),
         map((res: any) => {
-          console.log(res)
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isRateLimitReached = res.data === null;
@@ -135,4 +128,32 @@ export class NotificationListComponent implements AfterViewInit {
 
   }
 
+  onClick(notificationId: string) {
+    this.router.navigate([`/company/${this.companyId}/notification/detail/${notificationId}`]);
+  }
+
+  createNotification() {
+    this.router.navigate([`/company/${this.companyId}/notification/add`]);
+  }
+
+  editNotification(notificationId: string) {
+    this.router.navigate([`/company/${this.companyId}/notification/edit/${notificationId}`]);
+  }
+  deleteNotification(notificationId: string) {
+    this.notificationService.deleteNotification(notificationId).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.dialogService.openDialogPositive('Notification deleted successfully')
+          this.getNotifications(this.selectedCategory);
+        }
+      },
+      error: (error) => {
+        if (error.status === 404) {
+          this.dialogService.openDialogNegative('Notification was not found')
+        } else {
+          this.dialogService.openDialogNegative('Internet Server Error')
+        }
+      }
+    })
+  }
 }

@@ -15,11 +15,24 @@ export class NotificationService {
     private http: HttpClient,
   ) { }
 
+  getNotification(companyId: string, notificationId: string): Observable<HttpResMsg<Notification>> {
+    console.log(this.baseUrl + '/notifications/' + companyId + '/' + notificationId)
+    return this.http.get<HttpResMsg<Notification>>(this.baseUrl + '/notifications/' + companyId + '/' + notificationId)
+  }
+
+  getNotifications(id: string, query: any): Observable<HttpResMsg<Notification[]>> {
+    return this.http.get<HttpResMsg<Notification[]>>(this.baseUrl + '/notifications/' + id, { params: query })
+  }
+
   createNotification(data: any): Observable<HttpResMsg<Notification>> {
     return this.http.post<HttpResMsg<Notification>>(this.baseUrl + '/notifications', data)
   }
 
-  getNotifications(id: string, data: any): Observable<HttpResMsg<Notification[]>> {
-    return this.http.get<HttpResMsg<Notification[]>>(this.baseUrl + '/notifications/' + id + '/', { params: data })
+  updateNotification(companyId: string, notificationId: string, data: any): Observable<HttpResMsg<Notification>> {
+    return this.http.patch<HttpResMsg<Notification>>(this.baseUrl + `/notifications/${companyId}/${notificationId}`, data)
+  }
+
+  deleteNotification(notificationId: string) {
+    return this.http.delete<HttpResMsg<Notification>>(this.baseUrl + '/notifications/' + notificationId)
   }
 }
