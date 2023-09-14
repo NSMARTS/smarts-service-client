@@ -68,6 +68,9 @@ export class ManagerAddComponent {
     this.managerService.addManager(postData).subscribe({
       next: (res) => {
         this.router.navigate(['company/' + this.companyId + '/manager']);
+        this.dialogService.openDialogPositive(
+          'Successfully, the manager has been add.'
+        );
       },
       error: (err) => {
         console.error(err);

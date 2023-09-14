@@ -14,6 +14,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { CommonService } from 'src/app/services/common.service';
 import { Country, Employee } from 'src/app/interfaces/employee.interface';
 import { CountryService } from 'src/app/services/country.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-employee-edit',
@@ -44,7 +45,7 @@ export class EmployeeEditComponent {
     private router: Router,
     private employeeService: EmployeeService,
     private countryService: CountryService,
-
+    private dialogService: DialogService,
     private commonService: CommonService
   ) {
     this.employeeId = this.route.snapshot.params['employeeId'];
@@ -70,7 +71,6 @@ export class EmployeeEditComponent {
       'leaveStandards'
     ) as FormArray;
     this.addItem();
-
   }
 
   ngOnInit(): void {
@@ -143,11 +143,7 @@ export class EmployeeEditComponent {
     // 기존 컨트롤 제거
     this.leaveStandards.clear();
     // 새로운 컨트롤 추가
-    for (
-      let i = 0;
-      i < employee.personalLeave.leaveStandards.length;
-      i++
-    ) {
+    for (let i = 0; i < employee.personalLeave.leaveStandards.length; i++) {
       this.leaveStandards.push(
         this.getLeaveStandard(employee.personalLeave.leaveStandards[i])
       );
@@ -162,20 +158,23 @@ export class EmployeeEditComponent {
       error: (err) => console.error(err),
       complete: () => {
         // 나라목록 호출이 끝나면 실행
-        const employee = this.employees()?.find((employee) => employee._id === this.employeeId)
-        if (employee) { // 상태관리 중인 직원리스트 가 있으면
-          this.getEmployeeStatus(employee)
+        const employee = this.employees()?.find(
+          (employee) => employee._id === this.employeeId
+        );
+        if (employee) {
+          // 상태관리 중인 직원리스트 가 있으면
+          this.getEmployeeStatus(employee);
         } else {
-          this.getEmployee() // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
+          this.getEmployee(); // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
         }
-      }
+      },
     });
   }
 
   // 상태저장중인 Employee가 있을 경우 호출
   getEmployeeStatus(employee: Employee) {
     this.employee = employee;
-    this.email.patchValue(this.employee.email)
+    this.email.patchValue(this.employee.email);
     this.manager.patchValue(this.employee.managers[0]?.email);
 
     this.editEmployeeForm.patchValue(employee);
@@ -188,7 +187,7 @@ export class EmployeeEditComponent {
     this.employeeService.getEmployee(this.employeeId).subscribe({
       next: (res) => {
         this.employee = res.data;
-        this.email.patchValue(this.employee.email)
+        this.email.patchValue(this.employee.email);
         this.manager.patchValue(this.employee.managers[0]?.email);
 
         this.editEmployeeForm.patchValue(this.employee);
@@ -209,18 +208,20 @@ export class EmployeeEditComponent {
       personalLeaveId: this.employee?.personalLeave._id,
     };
 
-    this.employeeService.updateEmployee(this.employeeId, companyData).subscribe({
-      next: () => {
-        this.router.navigate([`company/${this.companyId}/employee`]);
-      },
-      error: (err) => {
-        console.error(err);
-
-      },
-    });
+    this.employeeService
+      .updateEmployee(this.employeeId, companyData)
+      .subscribe({
+        next: () => {
+          this.router.navigate([`company/${this.companyId}/employee`]);
+          this.dialogService.openDialogPositive(
+            'Successfully, the employee has been edit.'
+          );
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
   }
 
-  updateLeaveInfo() {
-
-  }
+  updateLeaveInfo() {}
 }

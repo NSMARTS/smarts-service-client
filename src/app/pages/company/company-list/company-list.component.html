@@ -43,9 +43,9 @@
               <td mat-cell *matCellDef="let element"> {{element.superManagerAmount}} </td>
             </ng-container>
   
-          <ng-container matColumnDef="payDay">
-              <th mat-header-cell *matHeaderCellDef> PayDay </th>
-              <td mat-cell *matCellDef="let element"> {{element?.payDay | date: 'YYYY-MM-dd'}} </td>
+          <ng-container matColumnDef="payDate">
+              <th mat-header-cell *matHeaderCellDef> payDate </th>
+              <td mat-cell *matCellDef="let element"> {{element?.payDate | date: 'YYYY-MM-dd'}} </td>
           </ng-container>          
   
           <ng-container matColumnDef="detail">

@@ -91,6 +91,9 @@ export class ManagerEditComponent {
     this.managerService.editManager(this.managerId, managerData).subscribe({
       next: () => {
         this.router.navigate(['company/' + this.companyId + '/manager']);
+        this.dialogService.openDialogPositive(
+          'Successfully, the manager has been edit.'
+        );
       },
       error: (err) => {
         console.error(err);
@@ -156,11 +159,12 @@ export class ManagerEditComponent {
 
   displayedColumns: string[] = [
     'name',
+    'email',
     'year',
     'entitlement',
-    'rollover',
     'sickLeave',
     'replacementDay',
+    'rollover',
     'advanceLeave',
     'annualPolicy',
     'empStartDate',

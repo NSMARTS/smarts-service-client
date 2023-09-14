@@ -27,11 +27,12 @@ import { ManagerService } from 'src/app/services/manager.service';
 export class ManagerEmployeesAddComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
+    'email',
     'year',
     'entitlement',
-    'rollover',
     'sickLeave',
     'replacementDay',
+    'rollover',
     'advanceLeave',
     'annualPolicy',
     'empStartDate',
