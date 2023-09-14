@@ -34,7 +34,9 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
 
 :root {
     --point-color: #96CDCA;
-    --mdc-chip-elevated-container-color: red
+    --text-color: #333333;
+    --mat-standard-button-toggle-selected-state-background-color: #ffffff;
+    --mat-standard-button-toggle-background-color: #E9EBEF;;
 }
 
  // angular material overwrite
@@ -57,6 +59,7 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
   --mdc-chip-label-text-weight: 500;
 }
 
+
 /** 
 작성자: 임호균
 작성일: 2023-08-17
@@ -70,7 +73,7 @@ side_nav_toolbar
 $side_nav_active_color: #eeeeee;
 // $side_nav_active_font_color: rgba(255, 64, 129, 255);
 $side_nav_active_font_color: var(--point-color);
-$smart_service_background_color: #333333;
+$smart_service_background_color: var(--text-color);
 $smart_service_primary_color: var(--point-color);
 
 
@@ -131,6 +134,12 @@ $smart_service_primary_color: var(--point-color);
         text-transform: uppercase;
         padding: 0px 15px;
         border-radius: 5px;
+    }
+    h1 {
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+        padding-left: 30px;
     }
 }
 
@@ -429,7 +438,7 @@ $smart_service_primary_color: var(--point-color);
         .employeeImg {width: 115px;}
         .superManagerImg {width: 70px;}
         .managerImg {width: 62px;}
-        .payDateImg {width: 70px; margin-bottom: 15px!important; padding-left: 15px!important;}
+        .payDateImg {width: 70px; margin-bottom: 15px!important; padding-left: 8px!important;}
     }
 
     mat-card-header, mat-card-actions {
@@ -446,10 +455,15 @@ $smart_service_primary_color: var(--point-color);
     mat-card {
         height: 500px;
         display:contents;
+        .button {width: 100%; display: flex; justify-content: space-between;
+        align-items: center;
+            p {color: var(--text-color); font-size: 18px; font-weight: 700;}
+        }
     }
     // .meeting {
     //     mat-chip {background-color: #EFECFF!important; margin-right: 10px!important;}   
     // }
+    .mat-button-toggle-group-appearance-standard {border: none; border-radius: 5px 5px 0 0; }
 }
 
 .dashboard_twin_container {
