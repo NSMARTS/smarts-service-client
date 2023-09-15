@@ -1,0 +1,25 @@
+.notification_title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.notification_username {
+    display: inline;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.notification_convertedCreatedAt {
+    font-size: 16px;
+    display: inline;
+}
+
+.mat-mdc-standard-chip {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    --mdc-chip-elevated-container-color: #DDF5F4;
+    --mdc-chip-label-text-color: #56b1ac;
+    --mdc-chip-label-text-weight: 500;
+  }

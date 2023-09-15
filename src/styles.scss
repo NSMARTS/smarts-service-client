@@ -56,7 +56,7 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
   --mdc-chip-label-text-weight: 500;
 }
 
-.mat-mdc-standard-chip.notice {
+.mat-mdc-standard-chip.notification {
   --mdc-chip-elevated-container-color: #FFEFE7;
   --mdc-chip-label-text-color: #FD7C3A;
   --mdc-chip-label-text-weight: 500;
@@ -584,8 +584,8 @@ $smart_service_primary_color: var(--point-color);
       }
     }
     .mat-mdc-standard-chip {
-      
-      margin-right: 10px;}
+      margin-right: 10px;
+    }
   }
 
   // .meeting {
@@ -601,6 +601,12 @@ $smart_service_primary_color: var(--point-color);
 
   mat-icon {
     color: #F0F2F5;
+  }
+
+  .example-container {
+    margin: 0 auto;
+    min-height: 370px;
+    background-color: white;
   }
 }
 
@@ -666,6 +672,7 @@ $smart_service_primary_color: var(--point-color);
 
     mat-divider {
       margin-top: 70px;
+      padding-bottom: 50px;
       width: 330px;
     }
   }
@@ -745,6 +752,7 @@ $smart_service_primary_color: var(--point-color);
       mat-divider {
         margin: 0 auto;
         margin-top: 70px;
+        padding-bottom: 50px;
         width: 403px;
 
       }
