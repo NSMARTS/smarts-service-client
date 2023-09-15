@@ -23,6 +23,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
 import { NavigationService } from 'src/app/stores/layout/navigation.service';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-layout',
@@ -49,6 +50,10 @@ export class LayoutComponent {
   route = inject(ActivatedRoute);
 
   companyId = this.route.snapshot.params['id'];
+  companyInfo: any = {
+    name: '누리컴퍼니',
+    date: new Date(),
+  };
 
   // 나중에 타입 알아서 적는다.
   userProfileData: any;
@@ -123,7 +128,7 @@ export class LayoutComponent {
     },
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private companyService: CompanyService) {
     /**
      * 1. 상단 햄버거 매뉴 클릭 시 사이드바가 나옴
      * this.isSideNavOpen()가 true면 실행
@@ -151,7 +156,7 @@ export class LayoutComponent {
         }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => { });
+      .subscribe(() => {});
 
     // url navigation
     this.router.events
@@ -170,6 +175,14 @@ export class LayoutComponent {
         if (splittedUrl[1] === 'company' && splittedUrl[2]?.length == 24) {
           console.log('current url>> ', currentUrl);
           this.isSidenavRequired = true;
+
+          console.log(this.companyId, splittedUrl[2]);
+          if (this.companyId != splittedUrl[2]) {
+            this.companyId = splittedUrl[2];
+            console.log('컴퍼니 아이디', this.companyId);
+            this.getCompanyInfo();
+            // this.companyInfo = {name: this.companyId, date: new Date()}
+          }
         }
       });
 
@@ -178,7 +191,16 @@ export class LayoutComponent {
     const splittedUrl = this.router.url.split('/');
     if (splittedUrl[1] === 'company' && splittedUrl[2]?.length == 24) {
       this.isSidenavRequired = true;
+
+      console.log(this.companyId, splittedUrl[2]);
+      if (this.companyId != splittedUrl[2]) {
+        this.companyId = splittedUrl[2];
+        console.log('컴퍼니 아이디', this.companyId);
+        this.getCompanyInfo();
+        // this.companyInfo = { name: this.companyId, date: new Date() };
+      }
     }
+
     /*-----------------------------------------
         Desktop이 아닌 경우에 대한 side menu 처리.
       ------------------------------------------*/
@@ -218,6 +240,22 @@ export class LayoutComponent {
 
     //   });
   }
+
+  getCompanyInfo() {
+    this.companyService.getCompanyInfo(this.companyId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+         this.companyInfo = {
+           name: res.data.companyName,
+           date: res.data.contractDate,
+         };
+      },
+      error: (err: any) => {
+        console.log(err.error.message);
+      },
+    });
+  }
+
 
   ngOnDestroy() {
     // To protect you, we'll throw an error if it doesn't exist.

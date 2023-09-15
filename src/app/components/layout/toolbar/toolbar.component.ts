@@ -8,7 +8,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ToolbarService } from 'src/app/services/toolbar.service';
+import { DataService } from 'src/app/stores/data/data.service';
+import { takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
@@ -19,9 +23,11 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class ToolbarComponent {
   @Input() isSidenavRequired: boolean = false;
+  @Input() companyInfo: any = {};
   private sidenavService = inject(SidenavService);
   // isSideNavOpen Boolean 사이드 nav 켰어 안켰어
   isSideNavOpen = this.sidenavService.isSideNavOpen;
+  private unsubscribe$ = new Subject<void>();
 
   authService = inject(AuthService);
   userInfoStore = this.authService.userInfoStore;
@@ -32,6 +38,18 @@ export class ToolbarComponent {
   notiItems: any = []; // 알림 객체 형식을 아직 모름. 나중에 타입 추가
   notiItemsLength = 0; // 알림 온 숫자 표시
   profileImg: string = '';
+  companyId: any;
+
+  constructor() // private toolbarService: ToolbarService,
+  // public dataService: DataService // private route: ActivatedRoute,
+  {
+    // this.companyId = this.route.snapshot.params['id'];
+    // this.dataService.userCompanyProfile
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe((res: any) => {
+    //     this.companyId = res;
+    //   });
+  }
 
   ngOnInit(): void {
     // this.notificationService.getNotification().subscribe(
@@ -42,7 +60,25 @@ export class ToolbarComponent {
     // )
     // this.getUserProfileData();
     // this.getNotificationData();
+    // const splittedUrl = this.router.url.split('/');
+    // // company의 하위 url인 경우 sidebar update
+    // if (splittedUrl[1] === 'company') {
+    //   // companyId 저장
+    //   this.companyId = splittedUrl[2];
+    // }
+    // this.getCompanyInfo();
+    // console.log(this.companyId);
   }
+
+  // ngOnDestroy() {
+  //   // unsubscribe all subscription
+  //   this.unsubscribe$.next();
+  //   this.unsubscribe$.complete();
+  // }
+
+  // getCompanyInfo() {
+  //   this.toolbarService.getCompanyInfo(this.companyId);
+  // };
 
   signOut() {
     // console.log('logout');

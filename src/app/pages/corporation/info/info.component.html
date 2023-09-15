@@ -1,5 +1,5 @@
 <div class="page">
-        <div class="page_title"><p>{{companyName}}<span>({{contractDate | date: 'YYYY-MM-dd'}})</span></p></div>
+        <div class="page_title"><p>SUMMARY</p></div>
 
     <div class="dashboard_container">
         <div class="dashboard_top_container">
@@ -96,6 +96,8 @@
                         </td>
                         </tr>
                     </table>
+
+                    <mat-paginator [length]="100" [pageSize]="6" [pageSizeOptions]="[6, 10, 50]" showFirstLastButtons></mat-paginator>
             </mat-card>
         </div>
     </div>

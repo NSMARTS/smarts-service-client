@@ -5,9 +5,9 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DataService {
-  getMeetingList(arg0: { spaceId: any; }) {
-    throw new Error('Method not implemented.');
-  }
+  // getMeetingList(arg0: { spaceId: any; }) {
+  //   throw new Error('Method not implemented.');
+  // }
   private userProfileSubject = new BehaviorSubject({});
   userProfile = this.userProfileSubject.asObservable();
 

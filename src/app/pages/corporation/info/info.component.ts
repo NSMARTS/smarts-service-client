@@ -1,10 +1,11 @@
-import { Component, WritableSignal } from '@angular/core';
+import { Component, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 // view table
 export interface PeriodicElement {
@@ -22,6 +23,7 @@ export interface PeriodicElement {
   styleUrls: ['./info.component.scss'],
 })
 export class InfoComponent {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['date', 'content', 'enter'];
   toggleValue: any = 'all';
   toggleList: any = new MatTableDataSource();
@@ -30,7 +32,6 @@ export class InfoComponent {
   companyId: any;
   companyName: any;
   contractDate: any;
-  paginator: any;
 
   constructor(
     private dashboardService: DashboardService,
@@ -65,9 +66,7 @@ export class InfoComponent {
       next: (res: any) => {
         console.log(res);
         this.allList = res.meetingList;
-        console.log(this.allList);
-
-        this.toggleList = new MatTableDataSource<PeriodicElement>();
+        this.toggleList = new MatTableDataSource<PeriodicElement>(this.allList);
         this.toggleList.paginator = this.paginator;
         this.onToggleChange();
       },
