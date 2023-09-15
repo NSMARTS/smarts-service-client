@@ -54,9 +54,9 @@
                 <div class="button">
                     <p>Announcement</p>                
                     <mat-button-toggle-group [(ngModel)]="toggleValue" (ngModelChange)="onToggleChange()">
-                        <mat-button-toggle value="all">All</mat-button-toggle>
-                        <mat-button-toggle value="meeting">Meeting</mat-button-toggle>
-                        <mat-button-toggle value="notice">Notice</mat-button-toggle>
+                        <mat-button-toggle value="all" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0;">All</mat-button-toggle>
+                        <mat-button-toggle value="meeting" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Meeting</mat-button-toggle>
+                        <mat-button-toggle value="notice" style="min-width:110px; border-radius: 5px 5px 0 0; border-left: none;">Notice</mat-button-toggle>
                     </mat-button-toggle-group>
                 </div>
 

@@ -1,5 +1,18 @@
 .page_title {
     p {
-        span {color: #56B1AC; font-weight: 400; margin-left: 10px; font-size: 16px;}
+        span {color: var(--point-text-color); font-weight: 400; margin-left: 10px; font-size: 16px;}
     }
+    
+}
+
+.dashboard_bottom_container {
+  table {
+    th:first-child {
+      width: 15%;
+    }
+
+    th:nth-child(2) {
+      width: 80%;
+    }
+  }
 }
