@@ -42,8 +42,15 @@
       </div>
 
       <!-- Editor -->
-      <quill-editor #quillEditor [formControl]="form" [styles]="{ flex: '1 1 auto' }">
-      </quill-editor>
+      <div class="lineDivider">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <span>Text</span>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+            <quill-editor #quillEditor [formControl]="form" [styles]="{ flex: '1 1 auto' }" [modules]="quillConfig">
+            </quill-editor>
+        </div>
+      </div>
 
       <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
         <button mat-raised-button class="tableBtn" type="submit" color="primary">Edit</button>

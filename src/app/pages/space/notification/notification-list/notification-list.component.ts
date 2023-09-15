@@ -1,5 +1,19 @@
-import { AfterViewInit, Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  Validators,
+} from '@angular/forms';
 import { map, merge, startWith, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -15,20 +29,20 @@ import { CommonService } from 'src/app/services/common.service';
   templateUrl: './notification-list.component.html',
   styleUrls: [
     './notification-list.component.scss',
-    '../../../../../../node_modules/quill/dist/quill.snow.css'
-  ]
+    '../../../../../../node_modules/quill/dist/quill.snow.css',
+  ],
 })
 export class NotificationListComponent implements AfterViewInit {
-
   companyId!: string;
 
+  category: any = 'All';
   // ['전체','일반 공지', '회의 공지', '급여 공지', '정책 변경 공지', '기타...']
   // categoryList = ['All', 'Notice', 'Meeting', 'Pay', 'Policy', 'Issue', 'Etc']
-  categoryList = ['All', 'Notice', 'Meeting', 'Pay', 'Policy', 'Issue', 'Etc']
+  categoryList = ['All', 'Notice', 'Meeting', 'Pay', 'Policy', 'Issue', 'Etc'];
 
   selectedCategory: string = 'All';
 
-  searchConditionList = ['title', 'writer']
+  searchConditionList = ['title', 'writer'];
 
   searchNotificationForm: FormGroup;
 
@@ -41,7 +55,7 @@ export class NotificationListComponent implements AfterViewInit {
     'title',
     'writer',
     'createdAt',
-    'menu'
+    'menu',
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -57,14 +71,12 @@ export class NotificationListComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private dialogService: DialogService,
     private notificationService: NotificationService,
-    private commonService: CommonService,
+    private commonService: CommonService
   ) {
-
-    // 이번 달 기준 첫째날 
+    // 이번 달 기준 첫째날
     const startOfMonth = moment().startOf('month').format();
     // 이번 달 기준 마지막날
     const endOfMonth = moment().endOf('month').format();
-
 
     this.companyId = this.route.snapshot.params['id'];
 
@@ -76,18 +88,17 @@ export class NotificationListComponent implements AfterViewInit {
       category: new FormControl('All', [Validators.required]),
       startDate: new FormControl(startOfMonth),
       endDate: new FormControl(endOfMonth),
-      company: this.companyId
+      company: this.companyId,
     });
   }
 
   ngAfterViewInit(): void {
-    this.getNotifications('All');
-
+    this.getNotifications();
   }
 
-  getNotifications(category: string) {
-
-    this.selectedCategory = category;
+  getNotifications() {
+    console.log(this.category);
+    this.selectedCategory = this.category;
 
     const convertedStartDate = this.commonService.dateFormatting(
       this.searchNotificationForm.controls['startDate'].value
@@ -111,11 +122,12 @@ export class NotificationListComponent implements AfterViewInit {
             direction: this.sort.direction,
             pageIndex: this.paginator.pageIndex,
             pageSize: this.paginator.pageSize,
-            category: category
-          }
+            category: this.category,
+          };
 
-          return this.notificationService.getNotifications(this.companyId, paramsQuery).pipe()
-
+          return this.notificationService
+            .getNotifications(this.companyId, paramsQuery)
+            .pipe();
         }),
         map((res: any) => {
           // Flip flag to show that loading has finished.
@@ -127,11 +139,12 @@ export class NotificationListComponent implements AfterViewInit {
         })
       )
       .subscribe();
-
   }
 
   onClick(notificationId: string) {
-    this.router.navigate([`/company/${this.companyId}/notification/detail/${notificationId}`]);
+    this.router.navigate([
+      `/company/${this.companyId}/notification/detail/${notificationId}`,
+    ]);
   }
 
   createNotification() {
@@ -139,23 +152,27 @@ export class NotificationListComponent implements AfterViewInit {
   }
 
   editNotification(notificationId: string) {
-    this.router.navigate([`/company/${this.companyId}/notification/edit/${notificationId}`]);
+    this.router.navigate([
+      `/company/${this.companyId}/notification/edit/${notificationId}`,
+    ]);
   }
   deleteNotification(notificationId: string) {
     this.notificationService.deleteNotification(notificationId).subscribe({
       next: (res) => {
         if (res.success) {
-          this.dialogService.openDialogPositive('Notification deleted successfully')
-          this.getNotifications(this.selectedCategory);
+          this.dialogService.openDialogPositive(
+            'Notification deleted successfully'
+          );
+          this.getNotifications();
         }
       },
       error: (error) => {
         if (error.status === 404) {
-          this.dialogService.openDialogNegative('Notification was not found')
+          this.dialogService.openDialogNegative('Notification was not found');
         } else {
-          this.dialogService.openDialogNegative('Internet Server Error')
+          this.dialogService.openDialogNegative('Internet Server Error');
         }
-      }
-    })
+      },
+    });
   }
 }

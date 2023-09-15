@@ -13,20 +13,19 @@ import { NotificationService } from 'src/app/services/notification.service';
   templateUrl: './notification-detail.component.html',
   styleUrls: [
     './notification-detail.component.scss',
-    '../../../../../../node_modules/quill/dist/quill.snow.css'
-  ]
+    '../../../../../../node_modules/quill/dist/quill.snow.css',
+  ],
 })
 export class NotificationDetailComponent implements AfterViewInit {
-
-  companyId: string = ''
-  notificationId: string = ''
+  companyId: string = '';
+  notificationId: string = '';
 
   @ViewChild('quillViewer') quillViewer!: QuillViewComponent;
-  contents: string = ''
+  contents: string = '';
   notification: any;
 
-  convertedCreatedAt: string = ''
-  convertedUpdatedAt: string = ''
+  convertedCreatedAt: string = '';
+  convertedUpdatedAt: string = '';
 
   constructor(
     private router: Router,
@@ -36,26 +35,25 @@ export class NotificationDetailComponent implements AfterViewInit {
     private notificationService: NotificationService,
     private commonService: CommonService,
 
-    private authService: AuthService,
+    private authService: AuthService
   ) {
-
     this.companyId = this.route.snapshot.params['id'];
     this.notificationId = this.route.snapshot.params['notificationId'];
-
-
   }
 
   ngAfterViewInit() {
-    this.notificationService.getNotification(this.companyId, this.notificationId).subscribe({
-      next: (res) => {
-        const { contents, createAt, updateAt, ...rest } = res.data;
-        this.contents = contents;
-        this.convertedCreatedAt = this.commonService.dateFormatting(createAt);
-        this.convertedUpdatedAt = this.commonService.dateFormatting(updateAt);
-        this.notification = rest;
-      },
-      error: (error) => console.log(error)
-    })
+    this.notificationService
+      .getNotification(this.companyId, this.notificationId)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          const { contents, createAt, updateAt, ...rest } = res.data;
+          this.contents = contents;
+          this.convertedCreatedAt = this.commonService.dateFormatting(createAt);
+          this.convertedUpdatedAt = this.commonService.dateFormatting(updateAt);
+          this.notification = rest;
+        },
+        error: (error) => console.log(error),
+      });
   }
-
 }

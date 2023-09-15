@@ -1,8 +1,31 @@
-{{notification?.title}}
-{{notification?.company?.companyName}}
-{{notification?.writer?.username}}
-{{notification?.updator?.username}}
-{{convertedCreatedAt}}
-{{convertedUpdatedAt}}
+<div class="page">
+  <div class="page_title"></div>
 
-<quill-view-html [content]="contents" theme="snow"></quill-view-html>
+  <div class="notification_container">
+    <div class="notification_title">
+        {{notification?.title}}
+    </div>
+    <div class="notification_username">
+        {{notification?.writer?.username}}
+    </div>
+    <div class="notification_convertedCreatedAt">
+        {{convertedCreatedAt}}
+    </div>
+
+    <div>
+        <mat-chip>
+            {{notification?.category}}
+        </mat-chip>
+    </div>
+    <!-- {{notification?.company?.companyName}}
+    {{notification?.writer?.username}}
+    {{notification?.updator?.username}}
+    {{convertedCreatedAt}}
+    {{convertedUpdatedAt}} -->
+
+    <div class="notification_text">
+        <quill-view-html [content]="contents" theme="snow"></quill-view-html>
+    </div>
+
+    </div>
+</div>
