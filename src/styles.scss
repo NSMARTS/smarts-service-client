@@ -600,6 +600,12 @@ $smart_service_primary_color: var(--point-color);
   mat-icon {
     color: #F0F2F5;
   }
+
+  .example-container {
+    margin: 0 auto;
+    min-height: 370px;
+    background-color: white;
+  }
 }
 
 .dashboard_twin_container {
