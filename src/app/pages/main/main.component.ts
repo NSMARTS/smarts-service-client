@@ -148,7 +148,21 @@ export class MainComponent {
     });
   }
 
-  selectHoliday(countryId: any) {
-    this.router.navigate(['/country/' + countryId]);
+  onRowClick(row: any) {
+    console.log(row);
+    switch (row.type) {
+      case 'pay':
+        this.router.navigate(['/company', row.companyId, 'pay-stub']);
+        break;
+      case 'meeting':
+        this.router.navigate(['/company', row.companyId, 'meeting']);
+        break;
+      case 'notice':
+        this.router.navigate(['/company', row.companyId, 'notification']);
+        break;
+      default:
+        this.router.navigate(['/country/' + row._id]);
+        break;
+    }
   }
 }
