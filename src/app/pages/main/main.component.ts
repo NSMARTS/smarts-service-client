@@ -5,6 +5,13 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { DashboardService } from 'src/app/services/dashboard.service';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import * as moment from 'moment';
 
 export interface PeriodicElement {
   date: string;
@@ -29,13 +36,24 @@ export class MainComponent {
   allList: any[] = [];
   allCountry: any;
   allCountryCount: any;
+  date = new FormControl(moment());
+  ListForm!: FormGroup<any>;
+  currentYear = moment().year();
+  minDate: Date = new Date(this.currentYear, 0, 1);
+  maxDate: Date = new Date(this.currentYear, 11, 31);
 
   constructor(
     private dashboardService: DashboardService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.ListForm = this.fb.group({
+      holidayName: ['', [Validators.required]],
+      holidayDate: ['', [Validators.required]],
+    });
+
     this.getAllCount();
     this.getAllList();
     this.getAllCountry();
@@ -58,9 +76,15 @@ export class MainComponent {
     this.dashboardService.getAllList().subscribe({
       next: (res: any) => {
         console.log(res);
-        this.allList = res.allList;
+        //date 최신이 가장 위로 오도록 정렬
+        this.allList = res.allList.sort(
+          (a: any, b: any) =>
+            new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+        const ctrlValue = this.date.value!;
+        this.applyFilterYear(ctrlValue.year());
 
-        this.toggleList = new MatTableDataSource(res.data);
+        this.toggleList = new MatTableDataSource(this.allList);
         this.toggleList.paginator = this.paginator;
         this.onToggleChange();
       },
@@ -68,6 +92,20 @@ export class MainComponent {
         console.error(err);
       },
     });
+  }
+
+  applyFilterYear(year: number) {
+    this.toggleList.data = this.allList.filter(
+      (e: any) => new Date(e.date).getUTCFullYear() === year
+    );
+
+    this.minDate = new Date(year, 0, 1);
+    this.maxDate = new Date(year, 11, 31);
+    this.datePickChange(null);
+  }
+
+  datePickChange(dateValue: any) {
+    this.ListForm.get('holidayDate')?.setValue(dateValue);
   }
 
   onToggleChange() {

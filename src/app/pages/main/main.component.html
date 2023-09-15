@@ -63,7 +63,7 @@
                         </mat-button-toggle-group>
                     </div>
 
-                            <table mat-table class="table" [dataSource]="toggleList">
+                            <table [formGroup]="ListForm"  mat-table class="table" [dataSource]="toggleList">
 
                                 <ng-container matColumnDef="date">
                                 <th mat-header-cell *matHeaderCellDef> Date </th>
