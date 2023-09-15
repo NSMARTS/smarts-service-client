@@ -85,6 +85,12 @@
                                         </mat-chip>
                                         {{element.content}}
                                     </ng-container>
+                                    <ng-container *ngIf="element?.type === 'notification';">
+                                        <mat-chip [class]="element.type">
+                                            Notice
+                                        </mat-chip>
+                                        {{element.content}}
+                                    </ng-container>
                                 </td>
                                 </ng-container>
                         

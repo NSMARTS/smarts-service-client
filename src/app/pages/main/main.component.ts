@@ -125,9 +125,9 @@ export class MainComponent {
         );
         break;
       case 'notice':
-        //this.toogleList = this.allList.filter(
-        //    (item) => item.type === 'notice'
-        //  );
+        this.toggleList.data = this.allList.filter(
+          (item) => item.type === 'notification'
+        );
         break;
       default:
         this.toggleList = [];
@@ -157,8 +157,14 @@ export class MainComponent {
       case 'meeting':
         this.router.navigate(['/company', row.companyId, 'meeting']);
         break;
-      case 'notice':
-        this.router.navigate(['/company', row.companyId, 'notification']);
+      case 'notification':
+        this.router.navigate([
+          '/company',
+          row.companyId,
+          'notification',
+          'detail',
+          row._id,
+        ]);
         break;
       default:
         this.router.navigate(['/country/' + row._id]);
