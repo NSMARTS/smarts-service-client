@@ -178,7 +178,7 @@ $smart_service_primary_color: var(--point-color);
 
   .mat-column-enter,
   .mat-column-menu {
-    width: 100px;
+    width: 50px;
     text-align: center;
   }
 
@@ -680,6 +680,31 @@ $smart_service_primary_color: var(--point-color);
       margin-top: 20px;
       margin-bottom: 20px;
     }
+    
+    section {
+        height: 265px;
+        overflow-y: auto;
+    }
+
+    section::-webkit-scrollbar {
+        width: 6px;  /* 스크롤바의 너비 */
+    }
+    
+    section::-webkit-scrollbar-thumb {
+        height: 30%; /* 스크롤바의 길이 */
+        background: #96cdca; /* 스크롤바의 색상 */
+        
+        border-radius: 10px;
+    }
+    
+    // section::-webkit-scrollbar-track {
+    //     background: #e9ebef;
+    // }
+  }
+
+  .mat-column-enter {
+    width: 50px;
+    text-align: center;
   }
 }
 

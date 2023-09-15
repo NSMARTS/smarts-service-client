@@ -1,0 +1,11 @@
+.dashboard_bottom_container {
+    table {
+        th:first-child {
+          width: 15%;
+        }
+    
+        th:nth-child(2) {
+          width: 60%;
+        }
+      }
+}
