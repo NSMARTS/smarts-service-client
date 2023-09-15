@@ -34,9 +34,11 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
 
 :root {
   --point-color: #96CDCA;
+  --point-text-color: #56B1AC;
   --text-color: #333333;
+
   --mat-standard-button-toggle-selected-state-background-color: #ffffff;
-  --mat-standard-button-toggle-background-color: #E9EBEF;
+  --mat-standard-button-toggle-background-color: #F0F2F5;
   ;
 }
 
@@ -132,13 +134,18 @@ $smart_service_primary_color: var(--point-color);
     border-bottom: 1px solid #D3D3D3;
     .btns {display: flex; gap: 10px; margin-right: 10px;}
     .btn {
-        background: var(--point-color);
-        color: #ffffff;
+        background: #F0F2F5;
+        color: #6A6E80;
         font-size: 14px;
         text-transform: uppercase;
         padding: 0px 15px;
         border-radius: 5px;
     }
+    .btn.active {
+      color: var(--point-text-color);
+      background: #DDF5F4;
+    }
+
     h1 {
         font-size: 18px;
         font-weight: 900;
@@ -557,6 +564,7 @@ $smart_service_primary_color: var(--point-color);
   margin-top: 30px;
   /* 간격을 원하는 만큼 추가 */
 
+
   mat-card {
     height: 500px;
     display: contents;
@@ -573,18 +581,24 @@ $smart_service_primary_color: var(--point-color);
         font-weight: 700;
       }
     }
+    .mat-mdc-standard-chip {
+      
+      margin-right: 10px;}
   }
 
   // .meeting {
   //     mat-chip {background-color: #EFECFF!important; margin-right: 10px!important;}   
   // }
   .mat-button-toggle-group-appearance-standard {
+    color: #6A6E80;
     border: none;
-    border-radius: 5px 5px 0 0;
+    border-radius: 0;
+    font-weight: 500;
+    font-size: 14px;
   }
 
   mat-icon {
-    color: #e9ebef;
+    color: #F0F2F5;
   }
 }
 
@@ -634,12 +648,12 @@ $smart_service_primary_color: var(--point-color);
   }
 
   span {
-    color: #e9ebef;
+    color: #F0F2F5;
     font-size: 10px;
   }
 
   mat-icon {
-    color: #e9ebef;
+    color: #F0F2F5;
   }
 
   mat-card-content {
