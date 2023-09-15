@@ -60,7 +60,7 @@ export class MainComponent {
         console.log(res);
         this.allList = res.allList;
 
-        this.toggleList = new MatTableDataSource<PeriodicElement>();
+        this.toggleList = new MatTableDataSource(res.data);
         this.toggleList.paginator = this.paginator;
         this.onToggleChange();
       },
@@ -73,13 +73,16 @@ export class MainComponent {
   onToggleChange() {
     switch (this.toggleValue) {
       case 'all':
-        this.toggleList = this.allList;
+        this.toggleList.data = this.allList;
+        this.toggleList.paginator = this.paginator;
         break;
       case 'pay':
-        this.toggleList = this.allList.filter((item) => item.type === 'pay');
+        this.toggleList.data = this.allList.filter(
+          (item) => item.type === 'pay'
+        );
         break;
       case 'meeting':
-        this.toggleList = this.allList.filter(
+        this.toggleList.data = this.allList.filter(
           (item) => item.type === 'meeting'
         );
         break;
