@@ -7,14 +7,6 @@ import { CompanyService } from 'src/app/services/company.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
-// view table
-export interface PeriodicElement {
-  _id: any;
-  meetingTitle: string;
-  startDate: any;
-  startTime: any;
-}
-
 @Component({
   selector: 'app-info',
   standalone: true,
@@ -60,13 +52,29 @@ export class InfoComponent {
     });
   }
 
-  // 미팅 정보 가져오기
+  // 리스트 가져오기
   getAllList() {
-    this.dashboardService.getMeetingInfo(this.companyId).subscribe({
+    this.dashboardService.getAllListByCompany(this.companyId).subscribe({
       next: (res: any) => {
         console.log(res);
-        this.allList = res.meetingList;
-        this.toggleList = new MatTableDataSource<PeriodicElement>(this.allList);
+        const updatedNotificationList = res.notificationList.map((item: any) => {
+          return {
+            ...item,
+            startDate: item.createdAt, // createdAt 값을 startDate로 복사
+          };
+        });
+        console.log(updatedNotificationList);
+        this.allList = [...res.meetingList, ...updatedNotificationList];
+
+        this.allList = this.allList.sort((a: any, b: any) => {
+          return (
+            new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+          );
+        });
+
+        this.toggleList = new MatTableDataSource(this.allList);
+        console.log(this.toggleList);
+
         this.toggleList.paginator = this.paginator;
         this.onToggleChange();
       },
@@ -79,17 +87,20 @@ export class InfoComponent {
   onToggleChange() {
     switch (this.toggleValue) {
       case 'all':
-        this.toggleList = this.allList;
+        this.toggleList.data = this.allList;
+        this.toggleList.paginator = this.paginator;
         break;
       case 'meeting':
-        this.toggleList = this.allList.filter(
+        this.toggleList.data = this.allList.filter(
           (item) => item.type === 'meeting'
         );
+        this.toggleList.paginator = this.paginator;
         break;
-      case 'notice':
-        //this.toogleList = this.allList.filter(
-        //    (item) => item.type === 'notice'
-        //  );
+      case 'notification':
+        this.toggleList.data = this.allList.filter(
+          (item) => item.type === 'notification'
+        );
+        this.toggleList.paginator = this.paginator;
         break;
       default:
         this.toggleList = [];

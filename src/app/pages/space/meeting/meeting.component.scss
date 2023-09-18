@@ -1,5 +1,6 @@
 .scheduleBtn{
-    background-color: var(--point-color);
+    background-color: var(--point-back);
+    color: var(--point-text-color);
     box-shadow: none;
 }
 
@@ -185,7 +186,11 @@
 }
 
 .meetingBtnBox {
-    margin: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .page_title {line-height: 0; padding-top: 10px;}
+    button {margin-left: 30px;}
 }
 
 .no-meeting-room{
@@ -198,4 +203,8 @@
 
     font-size: 24px;
     color: gray;
+}
+
+mat-card {position: relative; padding-bottom: 60px;
+    mat-card-actions {position: absolute; bottom: 10px; right: 20px; }
 }
