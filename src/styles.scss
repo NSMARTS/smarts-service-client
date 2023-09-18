@@ -3,6 +3,10 @@
 // @tailwind components;
 // @tailwind utilities;
 
+// ngx-quill 텍스트 편집기 설정
+// https://mehul-kothari.medium.com/medium-like-text-editor-in-angular-quill-editor-38c0011a880b
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
 
 $sidenav-width: 290px;
 $sidenav-toolbar-height: 64px; // material default
@@ -28,9 +32,16 @@ $sidenav-active-color: #ebf8f6;
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
+
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+}
 
 :root {
   --point-color: #96CDCA;
@@ -81,16 +92,17 @@ $smart_service_primary_color: var(--point-color);
 
 
 .side_nav {
-    width: 278px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 100%;
-    h1 {
-        font-size: 18px;
-        font-weight: 900;
-        text-transform: uppercase;
-    }
+  width: 278px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+
+  h1 {
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
 }
 
 .side_nav_toolbar {
@@ -128,32 +140,44 @@ $smart_service_primary_color: var(--point-color);
 }
 
 .toolbar {
-    display: flex;
-    align-items: center;
-    background: #ffffff;
-    height: 64px;
-    border-bottom: 1px solid #D3D3D3;
-    .btns {display: flex; gap: 10px; margin-right: 10px;}
-    .btn {
-        background: #F0F2F5;
-        color: #6A6E80;
-        font-size: 14px;
-        text-transform: uppercase;
-        padding: 0px 15px;
-        border-radius: 5px;
-    }
-    .btn.active {
-      color: var(--point-text-color);
-      background: #DDF5F4;
-    }
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  height: 64px;
+  border-bottom: 1px solid #D3D3D3;
 
-    h1 {
-        font-size: 18px;
-        font-weight: 900;
-        text-transform: uppercase;
-        padding-left: 30px;
-        span {color: var(--point-text-color); font-weight: 400; font-size: 16px;}
+  .btns {
+    display: flex;
+    gap: 10px;
+    margin-right: 10px;
+  }
+
+  .btn {
+    background: #F0F2F5;
+    color: #6A6E80;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 0px 15px;
+    border-radius: 5px;
+  }
+
+  .btn.active {
+    color: var(--point-text-color);
+    background: #DDF5F4;
+  }
+
+  h1 {
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding-left: 30px;
+
+    span {
+      color: var(--point-text-color);
+      font-weight: 400;
+      font-size: 16px;
     }
+  }
 }
 
 //공통 table
@@ -173,23 +197,23 @@ $smart_service_primary_color: var(--point-color);
 }
 
 .table {
-	width: 100%;
-	text-align: center;
-    box-shadow: none;
-    
-    td {
-        img {
-            width: 40px;
-            padding-top: 5px;
-        }
+  width: 100%;
+  text-align: center;
+  box-shadow: none;
+
+  td {
+    img {
+      width: 40px;
+      padding-top: 5px;
     }
   }
+}
 
-  .mat-column-enter,
-  .mat-column-menu {
-    width: 50px;
-    text-align: center;
-  }
+.mat-column-enter,
+.mat-column-menu {
+  width: 50px;
+  text-align: center;
+}
 
 
 .filter {
@@ -211,14 +235,14 @@ $smart_service_primary_color: var(--point-color);
 }
 
 .mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: #DDF5F4;
-    --mdc-filled-button-label-text-color: #56B1AC;
+  --mdc-filled-button-container-color: #DDF5F4;
+  --mdc-filled-button-label-text-color: #56B1AC;
 }
 
 .table_delete_button.mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: #EFECFF;
-    --mdc-filled-button-label-text-color: #5A48C4;
-}  
+  --mdc-filled-button-container-color: #EFECFF;
+  --mdc-filled-button-label-text-color: #5A48C4;
+}
 
 @media screen and (max-width: 1580px) {
   .page {
@@ -455,35 +479,68 @@ $smart_service_primary_color: var(--point-color);
 
 //공통 dashboard
 .dashboard_container {
-    margin-top: 30px; /* 간격을 원하는 만큼 추가 */
+  margin-top: 30px;
+  /* 간격을 원하는 만큼 추가 */
 }
 
 .dashboard_top_container {
+  display: flex;
+  flex-wrap: wrap;
+  /* 요소들이 줄바꿈을 허용하도록 설정 */
+  justify-content: space-between;
+
+  .mat-mdc-card {
+    box-shadow: none;
+  }
+
+  mat-card {
+    width: 24%;
+    height: 190px;
+    margin-bottom: 15px;
+    /* 아래쪽 마진을 추가하여 줄바꿈을 유도 */
     display: flex;
-    flex-wrap: wrap; /* 요소들이 줄바꿈을 허용하도록 설정 */
-    justify-content: space-between;
-    .mat-mdc-card {box-shadow: none;}
-    mat-card {
-        width: 24%;
-        height: 190px;
-        margin-bottom: 15px; /* 아래쪽 마진을 추가하여 줄바꿈을 유도 */
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-        mat-card-header {margin: 10px 0;
-            mat-card-subtitle {font-weight: bold;}
-        }
-        p {
-            font-size: 30px;
-            font-weight: bold;
-        }
-        .img {position: absolute; bottom: 0; height: auto; margin-bottom: 0!important;}
-        .employeeImg {width: 115px;}
-        .superManagerImg {width: 70px;}
-        .managerImg {width: 62px;}
-        .payDateImg {width: 70px; margin-bottom: 15px!important; padding-left: 8px!important;}
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+
+    mat-card-header {
+      margin: 10px 0;
+
+      mat-card-subtitle {
+        font-weight: bold;
+      }
     }
+
+    p {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .img {
+      position: absolute;
+      bottom: 0;
+      height: auto;
+      margin-bottom: 0 !important;
+    }
+
+    .employeeImg {
+      width: 115px;
+    }
+
+    .superManagerImg {
+      width: 70px;
+    }
+
+    .managerImg {
+      width: 62px;
+    }
+
+    .payDateImg {
+      width: 70px;
+      margin-bottom: 15px !important;
+      padding-left: 8px !important;
+    }
+  }
 
   mat-card {
     width: 24%;
@@ -583,6 +640,7 @@ $smart_service_primary_color: var(--point-color);
         font-weight: 700;
       }
     }
+
     .mat-mdc-standard-chip {
       margin-right: 10px;
     }
@@ -703,23 +761,26 @@ $smart_service_primary_color: var(--point-color);
       margin-top: 20px;
       margin-bottom: 20px;
     }
-    
+
     section {
-        height: 265px;
-        overflow-y: auto;
+      height: 265px;
+      overflow-y: auto;
     }
 
     section::-webkit-scrollbar {
-        width: 6px;  /* 스크롤바의 너비 */
+      width: 6px;
+      /* 스크롤바의 너비 */
     }
-    
+
     section::-webkit-scrollbar-thumb {
-        height: 30%; /* 스크롤바의 길이 */
-        background: #96cdca; /* 스크롤바의 색상 */
-        
-        border-radius: 10px;
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #96cdca;
+      /* 스크롤바의 색상 */
+
+      border-radius: 10px;
     }
-    
+
     // section::-webkit-scrollbar-track {
     //     background: #e9ebef;
     // }
@@ -743,6 +804,7 @@ $smart_service_primary_color: var(--point-color);
 
   .dashboard_right_container {
     width: 100%;
+
     mat-card {
       height: auto;
       padding: 30px;

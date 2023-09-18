@@ -42,11 +42,15 @@ export class MainComponent {
   minDate: Date = new Date(this.currentYear, 0, 1);
   maxDate: Date = new Date(this.currentYear, 11, 31);
 
+  isLoadingResults = true;
+  isRateLimitReached = false;
+  resultsLength = 0;
+
   constructor(
     private dashboardService: DashboardService,
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.ListForm = this.fb.group({
@@ -83,7 +87,8 @@ export class MainComponent {
         );
         const ctrlValue = this.date.value!;
         this.applyFilterYear(ctrlValue.year());
-
+        this.isLoadingResults = false;
+        this.isRateLimitReached = res.data === null;
         this.toggleList = new MatTableDataSource(this.allList);
         this.toggleList.paginator = this.paginator;
         this.onToggleChange();

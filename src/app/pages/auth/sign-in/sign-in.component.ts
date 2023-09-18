@@ -40,7 +40,7 @@ export class SignInComponent {
   signIn() {
     this.authService.signIn(this.signInForm.value).subscribe({
       next: (res) => {
-        this.router.navigate([''])
+        this.router.navigate(['main'])
       },
       error: (e) => {
         console.log(e)

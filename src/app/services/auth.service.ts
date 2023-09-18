@@ -73,12 +73,9 @@ export class AuthService {
       .post<AccessToken>(this.baseUrl + '/auth/signIn', signInForm)
       .pipe(
         tap(
-          (data) => this.accessToken.set(data) // access token 등록
+          async (data) => await this.setAccessToken(data) // access token 등록
         ),
-        tap((data) => {
-          // jwt를 디코딩 한 후 상태관리
-          this.decode_jwt(data);
-        }),
+
         takeUntilDestroyed(this.destroyRef), // 컴포넌트가 삭제될때 까지 구독. 삭제되면 메모리를 지운다.
         shareReplay(1), // 데이터 캐싱
         catchError(this.handleError)
@@ -106,6 +103,7 @@ export class AuthService {
    * @returns
    */
   refreshToken() {
+    console.log('refresh token api 시작')
     return this.http.get<AccessToken>(this.baseUrl + '/auth/refreshToken').pipe(
       tap(async (data) => await this.setAccessToken(data)),
       takeUntilDestroyed(this.destroyRef), // 컴포넌트가 삭제될때 까지 구독. 삭제되면 메모리를 지운다.
