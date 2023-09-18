@@ -71,6 +71,8 @@ export class PayStubListComponent implements AfterViewInit {
   isRateLimitReached = false;
   resultsLength = 0;
 
+  emailValue: any;
+
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -98,6 +100,7 @@ export class PayStubListComponent implements AfterViewInit {
       leaveType: new FormControl('all'),
     });
   }
+
   ngAfterViewInit(): void {
     this.getEmployees(this.companyId);
     // this.getPayStubs(this.companyId);
