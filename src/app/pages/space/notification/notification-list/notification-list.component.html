@@ -70,25 +70,32 @@
   </form>
 
   <div class="button">
-    <p>Announcement</p>                
+    <p>Announcement</p>
     <mat-button-toggle-group [(ngModel)]="category" (ngModelChange)="getNotifications()">
-        <mat-button-toggle value="All" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0;">All</mat-button-toggle>
-        <mat-button-toggle value="Notice" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Notice</mat-button-toggle>
-        <mat-button-toggle value="Meeting" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Meeting</mat-button-toggle>
-        <mat-button-toggle value="Pay" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Pay</mat-button-toggle>
-        <mat-button-toggle value="Policy" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Policy</mat-button-toggle>
-        <mat-button-toggle value="Issue" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Issue</mat-button-toggle>
-        <mat-button-toggle value="Etc" style="min-width:110px; border-radius: 5px 5px 0 0; border-left: none;">Etc</mat-button-toggle>
+      <mat-button-toggle value="All"
+        style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0;">All</mat-button-toggle>
+      <mat-button-toggle value="Notice"
+        style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Notice</mat-button-toggle>
+      <mat-button-toggle value="Meeting"
+        style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Meeting</mat-button-toggle>
+      <mat-button-toggle value="Pay"
+        style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Pay</mat-button-toggle>
+      <mat-button-toggle value="Policy"
+        style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Policy</mat-button-toggle>
+      <mat-button-toggle value="Issue"
+        style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Issue</mat-button-toggle>
+      <mat-button-toggle value="Etc"
+        style="min-width:110px; border-radius: 5px 5px 0 0; border-left: none;">Etc</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 
   <div class="table_container">
-    <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+    <!-- <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
       <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
       <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
         API rate limit has been reached. It will be reset in one minute.
       </div>
-    </div>
+    </div> -->
 
     <!-- <mat-chip-set>
       <mat-chip-listbox [value]="selectedCategory">

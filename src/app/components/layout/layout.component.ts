@@ -280,7 +280,8 @@ export class LayoutComponent {
  */
   listenToLoading(): void {
     this._loading.loadingSub
-      .pipe(delay(0),
+      .pipe(
+        delay(0),
         takeUntilDestroyed(this.destroyRef)
       ) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
       .subscribe((loading) => {
