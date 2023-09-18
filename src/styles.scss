@@ -88,6 +88,81 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
   --mdc-chip-label-text-weight: 500;
 }
 
+// mat-form-field input
+.filter {
+    .mat-mdc-text-field-wrapper {
+        height: 50px !important;
+    }
+
+    label {
+        padding-bottom: 6px;
+    }
+}
+
+.mat-mdc-text-field-wrapper {
+    background-color: white;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+    border-color: var(--point-color) !important;
+  }
+  
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing {
+    border-color: var(--point-color)!important;
+  }
+  
+  .mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-left: none;
+  }
+  
+//   .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+//     color: var(--point-text-color);
+//   }
+  
+  .mat-mdc-text-field-wrapper.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+    color: var(--point-text-color);
+  }
+  
+ .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    caret-color: var(--point-color)!important;
+ }
+
+//   .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+//     color: rgb(180, 49, 110);
+//   }
+  
+//   .mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-floating-label {
+//     color: #f44336;
+//   }
+  
+//   .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+//     color: white;
+//   }
+
+  // 밑으로 내려오는..
+  .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+    color: var(--point-color)!important;
+  }
+
+  .mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after {
+    color: var(--point-color);
+  }
+
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+    color: var(--point-text-color)!important;
+  }
+
+  //달력
+  .mat-datepicker-toggle-active {
+    color: var(--point-color)!important;
+}
+
+  .mat-calendar-body-selected {
+    background-color: var(--point-color)!important;
+  }
+
+
+
 /** 
 작성자: 임호균
 작성일: 2023-08-17
@@ -187,14 +262,29 @@ $smart_service_primary_color: var(--point-color);
   margin: 0 auto;
 }
 
-.page_title {
-  font-size: 22px;
-  font-weight: bold;
-  margin: 20px 0;
+.page_header {
+    flex: 1;
+    /* 남은 공간을 모두 차지하도록 설정 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .page_title {
+        font-size: 22px;
+        font-weight: bold;
+        margin: 20px 0;
+        line-height: 0px;
+    }
+
+    button {
+        margin-top: 17px;
+    }
 }
 
 .table_container {
-  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    //   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
 }
 
 .table {
@@ -218,21 +308,20 @@ $smart_service_primary_color: var(--point-color);
 
 
 .filter {
-  background-color: #fff;
-  flex: 1;
-  /* 남은 공간을 모두 차지하도록 설정 */
-  display: flex;
-  justify-content: flex-end;
-  /* 내용을 오른쪽으로 정렬 */
-  align-items: center;
-  /* 수직 방향 중앙 정렬 */
-}
+    background-color: white;
+    padding-top: 20px;
 
-.table_add_button {
-  margin-left: auto;
-  /* 남은 공간을 모두 차지하도록 설정 */
-  margin-right: 30px;
-  /* 원하는 간격 설정 */
+    .selectContent {
+        margin-left: 20px;
+        padding-left: 0;
+        float: left;
+        display: flex;
+        flex-wrap: wrap; 
+
+        mat-form-field {
+            margin-right: 15px;
+        }
+    }
 }
 
 .mat-mdc-unelevated-button.mat-unthemed {
@@ -477,6 +566,11 @@ $smart_service_primary_color: var(--point-color);
   align-items: center;
   justify-content: center; 
 }
+
+.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+    stroke: var(--point-color)!important;
+}
+
 
 //공통 dashboard
 .dashboard_container {
