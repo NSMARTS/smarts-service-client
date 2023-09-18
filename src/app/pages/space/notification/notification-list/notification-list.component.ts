@@ -113,7 +113,7 @@ export class NotificationListComponent implements AfterViewInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          // this.isLoadingResults = true;
+          this.isLoadingResults = true;
           const paramsQuery = {
             ...this.searchNotificationForm.value,
             startDate: convertedStartDate,

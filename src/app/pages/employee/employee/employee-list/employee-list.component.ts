@@ -100,8 +100,6 @@ export class EmployeeListComponent implements AfterViewInit {
           this.isLoadingResults = false;
           this.isRateLimitReached = res.data === null;
           this.resultsLength = res.total_count;
-
-          console.log(res.data)
           await this.employeeService.setEmployees(res.data);
           this.dataSource = new MatTableDataSource<Employee>(this.employees());
 

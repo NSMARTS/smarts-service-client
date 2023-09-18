@@ -21,7 +21,6 @@ import { DialogService } from 'src/app/services/dialog.service';
 })
 export class ManagerAddComponent {
   addManagerForm: FormGroup;
-  nationList: Manager[] = [];
   companyId: any;
   isSuperManager = false;
 
@@ -41,13 +40,6 @@ export class ManagerAddComponent {
     });
 
     this.companyId = this.route.snapshot.params['id'];
-
-    this.managerService.getManagerList(this.companyId).subscribe({
-      next: (res) => {
-        this.nationList = res.data;
-      },
-      error: (err) => console.error(err),
-    });
   }
 
   onSubmit() {

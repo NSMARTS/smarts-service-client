@@ -60,10 +60,12 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       if (this.authService.isLoggedIn()) {
+        console.log(request)
         console.log('refresh token 재발급');
         // access token이 만료되면 재발행 요청
         return this.authService.refreshToken().pipe(
           switchMap((data) => {
+            console.log('access token : ', data.accessToken)
             this.isRefreshing = false;
             request = request.clone({
               withCredentials: true,
@@ -72,7 +74,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
                 'Bearer ' + data.accessToken
               ),
             });
-            console.log('refresh token 재요청');
+            console.log('api 재요청');
             // refresh token 발급 받은 후 다시 요청
             return next.handle(request);
           }),
