@@ -40,6 +40,7 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
 
   --mat-standard-button-toggle-selected-state-background-color: #ffffff;
   --mat-standard-button-toggle-background-color: #F0F2F5;
+  --mat-standard-button-toggle-selected-state-text-color: #56B1AC;
 
   --mdc-checkbox-selected-icon-color: #96CDCA;
   --mdc-checkbox-selected-focus-icon-color: #96CDCA;
@@ -173,7 +174,7 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
 내용: 사이드 네비게시연 공통 스타일 수정. 
 side_nav_toolbar
 */
-$side_nav_active_color: #eeeeee;
+// $side_nav_active_color: #eeeeee;
 // $side_nav_active_font_color: rgba(255, 64, 129, 255);
 $side_nav_active_font_color: var(--point-color);
 $smart_service_background_color: var(--text-color);
@@ -272,7 +273,7 @@ $smart_service_primary_color: var(--point-color);
     .page_title {
         font-size: 22px;
         font-weight: bold;
-        margin: 20px 0;
+        // margin: 20px 0;
         line-height: 0px;
     }
 
@@ -326,12 +327,13 @@ $smart_service_primary_color: var(--point-color);
 
 .mat-mdc-unelevated-button.mat-unthemed {
     --mdc-filled-button-container-color: var(--point-back);
-    --mdc-filled-button-label-text-color: #56B1AC;
+    --mdc-filled-button-label-text-color: var(--point-text-color);
 }
 
+// cancel btn
 .table_delete_button.mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: #EFECFF;
-    --mdc-filled-button-label-text-color: #5A48C4;
+    --mdc-filled-button-container-color: var(--point-back);
+    --mdc-filled-button-label-text-color: var(--point-text-color);
 }  
 
 @media screen and (max-width: 1580px) {

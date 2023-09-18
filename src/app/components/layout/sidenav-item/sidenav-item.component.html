@@ -9,6 +9,7 @@
 <div *ngIf="isLink(item)">
   <a *ngIf="(item.isAdmin == flag.isAdmin || flag.isAdmin)"
     [routerLinkActiveOptions]="item.routerLinkActive || { exact: false }" [routerLink]="item.route" class="item" routerLinkActive="active">
+        <span class="left"></span>
         <mat-icon class="item_icon"> {{item.icon}} </mat-icon>
         <span class="item_label">{{ item.label }}</span>
   </a>

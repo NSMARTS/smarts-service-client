@@ -15,7 +15,8 @@
     background-color: white;
     
     &:hover, &.active {
-        background-color: $side_nav_active_color !important;
+        // background-color: $side_nav_active_color !important;
+        .left {background: var(--point-color); display: block; width: 6px; height: 36px; border-radius: 0 5px 5px 0; position: absolute; left: 0; top: 50%; transform: translateY(-50%);} 
 
         .item_icon {
             color: $side_nav_active_font_color !important;

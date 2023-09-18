@@ -176,21 +176,18 @@
     margin: 0 auto;
 }
 
-// .meetingBox{
-//     height: 100vh;
-// }
-
-.example-card{ 
-    // width: 300px;
-    margin: 10px;
+.meetingBox{
+    display: flex; flex-wrap: wrap; gap: 1%;
 }
 
-.meetingBtnBox {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .page_title {line-height: 0; padding-top: 10px;}
-    button {margin-left: 30px;}
+.example-card{ 
+    width: 32.666%;
+    box-shadow: none;
+    margin-bottom: 16px;
+}
+
+.page_header {
+    button {margin-left: 30px; margin-top: 0;}
 }
 
 .no-meeting-room{

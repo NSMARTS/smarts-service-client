@@ -1,6 +1,6 @@
 import { Component, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { CompanyService } from 'src/app/services/company.service';
@@ -27,7 +27,8 @@ export class InfoComponent {
 
   constructor(
     private dashboardService: DashboardService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.companyId = this.route.snapshot.params['id'];
   }
@@ -57,12 +58,14 @@ export class InfoComponent {
     this.dashboardService.getAllListByCompany(this.companyId).subscribe({
       next: (res: any) => {
         console.log(res);
-        const updatedNotificationList = res.notificationList.map((item: any) => {
-          return {
-            ...item,
-            startDate: item.createdAt, // createdAt 값을 startDate로 복사
-          };
-        });
+        const updatedNotificationList = res.notificationList.map(
+          (item: any) => {
+            return {
+              ...item,
+              startDate: item.createdAt, // createdAt 값을 startDate로 복사
+            };
+          }
+        );
         console.log(updatedNotificationList);
         this.allList = [...res.meetingList, ...updatedNotificationList];
 
@@ -104,6 +107,27 @@ export class InfoComponent {
         break;
       default:
         this.toggleList = [];
+        break;
+    }
+  }
+
+  onRowClick(row: any) {
+    console.log(row);
+    switch (row.type) {
+      case 'meeting':
+        this.router.navigate(['/company', this.companyId, 'meeting']);
+        break;
+      case 'notification':
+        this.router.navigate([
+          '/company',
+          this.companyId,
+          'notification',
+          'detail',
+          row._id,
+        ]);
+        break;
+      default:
+        this.router.navigate(['/country/' + row._id]);
         break;
     }
   }
