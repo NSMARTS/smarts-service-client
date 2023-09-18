@@ -17,13 +17,14 @@ import {
   RouterModule,
 } from '@angular/router';
 import { SidenavComponent } from './sidenav/sidenav.component';
-import { distinctUntilChanged, filter, tap } from 'rxjs';
+import { delay, distinctUntilChanged, filter, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MatSidenav } from '@angular/material/sidenav';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
 import { NavigationService } from 'src/app/stores/layout/navigation.service';
 import { CompanyService } from 'src/app/services/company.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-layout',
@@ -54,6 +55,9 @@ export class LayoutComponent {
     name: '누리컴퍼니',
     date: new Date(),
   };
+
+  // isLoadingResults는 false
+  isLoadingResults: boolean = false;
 
   // 나중에 타입 알아서 적는다.
   userProfileData: any;
@@ -128,7 +132,12 @@ export class LayoutComponent {
     },
   ];
 
-  constructor(private router: Router, private companyService: CompanyService) {
+  constructor(
+    private router: Router,
+    private companyService: CompanyService,
+    private _loading: LoadingService
+
+  ) {
     /**
      * 1. 상단 햄버거 매뉴 클릭 시 사이드바가 나옴
      * this.isSideNavOpen()가 true면 실행
@@ -156,7 +165,7 @@ export class LayoutComponent {
         }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => {});
+      .subscribe(() => { });
 
     // url navigation
     this.router.events
@@ -239,16 +248,19 @@ export class LayoutComponent {
     //     console.log(event.url); // .RouterState.snapshot.url
 
     //   });
+
+    this.listenToLoading();
+
   }
 
   getCompanyInfo() {
     this.companyService.getCompanyInfo(this.companyId).subscribe({
       next: (res: any) => {
         console.log(res);
-         this.companyInfo = {
-           name: res.data.companyName,
-           date: res.data.contractDate,
-         };
+        this.companyInfo = {
+          name: res.data.companyName,
+          date: res.data.contractDate,
+        };
       },
       error: (err: any) => {
         console.log(err.error.message);
@@ -260,5 +272,20 @@ export class LayoutComponent {
   ngOnDestroy() {
     // To protect you, we'll throw an error if it doesn't exist.
     // this.subscriptions.unsubscribe();
+  }
+
+  /**
+ * Listen to the loadingSub property in the LoadingService class. This drives the
+ * display of the loading spinner.
+ */
+  listenToLoading(): void {
+    this._loading.loadingSub
+      .pipe(delay(0),
+        takeUntilDestroyed(this.destroyRef)
+      ) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+      .subscribe((loading) => {
+        this.isLoadingResults = loading;
+      });
+
   }
 }

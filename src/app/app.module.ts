@@ -15,6 +15,7 @@ import { provideRouter, withRouterConfig } from '@angular/router';
 import { LeaveStatusDetailDialogComponent } from './dialog/leave-status-detail-dialog/leave-status-detail-dialog.component';
 import { QuillModule } from 'ngx-quill'
 import { provideQuillConfig } from 'ngx-quill/config';
+import { httpLoadingInterceptorProviders } from './interceptors/http-loading-interceptor';
 
 
 /**
@@ -87,6 +88,8 @@ export function appInitializer(authService: AuthService) {
     // provideRouter(routes,
     //   withRouterConfig({ paramsInheritanceStrategy: 'always' })
     // ),
+
+    httpLoadingInterceptorProviders
   ],
   bootstrap: [AppComponent],
 })

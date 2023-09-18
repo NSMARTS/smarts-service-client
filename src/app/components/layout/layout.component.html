@@ -22,7 +22,11 @@
       <main class="main_area" style="flex: 1; ">
         <!-- <p>{{isDesktop$|async}}</p> -->
         <!-- router 주석 지우지마!!! -->
-        <router-outlet></router-outlet>
+        <router-outlet>
+          <div class="example-loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+        </router-outlet>
 
       </main>
 
