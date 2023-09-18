@@ -71,8 +71,6 @@ export class PayStubListComponent implements AfterViewInit {
   isRateLimitReached = false;
   resultsLength = 0;
 
-  emailValue: any;
-
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
