@@ -1,5 +1,7 @@
 <div class="page">
-	<div class="page_title">Country Holiday List</div>
+    <div class="page_header">
+        <div class="page_title">Country Holiday List</div>
+    </div>
 
         <!------------ 여기부터 정리 필요 ------------>
 		<!-- <span class="example-spacer"></span> -->
@@ -13,11 +15,6 @@
 				<div fxLayout="column"  style="max-width: 800px;">
 					<div class="selectContent" fxLayout="row wrap" fxLayoutGap="20px">
 						<div fxLayout="row" fxLayoutAlign="center center">
-							<div class="leftTable">
-								<div class="leftBox">
-									<span>Name</span>	
-								</div>
-							</div>
 							<div>
 								<mat-form-field appearance="outline" class="companyFormFieldBox">
                                     <mat-label>Holiday Name</mat-label>
@@ -26,11 +23,6 @@
 							</div>
 						</div>
 						<div fxLayout="row" fxLayoutAlign="center center">
-							<div class="leftTable">
-								<div>
-									<span>Date</span>	
-								</div>
-							</div>
 							<div>
 								<div>
 									<span>
@@ -70,15 +62,16 @@
 	<div class="table_container mt-30">
 
         <div class="filter">
-            <mat-form-field dateFormat-year>
-                <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
-                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                <mat-datepicker #dp startView="multi-year"
-                    (yearSelected)="chosenYearHandler($event, dp)"
-                    panelClass="example-month-picker">
-                </mat-datepicker>
-            </mat-form-field>
-            <div class="table_add_button"></div>
+            <div class="selectContent">
+            <mat-form-field dateFormat-year appearance="outline">
+                    <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp startView="multi-year"
+                        (yearSelected)="chosenYearHandler($event, dp)"
+                        panelClass="example-month-picker">
+                    </mat-datepicker>
+                </mat-form-field>
+            </div>
         </div>
 
 		<table mat-table [dataSource]="countryHolidayList" class="mat-elevation-z8 table" #filteredTable>
