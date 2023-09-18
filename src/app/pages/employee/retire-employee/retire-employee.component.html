@@ -1,14 +1,17 @@
 <div class="page">
-	<div class="page_title">Retire Employee</div>
+    <div class="page_header">
+        <div class="page_title">Retire Employee</div>
+    </div>
 
 		<div class="table_container">
 
             <div class="filter">
-                <mat-form-field>
+                <div class="selectContent">
+                <mat-form-field appearance="outline">
                    <mat-label>Filter</mat-label>
                    <input matInput (keyup)="applyFilter($event)" placeholder="Retire Employee" #input>
                 </mat-form-field>
-                <div class="table_add_button"></div>
+                </div>
             </div>
 
 			<table mat-table class="table" [dataSource]="dataSource">

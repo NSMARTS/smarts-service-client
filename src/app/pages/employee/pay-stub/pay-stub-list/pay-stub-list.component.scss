@@ -1,18 +1,4 @@
-// .example-loading-shade {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   // bottom: 56px;
-//   bottom: 0px;
-//   right: 0;
-//   background: rgba(0, 0, 0, 0.15);
-//   z-index: 101;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
-
-.mat-icon[_ngcontent-ng-c1486351013] {
+.mat-icon {
     color: var(--point-color)!important;
   }
 
@@ -21,18 +7,8 @@
 }
 
 .selectContent {
-    justify-content: space-evenly;
+    .date {display: flex;}
   }
-
-.fontBold {
-  font-weight: bold;
-  margin: 10px 10px;
-}
-
-.searchBtn{
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
 
 .left {
     mat-form-field {
@@ -52,10 +28,6 @@ label {
 
 @media screen and (max-width: 1000px) { 
     .mat-mdc-form-field{
-        width: 150px;
+        width: 180px;
     }
 }
-
-.add_container {
-    padding-bottom: 0px;
-  }

@@ -273,12 +273,12 @@ $smart_service_primary_color: var(--point-color);
     .page_title {
         font-size: 22px;
         font-weight: bold;
-        // margin: 20px 0;
         line-height: 0px;
+        margin-bottom: 30px;
     }
 
     button {
-        margin-top: 17px;
+        margin-bottom: 20px;
     }
 }
 
@@ -576,7 +576,7 @@ $smart_service_primary_color: var(--point-color);
 
 //공통 dashboard
 .dashboard_container {
-    margin-top: 30px; /* 간격을 원하는 만큼 추가 */
+    // margin-top: 30px; /* 간격을 원하는 만큼 추가 */
 }
 
 .dashboard_top_container {
