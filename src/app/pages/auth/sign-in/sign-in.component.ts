@@ -4,6 +4,7 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -19,7 +20,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SignInComponent {
   private authService = inject(AuthService);
-
+  private dialogService = inject(DialogService);
   signInForm: FormGroup = new FormGroup({
     email: new FormControl(''),
     password: new FormControl(''),
@@ -41,7 +42,15 @@ export class SignInComponent {
       next: (res) => {
         this.router.navigate([''])
       },
-      error: (e) => console.log(e)
+      error: (e) => {
+        console.log(e)
+        if (e.status === 401) {
+          this.dialogService.openDialogNegative('Your Email or password is incorrect. Please verify and retry.')
+        } else {
+          this.dialogService.openDialogNegative('Internet Server Error.')
+
+        }
+      }
     });
   }
 }
