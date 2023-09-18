@@ -18,9 +18,6 @@ export class DialogService {
         content: data,
       },
     });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    // 	console.log(result);
     return dialogRef.afterClosed();
   }
 

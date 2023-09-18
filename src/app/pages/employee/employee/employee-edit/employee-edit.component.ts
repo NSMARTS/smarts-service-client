@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -38,6 +39,8 @@ export class EmployeeEditComponent {
 
   email = new FormControl({ value: '', disabled: true });
   manager = new FormControl('');
+
+  destroyRef = inject(DestroyRef);
 
   constructor(
     private fb: FormBuilder,
@@ -223,5 +226,32 @@ export class EmployeeEditComponent {
       });
   }
 
-  updateLeaveInfo() {}
+  resetPassword() {
+    this.dialogService.openDialogConfirm('Do you want password reset?')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this.employeeService.resetPassword(this.employeeId).subscribe({
+              next: (res) => {
+                if (res.success) {
+                  this.dialogService.openDialogPositive('Successfully, the password has been reset.')
+                }
+              },
+              error: (err: any) => {
+                console.error(err);
+                this.dialogService.openDialogNegative('Internet Server Error');
+              }
+            })
+          }
+        },
+        error: (err: any) => {
+          console.error(err);
+          this.dialogService.openDialogNegative('Internet Server Error');
+        },
+      })
+
+  }
+
+  updateLeaveInfo() { }
 }

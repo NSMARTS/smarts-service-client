@@ -5,4 +5,5 @@ export interface Statment {
   title: string;
   file: File;
   writer: string;
+  key: string;
 }

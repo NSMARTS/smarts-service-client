@@ -1,6 +1,8 @@
 <div class="page" style="height: 600px;">
   <div class="page_title" fxLayoutAlign="center">Upload Statement</div>
-
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
   <form [formGroup]="statementForm">
     <div class="dialog_twin_container">
       <!-- <div fxLayout="column" class="br_ltop"> -->
