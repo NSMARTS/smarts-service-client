@@ -64,6 +64,11 @@ export const COMPANY_ROUTES: Route[] = [
           import('../employee/leave-status/routes').then((m) => m.LEAVE_STATUS_ROUTES),
       },
       {
+        path: ':id/contract',
+        loadChildren: () =>
+          import('../employee/contract/routes').then((m) => m.CONTRACT_ROUTES),
+      },
+      {
         path: ':id/notification',
         loadChildren: () =>
           import('../space/notification/notification.module').then((m) => m.NotificationModule),

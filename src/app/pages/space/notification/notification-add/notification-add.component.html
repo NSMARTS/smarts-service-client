@@ -1,11 +1,11 @@
 <div class="page">
   <div class="page_title">Notification</div>
-  <div class="example-loading-shade" *ngIf="isLoadingResults ">
+  <!-- <div class="example-loading-shade" *ngIf="isLoadingResults ">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
     <div class="example-rate-limit-reached">
       API rate limit has been reached. It will be reset in one minute.
     </div>
-  </div>
+  </div> -->
   <form [formGroup]="addNotificationForm" (ngSubmit)="onSubmit()">
     <div class="add_container">
 
@@ -47,8 +47,8 @@
           <span>Text</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-            <quill-editor #quillEditor [formControl]="form" [styles]="{ flex: '1 1 auto' }" [modules]="quillConfig">
-            </quill-editor>
+          <quill-editor #quillEditor [formControl]="form" [styles]="{ flex: '1 1 auto' }" [modules]="quillConfig">
+          </quill-editor>
         </div>
       </div>
 

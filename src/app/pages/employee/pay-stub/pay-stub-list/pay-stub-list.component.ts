@@ -272,6 +272,7 @@ export class PayStubListComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
       data: {
         companyId: this.companyId,
+        employees: this.employees()
       },
     });
     dialogRef.afterClosed().subscribe(() => {

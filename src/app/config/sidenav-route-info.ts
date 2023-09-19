@@ -63,6 +63,13 @@ export const sidenavRouteInfo: NavigationItem[] = [
         icon: 'update',
         isAdmin: true,
       },
+      {
+        type: 'link',
+        label: 'Contract',
+        route: '/contract/',
+        icon: 'update',
+        isAdmin: true,
+      },
     ],
   },
   // EMPLOYEE

@@ -77,6 +77,10 @@ export class PayStubDialogComponent implements OnInit {
       ]),
       writer: new FormControl('', [Validators.required]),
     });
+    if (!this.data.isEditMode) {
+      this.isLoadingResults = false;
+
+    }
 
     // 상태저장된 로그인 정보 불러오기
     this.userInfoStore = this.authService.userInfoStore;
@@ -103,10 +107,6 @@ export class PayStubDialogComponent implements OnInit {
   }
 
   async getEmployees() {
-    const employees = await lastValueFrom(
-      this.employeeService.getEmployees(this.data.companyId)
-    );
-    await this.employeeService.setEmployees(employees.data);
 
     if (this.data.isEditMode) {
       this.payStubService
