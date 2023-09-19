@@ -96,8 +96,8 @@
           <button mat-icon-button [matMenuTriggerFor]="menu"
             (click)="$event.stopPropagation()"><mat-icon>more_vert</mat-icon></button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="editPayStub(element._id)">Edit</button>
-            <button mat-menu-item (click)="deletePayStub(element._id)">Delete</button>
+            <button mat-menu-item (click)="editPayStub(element._id)"><mat-icon>edit</mat-icon>Edit</button>
+            <button mat-menu-item (click)="deletePayStub(element._id)"><mat-icon>delete</mat-icon>Delete</button>
           </mat-menu>
         </td>
       </ng-container>
