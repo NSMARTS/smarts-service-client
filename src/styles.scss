@@ -94,15 +94,7 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
 }
 
 // mat-form-field input
-.filter {
-    .mat-mdc-text-field-wrapper {
-        height: 50px !important;
-    }
 
-    label {
-        padding-bottom: 6px;
-    }
-}
 
 .mat-mdc-text-field-wrapper {
     background-color: white;
@@ -165,8 +157,6 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
   .mat-calendar-body-selected {
     background-color: var(--point-color)!important;
   }
-
-
 
 /** 
 작성자: 임호균
@@ -312,7 +302,6 @@ $smart_service_primary_color: var(--point-color);
     text-align: center;
   }
 
-
 .filter {
     background-color: white;
     padding-top: 20px;
@@ -327,6 +316,14 @@ $smart_service_primary_color: var(--point-color);
         mat-form-field {
             margin-right: 15px;
         }
+    }
+
+    .mat-mdc-text-field-wrapper {
+        height: 50px !important;
+    }
+
+    label {
+        padding-bottom: 6px;
     }
 }
 
@@ -428,12 +425,28 @@ $smart_service_primary_color: var(--point-color);
   padding: 20px;
   color: #fff;
   font-weight: 700;
-  background-color: #3f51b5;
+  background-color: var(--point-color);
 }
 
 .rightTable {
   border-left: 1px solid rgb(224 224 224);
   padding: 20px;
+
+  .mat-mdc-text-field-wrapper {
+    height: 50px !important;
+  }
+
+  label {
+    padding-bottom: 6px;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    height: 0;
+  }
+
+  input[type=checkbox], input[type=radio] {
+    accent-color:#4b9b9f;
+  }
 }
 
 .formFieldBox {
@@ -444,12 +457,29 @@ $smart_service_primary_color: var(--point-color);
   margin: 20px 0 0 0;
 }
 
+.cencelBtn {
+    background: #F0F2F5!important;
+    color: #6A6E80!important;
+}
+
+
+
 //공통 edit
 .edit_title {
   font-size: 16px;
   font-weight: bold;
   padding: 20px 0;
 }
+
+.edit_header {
+    flex: 1;
+    /* 남은 공간을 모두 차지하도록 설정 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // margin-bottom: 20px;
+    // height: 40px;
+  }
 
 .edit_twin_container {
   display: flex;
@@ -463,6 +493,14 @@ $smart_service_primary_color: var(--point-color);
 
   .br_ltop {
     border-radius: 4px;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    height: 50px !important;
+  }
+
+  label {
+    padding-bottom: 6px;
   }
 }
 
@@ -478,6 +516,7 @@ $smart_service_primary_color: var(--point-color);
   /* 각 요소가 동일한 공간을 차지하도록 설정 */
   margin: 10px;
   /* 간격을 원하는 만큼 추가 */
+
 }
 
 /* 화면 폭이 1000px 이하일 때 스타일 수정 */

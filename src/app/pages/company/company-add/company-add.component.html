@@ -1,5 +1,7 @@
 <div class="page">
-  <div class="page_title">Add Company</div>
+  <div class="page_header">
+    <div class="page_title">Add Company</div>
+  </div>
 
   <form [formGroup]="addCompanyForm" (ngSubmit)="onSubmit()">
     <div class="add_container">
@@ -113,7 +115,7 @@
       </div>
     </div>
     <!--  Approval of Leave -->
-    <div class="lineDivider" fxLayout="row wrap">
+    <div class="lineDivider">
       <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
         <div class="leftBox">
           <span>Approval of Leave</span>
@@ -158,19 +160,6 @@
       </div>
     </div>
 
-    <!-- Payment Required -->
-    <div class="lineDivider">
-      <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-        <span>Payment Required</span>
-      </div>
-      <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-        <mat-radio-group mat-radio-group name="grpName">
-          <input type="radio" [value]="true" formControlName="paymentRequired" />Yes
-          <input type="radio" [value]="false" formControlName="paymentRequired" />No
-        </mat-radio-group>
-      </div>
-    </div>
-
     <!-- leave standard -->
     <div class="lineDivider">
       <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
@@ -212,9 +201,9 @@
     </div>
 
     <div fxLayoutAlign="center center" class="booterBtn">
-      <button mat-raised-button type="submit" color="primary">Request</button>
+      <button mat-flat-button type="submit">Request</button>
       <div style="width: 20px;"></div>
-      <button mat-raised-button (click)="toBack()">Cancel</button>
+      <button mat-flat-button class="cencelBtn"(click)="toBack()">Cancel</button>
     </div>
 
    </div>
