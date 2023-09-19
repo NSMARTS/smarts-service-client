@@ -9,7 +9,7 @@ export const sidenavRouteInfo: NavigationItem[] = [
       {
         type: 'link',
         label: 'Info',
-        route: '/',
+        route: '/information',
         icon: 'dashboard',
         // isAdmin: true
       },

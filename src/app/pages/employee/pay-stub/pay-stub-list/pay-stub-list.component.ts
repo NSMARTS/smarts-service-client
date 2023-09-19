@@ -1,3 +1,4 @@
+import { DialogService } from './../../../../services/dialog.service';
 import {
   AfterViewInit,
   Component,
@@ -42,8 +43,9 @@ export class PayStubListComponent implements AfterViewInit {
     'employeeName',
     'title',
     'uploadDate',
-    'detail',
     'download',
+    'detail',
+    'menu',
   ];
 
   filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
@@ -67,8 +69,8 @@ export class PayStubListComponent implements AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  isLoadingResults = false;
-  isRateLimitReached = false;
+  isLoadingResults = true;
+  //   isRateLimitReached = false;
   resultsLength = 0;
 
   constructor(
@@ -78,7 +80,8 @@ export class PayStubListComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private payStubService: PayStubService
+    private payStubService: PayStubService,
+    private dialogService: DialogService
   ) {
     // 이번 달 기준 첫째날
     const startOfMonth = moment().startOf('month').format();
@@ -174,7 +177,7 @@ export class PayStubListComponent implements AfterViewInit {
         map((res: any) => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
-          this.isRateLimitReached = res.data === null;
+          //   this.isRateLimitReached = res.data === null;
           this.resultsLength = res.total_count;
           this.dataSource = new MatTableDataSource<any>(res.data);
           return res.data;
@@ -234,16 +237,45 @@ export class PayStubListComponent implements AfterViewInit {
     });
   }
 
+  editPayStub(id: string) {
+    const dialogRef = this.dialog.open(PayStubDialogComponent, {
+      data: {
+        companyId: this.companyId,
+        payStubId: id,
+        isEditMode: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.getPayStubsByQuery();
+    });
+  }
+
+  deletePayStub(payStubId: string) {
+    this.payStubService.deletePayStub(this.companyId, payStubId).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.getPayStubsByQuery();
+          this.dialogService.openDialogPositive(
+            'Statement deleted successfully.'
+          );
+        }
+      },
+      error: (error) => {
+        this.dialogService.openDialogNegative(
+          'An error occurred on the Internet server.'
+        );
+      },
+    });
+  }
+
   openDialog() {
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
       data: {
         companyId: this.companyId,
       },
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getPayStubsByQuery();
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.getPayStubsByQuery();
     });
   }
 }

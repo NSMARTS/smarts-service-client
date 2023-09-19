@@ -75,6 +75,13 @@ export class EmployeeService {
     );
   }
 
+  resetPassword(
+    id: string,
+  ): Observable<HttpResMsg<Employee>> {
+    return this.http.patch<HttpResMsg<Employee>>(
+      this.baseUrl + '/employees/' + id + '/resetPassword', {}
+    );
+  }
   // /**
   //  * 직원들 근속년수 계산
   //  * @param employees

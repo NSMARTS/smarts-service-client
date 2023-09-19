@@ -15,7 +15,8 @@
             </div>
         </div>
   
-        <table mat-table class="table" [dataSource]="dataSource">
+        <table mat-table class="table" [dataSource]="dataSource" matSort matSortActive="contractDate" matSortDisableClear
+        matSortDirection="asc">
 
           <ng-container matColumnDef="code">
             <th mat-header-cell *matHeaderCellDef> Code </th>
@@ -80,8 +81,10 @@
 
         </table>
   
-        <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 50]" showFirstLastButtons></mat-paginator>
     
-    </div>
+    <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 50]"
+      showFirstLastButtons></mat-paginator>
+
+  </div>
 
 </div>

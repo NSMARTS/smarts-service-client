@@ -81,7 +81,6 @@ export class MainComponent {
           (a: any, b: any) =>
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );
-
         this.toggleList = new MatTableDataSource(this.allList);
         this.toggleList.paginator = this.paginator;
         this.onToggleChange();
