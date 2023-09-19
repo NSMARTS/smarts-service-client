@@ -30,8 +30,8 @@ export class DashboardService {
     return this.http.get(this.baseUrl + '/dashboard/company/' + companyId);
   }
 
-  // 미팅정보 조회
-  getMeetingInfo(companyId: any) {
-    return this.http.get(this.baseUrl + '/dashboard/meetings/' + companyId);
+  // 회사의 모든 리스트 목록 조회
+  getAllListByCompany(companyId: any) {
+    return this.http.get(this.baseUrl + '/dashboard/list/' + companyId);
   };
 }

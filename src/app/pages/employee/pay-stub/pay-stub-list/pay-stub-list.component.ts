@@ -101,6 +101,7 @@ export class PayStubListComponent implements AfterViewInit {
       leaveType: new FormControl('all'),
     });
   }
+
   ngAfterViewInit(): void {
     this.getEmployees(this.companyId);
     // this.getPayStubs(this.companyId);

@@ -1,5 +1,8 @@
 <div class="page">
-  <div class="page_title">Employee List</div>
+    <div class="page_header">
+        <div class="page_title">Employee List</div>
+        <button mat-flat-button (click)="addEmployee()">Add Employee</button>
+    </div>
 
   <div class="table_container">
     <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
@@ -8,12 +11,14 @@
         API rate limit has been reached. It will be reset in one minute.
       </div>
     </div>
+
     <div class="filter">
-      <mat-form-field>
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Employee" #input>
-      </mat-form-field>
-      <button mat-raised-button color="primary" class="table_add_button" (click)="addEmployee()">Add Employee</button>
+        <div class="selectContent">
+            <mat-form-field appearance="outline">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Employee" #input>
+            </mat-form-field>
+      </div>
     </div>
 
     <table mat-table class="table" [dataSource]="dataSource" matSort matSortActive="empStartDate" matSortDisableClear

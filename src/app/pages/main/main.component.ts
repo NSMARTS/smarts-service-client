@@ -81,8 +81,6 @@ export class MainComponent {
           (a: any, b: any) =>
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );
-        const ctrlValue = this.date.value!;
-        this.applyFilterYear(ctrlValue.year());
 
         this.toggleList = new MatTableDataSource(this.allList);
         this.toggleList.paginator = this.paginator;
@@ -92,16 +90,6 @@ export class MainComponent {
         console.error(err);
       },
     });
-  }
-
-  applyFilterYear(year: number) {
-    this.toggleList.data = this.allList.filter(
-      (e: any) => new Date(e.date).getUTCFullYear() === year
-    );
-
-    this.minDate = new Date(year, 0, 1);
-    this.maxDate = new Date(year, 11, 31);
-    this.datePickChange(null);
   }
 
   datePickChange(dateValue: any) {
@@ -118,16 +106,19 @@ export class MainComponent {
         this.toggleList.data = this.allList.filter(
           (item) => item.type === 'pay'
         );
+        this.toggleList.paginator = this.paginator;
         break;
       case 'meeting':
         this.toggleList.data = this.allList.filter(
           (item) => item.type === 'meeting'
         );
+        this.toggleList.paginator = this.paginator;
         break;
       case 'notice':
         this.toggleList.data = this.allList.filter(
           (item) => item.type === 'notification'
         );
+        this.toggleList.paginator = this.paginator;
         break;
       default:
         this.toggleList = [];

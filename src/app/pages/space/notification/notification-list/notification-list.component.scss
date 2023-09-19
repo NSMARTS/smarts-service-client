@@ -1,26 +1,39 @@
-.selectContent {
-    justify-content: space-evenly;
-  }
-
-.fontBold {
-  font-weight: bold;
-  margin: 10px 10px;
+.filter .selectContent mat-form-field {
+    margin-left: 20px;
 }
 
-.searchBtn{
-    margin-left: 20px;
-    margin-bottom: 20px;
+.selectContent {
+    width: 100%;
+    background-color: white;
+    margin-left: 0px;
+    margin-bottom: 40px;
+
+    .date {
+        display: flex;
+    }
+  }
+
+.left {
+    mat-form-field {
+        margin-right: 5px;
+    }
+}
+
+label {
+    margin-top: 15px;
+}
+
+.right {
+    mat-form-field {
+        margin-left: 5px;
+    }
 }
 
 @media screen and (max-width: 1000px) { 
     .mat-mdc-form-field{
-        width: 150px;
+        width: 170px;
     }
 }
-
-.add_container {
-    padding-bottom: 0px;
-  }
 
   .button {
     width: 100%;
