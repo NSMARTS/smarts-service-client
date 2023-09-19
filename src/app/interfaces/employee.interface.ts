@@ -35,7 +35,7 @@ export interface UsedLeaveData {
   totalAnnualLeave: number,
   usedRollover: number, // 연차 휴가 사용 횟수
   totalRollover: number,
-  usedSickData: number,
+  usedSickLeave: number,
   totalSickLeave: number,
   usedReplacement: number,
   totalReplacement: number,

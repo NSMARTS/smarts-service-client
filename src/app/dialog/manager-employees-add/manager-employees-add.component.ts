@@ -113,7 +113,7 @@ export class ManagerEmployeesAddComponent implements OnInit {
     );
     // signal을 통한 상태관리
     await this.employeeService.setEmployees(employees.data);
-
+    console.log(employees.data)
     this.dataSource.data = this.employeeService.employees();
     this.dataSource.paginator = this.paginator;
   }

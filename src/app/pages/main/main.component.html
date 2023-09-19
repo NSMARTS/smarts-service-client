@@ -1,171 +1,175 @@
 <div class="page">
-    <div class="page_title">Summary</div>
+  <div class="page_title">Summary</div>
 
-    <div class="dashboard_twin_container">
+  <div class="dashboard_twin_container">
+    <div class="dashboard_left_container">
+      <div class="dashboard_top_container">
+        <mat-card class="mat-elevation-z0">
+          <mat-card-header>
+            <mat-card-subtitle>COMPANY</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{allCount?.companyCount}}</p>
+          </mat-card-content>
+          <p class="img">
+            <img src="assets/image/company.png" class="companyImg">
+          </p>
+        </mat-card>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle>EMPLOYEE</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{allCount?.employeeCount}}</p>
+          </mat-card-content>
+          <p class="img">
+            <img src="assets/image/employee.png" class="employeeImg">
+          </p>
+        </mat-card>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle>SUPER MANAGER</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{allCount?.superManagerCount
+              }}</p>
+          </mat-card-content>
+          <p class="img">
+            <img src="assets/image/superManager.png" class="superManagerImg">
+          </p>
+        </mat-card>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle>MANAGER</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{allCount?.managerCount}}</p>
+          </mat-card-content>
+          <p class="img">
+            <img src="assets/image/manager.png" class="managerImg">
+          </p>
+        </mat-card>
+      </div>
+      <div class="dashboard_bottom_container">
+        <mat-card>
+          <div class="button">
+            <p>Announcement</p>
+            <mat-button-toggle-group [(ngModel)]="toggleValue" (ngModelChange)="onToggleChange()">
+              <mat-button-toggle value="all"
+                style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0;">All</mat-button-toggle>
+              <mat-button-toggle value="pay"
+                style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Pay</mat-button-toggle>
+              <mat-button-toggle value="meeting"
+                style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Meeting</mat-button-toggle>
+              <mat-button-toggle value="notice"
+                style="min-width:110px; border-radius: 5px 5px 0 0; border-left: none;">Notice</mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+          <section class="example-container" tabindex="0">
+            <table [formGroup]="ListForm" mat-table class="table" [dataSource]="toggleList">
 
-        <div class="dashboard_left_container">
-            <div class="dashboard_top_container">
-                <mat-card class="mat-elevation-z0">
-                    <mat-card-header>
-                        <mat-card-subtitle>COMPANY</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>{{allCount?.companyCount}}</p>
-                    </mat-card-content>
-                    <p class="img">
-                        <img src="assets/image/company.png" class="companyImg">
-                    </p>
-                </mat-card>
-                <mat-card>
-                    <mat-card-header>
-                        <mat-card-subtitle>EMPLOYEE</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>{{allCount?.employeeCount}}</p>
-                    </mat-card-content>
-                    <p class="img">
-                        <img src="assets/image/employee.png" class="employeeImg">
-                    </p>
-                </mat-card>
-                <mat-card>
-                    <mat-card-header>
-                        <mat-card-subtitle>SUPER MANAGER</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>{{allCount?.superManagerCount
-                        }}</p>
-                    </mat-card-content>
-                    <p class="img">
-                        <img src="assets/image/superManager.png" class="superManagerImg">
-                    </p>
-                </mat-card>
-                <mat-card>
-                    <mat-card-header>
-                        <mat-card-subtitle>MANAGER</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>{{allCount?.managerCount}}</p>
-                    </mat-card-content>
-                    <p class="img">
-                        <img src="assets/image/manager.png" class="managerImg">
-                    </p>
-                </mat-card>
-            </div>
-            <div class="dashboard_bottom_container">
-                <mat-card>
-                    <div class="button">
-                        <p>Announcement</p>                
-                        <mat-button-toggle-group [(ngModel)]="toggleValue" (ngModelChange)="onToggleChange()">
-                            <mat-button-toggle value="all" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0;">All</mat-button-toggle>
-                            <mat-button-toggle value="pay" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Pay</mat-button-toggle>
-                            <mat-button-toggle value="meeting" style="min-width:110px; margin-right:10px; border-radius: 5px 5px 0 0; border-left: none;">Meeting</mat-button-toggle>
-                            <mat-button-toggle value="notice" style="min-width:110px; border-radius: 5px 5px 0 0; border-left: none;">Notice</mat-button-toggle>
-                        </mat-button-toggle-group>
-                    </div>
-                    <section class="example-container" tabindex="0">
-                            <table [formGroup]="ListForm"  mat-table class="table" [dataSource]="toggleList">
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Date </th>
+                <td mat-cell *matCellDef="let element"> {{element?.date | date: 'YYYY-MM-dd'}} </td>
+              </ng-container>
 
-                                <ng-container matColumnDef="date">
-                                <th mat-header-cell *matHeaderCellDef> Date </th>
-                                <td mat-cell *matCellDef="let element"> {{element?.date | date: 'YYYY-MM-dd'}} </td>
-                                </ng-container>
-                        
-                                <ng-container matColumnDef="content">
-                                <th mat-header-cell *matHeaderCellDef> Content </th>
-                                <td mat-cell *matCellDef="let element">
-                                    <ng-container *ngIf="element?.type === 'pay';">
-                                        <mat-chip [class]="element.type">
-                                            Pay
-                                        </mat-chip>
-                                        {{element?.date | date: 'MM월 월급날'}}
-                                    </ng-container>
-                                    <ng-container *ngIf="element?.type === 'meeting';">
-                                        <mat-chip [class]="element.type">
-                                            Meeting
-                                        </mat-chip>
-                                        {{element.content}}
-                                    </ng-container>
-                                    <ng-container *ngIf="element?.type === 'notification';">
-                                        <mat-chip [class]="element.type">
-                                            Notice
-                                        </mat-chip>
-                                        {{element.content}}
-                                    </ng-container>
-                                </td>
-                                </ng-container>
-                        
-                                <ng-container matColumnDef="company">
-                                    <th mat-header-cell *matHeaderCellDef> Company </th>
-                                    <td mat-cell *matCellDef="let element"> {{element?.companyName}} </td>
-                                </ng-container>        
-                        
-                                <ng-container matColumnDef="enter">
-                                <th mat-header-cell *matHeaderCellDef></th>
-                                <td mat-cell *matCellDef="let element">
-                                    <mat-icon>launch</mat-icon>
-                                </td>
-                                </ng-container>
-                        
-                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
-                                <tr class="mat-row" *matNoDataRow>
-                                <td class="mat-cell" colspan="9999">
-                                    No data
-                                </td>
-                                </tr>
-    
-                            </table>
-                        </section>
-                            <mat-paginator [length]="100" [pageSize]="6" [pageSizeOptions]="[6, 10, 50]" showFirstLastButtons></mat-paginator>
+              <ng-container matColumnDef="content">
+                <th mat-header-cell *matHeaderCellDef> Content </th>
+                <td mat-cell *matCellDef="let element">
+                  <ng-container *ngIf="element?.type === 'pay';">
+                    <mat-chip [class]="element.type">
+                      Pay
+                    </mat-chip>
+                    {{element?.date | date: 'MM월 월급날'}}
+                  </ng-container>
+                  <ng-container *ngIf="element?.type === 'meeting';">
+                    <mat-chip [class]="element.type">
+                      Meeting
+                    </mat-chip>
+                    {{element.content}}
+                  </ng-container>
+                  <ng-container *ngIf="element?.type === 'notification';">
+                    <mat-chip [class]="element.type">
+                      Notice
+                    </mat-chip>
+                    {{element.content}}
+                  </ng-container>
+                </td>
+              </ng-container>
 
-                </mat-card>
-            </div>
-        </div>
+              <ng-container matColumnDef="company">
+                <th mat-header-cell *matHeaderCellDef> Company </th>
+                <td mat-cell *matCellDef="let element"> {{element?.companyName}} </td>
+              </ng-container>
 
-        <div class="dashboard_right_container">
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-subtitle>COUNTRY</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    <p class="img">
-                        <img src="assets/image/country.png" class="countryImg">
-                    </p>
-                    <p>{{allCountryCount}} Countries</p>
-                    <mat-card-subtitle>A Registered Country</mat-card-subtitle>
-                    <mat-divider></mat-divider>
-                </mat-card-content>
-                <mat-card-footer>
-                    <section class="example-container" tabindex="0">
-                    <table mat-table class="demo-table table" [dataSource]="allCountry">
+              <ng-container matColumnDef="enter">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-icon>launch</mat-icon>
+                </td>
+              </ng-container>
 
-                        <ng-container matColumnDef="countryName">
-                            <th mat-header-cell *matHeaderCellDef></th>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="9999">
+                  No data
+                </td>
+              </tr>
 
-                            <td mat-cell *matCellDef="let element"> <span>●</span> {{element?.countryName}} </td>
-                        </ng-container>
-            
-                        <ng-container matColumnDef="enter">
-                            <th mat-header-cell *matHeaderCellDef></th>
-                            <td mat-cell *matCellDef="let element">
-                                <mat-icon>launch</mat-icon>
-                            </td>
-                        </ng-container>
-            
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="onRowClick(row)"></tr>
-                        <tr class="mat-row" *matNoDataRow>
-                            <td class="mat-cell" colspan="9999">
-                                No data
-                            </td>
-                        </tr>
-            
-                    </table>
-                </section>
-                </mat-card-footer>
-            </mat-card>
-        </div>
+            </table>
+          </section>
+          <mat-paginator [length]="100" [pageSize]="6" [pageSizeOptions]="[6, 10, 50]"
+            showFirstLastButtons></mat-paginator>
 
+        </mat-card>
+      </div>
     </div>
+
+    <div class="dashboard_right_container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle>COUNTRY</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="img">
+            <img src="assets/image/country.png" class="countryImg">
+          </p>
+          <p>{{allCountryCount}} Countries</p>
+          <mat-card-subtitle>A Registered Country</mat-card-subtitle>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+        <mat-card-footer>
+          <section class="example-container" tabindex="0">
+            <table mat-table class="demo-table table" [dataSource]="allCountry">
+
+              <ng-container matColumnDef="countryName">
+                <th mat-header-cell *matHeaderCellDef></th>
+
+                <td mat-cell *matCellDef="let element"> <span>●</span> {{element?.countryName}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="enter">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-icon>launch</mat-icon>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="onRowClick(row)"></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="9999">
+                  No data
+                </td>
+              </tr>
+
+            </table>
+          </section>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+
+  </div>
 
 </div>

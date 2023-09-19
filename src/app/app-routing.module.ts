@@ -8,11 +8,6 @@ import { ToolbarComponent } from './components/layout/toolbar/toolbar.component'
 
 export const routes: Routes = [
   {
-    path: 'welcome',
-    component: IndexComponent,
-    canActivate: [isLoggedInGuard],
-  },
-  {
     path: 'sign-in',
     loadComponent: () =>
       import('./pages/auth/sign-in/sign-in.component').then(

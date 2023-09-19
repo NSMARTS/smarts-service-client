@@ -1,3 +1,4 @@
+import { PayStub } from './../../interfaces/pay-stub.interface';
 import { AuthService, UserInfo } from 'src/app/services/auth.service';
 import {
   Component,
@@ -43,7 +44,7 @@ export class PayStubDialogComponent implements OnInit {
   message = '';
   fileName = 'Select File';
   fileInfos?: Observable<any>;
-
+  key = ''; // 수정 기능으로 사용 시 s3에 저장된 key 값
   filteredEmployee = signal<Employee[]>([]);
   employees: WritableSignal<Employee[]>;
 
@@ -55,8 +56,7 @@ export class PayStubDialogComponent implements OnInit {
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
 
-  isLoadingResults = false;
-
+  isLoadingResults = true;
 
   constructor(
     public dialogRef: MatDialogRef<PayStubDialogComponent>,
@@ -65,9 +65,9 @@ export class PayStubDialogComponent implements OnInit {
     private employeeService: EmployeeService,
     private authService: AuthService,
     private payStubService: PayStubService,
-    private dialogService: DialogService,
-    // public dialogRef: MatDialogRef<PayStubComapnyListComponent>
-  ) {
+    private dialogService: DialogService
+  ) // public dialogRef: MatDialogRef<PayStubComapnyListComponent>
+  {
     this.statementForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
       // 명세서를 받을 사람 email.
@@ -107,7 +107,25 @@ export class PayStubDialogComponent implements OnInit {
       this.employeeService.getEmployees(this.data.companyId)
     );
     await this.employeeService.setEmployees(employees.data);
-    console.log(this.employees());
+
+    if (this.data.isEditMode) {
+      this.payStubService
+        .getPayStub(this.data.companyId, this.data.payStubId)
+        .subscribe({
+          next: (res) => {
+            this.statementForm.controls['title'].patchValue(res.data.title);
+            this.fileName = res.data.originalname;
+            this.key = res.data.key;
+            this.statementForm.controls['employee'].patchValue(
+              res.data.employee.email
+            );
+            this.getPdf(this.key);
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+    }
   }
 
   /**
@@ -146,58 +164,72 @@ export class PayStubDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.hasErrors()) {
-    } else {
-      //유효성 검사 실패 시 빨갛게 나옴
-      if (this.fileName === 'Select File') {
-        this.dialogService.openDialogNegative('Could not upload the file.');
-      }
-      // 유효성 검사 통과 시
-      this.upload();
+    if (this.hasErrors() || this.fileName === 'Select File') {
+      return;
     }
-  }
 
-  upload(): void {
     this.progress = 0;
     this.message = '';
 
-    if (this.currentFile) {
-      const formData: Statment = {
-        ...this.statementForm.value,
-        file: this.currentFile,
-        company: this.data.companyId,
-        writer: this.userInfoStore()._id,
-      };
+    const formData: PayStub = {
+      ...this.statementForm.value,
+      file: this.currentFile,
+      key: this.key,
+      company: this.data.companyId,
+      writer: this.userInfoStore()._id,
+    };
 
-      this.payStubService.upload(formData).subscribe({
-        next: (event: any) => {
-          console.log(event);
-          this.dialogRef.close();
-          this.dialogService.openDialogPositive('Success upload contract.');
-
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress = Math.round((100 * event.loaded) / event.total);
-          } else if (event instanceof HttpResponse) {
-            this.message = event.body.message;
-            // this.fileInfos = this.payStubService.getFiles();
-          }
-          this.isLoadingResults = false;
-          this.dialogService.openDialogPositive('Statement has successfully uploaded.').subscribe(() => {
-            this.dialogRef.close(true)
-          })
-        },
-        error: (err: any) => {
-          console.log(err);
-          this.progress = 0;
-          if (err.error && err.error.message) {
-            this.message = err.error.message;
-          } else {
-            this.message = 'Could not upload the file!';
-          }
-          this.currentFile = undefined;
-        },
-      });
+    if (this.data.isEditMode) {
+      this.edit(formData);
+    } else {
+      this.upload(formData);
     }
+  }
+
+  upload(formData: any): void {
+    this.payStubService.upload(formData).subscribe({
+      next: (event: any) => {
+        this.isLoadingResults = false;
+        this.dialogService
+          .openDialogPositive('Statement has successfully uploaded.')
+          .subscribe(() => {
+            this.dialogRef.close(true);
+          });
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.progress = 0;
+        if (err.error && err.error.message) {
+          this.message = err.error.message;
+        } else {
+          this.message = 'Could not upload the file!';
+        }
+        this.currentFile = undefined;
+      },
+    });
+  }
+
+  edit(formData: any): void {
+    this.payStubService.edit(this.data.payStubId, formData).subscribe({
+      next: (event: any) => {
+        this.isLoadingResults = false;
+        this.dialogService
+          .openDialogPositive('Statement has successfully uploaded.')
+          .subscribe(() => {
+            this.dialogRef.close(true);
+          });
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.progress = 0;
+        if (err.error && err.error.message) {
+          this.message = err.error.message;
+        } else {
+          this.message = 'Could not upload the file!';
+        }
+        this.currentFile = undefined;
+      },
+    });
   }
 
   // 유효성 검사 함수
@@ -241,5 +273,36 @@ export class PayStubDialogComponent implements OnInit {
       }
     };
     fileReader.readAsArrayBuffer(file);
+  }
+
+  getPdf(url: string) {
+    this.payStubService.getPdf(url).subscribe({
+      next: async (res: ArrayBuffer) => {
+        const loadingTask = pdfjsLib.getDocument({ data: res });
+
+        loadingTask.promise.then((pdfDocument) => {
+          // Assuming you want to render the first page
+          pdfDocument.getPage(1).then((page) => {
+            const viewport = page.getViewport({ scale: 1 });
+            const context = this.pdfViewer.nativeElement.getContext('2d');
+
+            this.pdfViewer.nativeElement.width = viewport.width;
+            this.pdfViewer.nativeElement.height = viewport.height;
+            // pdf 를 그려주는 canvas태그 최대 크기 지정
+            this.pdfViewer.nativeElement.style.maxWidth = 450 + 'px';
+            this.pdfViewer.nativeElement.style.maxHeight = 700 + 'px';
+            const renderContext = {
+              canvasContext: context!,
+              viewport: viewport,
+            };
+            page.render(renderContext);
+            this.isLoadingResults = false;
+          });
+        });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }

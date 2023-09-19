@@ -8,7 +8,7 @@ export const CORPORATION_ROUTES: Route[] = [
   {
     // localhost:4200/users
     // UserListComponent를 보여줌
-    path: '',
+    path: 'information',
     loadComponent: () => InfoComponent,
   },
   {

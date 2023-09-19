@@ -139,7 +139,10 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.updateProfile(patchData).subscribe({
       next: (res) => {
-        if (res) this.refreshProfie();
+        if (res.success) {
+          this.refreshProfie();
+          this.dialogService.openDialogPositive('Successfully, Profile  has been updated')
+        }
       },
       error: (error) => {
         console.log(error);

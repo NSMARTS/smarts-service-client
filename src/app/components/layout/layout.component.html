@@ -14,7 +14,7 @@
     <!-- 2. side nav content -->
     <mat-sidenav-content style="display: flex; flex-direction: column;">
       <!-- 2.1 상단 toolbar  -->
-      <app-toolbar [isSidenavRequired]="isSidenavRequired" [companyInfo]= "companyInfo" ></app-toolbar>
+      <app-toolbar [isSidenavRequired]="isSidenavRequired" [companyInfo]="companyInfo"></app-toolbar>
 
 
 
@@ -22,7 +22,12 @@
       <main class="main_area" style="flex: 1; ">
         <!-- <p>{{isDesktop$|async}}</p> -->
         <!-- router 주석 지우지마!!! -->
-        <router-outlet></router-outlet>
+        <router-outlet>
+          <div class="example-loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+        </router-outlet>
+
       </main>
 
       <!-- 2.3 footer -->
