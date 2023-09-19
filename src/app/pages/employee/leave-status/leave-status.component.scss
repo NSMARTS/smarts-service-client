@@ -18,6 +18,11 @@ label {
     }
 }
 
+.searchBtn {
+    height: 50px;
+    background-color: white;
+}
+
 @media screen and (max-width: 1000px) { 
     .mat-mdc-form-field{
         width: 180px;
