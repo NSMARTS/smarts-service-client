@@ -1,3 +1,4 @@
+import { DialogService } from 'src/app/services/dialog.service';
 import { effect, inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -12,6 +13,7 @@ export const isLoggedInGuard: CanActivateFn = (
   state: RouterStateSnapshot
 ) => {
   const authService = inject(AuthService);
+  const dialogService = inject(DialogService);
   const router = inject(Router);
   const routePath = route.routeConfig?.path ?? ''; // ?? 은 타입스크립트 문법으로 undefined || null 이면 ''로 주겠다.
 
@@ -26,11 +28,10 @@ export const isLoggedInGuard: CanActivateFn = (
   } else {
     // 로그인이 안되어있으면
     // 회원가입, 로그인, 비밀번호 찾기, 소개페이지는 전부 그대로 이동
-    if (['welcome', 'sign-in', 'sign-up', 'find-pw'].includes(routePath)) {
+    // dialogService.openDialogNegative('Please login first');
+    if (['sign-in', 'sign-up', 'find-pw'].includes(routePath)) {
       return true;
       // uri가 없거나 메인페이지는 소개페이지로
-    } else if (routePath === '' && state.url === '/main') {
-      router.navigate(['welcome']);
     } else {
       // 그외 나머지 페이지는 signin으로
       router.navigate(['sign-in'], { queryParams: { redirectURL: state.url } });

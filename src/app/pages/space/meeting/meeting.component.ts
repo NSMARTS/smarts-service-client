@@ -66,7 +66,7 @@ export class MeetingComponent implements OnInit {
   companyId: string; // 회사아이디 params
   showAllMeetings: boolean = false;
 
-  isLoadingResults = true;
+  //   isLoadingResults = true;
 
   constructor(
     public dialog: MatDialog,
@@ -147,7 +147,7 @@ export class MeetingComponent implements OnInit {
   getMeetingList(companyId: string) {
     this.meetingService.getMeetingList(companyId).subscribe({
       next: (data: any) => {
-        this.isLoadingResults = false;
+        // this.isLoadingResults = false;
         // 1. meetingList에 날짜와 시간이 합쳐진 "meetingDate라는 변수를 추가"
         const meetingList = data.meetingList.map((item: any) => {
           // start time (ex; PM 12 : 00 ) 을 공백으로 split 하면 ['PM', '12', ':', '00]
@@ -170,8 +170,6 @@ export class MeetingComponent implements OnInit {
           // );
 
           console.log(item.managers, this.managers, this.employees);
-
-          
 
           // 참여 매니저 id에 맞는 username 등록
           let newManager = item.managers.map((part: any) => {

@@ -3,6 +3,10 @@
 // @tailwind components;
 // @tailwind utilities;
 
+// ngx-quill 텍스트 편집기 설정
+// https://mehul-kothari.medium.com/medium-like-text-editor-in-angular-quill-editor-38c0011a880b
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
 
 $sidenav-width: 290px;
 $sidenav-toolbar-height: 64px; // material default
@@ -270,6 +274,10 @@ $smart_service_primary_color: var(--point-color);
     justify-content: space-between;
     align-items: center;
 
+    .btn {display: flex; 
+      button {margin-top: 25px;}
+    }
+    
     .page_title {
         font-size: 22px;
         font-weight: bold;
@@ -278,7 +286,8 @@ $smart_service_primary_color: var(--point-color);
     }
 
     button {
-        margin-bottom: 20px;
+        // margin-bottom: 20px;
+        margin-top: -20px;
     }
 }
 
@@ -289,8 +298,8 @@ $smart_service_primary_color: var(--point-color);
 }
 
 .table {
-	width: 100%;
-	text-align: center;
+   width: 100%;
+   text-align: center;
     box-shadow: none;
     
     td {
@@ -726,7 +735,7 @@ $smart_service_primary_color: var(--point-color);
 
   .example-container {
     margin: 0 auto;
-    min-height: 370px;
+    min-height: 420px;
     background-color: white;
   }
 }
@@ -748,8 +757,12 @@ $smart_service_primary_color: var(--point-color);
 
   mat-card {
     text-align: center;
-    height: 708px;
+    height: 760px;
     box-shadow: none;
+  }
+
+  mat-icon {
+    color: var(--point-text-color);
   }
 
   .example-container {
@@ -822,7 +835,7 @@ $smart_service_primary_color: var(--point-color);
     }
     
     section {
-        height: 265px;
+        height: 315px;
         overflow-y: auto;
     }
 
@@ -832,7 +845,7 @@ $smart_service_primary_color: var(--point-color);
     
     section::-webkit-scrollbar-thumb {
         height: 30%; /* 스크롤바의 길이 */
-        background: #96cdca; /* 스크롤바의 색상 */
+        background: #f0f2f5; /* 스크롤바의 색상 */
         
         border-radius: 10px;
     }

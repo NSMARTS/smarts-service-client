@@ -54,9 +54,7 @@ export class EmployeeListComponent implements AfterViewInit {
   isRollover = false;
   employees: WritableSignal<Employee[]>;
 
-  dataSource = new MatTableDataSource<Employee>(
-    []
-  );
+  dataSource = new MatTableDataSource<Employee>([]);
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -87,13 +85,15 @@ export class EmployeeListComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.employeeService.getEmployeesWithQueryParameters(
-            this.companyId,
-            this.sort.active,
-            this.sort.direction,
-            this.paginator.pageIndex,
-            this.paginator.pageSize
-          ).pipe()
+          return this.employeeService
+            .getEmployeesWithQueryParameters(
+              this.companyId,
+              this.sort.active,
+              this.sort.direction,
+              this.paginator.pageIndex,
+              this.paginator.pageSize
+            )
+            .pipe();
         }),
         map(async (res: any) => {
           // https://material.angular.io/components/table/examples
@@ -104,7 +104,7 @@ export class EmployeeListComponent implements AfterViewInit {
           this.dataSource = new MatTableDataSource<Employee>(this.employees());
 
           return this.employees();
-        }),
+        })
       )
       .subscribe();
   }
@@ -140,7 +140,7 @@ export class EmployeeListComponent implements AfterViewInit {
               );
               console.log(data);
             },
-            error: (err: any) => { },
+            error: (err: any) => {},
           });
         }
       });

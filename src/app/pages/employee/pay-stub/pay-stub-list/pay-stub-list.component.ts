@@ -70,7 +70,7 @@ export class PayStubListComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   isLoadingResults = true;
-  isRateLimitReached = false;
+  //   isRateLimitReached = false;
   resultsLength = 0;
 
   constructor(
@@ -177,7 +177,7 @@ export class PayStubListComponent implements AfterViewInit {
         map((res: any) => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
-          this.isRateLimitReached = res.data === null;
+          //   this.isRateLimitReached = res.data === null;
           this.resultsLength = res.total_count;
           this.dataSource = new MatTableDataSource<any>(res.data);
           return res.data;
@@ -238,12 +238,11 @@ export class PayStubListComponent implements AfterViewInit {
   }
 
   editPayStub(id: string) {
-
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
       data: {
         companyId: this.companyId,
         payStubId: id,
-        isEditMode: true
+        isEditMode: true,
       },
     });
     dialogRef.afterClosed().subscribe(() => {
@@ -256,13 +255,17 @@ export class PayStubListComponent implements AfterViewInit {
       next: (res) => {
         if (res.success) {
           this.getPayStubsByQuery();
-          this.dialogService.openDialogPositive('Statement deleted successfully.');
+          this.dialogService.openDialogPositive(
+            'Statement deleted successfully.'
+          );
         }
       },
       error: (error) => {
-        this.dialogService.openDialogNegative('An error occurred on the Internet server.');
-      }
-    })
+        this.dialogService.openDialogNegative(
+          'An error occurred on the Internet server.'
+        );
+      },
+    });
   }
 
   openDialog() {

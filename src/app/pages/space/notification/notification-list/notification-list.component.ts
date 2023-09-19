@@ -61,8 +61,8 @@ export class NotificationListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  isLoadingResults = true;
-  isRateLimitReached = false;
+  // isLoadingResults = true;
+  // isRateLimitReached = false;
   resultsLength = 0;
 
   constructor(
@@ -113,7 +113,7 @@ export class NotificationListComponent implements AfterViewInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
+          // this.isLoadingResults = true;
           const paramsQuery = {
             ...this.searchNotificationForm.value,
             startDate: convertedStartDate,
@@ -131,8 +131,8 @@ export class NotificationListComponent implements AfterViewInit {
         }),
         map((res: any) => {
           // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isRateLimitReached = res.data === null;
+          // this.isLoadingResults = false;
+          // this.isRateLimitReached = res.data === null;
           this.resultsLength = res.total_count;
           this.dataSource = new MatTableDataSource<any>(res.data);
           return res.data;

@@ -56,8 +56,7 @@ export class PayStubDialogComponent implements OnInit {
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
 
-  isLoadingResults = false;
-
+  isLoadingResults = true;
 
   constructor(
     public dialogRef: MatDialogRef<PayStubDialogComponent>,
@@ -66,9 +65,9 @@ export class PayStubDialogComponent implements OnInit {
     private employeeService: EmployeeService,
     private authService: AuthService,
     private payStubService: PayStubService,
-    private dialogService: DialogService,
-    // public dialogRef: MatDialogRef<PayStubComapnyListComponent>
-  ) {
+    private dialogService: DialogService
+  ) // public dialogRef: MatDialogRef<PayStubComapnyListComponent>
+  {
     this.statementForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
       // 명세서를 받을 사람 email.
@@ -110,18 +109,22 @@ export class PayStubDialogComponent implements OnInit {
     await this.employeeService.setEmployees(employees.data);
 
     if (this.data.isEditMode) {
-      this.payStubService.getPayStub(this.data.companyId, this.data.payStubId).subscribe({
-        next: (res) => {
-          this.statementForm.controls['title'].patchValue(res.data.title)
-          this.fileName = res.data.originalname
-          this.key = res.data.key;
-          this.statementForm.controls['employee'].patchValue(res.data.employee.email
-          )
-          this.getPdf(this.key);
-        },
-        error: (error) => { console.log(error) }
-      })
-
+      this.payStubService
+        .getPayStub(this.data.companyId, this.data.payStubId)
+        .subscribe({
+          next: (res) => {
+            this.statementForm.controls['title'].patchValue(res.data.title);
+            this.fileName = res.data.originalname;
+            this.key = res.data.key;
+            this.statementForm.controls['employee'].patchValue(
+              res.data.employee.email
+            );
+            this.getPdf(this.key);
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
     }
   }
 
@@ -181,16 +184,17 @@ export class PayStubDialogComponent implements OnInit {
     } else {
       this.upload(formData);
     }
-
   }
 
   upload(formData: any): void {
     this.payStubService.upload(formData).subscribe({
       next: (event: any) => {
         this.isLoadingResults = false;
-        this.dialogService.openDialogPositive('Statement has successfully uploaded.').subscribe(() => {
-          this.dialogRef.close(true)
-        })
+        this.dialogService
+          .openDialogPositive('Statement has successfully uploaded.')
+          .subscribe(() => {
+            this.dialogRef.close(true);
+          });
       },
       error: (err: any) => {
         console.log(err);
@@ -209,9 +213,11 @@ export class PayStubDialogComponent implements OnInit {
     this.payStubService.edit(this.data.payStubId, formData).subscribe({
       next: (event: any) => {
         this.isLoadingResults = false;
-        this.dialogService.openDialogPositive('Statement has successfully uploaded.').subscribe(() => {
-          this.dialogRef.close(true)
-        })
+        this.dialogService
+          .openDialogPositive('Statement has successfully uploaded.')
+          .subscribe(() => {
+            this.dialogRef.close(true);
+          });
       },
       error: (err: any) => {
         console.log(err);
@@ -232,7 +238,6 @@ export class PayStubDialogComponent implements OnInit {
     const employeeError = this.statementForm
       .get('employee')
       ?.hasError('required');
-
 
     return titleError || employeeError;
   }
@@ -273,7 +278,6 @@ export class PayStubDialogComponent implements OnInit {
   getPdf(url: string) {
     this.payStubService.getPdf(url).subscribe({
       next: async (res: ArrayBuffer) => {
-
         const loadingTask = pdfjsLib.getDocument({ data: res });
 
         loadingTask.promise.then((pdfDocument) => {
@@ -293,7 +297,6 @@ export class PayStubDialogComponent implements OnInit {
             };
             page.render(renderContext);
             this.isLoadingResults = false;
-
           });
         });
       },
