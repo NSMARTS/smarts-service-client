@@ -36,7 +36,10 @@ export class ManagerEditComponent {
     public dialog: MatDialog
   ) {
     this.editManagerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [
+        { value: '', disabled: true },
+        [Validators.required, Validators.email],
+      ],
       username: ['', [Validators.required]],
       phoneNumber: ['', [Validators.pattern(/^[0-9]*$/)]],
       address: [''],
