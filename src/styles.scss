@@ -273,6 +273,8 @@ $smart_service_primary_color: var(--point-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
+    height: 40px;
 
     .btn {display: flex; 
       button {margin-top: 25px;}
@@ -282,12 +284,6 @@ $smart_service_primary_color: var(--point-color);
         font-size: 22px;
         font-weight: bold;
         line-height: 0px;
-        margin-bottom: 30px;
-    }
-
-    button {
-        // margin-bottom: 20px;
-        margin-top: -20px;
     }
 }
 
