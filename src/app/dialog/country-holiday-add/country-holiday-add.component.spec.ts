@@ -8,7 +8,7 @@ describe('CountryHolidayAddComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CountryHolidayAddComponent]
+      imports: [CountryHolidayAddComponent],
     });
     fixture = TestBed.createComponent(CountryHolidayAddComponent);
     component = fixture.componentInstance;
