@@ -14,7 +14,7 @@ export class ManagerService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   //매니저 등록
   addManager(managerData: any) {
@@ -72,10 +72,15 @@ export class ManagerService {
 
   // 관리하지 않은 나머지 직원 목록 조회
   getManagerEmployeesWithout(
-    companyId: string
+    companyId: string,
+    managerId: string
   ): Observable<HttpResMsg<Employee[]>> {
     return this.http.get<HttpResMsg<Employee[]>>(
-      this.baseUrl + '/managers/employees/' + companyId + '/without'
+      this.baseUrl +
+        '/managers/employees/' +
+        companyId +
+        '/without/' +
+        managerId
     );
   }
 
