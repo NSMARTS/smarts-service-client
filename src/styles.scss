@@ -273,6 +273,8 @@ $smart_service_primary_color: var(--point-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
+    height: 40px;
 
     .btn {display: flex; 
       button {margin-top: 25px;}
@@ -282,12 +284,6 @@ $smart_service_primary_color: var(--point-color);
         font-size: 22px;
         font-weight: bold;
         line-height: 0px;
-        margin-bottom: 30px;
-    }
-
-    button {
-        // margin-bottom: 20px;
-        margin-top: -20px;
     }
 }
 
@@ -345,7 +341,7 @@ $smart_service_primary_color: var(--point-color);
     --mdc-filled-button-label-text-color: var(--point-text-color);
 }  
 
-@media screen and (max-width: 1580px) {
+@media screen and (max-width: 1650px) {
   .page {
     padding: 10px 10px;
   }
@@ -358,11 +354,11 @@ $smart_service_primary_color: var(--point-color);
     word-break: break-all;
 
     th {
-      padding: 3px 5px;
+    //   padding: 3px 5px;
     }
 
     td {
-      padding: 2px 5px;
+    //   padding: 2px 5px;
       font-size: 1em;
 
       button {

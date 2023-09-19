@@ -1,6 +1,7 @@
 <div class="page">
     <div class="page_header">
         <div class="page_title">Country Holiday List</div>
+		<button mat-flat-button (click)="openAddHoliday();">Add Holiday</button>
     </div>
 
         <!------------ 여기부터 정리 필요 ------------>
@@ -10,7 +11,7 @@
 		</span>
 		<button class="requestBtn" [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday Day</button> -->
 
-	<form [formGroup]="countryHolidayForm" novalidate>
+	<!-- <form [formGroup]="countryHolidayForm" novalidate>
 			<div class="add_container">
 				<div fxLayout="column"  style="max-width: 800px;">
 					<div class="selectContent" fxLayout="row wrap" fxLayoutGap="20px">
@@ -51,13 +52,12 @@
 							> 
 								Add Holiday
 							</button>
-							<!-- <button  mat-raised-button class="cancelBtn" mat-dialog-close> Cancel </button> -->
 						</div>
 					</div>
 				</div>
 			</div>
-		</form>
-        <!------------ 여기까지 정리 필요 ------------>
+		</form> -->
+
 
 	<div class="table_container mt-30">
 
