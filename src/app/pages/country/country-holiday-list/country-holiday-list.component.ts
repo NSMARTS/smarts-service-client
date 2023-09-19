@@ -24,6 +24,8 @@ import { CountryService } from 'src/app/services/country.service';
 // } from '@angular/material-moment-adapter';
 import { MatYearView } from '@angular/material/datepicker';
 import { CustomDateDirectiveModule } from './custom-date-directive.module';
+import { CountryHolidayAddComponent } from 'src/app/dialog/country-holiday-add/country-holiday-add.component';
+import { MatDialog } from '@angular/material/dialog';
 
 // import { PeriodicElement } from '../../company-mngmt/company-list/company-list.component';
 // import * as _moment from 'moment';
@@ -47,7 +49,7 @@ import { CustomDateDirectiveModule } from './custom-date-directive.module';
 // };
 
 @Component({
-  selector: 'app-country-holiday-add',
+  selector: 'app-country-holiday-list',
   standalone: true,
   imports: [
     CommonModule,
@@ -55,8 +57,8 @@ import { CustomDateDirectiveModule } from './custom-date-directive.module';
     RouterModule,
     CustomDateDirectiveModule,
   ],
-  templateUrl: './country-holiday-add.component.html',
-  styleUrls: ['./country-holiday-add.component.scss'],
+  templateUrl: './country-holiday-list.component.html',
+  styleUrls: ['./country-holiday-list.component.scss'],
   // providers: [
   //   // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
   //   // application's root module. We provide it at the component level here, due to limitations of
@@ -70,12 +72,12 @@ import { CustomDateDirectiveModule } from './custom-date-directive.module';
   //   { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   // ],
 })
-export class CountryHolidayAddComponent implements OnInit {
+export class CountryHolidayListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // // view table
   displayedColumns: string[] = ['holidayName', 'holidayDate', 'delete'];
   countryHolidayList: MatTableDataSource<any> = new MatTableDataSource<any>([]);
-  wholeHolodayList: any;
+  wholeHolidayList: any;
   countryId: any;
   countryHolidayForm!: FormGroup<any>;
   currentYear = moment().year();
@@ -89,7 +91,8 @@ export class CountryHolidayAddComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dialogService: DialogService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    public dialog: MatDialog
   ) {
     this.countryId = this.route.snapshot.params['id'];
   }
@@ -108,13 +111,13 @@ export class CountryHolidayAddComponent implements OnInit {
       .getCountryInfo({ countryId: this.countryId })
       .subscribe({
         next: (res: any) => {
-          this.wholeHolodayList = res.getCountryById.countryHoliday.sort(
+          this.wholeHolidayList = res.getCountryById.countryHoliday.sort(
             (a: any, b: any) =>
               new Date(a.holidayDate).getTime() -
               new Date(b.holidayDate).getTime()
           );
           const ctrlValue = this.date.value!;
-          console.log(this.wholeHolodayList, ctrlValue.year());
+          console.log(this.wholeHolidayList, ctrlValue.year());
           this.applyFilterYear(ctrlValue.year());
           this.countryHolidayList.paginator = this.paginator;
         },
@@ -135,10 +138,10 @@ export class CountryHolidayAddComponent implements OnInit {
     };
     console.log(countryHolidayData);
 
-    if (this.wholeHolodayList) {
+    if (this.wholeHolidayList) {
       // 휴가 중복 체크
-      for (let i = 0; i < this.wholeHolodayList.length; i++) {
-        if (this.wholeHolodayList[i].holidayDate == convertDate) {
+      for (let i = 0; i < this.wholeHolidayList.length; i++) {
+        if (this.wholeHolidayList[i].holidayDate == convertDate) {
           // this.dialogRef.close();
           return this.dialogService.openDialogNegative(
             'The holiday is duplicated.'
@@ -156,6 +159,19 @@ export class CountryHolidayAddComponent implements OnInit {
         this.dialogService.openDialogNegative('An error has occured.');
         this.getCountryHolidayList();
       },
+    });
+  }
+
+  openAddHoliday() {
+    const dialogRef = this.dialog.open(CountryHolidayAddComponent, {
+      data: {
+        countryId: this.countryId,
+        wholeHolidayList: this.wholeHolidayList
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.getCountryHolidayList();
     });
   }
 
@@ -203,7 +219,7 @@ export class CountryHolidayAddComponent implements OnInit {
   }
 
   applyFilterYear(year: number) {
-    this.countryHolidayList.data = this.wholeHolodayList.filter(
+    this.countryHolidayList.data = this.wholeHolidayList.filter(
       (e: any) => new Date(e.holidayDate).getUTCFullYear() === year
     );
     console.log(this.countryHolidayList);

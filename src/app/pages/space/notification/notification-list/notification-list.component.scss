@@ -2,6 +2,10 @@
     margin-left: 20px;
 }
 
+.filter .selectContent mat-form-field {
+    margin-right: 0px;
+}
+
 .selectContent {
     width: 100%;
     background-color: white;
@@ -15,7 +19,7 @@
 
 .left {
     mat-form-field {
-        margin-right: 5px;
+        margin-right: 5px!important;
     }
 }
 
@@ -25,7 +29,7 @@ label {
 
 .right {
     mat-form-field {
-        margin-left: 5px;
+        margin-left: 5px!important;
     }
 }
 

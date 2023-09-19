@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { CountryListComponent } from './country-list/country-list.component';
-import { CountryHolidayAddComponent } from './country-holiday-add/country-holiday-add.component';
+import { CountryHolidayListComponent } from './country-holiday-list/country-holiday-list.component';
 
 
 
@@ -14,6 +14,6 @@ export const COUNTRY_ROUTES: Route[] = [
   },
   {
     path: ':id',
-    component: CountryHolidayAddComponent,
+    component: CountryHolidayListComponent,
   },
 ];
