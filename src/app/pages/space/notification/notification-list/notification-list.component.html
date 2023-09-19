@@ -10,6 +10,7 @@
         <div class="selectContent">
           
             <mat-form-field appearance="outline" class="formFieldBox">
+              <mat-label>Type</mat-label>
               <mat-select formControlName="searchCondition" required>
                 <mat-option *ngFor="let searchCondition of searchConditionList" [value]="searchCondition">
                   {{searchCondition}}
@@ -18,7 +19,7 @@
             </mat-form-field>
 
             <mat-form-field class="formEmailFieldBox" appearance="outline">
-              <mat-label>Type Text</mat-label>
+              <mat-label>Type Filter</mat-label>
               <!-- https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute -->
               <input matInput type="text" formControlName="searchConditionValue" />
             </mat-form-field>
