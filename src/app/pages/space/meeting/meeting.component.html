@@ -5,76 +5,63 @@
             <mat-checkbox [(ngModel)]="showAllMeetings">전체 회의</mat-checkbox>
             <button mat-flat-button (click)="openDialogDocMeetingSet()">Schedule a meeting</button>
         </div>
-            <!-- <div>
-            <mat-checkbox class="example-margin" [(ngModel)]="showAllMeetings">전체 회의</mat-checkbox>
-            <button class="scheduleBtn" mat-raised-button color="primary"
-            (click)="openDialogDocMeetingSet()">
-                Schedule a meeting
-            </button>
-        </div> -->
     </div>
 
     <div class="cardContainer">
-        <div class="cardMgCtr" fxLayout="column" fxLayoutGap="30px" fxLayoutAlign="center">
-
-            <!-- <div class="example-loading-shade" *ngIf="isLoadingResults">
-                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-            </div> -->
-                
-            <div class="meetingBox" fxLayout="row wrap" fxLayoutAlign="flex-start">
-                <!-- <ng-container *ngFor="let data of meetingArray; index as i; trackBy:trackById"> -->
+        <div class="cardMgCtr">
+            <div class="meetingBox">
                 <ng-container *ngFor="let data of meetingArray; index as i;" >
                     <mat-card class="example-card" *ngIf ="data.status === 'Open' || showAllMeetings === true">
+
                         <mat-card-header fxLayout="column">
                             <mat-card-title>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                  <div fxFlex="90" class="card-title">
+                                    Title : {{ data.meetingTitle }}
+                                  </div>
+                                  <div fxFlex>
+                                    <mat-slide-toggle [checked]="data.status === 'Open'" (change)="toggle(data, i);"
+                                      [matTooltip]="data.status === 'Open' ? 'Meeting open' : 'Meeting close'"
+                                      matTooltipPosition="above" matTooltipShowDelay="500" [disabled]="isToggleDisabled(data.startDate)">
+                                    </mat-slide-toggle>
+                                  </div>
+                                </div>
+                            </mat-card-title>
 
-                <div fxLayout="row" fxLayoutAlign="space-between center">
-                  <div fxFlex="90" class="card-title">
-                    Title : {{ data.meetingTitle }}
-                  </div>
-                  <div fxFlex>
-                    <mat-slide-toggle [checked]="data.status === 'Open'" (change)="toggle(data, i);"
-                      [matTooltip]="data.status === 'Open' ? 'Meeting open' : 'Meeting close'"
-                      matTooltipPosition="above" matTooltipShowDelay="500">
-                    </mat-slide-toggle>
-                  </div>
-                </div>
-              </mat-card-title>
+                            <mat-card-subtitle>
+                              <div>
+                                <p *ngIf="data.newManager ==! null || data.newManager.length > 0"><span>Managers:</span> {{ data.newManager }}</p>
+                                <p *ngIf="data.newEmployee ==! null || data.newEmployee.length > 0"><span>Employees:</span> {{ data.newEmployee }}</p>
+                              </div>
+                              <p *ngIf="data.meetingDescription"><span>Description:</span> {{ data.meetingDescription }}</p>
+                              <p *ngIf="data.meetingLink"><span>Link:</span> {{ data.meetingLink }}</p>
+                              <span>Start:</span> {{ data.startDate | date: 'YYYY-MM-dd' }} {{ data.startTime }}
+                            </mat-card-subtitle>
+                        </mat-card-header>
 
-              <mat-card-subtitle>
-                <div>
-                  <p *ngIf="data.newManager ==! null || data.newManager.length > 0">Managers: {{ data.newManager }}</p>
-                  <p *ngIf="data.newEmployee ==! null || data.newEmployee.length > 0">Employees: {{ data.newEmployee }}
-                  </p>
-                </div>
-                <p *ngIf="data.meetingDescription">Description: {{ data.meetingDescription }}</p>
-                {{ data.startDate | date }} {{ data.startTime }}
-              </mat-card-subtitle>
-            </mat-card-header>
-
-            <!-- <mat-card-actions align="center"> -->
-            <mat-card-actions fxLayoutGap="5px" fxLayoutAlign="center">
-              <button mat-stroked-button [disabled]="!data.meetingLink" (click)="enterMeeting(data)"> Enter </button>
-              <button mat-stroked-button (click)="editMeeting(data)"> Edit </button>
-              <button mat-stroked-button (click)="deleteMeeting(data)"> Delete </button>
-            </mat-card-actions>
-          </mat-card>
-        </ng-container>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="meetingArray === null || meetingArray.length < 1">
-    <div class="no-meeting-room" fxLayout="column" fxLayoutAlign="center center">
-      <mat-icon>
-        no_meeting_room
-      </mat-icon>
-      <div>
-        No meetings were created
-      </div>
-      <div>
-        Schedule a new meeting
-      </div>
+                        <!-- <mat-card-actions align="center"> -->
+                        <mat-card-actions fxLayoutGap="5px" fxLayoutAlign="center">
+                            <button mat-stroked-button [disabled]="!data.meetingLink" (click)="enterMeeting(data)"> Enter </button>
+                            <button mat-stroked-button (click)="editMeeting(data)"> Edit </button>
+                            <button mat-stroked-button (click)="deleteMeeting(data)"> Delete </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </ng-container>
+            </div>
+        </div>
     </div>
 
-  </div>
+    <div *ngIf="meetingArray === null || meetingArray.length < 1">
+        <div class="no-meeting-room" fxLayout="column" fxLayoutAlign="center center">
+            <mat-icon>
+              no_meeting_room
+            </mat-icon>
+            <div>
+              No meetings were created
+            </div>
+            <div>
+              Schedule a new meeting
+            </div>
+        </div>
+    </div>
 </div>

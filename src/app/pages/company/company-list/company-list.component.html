@@ -65,8 +65,8 @@
             <td mat-cell *matCellDef="let element">
               <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="editCompany(element._id)">Edit</button>
-                <button mat-menu-item (click)="deleteCompany(element._id)">Delete</button>
+                <button mat-menu-item (click)="editCompany(element._id)"><mat-icon>edit</mat-icon>Edit</button>
+                <button mat-menu-item (click)="deleteCompany(element._id)"><mat-icon>delete</mat-icon>Delete</button>
               </mat-menu>
             </td>
           </ng-container>

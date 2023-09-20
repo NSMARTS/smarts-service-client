@@ -1,10 +1,34 @@
 .card-container {
     height: 100%;
     background: rgba(236, 236, 236, 0.9);
+    color: var(--text-color);
 }
 
+.cardBox {
+    padding: 50px 40px 40px;
+    width: 400px;
+}
+
+h1 {
+    font-size: 26px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 80px;
+    letter-spacing: 1px;
+}
+
+mat-card-title {
+    color: var(--point-text-color);
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+mat-form-field:nth-child(2) {margin-bottom: 30px;}
+
 .example-form {
-    width: 300px;
+    // width: 300px;
 }
 
 .example-full-width {
@@ -12,21 +36,24 @@
 }
 
 .cardSubTitle {
-    color: rgb(170, 170, 170);
-    margin-bottom: 20px;
-    font-size: 16px;
+    margin-bottom: 50px;
 }
 
 .signinBtn {
-    background-color: #00154F;
-    color: #fff
+    background-color: var(--point-back)!important;
+    color: var(--point-text-color)!important;
+    box-shadow: none!important;
+    margin-bottom: 25px;
+    height: 46px;
 }
 
 .findPwBox {
     cursor: pointer;
-    color: #00154fb0;
-    font-weight: bold;
+    color: var(--text-color);
+    opacity: 0.8;
 }
+.findPwBox:hover {opacity: 1;}
+
 
 // ::ng-deep .mat-focused .mat-form-field-label {
 // 	/*change color of label*/

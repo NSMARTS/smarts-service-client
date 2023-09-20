@@ -1,12 +1,14 @@
 <div class="page">
-  <div class="page_title">Add Manager's Employees</div>
+  <div class="page_header">
+    <div class="page_title">Add Manager's Employees</div>
+    <button mat-flat-button class="table_add_button" (click)="addmanagerEmployees()">Request</button>
+  </div>
   Click on the employees you want to add and press the request button.
   <div class="filter">
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Manager's Employees" #input>
     </mat-form-field>
-    <button mat-flat-button class="table_add_button" (click)="addmanagerEmployees()">Request</button>
   </div>
 
   <div class="table-container">

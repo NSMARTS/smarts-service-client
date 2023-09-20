@@ -109,11 +109,14 @@ export class ManagerEmployeesAddComponent implements OnInit {
     // lastValueFrom은 rxjs 비동기 통신을하기위 사용
     // 서버에 값을 받아올때까지 멈춘다.
     const employees = await lastValueFrom(
-      this.managerService.getManagerEmployeesWithout(this.companyId)
+      this.managerService.getManagerEmployeesWithout(
+        this.companyId,
+        this.managerId
+      )
     );
     // signal을 통한 상태관리
     await this.employeeService.setEmployees(employees.data);
-    console.log(employees.data)
+    console.log(employees.data);
     this.dataSource.data = this.employeeService.employees();
     this.dataSource.paginator = this.paginator;
   }

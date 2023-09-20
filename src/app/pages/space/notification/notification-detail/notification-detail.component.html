@@ -5,11 +5,13 @@
     <div class="notification_title">
         {{notification?.title}}
     </div>
-    <div class="notification_username">
-        {{notification?.writer?.username}}
-    </div>
-    <div class="notification_convertedCreatedAt">
-        {{convertedCreatedAt}}
+    <div>
+        <div class="notification_username">
+            {{notification?.writer?.username}}
+        </div>
+        <div class="notification_convertedCreatedAt">
+            {{convertedCreatedAt}}
+        </div>
     </div>
 
     <div>
@@ -23,7 +25,7 @@
     {{convertedCreatedAt}}
     {{convertedUpdatedAt}} -->
 
-    <div class="notification_text">
+    <div class="notification_contents">
         <quill-view-html [content]="contents" theme="snow"></quill-view-html>
     </div>
 

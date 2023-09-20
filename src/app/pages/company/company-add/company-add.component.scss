@@ -10,6 +10,7 @@
   .form-field {
     flex: 1; /* 각각의 요소가 동일한 너비를 갖도록 설정 */
     margin-right: 20px; /* 요소 사이의 간격을 설정 (원하는 간격으로 조절) */
+    margin-bottom: 20px;
   }
 
 @media screen and (max-width: 900px) {  

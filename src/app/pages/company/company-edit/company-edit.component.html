@@ -1,17 +1,17 @@
 <div class="page">
-  <div class="page_title">Edit Company</div>
+    <div class="page_header">
+        <div class="page_title">Edit Company</div>
+      </div>
 
   <form [formGroup]="editCompanyForm" (ngSubmit)="onSubmit()">
     <div class="add_container">
 
       <!-- company name -->
-      <div class="lineDivider" fxLayout="row wrap">
+      <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
             <span>Company Name</span>
-          </div>
         </div>
-        <div class="rightTable" fxFlex="50" fxFlex.gt-md="70">
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline" class="companyFormFieldBox">
             <mat-label>Company Name</mat-label>
             <input matInput type="text" formControlName="companyName" />
@@ -20,13 +20,11 @@
       </div>
 
       <!-- Annual Policy -->
-      <div class="lineDivider" fxLayout="row wrap">
+      <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
             <span>Annual Policy</span>
-          </div>
         </div>
-        <div class="rightTable" fxFlex>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
             <input type="radio" value="byYear" formControlName="annualPolicy"
               [checked]="editCompanyForm.get('annualPolicy')?.value === 'byYear' ? true : false" />by
@@ -39,13 +37,11 @@
       </div>
 
       <!-- rollover -->
-      <div class="lineDivider" fxLayout="row wrap">
+      <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
             <span>Rollover</span>
-          </div>
         </div>
-        <div class="rightTable" fxFlex>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
             <input type="radio" formControlName="isRollover" [value]="true"
               [checked]="editCompanyForm.get('isRollover')?.value" />Yes
@@ -56,13 +52,11 @@
       </div>
       <div *ngIf="editCompanyForm.get('isRollover')?.value === true">
         <!-- rollover max month -->
-        <div class="lineDivider" fxLayout="row wrap">
+        <div class="lineDivider">
           <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <div class="leftBox">
               <span>Rollover Max Month</span>
-            </div>
           </div>
-          <div class="rightTable" fxFlex>
+          <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
             <mat-form-field appearance="outline" class="formFieldBox formSpacer">
               <input matInput type="number" class="numeric-input" formControlName="rolloverMaxMonth"
                 placeholder="Rollover Max Month" />
@@ -70,11 +64,9 @@
           </div>
         </div>
         <!-- rollover max day -->
-        <div class="lineDivider" fxLayout="row wrap">
+        <div class="lineDivider">
           <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <div class="leftBox">
               <span>Rollover Max Day</span>
-            </div>
           </div>
           <div class="rightTable" fxFlex>
             <mat-form-field appearance="outline" class="formFieldBox formSpacer">
@@ -86,13 +78,11 @@
       </div>
 
       <!-- Replacement Day -->
-      <div class="lineDivider" fxLayout="row wrap">
+      <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
             <span>Replacement Day</span>
-          </div>
         </div>
-        <div class="rightTable" fxFlex>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
             <input type="radio" formControlName="isReplacementDay" [value]="true"
               [checked]="editCompanyForm.get('isReplacementDay')?.value " />Yes
@@ -105,13 +95,11 @@
 
       <!-- RD Validity Day -->
       <div *ngIf="editCompanyForm.get('isReplacementDay')?.value == true">
-        <div class="lineDivider" fxLayout="row wrap">
+        <div class="lineDivider">
           <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <div class="leftBox">
               <span>RD Validity Term</span>
-            </div>
           </div>
-          <div class="rightTable" fxFlex>
+          <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
             <mat-form-field appearance="outline" class="formFieldBox formSpacer">
               <input matInput type="number" class="numeric-input" formControlName="rdValidityTerm"
                 placeholder="RD Validity Term" />
@@ -121,13 +109,11 @@
       </div>
 
       <!-- Advance Annual Leave -->
-      <div class="lineDivider" fxLayout="row wrap">
+      <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
             <span>Advance Annual Leave</span>
-          </div>
         </div>
-        <div class="rightTable" fxFlex>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
             <input type="radio" formControlName="isAdvanceLeave" [value]="true"
               [checked]="editCompanyForm.get('isAdvanceLeave')?.value" />Yes
@@ -139,13 +125,11 @@
       </div>
 
       <!--  Approval of Leave -->
-      <div class="lineDivider" fxLayout="row wrap">
+      <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
             <span>Approval of Leave</span>
-          </div>
         </div>
-        <div class="rightTable" fxFlex>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
             <input type="radio" [value]="true" formControlName="isPending" />Yes
             <input type="radio" [value]="false" formControlName="isPending" />No
@@ -154,11 +138,9 @@
       </div>
 
       <!-- Contract Date -->
-      <div class="lineDivider" fxLayout="row">
+      <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
             <span>Contract Date</span>
-          </div>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline" class="companyFormFieldBox">
@@ -172,11 +154,9 @@
       </div>
 
       <!-- Pay Date -->
-      <div class="lineDivider" fxLayout="row">
+      <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
             <span>Pay Date</span>
-          </div>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline" class="companyFormFieldBox">
@@ -189,27 +169,10 @@
         </div>
       </div>
 
-      <!-- Payment Required -->
-      <div class="lineDivider" fxLayout="row">
-        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
-            <span>Payment Required</span>
-          </div>
-        </div>
-        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-          <mat-radio-group mat-radio-group name="grpName">
-            <input type="radio" [value]="true" formControlName="paymentRequired" />Yes
-            <input type="radio" [value]="false" formControlName="paymentRequired" />No
-          </mat-radio-group>
-        </div>
-      </div>
-
       <!-- leave standard -->
-      <div class="lineDivider" fxLayout="row">
+      <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <div class="leftBox">
             <span>Leave Standard</span>
-          </div>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <div formArrayName="leaveStandards" *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index">
@@ -247,10 +210,10 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
-        <button mat-raised-button class="tableBtn" type="submit" color="primary"
+        <button mat-flat-button type="submit"
           [disabled]="isButtonDisabled()">Edit</button>
         <div style="width: 20px;"></div>
-        <button mat-raised-button class="tableBtn" (click)="toBack()">Cancel</button>
+        <button mat-flat-button class="cencelBtn" (click)="toBack()">Cancel</button>
       </div>
 
     </div>

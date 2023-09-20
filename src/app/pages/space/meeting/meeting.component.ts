@@ -28,6 +28,7 @@ import { ManagerService } from 'src/app/services/manager.service';
 import { Manager } from 'src/app/interfaces/manager.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from 'src/app/services/dialog.service';
+import * as moment from 'moment';
 
 //view table
 export interface PeriodicElement {
@@ -50,6 +51,8 @@ export class MeetingComponent implements OnInit {
   spaceTime: any;
   meetingArray: any[] = [];
   userData: any;
+  today = new Date();
+  // formattedDate: any;
 
   displayedColumns: string[] = [
     'meetingTitle',
@@ -78,6 +81,22 @@ export class MeetingComponent implements OnInit {
     private snackbar: MatSnackBar
   ) {
     this.companyId = this.route.snapshot.params['id'];
+
+    // let year = this.today.getFullYear(); // 현재 연도 가져오기
+    // let month: any = this.today.getMonth() + 1; // 현재 월 가져오기 (0부터 시작하므로 1을 더해줍니다.)
+    // let day: any = this.today.getDate(); // 현재 날짜 가져오기
+
+    // // 월과 날짜가 한 자리 숫자인 경우 두 자리로 포맷팅합니다.
+    // if (month < 10) {
+    //   month = '0' + month;
+    // }
+
+    // if (day < 10) {
+    //   day = '0' + day;
+    // }
+
+    // this.formattedDate = year + '-' + month + '-' + day;
+    // console.log(this.formattedDate);
   }
 
   ngOnInit(): void {
@@ -96,9 +115,6 @@ export class MeetingComponent implements OnInit {
         this.managers = res[0].data;
         this.employees = res[1].data;
 
-        // 직원 명단 저장 후 Meeting Lsit 요청
-        // 사실 3가지 요청을 동시에 하는게 가장 효율적이지만 코드를 조금 더 건드려야 함...
-        // 기존 코드를 유지하는 차원에서는 이 방식이 가장 편함
         this.getMeetingList(this.companyId);
       },
       error: (err: any) => {
@@ -151,25 +167,28 @@ export class MeetingComponent implements OnInit {
         // 1. meetingList에 날짜와 시간이 합쳐진 "meetingDate라는 변수를 추가"
         const meetingList = data.meetingList.map((item: any) => {
           // start time (ex; PM 12 : 00 ) 을 공백으로 split 하면 ['PM', '12', ':', '00]
-          // const meetingTime = {
-          //   am_pm: item.startTime.split(' ')[0], // 배열[0]은 AM PM에 해당
-          //   time: Number(item.startTime.split(' ')[1]), // 배열[1]은 시간에 해당
-          //   minute: Number(item.startTime.split(' ')[3]), // 배열[3]은 분에 해당
-          // };
+          const meetingTime = {
+            am_pm: item.startTime.split(' ')[0], // 배열[0]은 AM PM에 해당
+            time: Number(item.startTime.split(' ')[1]), // 배열[1]은 시간에 해당
+            minute: Number(item.startTime.split(' ')[3]), // 배열[3]은 분에 해당
+          };
 
-          // // PM이고 12시인 경우만 12시이고 그 외의 PM은 +12를 해줌 (ex: PM 11 -> 23)
-          // if (meetingTime.am_pm == 'PM' && meetingTime.time != 12)
-          //   meetingTime.time += 12;
-          // // AM이고 12시인 경우 00시를 의미하므로 해당 case만 0으로 변경
-          // if (meetingTime.am_pm == 'AM' && meetingTime.time == 12)
-          //   meetingTime.time = 0;
+          console.log(meetingTime);
 
-          // // meetingDate라는 변수에 미팅 일자와 시간을 통합하여 저장
-          // const meetingDate = new Date(
-          //   `${item.startDate} ${meetingTime.time}:${meetingTime.minute}`
-          // );
+          // // // PM이고 12시인 경우만 12시이고 그 외의 PM은 +12를 해줌 (ex: PM 11 -> 23)
+          if (meetingTime.am_pm == 'PM' && meetingTime.time != 12)
+            meetingTime.time += 12;
+          // AM이고 12시인 경우 00시를 의미하므로 해당 case만 0으로 변경
+          if (meetingTime.am_pm == 'AM' && meetingTime.time == 12)
+            meetingTime.time = 0;
 
-          console.log(item.managers, this.managers, this.employees);
+          const yymmddStr = moment(item.startDate).format('YYYY-MM-DD');
+
+          const meetingDate = new Date(
+            `${yymmddStr} ${meetingTime.time}:${meetingTime.minute}`
+          );
+
+          console.log(meetingDate);
 
           // 참여 매니저 id에 맞는 username 등록
           let newManager = item.managers.map((part: any) => {
@@ -192,25 +211,49 @@ export class MeetingComponent implements OnInit {
           });
 
           // 객체를 반환하여 meetingList 변수에 순차적으로 저장
-          return { ...item, newManager, newEmployee };
+          return { ...item, newManager, newEmployee, meetingDate };
         });
 
         console.log(meetingList);
 
-        // 2.meetingDate를 기준으로 sorting하고 해당 값을 this.meetingArray에 저장
-        // (현재는 최근일수로 위로 오도록 sort => 과거 미팅을 위에 오게 하려면 b와 a의 위치 변경 )
         this.meetingArray = meetingList.sort((a: any, b: any) => {
           return (
-            new Date(a.meetingDate).getTime() -
-            new Date(b.meetingDate).getTime()
+            new Date(b.meetingDate).getTime() -
+            new Date(a.meetingDate).getTime()
           );
         });
-        console.log(this.meetingArray);
+        this.autoCloseMeeting();
       },
       error: (err: any) => {
         console.log(err);
       },
     });
+  }
+
+  autoCloseMeeting() {
+    // console.log(this.meetingArray);
+
+    const meetingList = this.meetingArray.map((item: any) => {
+      // console.log(this.today, new Date(item.startDate));
+      const itemStartDate = new Date(item.startDate);
+      itemStartDate.setHours(0, 0, 0, 0);
+      this.today.setHours(0, 0, 0, 0);
+      //  console.log(this.today, itemStartDate);
+
+      if (itemStartDate < this.today) {
+        // console.log(item._id);
+        let obj = { _id: item._id };
+        this.closeMeeting(obj);
+      }
+    });
+  }
+
+  isToggleDisabled(startDate: string): boolean {
+    const itemStartDate = new Date(startDate);
+    itemStartDate.setHours(0, 0, 0, 0);
+    this.today.setHours(0, 0, 0, 0);
+
+    return itemStartDate < this.today;
   }
 
   // 미팅 생성
@@ -246,7 +289,6 @@ export class MeetingComponent implements OnInit {
   openMeeting(meetingData: any) {
     let data = {
       _id: meetingData._id,
-      spaceId: meetingData.spaceId,
       status: 'Open',
     };
     this.meetingService.editMeeting(data).subscribe({
@@ -268,7 +310,6 @@ export class MeetingComponent implements OnInit {
   closeMeeting(meetingData: any) {
     let data = {
       _id: meetingData._id,
-      spaceId: meetingData.spaceId,
       status: 'Close',
     };
     this.meetingService.editMeeting(data).subscribe({
@@ -296,8 +337,7 @@ export class MeetingComponent implements OnInit {
   editMeeting(data: any) {
     const dialogRef = this.dialog.open(MeetingEditComponent, {
       data: {
-        list: this.meetingArray,
-        meetingId: data._id,
+        meetingData :data,
         managers: this.managers,
         employees: this.employees,
       },
@@ -357,8 +397,8 @@ export class DialogMeetingSetComponent {
     startHour: new FormControl('12'),
     startMin: new FormControl('00'),
     startUnit: new FormControl('PM'),
-    managers: new FormControl(''),
-    employees: new FormControl(''),
+    managers: new FormControl([]),
+    employees: new FormControl([]),
   });
 
   hourList = [
@@ -474,8 +514,8 @@ export class MeetingEditComponent {
     startHour: new FormControl('12'),
     startMin: new FormControl('00'),
     startUnit: new FormControl('PM'),
-    managers: new FormControl(''),
-    employees: new FormControl(''),
+    managers: new FormControl([]),
+    employees: new FormControl([]),
   });
   meetingList: any[] = [];
 
@@ -503,6 +543,7 @@ export class MeetingEditComponent {
 
   managers: any = [];
   employees: any = [];
+  meetingData: any;
 
   constructor(
     public dialogRef: MatDialogRef<MeetingEditComponent>,
@@ -512,6 +553,7 @@ export class MeetingEditComponent {
   ) {
     this.managers = this.data.managers;
     this.employees = this.data.employees;
+    this.meetingData = this.data.meetingData;
     console.log(this.managers, this.employees);
   }
 
@@ -520,15 +562,18 @@ export class MeetingEditComponent {
   }
 
   getMeeting() {
-    console.log(this.data);
-    this.meetingList = this.data.list.filter(
-      (e: any) => e._id === this.data.meetingId
-    );
-    // this.setMeetingForm.controls.startDate.patchValue(
-    //   this.meetingList[0].meetingDate
-    // );
-    this.setMeetingForm.patchValue(this.meetingList[0]);
-    console.log(this.setMeetingForm.value);
+    console.log(this.meetingData);
+
+    const meetingTime = {
+      startUnit: this.meetingData.startTime.split(' ')[0], // 배열[0]은 AM PM에 해당
+      startHour: this.meetingData.startTime.split(' ')[1], // 배열[1]은 시간에 해당
+      startMin: this.meetingData.startTime.split(' ')[3], // 배열[3]은 분에 해당
+    };
+
+    this.setMeetingForm.patchValue({
+      ...this.meetingData,
+      ...meetingTime,
+    });
   }
 
   // 미팅 수정
@@ -539,8 +584,8 @@ export class MeetingEditComponent {
         if (result) {
           const formValue = this.setMeetingForm.value;
           let setMeeting = {
-            _id: this.meetingList[0]._id,
-            company: this.meetingList[0].company,
+            _id: this.meetingData._id,
+            company: this.meetingData.company,
             meetingTitle: formValue.meetingTitle,
             meetingDescription: formValue.meetingDescription,
             meetingLink: formValue.meetingLink,

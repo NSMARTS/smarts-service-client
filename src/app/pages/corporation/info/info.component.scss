@@ -9,3 +9,15 @@
     }
   }
 }
+
+.button {
+    flex-wrap: wrap;
+  }
+  
+  /* 반응형 디자인을 위한 미디어 쿼리 */
+
+  @media screen and (max-width: 550px) {
+    .mat-button-toggle {
+        min-width: 50px!important;
+    }
+  }

@@ -1,5 +1,7 @@
 <div class="page">
-  <div class="page_title">Manager Information</div>
+  <div class="page_header">
+    <div class="page_title">Manager Information</div>
+  </div>
 
   <div class="edit_twin_container">
 
@@ -13,8 +15,8 @@
           <p>
             <mat-form-field appearance="outline" class="editManagerFormFieldBox">
               <mat-label>Email</mat-label>
-              <input matInput type="text" placeholder="E-Mail *" name="email" formControlName="email"
-                autocomplete="email">
+              <input matInput placeholder="E-Mail" name="email" formControlName="email"
+                autocomplete="email" [disabled]="true">
             </mat-form-field>
           </p>
 
@@ -64,15 +66,19 @@
     </div>
 
     <div class="edit_right_container">
-      <p class="edit_title">Employees managed by managers</p>
+      <div class="edit_header">
+        <p class="edit_title">Employees managed by managers</p>
+        <button mat-flat-button class="table_add_button" (click)="addManagerEmployees()">Add Manager's
+            Employees</button>
+      </div>
       <div class="historyTableBox2">
         <div class="filter">
-          <mat-form-field>
-            <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="manager's Employees" #input>
-          </mat-form-field>
-          <button mat-flat-button class="table_add_button" (click)="addManagerEmployees()">Add Manager's
-            Employees</button>
+            <div class="selectContent">
+                <mat-form-field appearance="outline">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="manager's Employees" #input>
+                </mat-form-field>
+            </div>
         </div>
 
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
@@ -185,7 +191,7 @@
             </td>
           </tr>
         </table>
-        <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 30]" aria-label="Select page">
+        <mat-paginator [length]="100" [pageSize]="7" [pageSizeOptions]="[7, 10, 30]" aria-label="Select page">
         </mat-paginator>
       </div>
     </div>

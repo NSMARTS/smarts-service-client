@@ -1,7 +1,15 @@
-.notification_title {
+.notification_container {
+    max-width: 1000px;
+    min-height: 770px;
+    background-color: white;
+    margin: 0 auto; /* 가로 가운데 정렬 */
+}
+
+  .notification_title {
     font-size: 36px;
     font-weight: bold;
-    margin-bottom: 50px;
+    padding: 50px;
+    line-height: 1.5; /* 줄 간격을 1.5로 설정 */
 }
 
 .notification_username {
@@ -9,6 +17,7 @@
     font-size: 16px;
     font-weight: bold;
     margin-right: 10px;
+    margin-left: 50px;
 }
 
 .notification_convertedCreatedAt {
@@ -17,9 +26,15 @@
 }
 
 .mat-mdc-standard-chip {
+    margin-left: 50px;
     margin-top: 10px;
     margin-bottom: 20px;
     --mdc-chip-elevated-container-color: #DDF5F4;
     --mdc-chip-label-text-color: #56b1ac;
     --mdc-chip-label-text-weight: 500;
+  }
+
+  .notification_contents {
+    margin: 0 50px;
+    padding-bottom: 50px;
   }
