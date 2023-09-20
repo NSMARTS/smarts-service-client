@@ -10,7 +10,8 @@
   <a *ngIf="(item.isAdmin == flag.isAdmin || flag.isAdmin)"
     [routerLinkActiveOptions]="item.routerLinkActive || { exact: false }" [routerLink]="item.route" class="item" routerLinkActive="active">
         <span class="left"></span>
-        <mat-icon class="item_icon"> {{item.icon}} </mat-icon>
+        <mat-icon fontSet="material-icons-two-tone" class="item_icon">{{item.icon}}</mat-icon>
+        <!-- <mat-icon class="item_icon"> {{item.icon}} </mat-icon> -->
         <span class="item_label">{{ item.label }}</span>
   </a>
 </div>
@@ -20,7 +21,8 @@
 <ng-container *ngIf="isDropdown(item)">
   <div *ngIf="(item.isAdmin == flag.isAdmin || flag.isAdmin)">
     <div matRipple class="item" (click)="toggleOpen()" [class.active]="isOpen || isActive" [class.open]="isOpen">
-      <mat-icon class="item_icon" *ngIf="level === 0">{{item.icon}}</mat-icon>
+      <!-- <mat-icon fontSet="material-icons-two-tone">{{item.icon}}</mat-icon> -->
+      <mat-icon fontSet="material-icons-two-tone" class="item_icon" *ngIf="level === 0">{{item.icon}}</mat-icon>
       <span class="item_label" style="flex: 1;">{{ item.label }}</span>
 
       <mat-icon class="item_dropdown_icon">keyboard_arrow_right</mat-icon>
