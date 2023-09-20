@@ -51,6 +51,8 @@ export class MeetingComponent implements OnInit {
   spaceTime: any;
   meetingArray: any[] = [];
   userData: any;
+  today = new Date();
+  // formattedDate: any;
 
   displayedColumns: string[] = [
     'meetingTitle',
@@ -79,6 +81,22 @@ export class MeetingComponent implements OnInit {
     private snackbar: MatSnackBar
   ) {
     this.companyId = this.route.snapshot.params['id'];
+
+    // let year = this.today.getFullYear(); // 현재 연도 가져오기
+    // let month: any = this.today.getMonth() + 1; // 현재 월 가져오기 (0부터 시작하므로 1을 더해줍니다.)
+    // let day: any = this.today.getDate(); // 현재 날짜 가져오기
+
+    // // 월과 날짜가 한 자리 숫자인 경우 두 자리로 포맷팅합니다.
+    // if (month < 10) {
+    //   month = '0' + month;
+    // }
+
+    // if (day < 10) {
+    //   day = '0' + day;
+    // }
+
+    // this.formattedDate = year + '-' + month + '-' + day;
+    // console.log(this.formattedDate);
   }
 
   ngOnInit(): void {
@@ -97,9 +115,6 @@ export class MeetingComponent implements OnInit {
         this.managers = res[0].data;
         this.employees = res[1].data;
 
-        // 직원 명단 저장 후 Meeting Lsit 요청
-        // 사실 3가지 요청을 동시에 하는게 가장 효율적이지만 코드를 조금 더 건드려야 함...
-        // 기존 코드를 유지하는 차원에서는 이 방식이 가장 편함
         this.getMeetingList(this.companyId);
       },
       error: (err: any) => {
@@ -175,8 +190,6 @@ export class MeetingComponent implements OnInit {
 
           console.log(meetingDate);
 
-          console.log(item.managers, this.managers, this.employees);
-
           // 참여 매니저 id에 맞는 username 등록
           let newManager = item.managers.map((part: any) => {
             const userName = this.managers.filter((item) => {
@@ -209,12 +222,38 @@ export class MeetingComponent implements OnInit {
             new Date(a.meetingDate).getTime()
           );
         });
-        console.log(this.meetingArray);
+        this.autoCloseMeeting();
       },
       error: (err: any) => {
         console.log(err);
       },
     });
+  }
+
+  autoCloseMeeting() {
+    // console.log(this.meetingArray);
+
+    const meetingList = this.meetingArray.map((item: any) => {
+      // console.log(this.today, new Date(item.startDate));
+      const itemStartDate = new Date(item.startDate);
+      itemStartDate.setHours(0, 0, 0, 0);
+      this.today.setHours(0, 0, 0, 0);
+      //  console.log(this.today, itemStartDate);
+
+      if (itemStartDate < this.today) {
+        // console.log(item._id);
+        let obj = { _id: item._id };
+        this.closeMeeting(obj);
+      }
+    });
+  }
+
+  isToggleDisabled(startDate: string): boolean {
+    const itemStartDate = new Date(startDate);
+    itemStartDate.setHours(0, 0, 0, 0);
+    this.today.setHours(0, 0, 0, 0);
+
+    return itemStartDate < this.today;
   }
 
   // 미팅 생성
@@ -250,7 +289,6 @@ export class MeetingComponent implements OnInit {
   openMeeting(meetingData: any) {
     let data = {
       _id: meetingData._id,
-      spaceId: meetingData.spaceId,
       status: 'Open',
     };
     this.meetingService.editMeeting(data).subscribe({
@@ -272,7 +310,6 @@ export class MeetingComponent implements OnInit {
   closeMeeting(meetingData: any) {
     let data = {
       _id: meetingData._id,
-      spaceId: meetingData.spaceId,
       status: 'Close',
     };
     this.meetingService.editMeeting(data).subscribe({
