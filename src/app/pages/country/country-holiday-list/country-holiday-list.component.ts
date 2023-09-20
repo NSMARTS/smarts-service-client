@@ -75,7 +75,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class CountryHolidayListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // // view table
-  displayedColumns: string[] = ['holidayName', 'holidayDate', 'delete'];
+  displayedColumns: string[] = ['holidayDate', 'holidayName', 'delete'];
   countryHolidayList: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   wholeHolidayList: any;
   countryId: any;
@@ -166,7 +166,7 @@ export class CountryHolidayListComponent implements OnInit {
     const dialogRef = this.dialog.open(CountryHolidayAddComponent, {
       data: {
         countryId: this.countryId,
-        wholeHolidayList: this.wholeHolidayList
+        wholeHolidayList: this.wholeHolidayList,
       },
     });
 

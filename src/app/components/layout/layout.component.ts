@@ -51,10 +51,7 @@ export class LayoutComponent {
   route = inject(ActivatedRoute);
 
   companyId = this.route.snapshot.params['id'];
-  companyInfo: any = {
-    name: '누리컴퍼니',
-    date: new Date(),
-  };
+  companyInfo: any;
 
   // isLoadingResults는 false
   isLoadingResults: boolean = false;
@@ -190,7 +187,6 @@ export class LayoutComponent {
             this.companyId = splittedUrl[2];
             console.log('컴퍼니 아이디', this.companyId);
             this.getCompanyInfo();
-            // this.companyInfo = {name: this.companyId, date: new Date()}
           }
         }
       });
@@ -206,7 +202,6 @@ export class LayoutComponent {
         this.companyId = splittedUrl[2];
         console.log('컴퍼니 아이디', this.companyId);
         this.getCompanyInfo();
-        // this.companyInfo = { name: this.companyId, date: new Date() };
       }
     }
 

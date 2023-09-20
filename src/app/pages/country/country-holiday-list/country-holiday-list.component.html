@@ -76,14 +76,14 @@
 
 		<table mat-table [dataSource]="countryHolidayList" class="mat-elevation-z8 table" #filteredTable>
 
-			<ng-container matColumnDef="holidayName">
-				<th mat-header-cell *matHeaderCellDef> Name </th>
-				<td mat-cell *matCellDef="let element"> {{element?.holidayName}} </td>
-			</ng-container>
-
 			<ng-container matColumnDef="holidayDate">
 				<th mat-header-cell *matHeaderCellDef> Date </th>
 				<td mat-cell *matCellDef="let element"> {{element?.holidayDate | date: 'yyyy-MM-dd'}}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="holidayName">
+				<th mat-header-cell *matHeaderCellDef> Name </th>
+				<td mat-cell *matCellDef="let element"> {{element?.holidayName}} </td>
 			</ng-container>
 
 			<!-- <th mat-header-cell *matHeaderCellDef> - </th> -->
