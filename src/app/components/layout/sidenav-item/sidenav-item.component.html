@@ -6,7 +6,7 @@
 
 
 <!-- 링크 -->
-<div *ngIf="isLink(item)">
+<div *ngIf="isLink(item)" matRipple>
   <a *ngIf="(item.isAdmin == flag.isAdmin || flag.isAdmin)"
     [routerLinkActiveOptions]="item.routerLinkActive || { exact: false }" [routerLink]="item.route" class="item" routerLinkActive="active">
         <span class="left"></span>

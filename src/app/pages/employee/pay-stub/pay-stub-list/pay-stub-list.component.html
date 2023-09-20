@@ -11,24 +11,23 @@
         API rate limit has been reached. It will be reset in one minute.
       </div>
     </div> -->
-    <div class="example-loading-shade" (click)="onCanvasClick()" [ngClass]="{'hidden': !isLoadingResults}"
-      style="flex-direction: row;">
+    <div class="example-loading-shade" (click)="onCanvasClick()" [ngClass]="{'hidden': !isLoadingResults}">
       <!-- 리사이즈 드로잉 나중에 구현-->
       <!-- <canvas (window:resize)="onResize()" id="myCanvas" #pdfViewer></canvas> -->
       <canvas id="myCanvas" #pdfViewer></canvas>
 
-      <div [hidden]="!isCanvas" class="button-container page-button-container">
+      <div [hidden]="!isCanvas" class="button-container">
         <!-- <form class="page-form" (ngSubmit)="onGoToPage()">
           <label for="num">페이지 이동 : </label>
           <input placeholder="페이지 입력" type="number" [formControl]="pageNumForm" />
           <button>Go</button>
         </form> -->
-        <div class="page-buttons" style="display: flex; align-items: center; margin-top: 3px;">
-          <button mat-flat-button color="primary" (click)="onPrevPage()"
+        <div class="page-buttons">
+          <button mat-flat-button (click)="onPrevPage()"
             (click)="$event.stopPropagation()"><mat-icon>chevron_left</mat-icon></button>
           <div>{{currentPage()}} / <strong>{{pdfLength()}}</strong></div>
 
-          <button mat-flat-button color="primary" (click)="onNextPage()"
+          <button mat-flat-button (click)="onNextPage()"
             (click)="$event.stopPropagation()"><mat-icon>chevron_right</mat-icon></button>
         </div>
       </div>

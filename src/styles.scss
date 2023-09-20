@@ -612,7 +612,6 @@ $smart_service_primary_color: var(--point-color);
 .dialog_right_container {
   width: 330px;
   height: 452px;
-  flex: 5;
   /* 각 요소가 동일한 공간을 차지하도록 설정 */
   margin: 10px;
   /* 간격을 원하는 만큼 추가 */
@@ -639,6 +638,8 @@ $smart_service_primary_color: var(--point-color);
 // 공통 loading
 .example-loading-shade {
   position: absolute;
+  flex-direction: column;
+  margin-top: 50px;
   top: 0;
   left: 0;
   bottom: 0px;

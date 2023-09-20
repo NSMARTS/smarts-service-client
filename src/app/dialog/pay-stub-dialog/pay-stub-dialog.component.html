@@ -41,28 +41,27 @@
             (click)="fileInputElement.click()">Choose PDF File</button>
         </div>
       </div>
-      <div class="dialog_right_container" fxLayoutAlign="center center">
+      <div class="dialog_right_container">
         <canvas id="myCanvas" #pdfViewer></canvas>
-
+        <div class="page-buttons" *ngIf="currentFile" >
+            <button mat-flat-button (click)="onPrevPage()"
+              (click)="$event.stopPropagation()"><mat-icon>chevron_left</mat-icon></button>
+            <div>{{currentPage()}} / <strong>{{pdfLength()}}</strong></div>
+  
+            <button mat-flat-button (click)="onNextPage()" 
+              (click)="$event.stopPropagation()"><mat-icon>chevron_right</mat-icon></button>
+          </div>
       </div>
 
       <!-- </div> -->
     </div>
-    <div class="mt-30" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <div class="mt-30" class="uploadBtn" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
       <div [hidden]="!isCanvas" class="button-container page-button-container">
         <!-- <form class="page-form" (ngSubmit)="onGoToPage()">
           <label for="num">페이지 이동 : </label>
           <input placeholder="페이지 입력" type="number" [formControl]="pageNumForm" />
           <button>Go</button>
         </form> -->
-        <div class="page-buttons" style="display: flex; align-items: center; margin-top: 3px;">
-          <button mat-flat-button color="primary" (click)="onPrevPage()"
-            (click)="$event.stopPropagation()"><mat-icon>chevron_left</mat-icon></button>
-          <div>{{currentPage()}} / <strong>{{pdfLength()}}</strong></div>
-
-          <button mat-flat-button color="primary" (click)="onNextPage()"
-            (click)="$event.stopPropagation()"><mat-icon>chevron_right</mat-icon></button>
-        </div>
       </div>
       <button mat-flat-button (click)="onSubmit()">
         Upload
