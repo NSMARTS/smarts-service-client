@@ -48,6 +48,8 @@ export class PayStubListComponent implements AfterViewInit {
     'menu',
   ];
 
+  url: string = '';
+
   filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
 
   searchPayStubForm: FormGroup;
@@ -55,6 +57,7 @@ export class PayStubListComponent implements AfterViewInit {
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>(
     []
   );
+
   companyId: string; // 회사아이디 params
 
   // filterValues: any = {};
@@ -178,6 +181,7 @@ export class PayStubListComponent implements AfterViewInit {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           //   this.isRateLimitReached = res.data === null;
+          console.log(res.data)
           this.resultsLength = res.total_count;
           this.dataSource = new MatTableDataSource<any>(res.data);
           return res.data;
@@ -267,6 +271,23 @@ export class PayStubListComponent implements AfterViewInit {
       },
     });
   }
+
+  download(key: string) {
+    this.payStubService.downloadPdf(key).subscribe({
+      next: (res) => {
+        const blob = new Blob([res], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+        // 다운로드 후에는 URL을 해제합니다.
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error(error)
+        this.dialogService.openDialogNegative('Internet Server Error.')
+      }
+    })
+  }
+
 
   openDialog() {
     const dialogRef = this.dialog.open(PayStubDialogComponent, {

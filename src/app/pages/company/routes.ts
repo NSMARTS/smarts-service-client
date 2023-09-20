@@ -78,7 +78,7 @@ export const COMPANY_ROUTES: Route[] = [
   {
     path: '**',
     // url이 틀리면 회사 리스트 컴포넌트로
-    redirectTo: '',
+    redirectTo: '/',
     pathMatch: 'full',
   },
 ];

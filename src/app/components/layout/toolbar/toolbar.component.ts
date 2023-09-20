@@ -81,16 +81,6 @@ export class ToolbarComponent {
   //   this.toolbarService.getCompanyInfo(this.companyId);
   // };
 
-  signOut() {
-    // console.log('logout');
-    // this.authService.logOut();
-    // this.snackbar.open('Logout Goodbye ' + this.userProfileData.name, 'Close', {
-    //     duration: 3000,
-    //     horizontalPosition: "center"
-    // });
-    // this.router.navigate(['welcome']);
-  }
-
   // getUserProfileData() {
   //     this.dataService.userProfile.pipe(takeUntil(this.unsubscribe$)).subscribe((res: any) => {
   //         this.userProfileData = res;
@@ -143,8 +133,8 @@ export class ToolbarComponent {
     this.sidenavService.openSidenav();
   }
 
-  signout() {
+  signOut() {
     this.authService.signOut();
-    this.router.navigate(['welcome']);
+    this.router.navigate(['sign-in']);
   }
 }
