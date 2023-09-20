@@ -8,6 +8,7 @@ import {
   OnInit,
   ViewChild,
   WritableSignal,
+  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -30,6 +31,8 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Statment } from 'src/app/interfaces/statement.interface';
 import * as pdfjsLib from 'pdfjs-dist';
 import { DialogService } from 'src/app/services/dialog.service';
+import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
+import { PdfService } from 'src/app/services/pdf.service';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({
   selector: 'app-pay-stub-dialog',
@@ -55,6 +58,12 @@ export class PayStubDialogComponent implements OnInit {
   statementForm: FormGroup;
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
+  pdfDocument: WritableSignal<PDFDocumentProxy> = this.pdfService.pdfDocument
+  currentPage: WritableSignal<number> = this.pdfService.currentPage
+  pdfLength: WritableSignal<number> = this.pdfService.pdfLength
+
+  isCanvas = false; // 캔버스를 렌더링 했는지, 안했는지. 했으면 페이지 이동 버튼 보여줌
+  isDialog = true; // 다이얼로그를 켰는지 안켰는지
 
   isLoadingResults = true;
 
@@ -65,7 +74,9 @@ export class PayStubDialogComponent implements OnInit {
     private employeeService: EmployeeService,
     private authService: AuthService,
     private payStubService: PayStubService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private pdfService: PdfService,
+
   ) // public dialogRef: MatDialogRef<PayStubComapnyListComponent>
   {
     this.statementForm = this.formBuilder.group({
@@ -77,6 +88,16 @@ export class PayStubDialogComponent implements OnInit {
       ]),
       writer: new FormControl('', [Validators.required]),
     });
+    if (!this.data.isEditMode) {
+      this.isLoadingResults = false;
+    }
+
+    effect(() => {
+      // 다이얼로그가 켜지고, PDF 페이지 이동 시
+      if (this.currentPage() && this.isDialog) {
+        this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
+      }
+    })
 
     // 상태저장된 로그인 정보 불러오기
     this.userInfoStore = this.authService.userInfoStore;
@@ -102,12 +123,8 @@ export class PayStubDialogComponent implements OnInit {
     this.getEmployees();
   }
 
-  async getEmployees() {
-    const employees = await lastValueFrom(
-      this.employeeService.getEmployees(this.data.companyId)
-    );
-    await this.employeeService.setEmployees(employees.data);
-
+  getEmployees() {
+    // 편집 모드 시 pdf 불러오기 
     if (this.data.isEditMode) {
       this.payStubService
         .getPayStub(this.data.companyId, this.data.payStubId)
@@ -245,31 +262,18 @@ export class PayStubDialogComponent implements OnInit {
   renderPdf(file: File) {
     const fileReader = new FileReader();
 
-    fileReader.onload = (e) => {
+    fileReader.onload = async (e) => {
       const arrayBuffer: ArrayBuffer | null = fileReader.result as ArrayBuffer;
 
       if (arrayBuffer) {
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-        loadingTask.promise.then((pdfDocument) => {
-          // Assuming you want to render the first page
-          pdfDocument.getPage(1).then((page) => {
-            const viewport = page.getViewport({ scale: 1 });
-            const context = this.pdfViewer.nativeElement.getContext('2d');
-
-            this.pdfViewer.nativeElement.width = viewport.width;
-            this.pdfViewer.nativeElement.height = viewport.height;
-            // pdf 를 그려주는 canvas태그 최대 크기 지정
-            this.pdfViewer.nativeElement.style.maxWidth = 330 + 'px';
-            this.pdfViewer.nativeElement.style.maxHeight = 450 + 'px';
-
-            const renderContext = {
-              canvasContext: context!,
-              viewport: viewport,
-            };
-            page.render(renderContext);
-            this.isLoadingResults = false;
-          });
-        });
+        const pdfDocument = await loadingTask.promise
+        this.pdfDocument.update(() => pdfDocument)
+        this.pdfLength.update(() => pdfDocument.numPages)
+        this.currentPage.set(1)
+        this.pdfService.pdfRender(this.pdfViewer, true);
+        this.isLoadingResults = false;
+        this.isCanvas = true;
       }
     };
     fileReader.readAsArrayBuffer(file);
@@ -279,30 +283,29 @@ export class PayStubDialogComponent implements OnInit {
     this.payStubService.getPdf(url).subscribe({
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
+        const pdfDocument = await loadingTask.promise
+        this.pdfDocument.update(() => pdfDocument)
+        this.pdfLength.update(() => pdfDocument.numPages)
+        this.currentPage.set(1)
+        this.pdfService.pdfRender(this.pdfViewer, true);
+        this.isLoadingResults = false;
+        this.isCanvas = true;
 
-        loadingTask.promise.then((pdfDocument) => {
-          // Assuming you want to render the first page
-          pdfDocument.getPage(1).then((page) => {
-            const viewport = page.getViewport({ scale: 1 });
-            const context = this.pdfViewer.nativeElement.getContext('2d');
-
-            this.pdfViewer.nativeElement.width = viewport.width;
-            this.pdfViewer.nativeElement.height = viewport.height;
-            // pdf 를 그려주는 canvas태그 최대 크기 지정
-            this.pdfViewer.nativeElement.style.maxWidth = 450 + 'px';
-            this.pdfViewer.nativeElement.style.maxHeight = 700 + 'px';
-            const renderContext = {
-              canvasContext: context!,
-              viewport: viewport,
-            };
-            page.render(renderContext);
-            this.isLoadingResults = false;
-          });
-        });
       },
       error: (error) => {
         console.log(error);
-      },
+      }
     });
   }
+
+  onPrevPage() {
+    if (this.currentPage() <= 1) return;
+    this.currentPage.update((prev) => prev -= 1);
+  }
+
+  onNextPage() {
+    if (this.currentPage() >= this.pdfLength()) return;
+    this.currentPage.update((prev) => prev += 1)
+  }
+
 }

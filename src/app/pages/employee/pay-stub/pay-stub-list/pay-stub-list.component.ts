@@ -1,3 +1,4 @@
+import { PdfDocument } from './../../../../services/pdf.service';
 import { DialogService } from './../../../../services/dialog.service';
 import {
   AfterViewInit,
@@ -6,6 +7,8 @@ import {
   ElementRef,
   ViewChild,
   WritableSignal,
+  computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -27,6 +30,8 @@ import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSort } from '@angular/material/sort';
+import { PdfService } from 'src/app/services/pdf.service';
+import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 
 @Component({
@@ -48,6 +53,8 @@ export class PayStubListComponent implements AfterViewInit {
     'menu',
   ];
 
+  url: string = '';
+
   filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
 
   searchPayStubForm: FormGroup;
@@ -55,6 +62,7 @@ export class PayStubListComponent implements AfterViewInit {
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>(
     []
   );
+
   companyId: string; // 회사아이디 params
 
   // filterValues: any = {};
@@ -66,12 +74,23 @@ export class PayStubListComponent implements AfterViewInit {
   destroyRef = inject(DestroyRef);
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
+  pdfDocument: WritableSignal<PDFDocumentProxy> = this.pdfService.pdfDocument
+  currentPage: WritableSignal<number> = this.pdfService.currentPage
+  pdfLength: WritableSignal<number> = this.pdfService.pdfLength
+
+
+
+  pageNumForm = new FormControl({ value: 0, disabled: true });
+  isCanvas = false; // 캔버스를 렌더링 했는지, 안했는지. 했으면 페이지 이동 버튼 보여줌
+  isDialog = false; // 다이얼로그를 켰는지 안켰는지
+
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   isLoadingResults = true;
   //   isRateLimitReached = false;
   resultsLength = 0;
+
 
   constructor(
     private fb: FormBuilder,
@@ -81,7 +100,8 @@ export class PayStubListComponent implements AfterViewInit {
     private router: Router,
     public dialog: MatDialog,
     private payStubService: PayStubService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private pdfService: PdfService,
   ) {
     // 이번 달 기준 첫째날
     const startOfMonth = moment().startOf('month').format();
@@ -100,6 +120,14 @@ export class PayStubListComponent implements AfterViewInit {
       uploadEndDate: new FormControl(endOfMonth),
       leaveType: new FormControl('all'),
     });
+
+    effect(() => {
+      // 다이얼로그가 안켜지고, PDF 페이지 이동 시
+      if (this.currentPage() && !this.isDialog) {
+        this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
+      }
+    })
+
   }
 
   ngAfterViewInit(): void {
@@ -178,6 +206,7 @@ export class PayStubListComponent implements AfterViewInit {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           //   this.isRateLimitReached = res.data === null;
+          console.log(res.data)
           this.resultsLength = res.total_count;
           this.dataSource = new MatTableDataSource<any>(res.data);
           return res.data;
@@ -196,40 +225,23 @@ export class PayStubListComponent implements AfterViewInit {
 
   onCanvasClick() {
     this.isLoadingResults = false;
-
     // 쿼리할때 pdf 그려진거 초기화
     const canvas = this.pdfViewer.nativeElement;
-    const context = canvas.getContext('2d')!;
+    this.pdfService.clearCanvas(canvas);
+    this.isCanvas = false;
 
-    // Canvas의 크기와 내용 초기화
-    canvas.width = 0;
-    canvas.height = 0;
-    context.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   getPdf(url: string) {
     this.payStubService.getPdf(url).subscribe({
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
-
-        loadingTask.promise.then((pdfDocument) => {
-          // Assuming you want to render the first page
-          pdfDocument.getPage(1).then((page) => {
-            const viewport = page.getViewport({ scale: 1 });
-            const context = this.pdfViewer.nativeElement.getContext('2d');
-
-            this.pdfViewer.nativeElement.width = viewport.width;
-            this.pdfViewer.nativeElement.height = viewport.height;
-            // pdf 를 그려주는 canvas태그 최대 크기 지정
-            this.pdfViewer.nativeElement.style.maxWidth = 450 + 'px';
-            this.pdfViewer.nativeElement.style.maxHeight = 700 + 'px';
-            const renderContext = {
-              canvasContext: context!,
-              viewport: viewport,
-            };
-            page.render(renderContext);
-          });
-        });
+        const pdfDocument = await loadingTask.promise
+        this.pdfDocument.update(() => pdfDocument)
+        this.pdfLength.update(() => pdfDocument.numPages)
+        this.currentPage.set(1)
+        this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
+        this.isCanvas = true;
       },
       error: (error) => {
         console.log(error);
@@ -238,14 +250,18 @@ export class PayStubListComponent implements AfterViewInit {
   }
 
   editPayStub(id: string) {
+    this.isDialog = true;
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
       data: {
         companyId: this.companyId,
         payStubId: id,
-        isEditMode: true,
+        isEditMode: true, // 명세서 등록인지, 수정인지. true면 명세서 수정이다.
       },
     });
     dialogRef.afterClosed().subscribe(() => {
+      this.isDialog = false;
+      console.log(this.isDialog)
+
       this.getPayStubsByQuery();
     });
   }
@@ -268,14 +284,54 @@ export class PayStubListComponent implements AfterViewInit {
     });
   }
 
+  download(key: string) {
+    this.payStubService.downloadPdf(key).subscribe({
+      next: (res) => {
+        const blob = new Blob([res], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+        // 다운로드 후에는 URL을 해제합니다.
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error(error)
+        this.dialogService.openDialogNegative('Internet Server Error.')
+      }
+    })
+  }
+
+
   openDialog() {
+    this.isDialog = true;
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
       data: {
         companyId: this.companyId,
+        employees: this.employees()
       },
     });
     dialogRef.afterClosed().subscribe(() => {
+      // pdf 초기화
+      this.pdfService.clearCanvas(this.pdfViewer.nativeElement)
       this.getPayStubsByQuery();
     });
   }
+
+  onPrevPage() {
+    if (this.currentPage() <= 1) return;
+    this.currentPage.update((prev) => prev -= 1);
+    console.log(this.isDialog)
+    console.log(this.currentPage())
+  }
+
+  onNextPage() {
+    if (this.currentPage() >= this.pdfLength()) return;
+    this.currentPage.update((prev) => prev += 1)
+    console.log(this.isDialog)
+    console.log(this.currentPage())
+  }
+
+  // async onResize() {
+  //   await this.pdfService.pdfRender(this.pdfViewer);
+  //   this.isCanvas = true;
+  // }
 }

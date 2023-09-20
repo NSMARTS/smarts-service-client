@@ -64,6 +64,11 @@ export const COMPANY_ROUTES: Route[] = [
           import('../employee/leave-status/routes').then((m) => m.LEAVE_STATUS_ROUTES),
       },
       {
+        path: ':id/contract',
+        loadChildren: () =>
+          import('../employee/contract/routes').then((m) => m.CONTRACT_ROUTES),
+      },
+      {
         path: ':id/notification',
         loadChildren: () =>
           import('../space/notification/notification.module').then((m) => m.NotificationModule),
@@ -73,7 +78,7 @@ export const COMPANY_ROUTES: Route[] = [
   {
     path: '**',
     // url이 틀리면 회사 리스트 컴포넌트로
-    redirectTo: '',
+    redirectTo: '/',
     pathMatch: 'full',
   },
 ];
