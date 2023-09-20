@@ -34,6 +34,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
+        console.log(error)
         if (
           error instanceof HttpErrorResponse &&
           !req.url.includes('auth/signin') &&
