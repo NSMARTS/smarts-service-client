@@ -203,8 +203,6 @@ export class MeetingComponent implements OnInit {
 
         console.log(meetingList);
 
-        // 2.meetingDate를 기준으로 sorting하고 해당 값을 this.meetingArray에 저장
-        // (현재는 최근일수로 위로 오도록 sort => 과거 미팅을 위에 오게 하려면 b와 a의 위치 변경 )
         this.meetingArray = meetingList.sort((a: any, b: any) => {
           return (
             new Date(b.meetingDate).getTime() -
