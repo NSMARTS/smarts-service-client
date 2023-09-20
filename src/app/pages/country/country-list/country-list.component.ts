@@ -35,8 +35,8 @@ export interface PeriodicElement {
 export class CountryListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   displayedColumns: string[] = [
-    'countryName',
     'countryCode',
+    'countryName',
     'holiday',
     'menu',
   ];

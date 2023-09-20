@@ -4,14 +4,60 @@
     box-shadow: none;
 }
 
+.meetingBox{
+    display: flex; flex-wrap: wrap; gap: 1%;
+}
+
+.example-card{ 
+    width: 32.666%;
+    box-shadow: none;
+    margin-bottom: 16px;
+}
+
+mat-card {position: relative; padding-bottom: 70px;
+    mat-card-actions {position: absolute; bottom: 10px; left: 50%; transform: translate(-50%);}
+}
+
+
 mat-checkbox {
     margin-right: 20px;
 }
 
-// .body-margin{
-//     margin: 30px;
-    
-// }
+mat-card-title {margin-bottom: 10px;}
+mat-card-subtitle {
+    p {margin-bottom: 5px;}
+    span {font-weight: 600;}
+}
+
+// 반응형
+@media screen and (max-width: 1200px) {
+    .example-card{width: 49.5%;}
+}
+
+@media screen and (max-width: 780px) {
+    .meetingBox{
+        display: flex; flex-wrap: wrap;
+    }
+
+    .example-card{width: 100%;}
+
+    .scheduleBox {
+        width: 100%;
+        padding: 0;
+    }
+
+    .w-120px {
+        min-width: 80px;
+        max-width: 88px;
+    }
+} 
+
+::ng-deep .cdk-overlay-pane {
+    @media  screen and (max-width: 780px) {
+        max-width: 94vw !important;
+    }
+}
+
 
 /////////////////////////////////////// dialog ///////////////////////////////////////
 
@@ -37,10 +83,12 @@ mat-checkbox {
 }
 
 .clickBtn {
-    background: #00154F;
-    color: #fff;
-    padding: 0 30px;
+    background: var(--point-back);
+    color: var(--point-text-color);
+    font-size: 17px;
+    padding: 22px 0;
     width: 100%;
+    box-shadow: none;
 }
 
 ::ng-deep .mat-form-field-wrapper {
@@ -112,31 +160,6 @@ mat-checkbox {
     margin: 20px;
 }
 
-.one {
-    background-color: #009688;
-}
-.one {
-    background-color: #fd7474;
-    background-color: #ffa1a1;
-}
-.one {
-    background-color: #e8fd74;
-    background-color: #f1fac0;
-}
-.one {
-    background-color: #74fd86;
-    background-color: #b5ffbf;
-}
-.two, div.colored>div:nth-child(10n+2) {
-    background-color: #3949ab;
-}
-
-::ng-deep .cdk-overlay-pane {
-    @media  screen and (max-width: 780px) {
-        max-width: 94vw !important;
-    }
-}
-
 .card-title{
     font-size: 16px;
     font-weight: bold;
@@ -149,23 +172,6 @@ mat-checkbox {
 	// margin-left: 60px;
 }
 
-
-
-
-@media screen and (max-width: 780px) {
-
-
-    .scheduleBox {
-        width: 100%;
-        padding: 0;
-    }
-
-    .w-120px {
-        min-width: 80px;
-        max-width: 88px;
-    }
-} 
-
 .cardContainer {
     width: 100%;
     // height: calc(90%-100px);
@@ -174,40 +180,17 @@ mat-checkbox {
 
 // mat card
 .cardMgCtr {
-    // max-width: 300px;
-    
-    // margin-left: 50px;
     margin: 0 auto;
 }
-
-.meetingBox{
-    display: flex; flex-wrap: wrap; gap: 1%;
-}
-
-.example-card{ 
-    width: 32.666%;
-    box-shadow: none;
-    margin-bottom: 16px;
-}
-
-// .page_header {
-//     button {
-//         margin-top: -20px;
-//     }
-// }
 
 .no-meeting-room{
     .mat-icon{
         font-size: 100px;
         height: 100%;
         width: 100px;
-        color: #00154F;
+        color: var(--point-color);
     }
 
     font-size: 24px;
     color: gray;
-}
-
-mat-card {position: relative; padding-bottom: 60px;
-    mat-card-actions {position: absolute; bottom: 10px; right: 20px; }
 }

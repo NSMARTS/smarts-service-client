@@ -54,6 +54,14 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
   --mdc-checkbox-selected-focus-state-layer-color: #96CDCA;
   --mdc-checkbox-selected-hover-state-layer-color: #96CDCA;
   --mdc-checkbox-selected-pressed-state-layer-color: #96CDCA;
+
+  --mdc-outlined-text-field-error-label-text-color:#96CDCA;
+  --mdc-outlined-text-field-error-focus-outline-color:#96CDCA;
+  --mdc-outlined-text-field-error-hover-outline-color:#96CDCA;
+  --mdc-outlined-text-field-error-outline-color:#96CDCA;
+  --mdc-outlined-text-field-error-caret-color:#96CDCA;
+  --mdc-outlined-text-field-error-focus-label-text-color:#96CDCA;
+  --mdc-filled-text-field-container-color: #fff;
 }
 
 .mat-mdc-slide-toggle.mat-accent {
@@ -406,12 +414,14 @@ $smart_service_primary_color: var(--point-color);
 //공통 add
 .add_container {
   padding: 20px 20px;
-  border: 1px solid rgba(238, 238, 238, 0.548);
+  // border: 1px solid rgba(238, 238, 238, 0.548);
+  border: none;
   border-radius: 4px;
   background-color: #fff;
   box-sizing: border-box;
   font-size: 14px;
-  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+  // box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+  box-shadow: none;
 
   .br_ltop {
     border-radius: 4px;

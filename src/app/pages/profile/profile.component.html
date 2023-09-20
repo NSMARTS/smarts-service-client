@@ -1,10 +1,8 @@
 <form [formGroup]="editProfileForm" novalidate>
 
   <div class="profile-edit" fxLayout="column">
-    <div class="profile-edit-title">
-      <h2>Profile Edit</h2>
-    </div>
-    <div fxLayout="row" class="inputContainer">
+    <div class="inputContainer">
+      <h1>Profile Edit</h1>
       <div class="profile-image">
         <div class="profile-photo">
           <img [src]="userInfoStore().profileImgPath">
