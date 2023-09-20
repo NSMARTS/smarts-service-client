@@ -1,29 +1,28 @@
 <div class="page">
-
   <form [formGroup]="addNotificationForm" (ngSubmit)="onSubmit()">
     <div class="add_container">
 
-  <div class="notification_header">
-    <div class="notification_category">
-        <mat-form-field>
-          <mat-label>Category</mat-label>
-          <mat-select matInput type="text" formControlName="category">
-            <mat-option *ngFor="let category of categoryList" [value]="category">
-              {{category}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-    </div>
-    <div class="notification_title">
-        <mat-form-field>
+      <div class="notification_header">
+        <div class="notification_category">
+          <mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-select matInput type="text" formControlName="category">
+              <mat-option *ngFor="let category of categoryList" [value]="category">
+                {{category}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="notification_title">
+          <mat-form-field>
             <mat-label>Title</mat-label>
             <input matInput type="text" formControlName="title">
-        </mat-form-field>
-    </div>
-  </div>
+          </mat-form-field>
+        </div>
+      </div>
 
-    <quill-editor #quillEditor [formControl]="form" [styles]="{'min-height': '560px'}" [modules]="quillConfig">
-    </quill-editor>
+      <quill-editor #quillEditor [formControl]="form" [styles]="{'min-height': '560px'}" [modules]="quillConfig">
+      </quill-editor>
 
 
       <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
