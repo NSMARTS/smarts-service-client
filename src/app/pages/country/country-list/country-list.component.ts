@@ -97,9 +97,9 @@ export class CountryListComponent implements OnInit {
     });
   }
 
-  selectHoliday(countryId: any) {
-    console.log(countryId);
-    this.router.navigate(['/country/' + countryId]);
+  selectHoliday(countryId: any, countryName: string) {
+    console.log(countryId, countryName);
+    this.router.navigate(['/country/' + countryId], { queryParams: { name: countryName } });
   }
 
   deleteCountry(_id: any) {

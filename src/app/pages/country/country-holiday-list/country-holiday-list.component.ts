@@ -59,18 +59,6 @@ import { MatDialog } from '@angular/material/dialog';
   ],
   templateUrl: './country-holiday-list.component.html',
   styleUrls: ['./country-holiday-list.component.scss'],
-  // providers: [
-  //   // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-  //   // application's root module. We provide it at the component level here, due to limitations of
-  //   // our example generation script.
-  //   {
-  //     provide: DateAdapter,
-  //     useClass: MomentDateAdapter,
-  //     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-  //   },
-
-  //   { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  // ],
 })
 export class CountryHolidayListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -83,6 +71,7 @@ export class CountryHolidayListComponent implements OnInit {
   currentYear = moment().year();
   minDate: Date = new Date(this.currentYear, 0, 1);
   maxDate: Date = new Date(this.currentYear, 11, 31);
+  countryName: any;
   // dataSource = ELEMENT_DATA;
   // private unsubscribe$ = new Subject<void>();
   // datePipe: any;
@@ -95,6 +84,9 @@ export class CountryHolidayListComponent implements OnInit {
     public dialog: MatDialog
   ) {
     this.countryId = this.route.snapshot.params['id'];
+    this.route.queryParams.subscribe((params) => {
+      this.countryName = params['name'];
+    });
   }
   date = new FormControl(moment());
 

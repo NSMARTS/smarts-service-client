@@ -2,21 +2,21 @@
 
   <div class="profile-edit" fxLayout="column">
     <div class="inputContainer">
-      <h1>Profile Edit</h1>
-      <div class="profile-image">
+      <h1>Edit Profile</h1>
+      <div>
         <div class="profile-photo">
           <img [src]="userInfoStore().profileImgPath">
-          <label class="overlay">
+          <label>
             <input type="file" (change)="fileChangeEvent($event)" style="display:none" accept="image/*" />
           </label>
         </div>
         <div class="profile-id">
-          <h4>ID : {{ userInfoStore().email }}</h4>
+          <h1>ID : {{ userInfoStore().email }}</h1>
         </div>
       </div>
       <div class="profile_input">
-        <div class="inpurRow" fxLayout="row">
-          <mat-form-field appearance="fill">
+        <div class="inpurRow">
+          <mat-form-field>
             <mat-label>Name</mat-label>
             <div fxLayout="row">
               <div fxFlex>
@@ -112,7 +112,7 @@
             </div>
           </mat-form-field>
         </div> -->
-        <button mat-raised-button color="primary" (click)="updateProfile()">Edit</button>
+        <button mat-raised-button (click)="updateProfile()">Edit</button>
       </div>
     </div>
   </div>

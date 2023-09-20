@@ -33,8 +33,8 @@ export class MeetingService {
   }
 
   // 미팅 수정
-  editMeeting(setMeeting: any) {
-    return this.http.put(this.baseUrl + '/meetings', setMeeting);
+  editMeeting(meetingId: any, setMeeting: any) {
+    return this.http.patch(this.baseUrl + '/meetings/' + meetingId, setMeeting);
   }
 
   // // 미팅 오픈

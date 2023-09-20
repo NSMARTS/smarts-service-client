@@ -222,7 +222,8 @@ export class MeetingComponent implements OnInit {
             new Date(a.meetingDate).getTime()
           );
         });
-        this.autoCloseMeeting();
+        
+        
       },
       error: (err: any) => {
         console.log(err);
@@ -240,10 +241,10 @@ export class MeetingComponent implements OnInit {
       this.today.setHours(0, 0, 0, 0);
       //  console.log(this.today, itemStartDate);
 
-      if (itemStartDate < this.today) {
+      if (itemStartDate < this.today && item.status == 'Open') {
         // console.log(item._id);
         let obj = { _id: item._id };
-        this.closeMeeting(obj);
+        this.closeMeeting(obj, 'auto');
       }
     });
   }
@@ -279,7 +280,7 @@ export class MeetingComponent implements OnInit {
     if (meetingData.status == 'Open') {
       // meetingData.status = 'Close';
       console.log('data status', meetingData.status);
-      this.closeMeeting(meetingData);
+      this.closeMeeting(meetingData, 'toggle');
     } else if (meetingData.status == 'Close') {
       console.log('data status', meetingData.status);
       this.openMeeting(meetingData);
@@ -288,10 +289,9 @@ export class MeetingComponent implements OnInit {
 
   openMeeting(meetingData: any) {
     let data = {
-      _id: meetingData._id,
       status: 'Open',
     };
-    this.meetingService.editMeeting(data).subscribe({
+    this.meetingService.editMeeting(meetingData._id, data).subscribe({
       next: (data: any) => {
         console.log(data);
         // this.getMeetingList(this.companyId)
@@ -307,12 +307,11 @@ export class MeetingComponent implements OnInit {
     });
   }
 
-  closeMeeting(meetingData: any) {
+  closeMeeting(meetingData: any, closeType: string) {
     let data = {
-      _id: meetingData._id,
       status: 'Close',
     };
-    this.meetingService.editMeeting(data).subscribe({
+    this.meetingService.editMeeting(meetingData._id, data).subscribe({
       next: (data: any) => {
         console.log(data);
         // this.getMeetingList(this.companyId);
@@ -322,6 +321,9 @@ export class MeetingComponent implements OnInit {
         console.log(err);
       },
     });
+
+    if (closeType == 'auto') return;
+    
     this.snackbar.open('Meeting close', 'Close', {
       duration: 3000,
       horizontalPosition: 'center',
@@ -584,7 +586,6 @@ export class MeetingEditComponent {
         if (result) {
           const formValue = this.setMeetingForm.value;
           let setMeeting = {
-            _id: this.meetingData._id,
             company: this.meetingData.company,
             meetingTitle: formValue.meetingTitle,
             meetingDescription: formValue.meetingDescription,
@@ -605,18 +606,20 @@ export class MeetingEditComponent {
               'Please, check the meeting title and date.'
             );
           } else {
-            this.meetingService.editMeeting(setMeeting).subscribe({
-              next: (data: any) => {
-                console.log(data);
-                this.dialogRef.close();
-                this.dialogService.openDialogPositive(
-                  'Successfully, the meeting has been edit.'
-                );
-              },
-              error: (err: any) => {
-                console.log(err);
-              },
-            });
+            this.meetingService
+              .editMeeting(this.meetingData._id, setMeeting)
+              .subscribe({
+                next: (data: any) => {
+                  console.log(data);
+                  this.dialogRef.close();
+                  this.dialogService.openDialogPositive(
+                    'Successfully, the meeting has been edit.'
+                  );
+                },
+                error: (err: any) => {
+                  console.log(err);
+                },
+              });
           }
         }
       });
