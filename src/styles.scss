@@ -55,12 +55,12 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
   --mdc-checkbox-selected-hover-state-layer-color: #96CDCA;
   --mdc-checkbox-selected-pressed-state-layer-color: #96CDCA;
 
-  --mdc-outlined-text-field-error-label-text-color:#96CDCA;
-  --mdc-outlined-text-field-error-focus-outline-color:#96CDCA;
-  --mdc-outlined-text-field-error-hover-outline-color:#96CDCA;
-  --mdc-outlined-text-field-error-outline-color:#96CDCA;
-  --mdc-outlined-text-field-error-caret-color:#96CDCA;
-  --mdc-outlined-text-field-error-focus-label-text-color:#96CDCA;
+  --mdc-outlined-text-field-error-label-text-color:#FF4545;
+  --mdc-outlined-text-field-error-focus-outline-color:#FF4545;
+  --mdc-outlined-text-field-error-hover-outline-color:#FF4545;
+  --mdc-outlined-text-field-error-outline-color:#FF4545;
+  --mdc-outlined-text-field-error-caret-color:#FF4545;
+  --mdc-outlined-text-field-error-focus-label-text-color:#FF4545;
   --mdc-filled-text-field-container-color: #fff;
 }
 
@@ -325,6 +325,10 @@ $smart_service_primary_color: var(--point-color);
             padding-top: 5px;
         }
     }
+  }
+
+  .mat-mdc-row:hover .mat-mdc-cell {
+    background-color: #f0f2f5; //row 위에 마우스 올라가면 어둡게
   }
 
   .mat-column-enter,
