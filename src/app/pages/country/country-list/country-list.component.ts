@@ -34,12 +34,7 @@ export interface PeriodicElement {
 })
 export class CountryListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-  displayedColumns: string[] = [
-    'countryCode',
-    'countryName',
-    'holiday',
-    'menu',
-  ];
+  displayedColumns: string[] = ['countryCode', 'countryName', 'openIn', 'menu'];
   countryList: MatTableDataSource<PeriodicElement> =
     new MatTableDataSource<PeriodicElement>([]);
 

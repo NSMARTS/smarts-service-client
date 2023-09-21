@@ -56,12 +56,46 @@
         <mat-icon>info</mat-icon>
         <span>About</span>
       </button>
-      <button mat-menu-item (click)="signOut();">
+      <button mat-menu-item (click)="signout();">
         <mat-icon>logout</mat-icon>
         <span>Sign out</span>
       </button>
     </mat-menu>
+    <!-- <mat-menu #profile="matMenu" xPosition="before" class="dropdown-box">
+          <div class="dropdown">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="dropdown-header">
+              <div fxLayout="row" fxLayoutAlign="start center">
 
+                <img class="profile-img" [src]="userInfoStore().profileImgPath" alt="">
+                <div class="dropdown-profile-heading">
+                  {{userInfoStore().username}}
+                </div>
+              </div>
+              <mat-icon>apps</mat-icon>
+            </div>
+            <div class="dropdown-content">
+              <div matRipple fxLayout="row" fxLayoutAlign="space-between center" class="notification notification-cursor"
+                [routerLink]="['/profile']">
+                <div fxLayout="row" fxLayoutAlign="start center">
+  
+                  <mat-icon class="icon-box-1 company-request">account_circle</mat-icon>
+                  <div>
+                    <div class="notification-label">My Profile</div>
+                    <div class="notification-description">Personal Information</div>
+                  </div>
+                </div>
+  
+                <mat-icon class="icon-box-2">keyboard_arrow_right</mat-icon>
+  
+              </div>
+
+  
+            </div>
+            <div class="dropdown-footer" fxLayout="row" fxLayoutAlign="center center" >
+              <button mat-button color="primary" (click)="signout()">LOGOUT</button>
+            </div>
+          </div>
+        </mat-menu> -->
   </div>
 
 </mat-toolbar>

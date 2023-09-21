@@ -77,19 +77,6 @@ export class PayStubService {
     });
   }
 
-  downloadPdf(key: string): Observable<Blob> {
-    const encodedUrl = encodeURIComponent(key);
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/pdf',
-      'Accept': 'application/pdf'
-    });
-    return this.http.get(this.baseUrl + `/statements/download/${encodedUrl}`, {
-      headers: headers,
-      responseType: 'blob'
-    })
-  }
-
   deletePayStub(compayId: string, payStubId: string): Observable<HttpResMsg<any>> {
     return this.http.delete<HttpResMsg<any>>(this.baseUrl + '/statements/' + compayId + '/' + payStubId)
   }

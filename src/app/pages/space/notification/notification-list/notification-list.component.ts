@@ -55,6 +55,7 @@ export class NotificationListComponent implements AfterViewInit {
     'title',
     'writer',
     'createdAt',
+    'openIn',
     'menu',
   ];
 

@@ -1,3 +1,7 @@
+.mat-mdc-row:hover .mat-mdc-cell {
+    background-color: transparent !important;
+  }
+
 .mat-icon {
     color: var(--point-color)!important;
   }
@@ -36,3 +40,11 @@ label {
         width: 140px;
     }
 }
+
+.page-buttons {
+    display: flex;
+    flex-direction: row; /* 가로 방향으로 정렬 */
+    align-items: center; /* 요소를 수직 가운데 정렬 (선택 사항) */
+    margin-top: 20px;
+}
+

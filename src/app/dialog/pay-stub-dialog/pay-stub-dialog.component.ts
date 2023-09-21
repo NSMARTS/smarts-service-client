@@ -58,9 +58,9 @@ export class PayStubDialogComponent implements OnInit {
   statementForm: FormGroup;
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
-  pdfDocument: WritableSignal<PDFDocumentProxy> = this.pdfService.pdfDocument
-  currentPage: WritableSignal<number> = this.pdfService.currentPage
-  pdfLength: WritableSignal<number> = this.pdfService.pdfLength
+  pdfDocument: WritableSignal<PDFDocumentProxy> = this.pdfService.pdfDocument;
+  currentPage: WritableSignal<number> = this.pdfService.currentPage;
+  pdfLength: WritableSignal<number> = this.pdfService.pdfLength;
 
   isCanvas = false; // 캔버스를 렌더링 했는지, 안했는지. 했으면 페이지 이동 버튼 보여줌
   isDialog = true; // 다이얼로그를 켰는지 안켰는지
@@ -75,10 +75,8 @@ export class PayStubDialogComponent implements OnInit {
     private authService: AuthService,
     private payStubService: PayStubService,
     private dialogService: DialogService,
-    private pdfService: PdfService,
-
-  ) // public dialogRef: MatDialogRef<PayStubComapnyListComponent>
-  {
+    private pdfService: PdfService // public dialogRef: MatDialogRef<PayStubComapnyListComponent>
+  ) {
     this.statementForm = this.formBuilder.group({
       title: new FormControl('', [Validators.required]),
       // 명세서를 받을 사람 email.
@@ -97,7 +95,7 @@ export class PayStubDialogComponent implements OnInit {
       if (this.currentPage() && this.isDialog) {
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
       }
-    })
+    });
 
     // 상태저장된 로그인 정보 불러오기
     this.userInfoStore = this.authService.userInfoStore;
@@ -124,7 +122,7 @@ export class PayStubDialogComponent implements OnInit {
   }
 
   getEmployees() {
-    // 편집 모드 시 pdf 불러오기 
+    // 편집 모드 시 pdf 불러오기
     if (this.data.isEditMode) {
       this.payStubService
         .getPayStub(this.data.companyId, this.data.payStubId)
@@ -267,10 +265,10 @@ export class PayStubDialogComponent implements OnInit {
 
       if (arrayBuffer) {
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-        const pdfDocument = await loadingTask.promise
-        this.pdfDocument.update(() => pdfDocument)
-        this.pdfLength.update(() => pdfDocument.numPages)
-        this.currentPage.set(1)
+        const pdfDocument = await loadingTask.promise;
+        this.pdfDocument.update(() => pdfDocument);
+        this.pdfLength.update(() => pdfDocument.numPages);
+        this.currentPage.set(1);
         this.pdfService.pdfRender(this.pdfViewer, true);
         this.isLoadingResults = false;
         this.isCanvas = true;
@@ -283,29 +281,27 @@ export class PayStubDialogComponent implements OnInit {
     this.payStubService.getPdf(url).subscribe({
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
-        const pdfDocument = await loadingTask.promise
-        this.pdfDocument.update(() => pdfDocument)
-        this.pdfLength.update(() => pdfDocument.numPages)
-        this.currentPage.set(1)
+        const pdfDocument = await loadingTask.promise;
+        this.pdfDocument.update(() => pdfDocument);
+        this.pdfLength.update(() => pdfDocument.numPages);
+        this.currentPage.set(1);
         this.pdfService.pdfRender(this.pdfViewer, true);
         this.isLoadingResults = false;
         this.isCanvas = true;
-
       },
       error: (error) => {
         console.log(error);
-      }
+      },
     });
   }
 
   onPrevPage() {
     if (this.currentPage() <= 1) return;
-    this.currentPage.update((prev) => prev -= 1);
+    this.currentPage.update((prev) => (prev -= 1));
   }
 
   onNextPage() {
     if (this.currentPage() >= this.pdfLength()) return;
-    this.currentPage.update((prev) => prev += 1)
+    this.currentPage.update((prev) => (prev += 1));
   }
-
 }

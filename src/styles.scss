@@ -314,6 +314,14 @@ $smart_service_primary_color: var(--point-color);
     //   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
+
+    mat-icon {
+        color: var(--point-text-color);
+      }
+}
+
+.mat-mdc-menu-item .mat-icon {
+    color: var(--point-text-color)!important;
 }
 
 .table {
@@ -327,6 +335,10 @@ $smart_service_primary_color: var(--point-color);
             padding-top: 5px;
         }
     }
+  }
+
+  .mat-mdc-row:hover .mat-mdc-cell {
+    background-color: #f0f2f5; //row 위에 마우스 올라가면 어둡게
   }
 
   .mat-column-enter,
@@ -530,10 +542,6 @@ $smart_service_primary_color: var(--point-color);
     border-radius: 4px;
   }
 
-  .mat-mdc-text-field-wrapper {
-    height: 50px !important;
-  }
-
   label {
     padding-bottom: 6px;
   }
@@ -544,6 +552,9 @@ $smart_service_primary_color: var(--point-color);
   /* 각 요소가 동일한 공간을 차지하도록 설정 */
   margin: 10px;
   /* 간격을 원하는 만큼 추가 */
+  .mat-mdc-text-field-wrapper {
+    height: 50px !important;
+  }
 }
 
 .edit_right_container {
@@ -551,7 +562,6 @@ $smart_service_primary_color: var(--point-color);
   /* 각 요소가 동일한 공간을 차지하도록 설정 */
   margin: 10px;
   /* 간격을 원하는 만큼 추가 */
-
 }
 
 /* 화면 폭이 1000px 이하일 때 스타일 수정 */
@@ -610,7 +620,6 @@ $smart_service_primary_color: var(--point-color);
 .dialog_right_container {
   width: 330px;
   height: 452px;
-  flex: 5;
   /* 각 요소가 동일한 공간을 차지하도록 설정 */
   margin: 10px;
   /* 간격을 원하는 만큼 추가 */
@@ -637,6 +646,8 @@ $smart_service_primary_color: var(--point-color);
 // 공통 loading
 .example-loading-shade {
   position: absolute;
+  flex-direction: column;
+  margin-top: 50px;
   top: 0;
   left: 0;
   bottom: 0px;

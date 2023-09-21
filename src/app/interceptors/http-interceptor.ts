@@ -19,17 +19,21 @@ import { Router } from '@angular/router';
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
+  isLoggedIn = window.localStorage.getItem('isLoggedIn');
   constructor(private authService: AuthService, private router: Router) { }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    req = req.clone({
-      withCredentials: true
-    })
-    if (this.authService.accessToken()) {
-      req = this.addAuthorizationHeader(req);
+    if (this.isLoggedIn) {
+      req = req.clone({
+        withCredentials: true,
+        headers: req.headers.set(
+          'Authorization',
+          'Bearer ' + this.authService.accessToken()?.accessToken
+        ),
+      });
     }
 
     return next.handle(req).pipe(
@@ -45,20 +49,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         return throwError(() => error);
       })
     );
-  }
-
-
-  /**
-   * 로그인 성공 후 accessToken이 있으면
-   * header에 accessToken을 같이 보낸다.
-   * @param req 
-   * @returns 
-   */
-  private addAuthorizationHeader(req: HttpRequest<any>): HttpRequest<any> {
-    const accessToken = this.authService.accessToken()?.accessToken;
-    return req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${accessToken}`),
-    });
   }
 
   /**
@@ -112,7 +102,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     return next.handle(request);
   }
 }
-
 
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, deps: [AuthService, Router], multi: true },
