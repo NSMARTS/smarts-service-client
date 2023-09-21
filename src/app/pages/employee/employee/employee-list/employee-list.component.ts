@@ -30,16 +30,17 @@ import { MatSort } from '@angular/material/sort';
 })
 export class EmployeeListComponent implements AfterViewInit {
   displayedColumns: string[] = [
-    'profile',
+    // 'profile',
     'name',
     'email',
+    'phoneNumber',
     'year',
-    'entitlement',
-    'sickLeave',
-    'replacementDay',
-    'rollover',
-    'advanceLeave',
-    'annualPolicy',
+    // 'entitlement',
+    // 'sickLeave',
+    // 'replacementDay',
+    // 'rollover',
+    // 'advanceLeave',
+    // 'annualPolicy',
     'empStartDate',
     'menu',
     // 'edit',
@@ -97,6 +98,7 @@ export class EmployeeListComponent implements AfterViewInit {
         }),
         map(async (res: any) => {
           // https://material.angular.io/components/table/examples
+          console.log(res);
           this.isLoadingResults = false;
           this.isRateLimitReached = res.data === null;
           this.resultsLength = res.total_count;

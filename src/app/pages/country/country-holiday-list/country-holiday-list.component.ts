@@ -1,52 +1,21 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-// import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
-import { PeriodicElement } from '../country-list/country-list.component';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CountryService } from 'src/app/services/country.service';
-// import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-// import {
-//   MomentDateAdapter,
-//   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-// } from '@angular/material-moment-adapter';
-import { MatYearView } from '@angular/material/datepicker';
 import { CustomDateDirectiveModule } from './custom-date-directive.module';
 import { CountryHolidayAddComponent } from 'src/app/dialog/country-holiday-add/country-holiday-add.component';
 import { MatDialog } from '@angular/material/dialog';
-
-// import { PeriodicElement } from '../../company-mngmt/company-list/company-list.component';
-// import * as _moment from 'moment';
-// // tslint:disable-next-line:no-duplicate-imports
-// import { default as _rollupMoment, Moment } from 'moment';
-
-// const moment = _rollupMoment || _moment;
-
-// See the Moment.js docs for the meaning of these formats:
-// https://momentjs.com/docs/#/displaying/format/
-// export const MY_FORMATS = {
-//   parse: {
-//     dateInput: 'YYYY',
-//   },
-//   display: {
-//     dateInput: 'YYYY',
-//     monthYearLabel: 'YYYY',
-//     dateA11yLabel: 'LL',
-//     monthYearA11yLabel: 'YYYY',
-//   },
-// };
 
 @Component({
   selector: 'app-country-holiday-list',
@@ -67,14 +36,11 @@ export class CountryHolidayListComponent implements OnInit {
   countryHolidayList: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   wholeHolidayList: any;
   countryId: any;
-  countryHolidayForm!: FormGroup<any>;
+  // countryHolidayForm!: FormGroup<any>;
   currentYear = moment().year();
   minDate: Date = new Date(this.currentYear, 0, 1);
   maxDate: Date = new Date(this.currentYear, 11, 31);
   countryName: any;
-  // dataSource = ELEMENT_DATA;
-  // private unsubscribe$ = new Subject<void>();
-  // datePipe: any;
 
   constructor(
     private fb: FormBuilder,
@@ -91,10 +57,10 @@ export class CountryHolidayListComponent implements OnInit {
   date = new FormControl(moment());
 
   ngOnInit(): void {
-    this.countryHolidayForm = this.fb.group({
-      holidayName: ['', [Validators.required]],
-      holidayDate: ['', [Validators.required]],
-    });
+    // this.countryHolidayForm = this.fb.group({
+    //   holidayName: ['', [Validators.required]],
+    //   holidayDate: ['', [Validators.required]],
+    // });
     this.getCountryHolidayList();
   }
 
@@ -103,13 +69,13 @@ export class CountryHolidayListComponent implements OnInit {
       .getCountryInfo({ countryId: this.countryId })
       .subscribe({
         next: (res: any) => {
+          console.log(res);
           this.wholeHolidayList = res.getCountryById.countryHoliday.sort(
             (a: any, b: any) =>
               new Date(a.holidayDate).getTime() -
               new Date(b.holidayDate).getTime()
           );
           const ctrlValue = this.date.value!;
-          console.log(this.wholeHolidayList, ctrlValue.year());
           this.applyFilterYear(ctrlValue.year());
           this.countryHolidayList.paginator = this.paginator;
         },
@@ -119,40 +85,40 @@ export class CountryHolidayListComponent implements OnInit {
       });
   }
 
-  // 국가 공휴일 추가
-  addCountryHoliday() {
-    const formValue = this.countryHolidayForm.value;
-    const convertDate = moment(formValue.holidayDate).format('YYYY-MM-DD');
-    const countryHolidayData = {
-      _id: this.countryId,
-      holidayName: formValue.holidayName,
-      holidayDate: convertDate,
-    };
-    console.log(countryHolidayData);
+  // // 국가 공휴일 추가
+  // addCountryHoliday() {
+  //   const formValue = this.countryHolidayForm.value;
+  //   const convertDate = moment(formValue.holidayDate).format('YYYY-MM-DD');
+  //   const countryHolidayData = {
+  //     _id: this.countryId,
+  //     holidayName: formValue.holidayName,
+  //     holidayDate: convertDate,
+  //   };
+  //   console.log(countryHolidayData);
 
-    if (this.wholeHolidayList) {
-      // 휴가 중복 체크
-      for (let i = 0; i < this.wholeHolidayList.length; i++) {
-        if (this.wholeHolidayList[i].holidayDate == convertDate) {
-          // this.dialogRef.close();
-          return this.dialogService.openDialogNegative(
-            'The holiday is duplicated.'
-          );
-        }
-      }
-    }
+  //   if (this.wholeHolidayList) {
+  //     // 휴가 중복 체크
+  //     for (let i = 0; i < this.wholeHolidayList.length; i++) {
+  //       if (this.wholeHolidayList[i].holidayDate == convertDate) {
+  //         // this.dialogRef.close();
+  //         return this.dialogService.openDialogNegative(
+  //           'The holiday is duplicated.'
+  //         );
+  //       }
+  //     }
+  //   }
 
-    this.countryService.addCountryHoliday(countryHolidayData).subscribe({
-      next: (data: any) => {
-        this.dialogService.openDialogPositive('Success add country holiday.');
-        this.getCountryHolidayList();
-      },
-      error: (err: any) => {
-        this.dialogService.openDialogNegative('An error has occured.');
-        this.getCountryHolidayList();
-      },
-    });
-  }
+  //   this.countryService.addCountryHoliday(countryHolidayData).subscribe({
+  //     next: (data: any) => {
+  //       this.dialogService.openDialogPositive('Success add country holiday.');
+  //       this.getCountryHolidayList();
+  //     },
+  //     error: (err: any) => {
+  //       this.dialogService.openDialogNegative('An error has occured.');
+  //       this.getCountryHolidayList();
+  //     },
+  //   });
+  // }
 
   openAddHoliday() {
     const dialogRef = this.dialog.open(CountryHolidayAddComponent, {
@@ -196,9 +162,9 @@ export class CountryHolidayListComponent implements OnInit {
       });
   }
 
-  datePickChange(dateValue: any) {
-    this.countryHolidayForm.get('holidayDate')?.setValue(dateValue);
-  }
+  // datePickChange(dateValue: any) {
+  //   this.countryHolidayForm.get('holidayDate')?.setValue(dateValue);
+  // }
 
   chosenYearHandler(normalizedYear: any, dp: any) {
     dp.close();
@@ -217,6 +183,6 @@ export class CountryHolidayListComponent implements OnInit {
     console.log(this.countryHolidayList);
     this.minDate = new Date(year, 0, 1);
     this.maxDate = new Date(year, 11, 31);
-    this.datePickChange(null);
+    // this.datePickChange(null);
   }
 }

@@ -95,10 +95,10 @@
                             <th mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element">
                                 <ng-container *ngIf="element?.type === 'meeting';">
-                                    <div [routerLink]="['/company', companyId, 'meeting']"><mat-icon>launch</mat-icon></div>
+                                    <div [routerLink]="['/company', companyId, 'meeting']"><mat-icon class="openIcon">open_in_new</mat-icon></div>
                                 </ng-container>
                                 <ng-container *ngIf="element?.type === 'notification';">
-                                    <div [routerLink]="['/company', companyId, 'notification']"><mat-icon>launch</mat-icon></div>
+                                    <div [routerLink]="['/company', companyId, 'notification']"><mat-icon class="openIcon">open_in_new</mat-icon></div>
                                 </ng-container>
                             </td>
                         </ng-container>    

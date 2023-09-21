@@ -18,12 +18,12 @@ import { Manager } from 'src/app/interfaces/manager.interface';
 })
 export class ManagerListComponent {
   displayedColumns: string[] = [
-    'profile',
+    // 'profile',
+    'superManager',
     'name',
     'email',
     'phone',
     'address',
-    'superManager',
     'menu',
   ];
   companyId: any;

@@ -30,6 +30,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from 'src/app/services/dialog.service';
 import * as moment from 'moment';
 
+import { FADE_IN} from 'src/app/animations/card.animation';
+
 //view table
 export interface PeriodicElement {
   Meeting: String;
@@ -46,6 +48,7 @@ export interface Member {
   imports: [CommonModule, MaterialsModule],
   templateUrl: './meeting.component.html',
   styleUrls: ['./meeting.component.scss'],
+  animations: [ FADE_IN ]
 })
 export class MeetingComponent implements OnInit {
   spaceTime: any;
@@ -123,41 +126,41 @@ export class MeetingComponent implements OnInit {
     });
   }
 
-  // manager list
-  getManagerList(companyId: string) {
-    this.managerService.getManagerList(this.companyId).subscribe({
-      next: (res: HttpResMsg<Manager[]>) => {
-        // this.managers = res.data;
-        console.log('manager list: ', this.managers);
-      },
-      error: (err) => {
-        console.error(err);
-        if (err.status === 404) {
-          console.error('No managers found');
-        } else {
-          console.error('An error occurred while fetching manager list');
-        }
-      },
-    });
-  }
+  // // manager list
+  // getManagerList(companyId: string) {
+  //   this.managerService.getManagerList(this.companyId).subscribe({
+  //     next: (res: HttpResMsg<Manager[]>) => {
+  //       // this.managers = res.data;
+  //       console.log('manager list: ', this.managers);
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //       if (err.status === 404) {
+  //         console.error('No managers found');
+  //       } else {
+  //         console.error('An error occurred while fetching manager list');
+  //       }
+  //     },
+  //   });
+  // }
 
-  // employee list
-  getEmployees(companyId: string) {
-    this.employeeService.getEmployees(this.companyId).subscribe({
-      next: (res: HttpResMsg<Employee[]>) => {
-        // this.employees = res.data;
-        console.log('employee list: ', this.employees);
-      },
-      error: (err) => {
-        console.error(err);
-        if (err.status === 404) {
-          console.error('No employees found');
-        } else {
-          console.error('An error occurred while fetching employee list');
-        }
-      },
-    });
-  }
+  // // employee list
+  // getEmployees(companyId: string) {
+  //   this.employeeService.getEmployees(this.companyId).subscribe({
+  //     next: (res: HttpResMsg<Employee[]>) => {
+  //       // this.employees = res.data;
+  //       console.log('employee list: ', this.employees);
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //       if (err.status === 404) {
+  //         console.error('No employees found');
+  //       } else {
+  //         console.error('An error occurred while fetching employee list');
+  //       }
+  //     },
+  //   });
+  // }
 
   // 미팅 목록 조회
   getMeetingList(companyId: string) {
@@ -173,7 +176,7 @@ export class MeetingComponent implements OnInit {
             minute: Number(item.startTime.split(' ')[3]), // 배열[3]은 분에 해당
           };
 
-          console.log(meetingTime);
+          // console.log(meetingTime);
 
           // // // PM이고 12시인 경우만 12시이고 그 외의 PM은 +12를 해줌 (ex: PM 11 -> 23)
           if (meetingTime.am_pm == 'PM' && meetingTime.time != 12)
@@ -188,7 +191,7 @@ export class MeetingComponent implements OnInit {
             `${yymmddStr} ${meetingTime.time}:${meetingTime.minute}`
           );
 
-          console.log(meetingDate);
+          // console.log(meetingDate);
 
           // 참여 매니저 id에 맞는 username 등록
           let newManager = item.managers.map((part: any) => {
@@ -196,7 +199,7 @@ export class MeetingComponent implements OnInit {
               return part === item._id;
             })[0]?.username;
 
-            console.log(userName);
+            // console.log(userName);
             return userName;
           });
 
@@ -206,7 +209,7 @@ export class MeetingComponent implements OnInit {
               return part === item._id;
             })[0]?.username;
 
-            console.log(userName);
+            // console.log(userName);
             return userName;
           });
 

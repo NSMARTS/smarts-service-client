@@ -25,7 +25,7 @@ export interface PeriodicElement {
 })
 export class HolidayComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['name', 'date', 'delete'];
+  displayedColumns: string[] = ['date', 'name', 'delete'];
   companyHolidayList: any = new MatTableDataSource();
   private unsubscribe$ = new Subject<void>();
   companyId: any;

@@ -9,7 +9,7 @@
 
     <div class="cardContainer">
         <div class="cardMgCtr">
-            <div class="meetingBox">
+            <div class="meetingBox" [@fadeIn]="meetingArray.length && showAllMeetings">
                 <ng-container *ngFor="let data of meetingArray; index as i;" >
                     <mat-card class="example-card" *ngIf ="data.status === 'Open' || showAllMeetings === true">
 
@@ -17,7 +17,7 @@
                             <mat-card-title>
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                   <div fxFlex="90" class="card-title">
-                                    Title : {{ data.meetingTitle }}
+                                   {{ data.meetingTitle }}
                                   </div>
                                   <div fxFlex>
                                     <mat-slide-toggle [checked]="data.status === 'Open'" (change)="toggle(data, i);"
@@ -29,22 +29,45 @@
                             </mat-card-title>
 
                             <mat-card-subtitle>
-                              <div>
-                                <p *ngIf="data.newManager ==! null || data.newManager.length > 0"><span>Managers:</span> {{ data.newManager }}</p>
-                                <p *ngIf="data.newEmployee ==! null || data.newEmployee.length > 0"><span>Employees:</span> {{ data.newEmployee }}</p>
-                              </div>
-                              <p *ngIf="data.meetingDescription"><span>Description:</span> {{ data.meetingDescription }}</p>
-                              <p *ngIf="data.meetingLink"><span>Link:</span> {{ data.meetingLink }}</p>
-                              <span>Start:</span> {{ data.startDate | date: 'YYYY-MM-dd' }} {{ data.startTime }}
+                              <p [ngClass]="data.meetingDescription?'':'no-content'"> {{ data.meetingDescription || 'no description...' }}</p>
+
                             </mat-card-subtitle>
+                            <mat-divider> </mat-divider>
                         </mat-card-header>
 
-                        <!-- <mat-card-actions align="center"> -->
-                        <mat-card-actions fxLayoutGap="5px" fxLayoutAlign="center">
-                            <button mat-stroked-button [disabled]="!data.meetingLink" (click)="enterMeeting(data)"> Enter </button>
-                            <button mat-stroked-button (click)="editMeeting(data)"> Edit </button>
-                            <button mat-stroked-button (click)="deleteMeeting(data)"> Delete </button>
-                        </mat-card-actions>
+                        <mat-card-content>
+
+                          <div class="content-container meeting-date">
+                            <mat-icon svgIcon="matTwoTone:schedule"> </mat-icon>
+                            <!-- https://angular.io/api/common/DatePipe -->
+                            <p>{{ data.meetingDate | date: 'MMM d, y, h:mm a'}}</p>
+                          </div>
+
+                          <div class="content-container" [ngClass]="data.newManager.length>0?'':'no-content'">
+                            <mat-icon svgIcon="matOutlined:manage_accounts"> </mat-icon>
+                            <p> {{ data.newManager.length>0? data.newManager : 'no managers'}}</p>
+                          </div>
+
+                          <div class="content-container" [ngClass]="data.newEmployee.length>0?'':'no-content'">
+                            <mat-icon svgIcon="matOutlined:people"> </mat-icon>
+                            <p>  {{data.newEmployee.length>0? data.newEmployee : 'no employees'}}</p>
+                          </div>
+
+                          <div class="content-container meeting-link" [ngClass]="data.meetingLink?'':'no-content'">
+                            <mat-icon svgIcon="matTwoTone:videocam"> </mat-icon>
+                            <a *ngIf="data.meetingLink" [href]="data.meetingLink" target="_blank">{{data.meetingLink}}</a>
+                            <p *ngIf="!data.meetingLink">Please add a meeting link.</p>
+                          </div>
+
+                        </mat-card-content>
+
+                        <mat-card-footer>
+                          <mat-card-actions align="end">
+                                <button mat-stroked-button [disabled]="!data.meetingLink" (click)="enterMeeting(data)"> Enter </button>
+                                <button mat-stroked-button (click)="editMeeting(data)"> Edit </button>
+                                <button mat-stroked-button (click)="deleteMeeting(data)"> Delete </button>
+                            </mat-card-actions>
+                        </mat-card-footer>
                     </mat-card>
                 </ng-container>
             </div>

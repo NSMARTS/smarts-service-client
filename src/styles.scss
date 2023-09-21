@@ -317,8 +317,10 @@ $smart_service_primary_color: var(--point-color);
 
     mat-icon {
         color: var(--point-text-color);
-      }
-}
+    }
+  }
+  
+.openIcon {padding-top: 5px;}
 
 .mat-mdc-menu-item .mat-icon {
     color: var(--point-text-color)!important;
