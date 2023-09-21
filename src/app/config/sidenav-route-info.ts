@@ -1,6 +1,6 @@
 // rounting info
 import { NavigationItem } from '../interfaces/navigation-item.interface';
-export const sidenavRouteInfo: NavigationItem[] = [
+export const SIDENAV_ROUTE_INFO: NavigationItem[] = [
   // dashboard
   {
     type: 'subheading',

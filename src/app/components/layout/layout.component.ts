@@ -133,7 +133,6 @@ export class LayoutComponent {
     private router: Router,
     private companyService: CompanyService,
     private _loading: LoadingService
-
   ) {
     /**
      * 1. 상단 햄버거 매뉴 클릭 시 사이드바가 나옴
@@ -162,7 +161,7 @@ export class LayoutComponent {
         }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => { });
+      .subscribe(() => {});
 
     // url navigation
     this.router.events
@@ -187,6 +186,7 @@ export class LayoutComponent {
             this.companyId = splittedUrl[2];
             console.log('컴퍼니 아이디', this.companyId);
             this.getCompanyInfo();
+            this.navigationService.updateNavItems(this.companyId);
           }
         }
       });
@@ -202,6 +202,7 @@ export class LayoutComponent {
         this.companyId = splittedUrl[2];
         console.log('컴퍼니 아이디', this.companyId);
         this.getCompanyInfo();
+        this.navigationService.updateNavItems(this.companyId);
       }
     }
 
@@ -245,7 +246,6 @@ export class LayoutComponent {
     //   });
 
     this.listenToLoading();
-
   }
 
   getCompanyInfo() {
@@ -263,25 +263,20 @@ export class LayoutComponent {
     });
   }
 
-
   ngOnDestroy() {
     // To protect you, we'll throw an error if it doesn't exist.
     // this.subscriptions.unsubscribe();
   }
 
   /**
- * Listen to the loadingSub property in the LoadingService class. This drives the
- * display of the loading spinner.
- */
+   * Listen to the loadingSub property in the LoadingService class. This drives the
+   * display of the loading spinner.
+   */
   listenToLoading(): void {
     this._loading.loadingSub
-      .pipe(
-        delay(0),
-        takeUntilDestroyed(this.destroyRef)
-      ) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+      .pipe(delay(0), takeUntilDestroyed(this.destroyRef)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
       .subscribe((loading) => {
         this.isLoadingResults = loading;
       });
-
   }
 }
