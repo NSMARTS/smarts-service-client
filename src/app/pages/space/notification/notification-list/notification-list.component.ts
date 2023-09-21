@@ -27,10 +27,7 @@ import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-notification-list',
   templateUrl: './notification-list.component.html',
-  styleUrls: [
-    './notification-list.component.scss',
-    '../../../../../../node_modules/quill/dist/quill.snow.css',
-  ],
+  styleUrls: ['./notification-list.component.scss'],
 })
 export class NotificationListComponent implements AfterViewInit {
   companyId!: string;

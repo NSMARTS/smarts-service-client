@@ -60,7 +60,7 @@ export const sidenavRouteInfo: NavigationItem[] = [
         type: 'link',
         label: 'Pay Stub',
         route: '/pay-stub/',
-        icon: 'update',
+        icon: 'receipt_long',
         isAdmin: true,
       },
     ],
@@ -74,7 +74,7 @@ export const sidenavRouteInfo: NavigationItem[] = [
         type: 'link',
         label: 'Notification',
         route: '/notification',
-        icon: 'library_books',
+        icon: 'campaign',
         isAdmin: true,
       },
       {

@@ -23,10 +23,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 @Component({
   selector: 'app-notification-edit',
   templateUrl: './notification-edit.component.html',
-  styleUrls: [
-    './notification-edit.component.scss',
-    '../../../../../../node_modules/quill/dist/quill.snow.css',
-  ],
+  styleUrls: ['./notification-edit.component.scss'],
 })
 export class NotificationEditComponent implements AfterViewInit {
   text: string = '';

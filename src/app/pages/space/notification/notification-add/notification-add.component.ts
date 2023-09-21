@@ -23,10 +23,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-notification-add',
   templateUrl: './notification-add.component.html',
-  styleUrls: [
-    './notification-add.component.scss',
-    '../../../../../../node_modules/quill/dist/quill.snow.css',
-  ],
+  styleUrls: ['./notification-add.component.scss'],
 })
 export class NotificationAddComponent implements OnInit {
   text: string = '';
