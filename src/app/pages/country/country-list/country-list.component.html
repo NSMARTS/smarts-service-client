@@ -30,7 +30,7 @@
             <ng-container matColumnDef="openIn">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
-                    <mat-icon (click)="selectHoliday(element._id, element?.countryName)">open_in_new</mat-icon>
+                    <mat-icon class="openIcon" (click)="selectHoliday(element._id, element?.countryName)">open_in_new</mat-icon>
                 </td>
             </ng-container>
     

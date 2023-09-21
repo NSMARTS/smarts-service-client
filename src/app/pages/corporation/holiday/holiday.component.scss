@@ -1,3 +1,13 @@
 .mat-mdc-row:hover .mat-mdc-cell {
     background-color: transparent !important;
   }
+
+table {
+  th:first-child {
+    width: 10%;
+  }
+
+  th:nth-child(2) {
+    width: 85%;
+  }
+}

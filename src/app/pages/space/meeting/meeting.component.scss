@@ -12,10 +12,18 @@
     width: 32.666%;
     box-shadow: none;
     margin-bottom: 16px;
+    border:1px solid #eee; //~~~
 }
 
-mat-card {position: relative; padding-bottom: 70px;
-    mat-card-actions {position: absolute; bottom: 10px; left: 50%; transform: translate(-50%);}
+mat-card {
+  padding-bottom: 70px;
+  mat-card-actions {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    // left: 50%;
+    // transform: translate(-50%);
+  }
 }
 
 
@@ -194,3 +202,50 @@ mat-card-subtitle {
     font-size: 24px;
     color: gray;
 }
+
+
+mat-card-header {
+  .no-content {
+    color:#ccc;
+    font-style: oblique;
+  }
+}
+
+mat-card-content {
+  color:#777!important;
+  padding-top:20px;
+
+  .content-container {
+    display:flex;
+    align-items:center;
+    // height: 36px;
+
+    p, a {
+      padding-left:5px;
+      margin:0;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &.meeting-date {
+      font-size:16px;
+      margin: 12px 0 16px 0;
+    }
+
+    // &.meeting-link {
+    //   height:36px;
+    // }
+  }
+
+  mat-icon {
+    min-width:24px;
+  }
+
+
+  .no-content {
+    color:#ccc;
+  }
+
+}
+

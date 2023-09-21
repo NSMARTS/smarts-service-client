@@ -1,3 +1,18 @@
 .mat-mdc-row:hover .mat-mdc-cell {
     background-color: transparent !important;
-  }
+}
+
+.name {
+  p:first-child {float: left; margin-right: 10px; padding-top: 10px;}
+  p:last-child {padding-top: 27px;} 
+}
+
+table {
+    th:first-child, th:nth-child(2), th:nth-child(3), th:nth-child(4) {
+        width: 15%;
+    }
+
+    // th:nth-child(2),th:nth-child(3),th:nth-child(4) {
+    //     width: 20%;
+    // }
+}

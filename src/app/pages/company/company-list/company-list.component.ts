@@ -28,10 +28,10 @@ export class CompanyListComponent implements AfterViewInit {
     'code',
     'name',
     'contractDate',
-    'employees',
-    'managers',
-    'superManagers',
     'payDate',
+    'superManagers',
+    'managers',
+    'employees',
     'openIn',
     'menu',
   ];

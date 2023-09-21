@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -37,6 +37,18 @@ export class CountryAddComponent {
     });
   }
 
+  // 유효성 검사 함수
+  private hasErrors() {
+    const countryNameError = this.countryForm
+      .get('countryName')
+      ?.hasError('required');
+    const countryCodeError = this.countryForm
+      .get('countryCode')
+      ?.hasError('required');
+
+    return countryNameError || countryCodeError;
+  }
+
   onSubmit() {
     if (this.hasErrors()) {
       //유효성 검사 실패 시 빨갛게 나옴
@@ -71,17 +83,5 @@ export class CountryAddComponent {
         }
       },
     });
-  }
-
-  // 유효성 검사 함수
-  private hasErrors() {
-    const countryNameError = this.countryForm
-      .get('countryName')
-      ?.hasError('required');
-    const countryCodeError = this.countryForm
-      .get('countryCode')
-      ?.hasError('required');
-
-    return countryNameError || countryCodeError;
   }
 }

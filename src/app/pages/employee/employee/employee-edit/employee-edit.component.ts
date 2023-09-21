@@ -56,6 +56,7 @@ export class EmployeeEditComponent {
     this.editEmployeeForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
+      phoneNumber: new FormControl(''),
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),
       department: new FormControl(''),

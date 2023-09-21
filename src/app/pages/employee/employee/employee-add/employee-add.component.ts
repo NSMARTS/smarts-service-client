@@ -41,6 +41,7 @@ export class EmployeeAddComponent {
     this.addEmployeeForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl(''),
       country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),

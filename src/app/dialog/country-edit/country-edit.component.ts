@@ -24,13 +24,13 @@ export class CountryEditComponent implements OnInit {
   displayedColumns: string[] = ['countryName', 'countryCode'];
   // form group
   countryForm!: FormGroup<any>;
-  countryList: any;
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<CountryEditComponent>,
     private dialogService: DialogService,
     private countryService: CountryService,
+    // countryId
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -45,13 +45,23 @@ export class CountryEditComponent implements OnInit {
   getCountry() {
     this.countryService.getCountryInfo(this.data).subscribe({
       next: (res: any) => {
-        this.countryList = res.getCountryById;
-        this.countryForm.patchValue(this.countryList);
+        this.countryForm.patchValue(res.getCountryById);
       },
       error: (err: any) => {
         console.log(err.error.message);
       },
     });
+  }
+
+  private hasErrors() {
+    const countryNameError = this.countryForm
+      .get('countryName')
+      ?.hasError('required');
+    const countryCodeError = this.countryForm
+      .get('countryCode')
+      ?.hasError('required');
+
+    return countryNameError || countryCodeError;
   }
 
   onSubmit() {
@@ -88,17 +98,5 @@ export class CountryEditComponent implements OnInit {
         }
       },
     });
-  }
-
-  // 유효성 검사 함수
-  private hasErrors() {
-    const countryNameError = this.countryForm
-      .get('countryName')
-      ?.hasError('required');
-    const countryCodeError = this.countryForm
-      .get('countryCode')
-      ?.hasError('required');
-
-    return countryNameError || countryCodeError;
   }
 }
