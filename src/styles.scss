@@ -41,6 +41,7 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
   --point-text-color: #56B1AC;
   --point-back: #DDF5F4;
   --text-color: #333333;
+  --error-color: #FF4545;
 
   --mat-standard-button-toggle-selected-state-background-color: #ffffff;
   --mat-standard-button-toggle-background-color: #F0F2F5;
@@ -458,8 +459,8 @@ $smart_service_primary_color: var(--point-color);
   margin: 1px;
   padding: 20px;
   color: #fff;
-  font-weight: 700;
-  background-color: var(--point-color);
+  font-weight: 500;
+  background-color: var(--point-text-color);
 }
 
 .rightTable {

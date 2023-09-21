@@ -42,13 +42,8 @@ export class CountryListComponent implements OnInit {
   ];
   countryList: MatTableDataSource<PeriodicElement> =
     new MatTableDataSource<PeriodicElement>([]);
-  countryInfo: any;
-  company: any;
-  manager: any;
-  userInfo: any;
 
   constructor(
-    public dataService: DataService,
     public dialog: MatDialog,
     private dialogService: DialogService,
     private countryService: CountryService,
@@ -58,13 +53,6 @@ export class CountryListComponent implements OnInit {
   ngOnInit(): void {
     this.getCountryList();
   }
-
-  //  ngOnDestroy 메서드는 컴포넌트가 파괴될 때 호출
-  // ngOnDestroy() {
-  //   // unsubscribe all subscription
-  //   this.unsubscribe$.next(); // 옵저버블에 완료 신호를 보냄
-  //   this.unsubscribe$.complete(); // 옵저버블을 완료시킴
-  // }
 
   getCountryList() {
     this.countryService.getCountryList().subscribe({
@@ -86,7 +74,6 @@ export class CountryListComponent implements OnInit {
     });
   }
 
-  // dialog에 아이디를 보내야함
   editCountry(countryId: any) {
     const dialogRef = this.dialog.open(CountryEditComponent, {
       data: { countryId: countryId },
@@ -99,7 +86,9 @@ export class CountryListComponent implements OnInit {
 
   selectHoliday(countryId: any, countryName: string) {
     console.log(countryId, countryName);
-    this.router.navigate(['/country/' + countryId], { queryParams: { name: countryName } });
+    this.router.navigate(['/country/' + countryId], {
+      queryParams: { name: countryName },
+    });
   }
 
   deleteCountry(_id: any) {
@@ -130,5 +119,12 @@ export class CountryListComponent implements OnInit {
     if (this.countryList.paginator) {
       this.countryList.paginator.firstPage();
     }
+  }
+
+  onRowClick(row: any) {
+    console.log(row)
+      this.router.navigate(['/country/' + row._id], {
+        queryParams: { name: row.countryName },
+      });
   }
 }

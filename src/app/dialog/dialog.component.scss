@@ -18,7 +18,7 @@
     font-size: 80px;
     width: 80px;
     height: 80px;
-    color: #00154F;
+    color: var(--point-color);
 }
 
 .confirm_content {
@@ -31,7 +31,7 @@
 }
 
 .confirm_button {
-    background-color: #00154f !important;
+    background-color: var(--point-color) !important;
     color: #fff !important;
     padding: 0 30px;
 }
@@ -46,7 +46,7 @@
     font-size: 80px;
     width: 80px;
     height: 80px;
-    color: rgba(23, 133, 23, 1); 
+    color: var(--point-color); 
 }
 
 .ok_button_box {
@@ -55,7 +55,7 @@
 }
 
 .ok_button {
-    background: rgba(23, 133, 23, 1) !important;
+    background: var(--point-color) !important;
     color: #fff !important;
     width: 100%;
 }
@@ -65,7 +65,7 @@
     font-size: 80px;
     width: 80px;
     height: 80px;
-    color: #f15e5e;
+    color: var(--error-color);
 }
 
 .negative_button_box {
@@ -74,7 +74,7 @@
 }
 
 .negative_button {
-    background-color: #f15e5e !important;
+    background-color: var(--error-color) !important;
     color: #fff !important;
     width: 100%;
 }

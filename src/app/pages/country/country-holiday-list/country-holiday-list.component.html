@@ -4,61 +4,6 @@
 		<button mat-flat-button (click)="openAddHoliday();">Add Holiday</button>
     </div>
 
-        <!------------ 여기부터 정리 필요 ------------>
-		<!-- <span class="example-spacer"></span> -->
-		<!-- <span class="disableReason" *ngIf="company == null || manager == null">
-				You need to register a company and manager to activate!
-		</span>
-		<button class="requestBtn" [disabled]="company == null || manager == null" mat-raised-button color="primary" (click)="openAddCompanuHoliday();"> Add Holiday Day</button> -->
-
-	<!-- <form [formGroup]="countryHolidayForm" novalidate>
-			<div class="add_container">
-				<div fxLayout="column"  style="max-width: 800px;">
-					<div class="selectContent" fxLayout="row wrap" fxLayoutGap="20px">
-						<div fxLayout="row" fxLayoutAlign="center center">
-							<div>
-								<mat-form-field appearance="outline" class="companyFormFieldBox">
-                                    <mat-label>Holiday Name</mat-label>
-									<input matInput type="text" formControlName="holidayName"/>
-								</mat-form-field>
-							</div>
-						</div>
-						<div fxLayout="row" fxLayoutAlign="center center">
-							<div>
-								<div>
-									<span>
-										<mat-form-field appearance="outline" class="companyFormFieldBox" dateFormat-full>
-											<mat-label>Holiday Date</mat-label>
-                                            <input 
-												matInput 
-												[matDatepicker]="picker1" 
-												formControlName="holidayDate"
-												(dateChange)="datePickChange($event.value)"
-												[min]="minDate" [max]="maxDate">
-												<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-											<mat-datepicker #picker1></mat-datepicker>
-										</mat-form-field>
-									</span>
-								</div>
-							</div>
-						</div>
-					
-						<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-							<button 
-                            mat-flat-button
-                            class="addCountryBtn" 
-								(click)="addCountryHoliday()" 
-								[disabled]="countryHolidayForm.invalid"
-							> 
-								Add Holiday
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form> -->
-
-
 	<div class="table_container mt-30">
 
         <div class="filter">

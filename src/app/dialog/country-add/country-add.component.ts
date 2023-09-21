@@ -19,7 +19,7 @@ import { CountryService } from 'src/app/services/country.service';
   templateUrl: './country-add.component.html',
   styleUrls: ['./country-add.component.scss'],
 })
-export class CountryAddComponent implements OnInit {
+export class CountryAddComponent {
   // view table
   displayedColumns: string[] = ['countryName', 'countryCode'];
   // form group
@@ -37,8 +37,6 @@ export class CountryAddComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   onSubmit() {
     if (this.hasErrors()) {
       //유효성 검사 실패 시 빨갛게 나옴
@@ -49,11 +47,9 @@ export class CountryAddComponent implements OnInit {
   }
 
   addCountry() {
-    const formValue = this.countryForm.value;
-
     const countryData = {
-      countryName: formValue.countryName,
-      countryCode: formValue.countryCode,
+      countryName: this.countryForm.value.countryName,
+      countryCode: this.countryForm.value.countryCode,
     };
 
     this.countryService.addCountry(countryData).subscribe({
