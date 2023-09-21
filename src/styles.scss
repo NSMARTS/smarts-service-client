@@ -583,16 +583,37 @@ $smart_service_primary_color: var(--point-color);
 
 //공통 dialog
 .dialog_container {
-  padding: 20px 30px;
-
+    width: 400px;
+    padding: 30px 20px 10px;
+    text-align: center;
+    
   .mat-mdc-form-field {
-    width: 320px;
-    margin-bottom: 20px;
+    width: 100%; margin-bottom: 20px;
   }
 
   .mat-mdc-unelevated-button {
-    width: 320px;
+    background: var(--point-back);
+    color: var(--point-text-color);
+    width: 100%;     
+    font-size: 17px;
+    padding: 22px 0;
   }
+}
+
+.dialog_header {
+
+    /* 남은 공간을 모두 차지하도록 설정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    height: 40px;
+    
+    .dialog_title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
 }
 
 .dialog_twin_container {

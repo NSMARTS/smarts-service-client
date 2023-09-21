@@ -1,9 +1,12 @@
 <div class="page">
-	<div class="page_title" fxLayoutAlign="center">Add holiday</div>
 
 	<form [formGroup]="companyHolidayForm" novalidate>
 		<div class="dialog_container">
-			<div fxLayout="column" class="br_ltop">
+            <div class="dialog_header">
+                <div class="dialog_title">Add holiday</div>
+            </div>
+
+			<div class="br_ltop">
 
                  <mat-form-field appearance="outline">
                         <mat-label>Holiday Name</mat-label>
