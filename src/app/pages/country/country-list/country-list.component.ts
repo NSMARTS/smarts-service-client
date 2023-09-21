@@ -115,11 +115,4 @@ export class CountryListComponent implements OnInit {
       this.countryList.paginator.firstPage();
     }
   }
-
-  onRowClick(row: any) {
-    console.log(row)
-      this.router.navigate(['/country/' + row._id], {
-        queryParams: { name: row.countryName },
-      });
-  }
 }
