@@ -27,7 +27,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/@material-design-icons/svg",
+                "output": "assets/icons/material-design-icons/"
+              }
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
@@ -35,7 +40,6 @@
               "./node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": [
-              "./node_modules/quill/dist/quill.min.js"
             ]
           },
           "configurations": {
@@ -108,7 +112,6 @@
               "./node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": [
-              "./node_modules/quill/dist/quill.min.js"
             ]
           }
         }
