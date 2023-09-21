@@ -36,7 +36,7 @@ export class CompanyEditComponent implements OnInit {
       leaveStandards: this.formBuilder.array([]),
       isRollover: [false],
       rolloverMaxMonth: [0, [Validators.min(0)]],
-      rolloverMaxDay: [0, [Validators.min(0)]],
+      rolloverMaxLeaveDays: [0, [Validators.min(0)]],
       countryCode: [''],
       isReplacementDay: [false],
       rdValidityTerm: [0, [Validators.min(0)]],
@@ -191,8 +191,8 @@ export class CompanyEditComponent implements OnInit {
     const rolloverMaxMonthError = this.editCompanyForm
       .get('rolloverMaxMonth')
       ?.hasError('min');
-    const rolloverMaxDayError = this.editCompanyForm
-      .get('rolloverMaxDay')
+    const rolloverMaxLeaveDaysError = this.editCompanyForm
+      .get('rolloverMaxLeaveDays')
       ?.hasError('min');
     const rdValidityTermError = this.editCompanyForm
       .get('rdValidityTerm')
@@ -213,7 +213,7 @@ export class CompanyEditComponent implements OnInit {
     return (
       companyNameError ||
       rolloverMaxMonthError ||
-      rolloverMaxDayError ||
+      rolloverMaxLeaveDaysError ||
       rdValidityTermError ||
       hasErrors
     );

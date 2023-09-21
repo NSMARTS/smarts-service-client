@@ -34,7 +34,7 @@ export class CompanyAddComponent {
       leaveStandards: this.formBuilder.array([]),
       isRollover: [false],
       rolloverMaxMonth: [0, [Validators.min(0)]],
-      rolloverMaxDay: [0, [Validators.min(0)]],
+      rolloverMaxLeaveDays: [0, [Validators.min(0)]],
       countryCode: [''],
       isReplacementDay: [false],
       rdValidityTerm: [0, [Validators.min(0)]],
@@ -118,8 +118,8 @@ export class CompanyAddComponent {
       rolloverMaxMonth: isRollover
         ? this.addCompanyForm.get('rolloverMaxMonth')?.value
         : 0,
-      rolloverMaxDay: isRollover
-        ? this.addCompanyForm.get('rolloverMaxDay')?.value
+      rolloverMaxLeaveDays: isRollover
+        ? this.addCompanyForm.get('rolloverMaxLeaveDays')?.value
         : 0,
       rdValidityTerm: isReplacementDay
         ? this.addCompanyForm.get('rdValidityTerm')?.value
@@ -154,8 +154,8 @@ export class CompanyAddComponent {
     const rolloverMaxMonthError = this.addCompanyForm
       .get('rolloverMaxMonth')
       ?.hasError('min');
-    const rolloverMaxDayError = this.addCompanyForm
-      .get('rolloverMaxDay')
+    const rolloverMaxLeaveDaysError = this.addCompanyForm
+      .get('rolloverMaxLeaveDays')
       ?.hasError('min');
     const rdValidityTermError = this.addCompanyForm
       .get('rdValidityTerm')
@@ -176,7 +176,7 @@ export class CompanyAddComponent {
     return (
       companyNameError ||
       rolloverMaxMonthError ||
-      rolloverMaxDayError ||
+      rolloverMaxLeaveDaysError ||
       rdValidityTermError ||
       hasErrors
     );
