@@ -312,6 +312,14 @@ $smart_service_primary_color: var(--point-color);
     //   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
+
+    mat-icon {
+        color: var(--point-text-color);
+      }
+}
+
+.mat-mdc-menu-item .mat-icon {
+    color: var(--point-text-color)!important;
 }
 
 .table {
@@ -532,10 +540,6 @@ $smart_service_primary_color: var(--point-color);
     border-radius: 4px;
   }
 
-  .mat-mdc-text-field-wrapper {
-    height: 50px !important;
-  }
-
   label {
     padding-bottom: 6px;
   }
@@ -546,6 +550,9 @@ $smart_service_primary_color: var(--point-color);
   /* 각 요소가 동일한 공간을 차지하도록 설정 */
   margin: 10px;
   /* 간격을 원하는 만큼 추가 */
+  .mat-mdc-text-field-wrapper {
+    height: 50px !important;
+  }
 }
 
 .edit_right_container {
@@ -553,7 +560,6 @@ $smart_service_primary_color: var(--point-color);
   /* 각 요소가 동일한 공간을 차지하도록 설정 */
   margin: 10px;
   /* 간격을 원하는 만큼 추가 */
-
 }
 
 /* 화면 폭이 1000px 이하일 때 스타일 수정 */

@@ -60,6 +60,7 @@ export class LeaveStatusComponent implements AfterViewInit {
     'leaveType',
     'leaveDuration',
     'status',
+    'detail',
   ];
 
   dataSource = new MatTableDataSource<LeaveRequest>([]);

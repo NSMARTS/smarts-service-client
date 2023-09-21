@@ -32,7 +32,7 @@ export class CompanyListComponent implements AfterViewInit {
     'managers',
     'superManagers',
     'payDate',
-    'detail',
+    'openIn',
     'menu',
   ];
 
