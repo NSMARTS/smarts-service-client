@@ -51,10 +51,10 @@ export class NotificationListComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<Notification>([]);
 
   displayedColumns: string[] = [
+    'createdAt',
     'category',
     'title',
     'writer',
-    'createdAt',
     'openIn',
     'menu',
   ];

@@ -53,12 +53,12 @@ export class LeaveStatusComponent implements AfterViewInit {
   destroyRef = inject(DestroyRef);
 
   displayedColumns: string[] = [
+    'leaveType',
     'leaveStartDate',
     'leaveEndDate',
+    'leaveDuration',
     'requestor',
     'requestorEmail',
-    'leaveType',
-    'leaveDuration',
     'status',
     'detail',
   ];

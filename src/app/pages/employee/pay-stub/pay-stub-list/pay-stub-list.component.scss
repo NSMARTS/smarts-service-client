@@ -35,6 +35,19 @@ label {
     background-color: white;
 }
 
+table {
+    th:first-child, th:nth-child(2) {
+        width: 15%;
+    }
+    th:nth-child(3) {width: 50%;}
+}
+
+@media screen and (max-width: 1500px) {
+    th {
+        width: 20%!important;
+    }
+}
+
 @media screen and (max-width: 1000px) { 
     .mat-mdc-form-field{
         width: 140px;

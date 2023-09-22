@@ -46,8 +46,8 @@ export class PayStubListComponent implements AfterViewInit {
   imgSrc: string = '';
   displayedColumns: string[] = [
     'employeeName',
-    'title',
     'uploadDate',
+    'title',
     'download',
     'detail',
     'menu',

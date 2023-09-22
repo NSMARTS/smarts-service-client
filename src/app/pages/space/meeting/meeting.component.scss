@@ -23,8 +23,12 @@ mat-card {
     right: 10px;
     // left: 50%;
     // transform: translate(-50%);
+
+    button:nth-child(2) {margin: 0 10px;}
   }
 }
+
+mat-divider {margin-top: 20px;}
 
 
 mat-checkbox {

@@ -92,6 +92,11 @@
         <td mat-cell *matCellDef="let element"> {{element?.category}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let element"> {{element?.createdAt | date: 'YYYY-MM-dd'}}</td>
+      </ng-container>
+
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> Title </th>
         <td mat-cell *matCellDef="let element"> {{element?.title}} </td>
@@ -100,11 +105,6 @@
       <ng-container matColumnDef="writer">
         <th mat-header-cell *matHeaderCellDef> Writer </th>
         <td mat-cell *matCellDef="let element"> {{element?.writer?.username}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="createdAt">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let element"> {{element?.createdAt | date: 'YYYY-MM-dd'}}</td>
       </ng-container>
 
       <ng-container matColumnDef="openIn">

@@ -30,3 +30,19 @@
 }
 
 mat-icon {color: var(--point-color); font-size: 25px;}
+
+h1 {display: inline-block;}
+
+@media screen and (max-width: 800px) {
+    h1 {
+        font-size: 16px;  width: 150px; overflow: hidden; text-overflow: ellipsis;
+        span {display: none;}
+    }
+}
+
+
+@media screen and (max-width: 650px) {
+    h1 {
+        font-size: 14px;
+    }
+}
