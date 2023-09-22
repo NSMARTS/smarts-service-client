@@ -64,7 +64,7 @@ export class EmployeeEditComponent {
       leaveStandards: this.fb.array([]),
       isRollover: [false],
       rolloverMaxMonth: [0, [Validators.min(0)]],
-      rolloverMaxDay: [0, [Validators.min(0)]],
+      rolloverMaxLeaveDays: [0, [Validators.min(0)]],
       countryCode: [''],
       isReplacementDay: [false],
       rdValidityTerm: [0, [Validators.min(0)]],
@@ -228,7 +228,8 @@ export class EmployeeEditComponent {
   }
 
   resetPassword() {
-    this.dialogService.openDialogConfirm('Do you want password reset?')
+    this.dialogService
+      .openDialogConfirm('Do you want password reset?')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
@@ -236,23 +237,24 @@ export class EmployeeEditComponent {
             this.employeeService.resetPassword(this.employeeId).subscribe({
               next: (res) => {
                 if (res.success) {
-                  this.dialogService.openDialogPositive('Successfully, the password has been reset.')
+                  this.dialogService.openDialogPositive(
+                    'Successfully, the password has been reset.'
+                  );
                 }
               },
               error: (err: any) => {
                 console.error(err);
                 this.dialogService.openDialogNegative('Internet Server Error');
-              }
-            })
+              },
+            });
           }
         },
         error: (err: any) => {
           console.error(err);
           this.dialogService.openDialogNegative('Internet Server Error');
         },
-      })
-
+      });
   }
 
-  updateLeaveInfo() { }
+  updateLeaveInfo() {}
 }

@@ -11,10 +11,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 @Component({
   selector: 'app-notification-detail',
   templateUrl: './notification-detail.component.html',
-  styleUrls: [
-    './notification-detail.component.scss',
-    '../../../../../../node_modules/quill/dist/quill.snow.css',
-  ],
+  styleUrls: ['./notification-detail.component.scss'],
 })
 export class NotificationDetailComponent implements AfterViewInit {
   companyId: string = '';

@@ -1,5 +1,7 @@
 <div class="page">
-  <div class="page_title">Employment Information</div>
+  <div class="page_header">
+    <div class="page_title">Employment Information</div>
+  </div>
 
   <div class="edit_twin_container">
 
@@ -102,7 +104,7 @@
 
 
           <!-- leave standard -->
-          <div class="lineDivider" fxLayout="row">
+          <div class="lineDivider">
             <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
               <div class="leftBox">
                 <span>Annual Leave</span>
@@ -112,7 +114,7 @@
               <div id="leaveStandards_{{i+1}}" formArrayName="leaveStandards"
                 *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index" fxLayout="column"
                 fxLayoutGap="30px">
-                <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+                <div [formGroupName]="i">
 
                   <div class="form-row">
                     <div class="form-field">
@@ -138,6 +140,9 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="addclickBtn" (click)="addItem()">
+                <mat-icon class="addMark">add</mat-icon>
               </div>
             </div>
           </div>
@@ -173,17 +178,17 @@
                 </mat-form-field>
               </div>
             </div>
-            <!-- rollover max day -->
+            <!-- rollover max leave days -->
             <div class="lineDivider" fxLayout="row wrap">
               <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                 <div class="leftBox">
-                  <span>Rollover Max Day</span>
+                  <span>Rollover Max Leave Days</span>
                 </div>
               </div>
               <div class="rightTable" fxFlex>
                 <mat-form-field appearance="outline" class="formFieldBox formSpacer">
-                  <input matInput type="number" class="numeric-input" formControlName="rolloverMaxDay"
-                    placeholder="Rollover Max Day" />
+                  <input matInput type="number" class="numeric-input" formControlName="rolloverMaxLeaveDays"
+                    placeholder="Rollover Max Leave Days" />
                 </mat-form-field>
               </div>
             </div>

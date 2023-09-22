@@ -1,13 +1,18 @@
 <div class="page" style="height: 650px;">
-  <div class="page_header" fxLayoutAlign="center">
-    <div class="page_title">Upload Statement</div>
-  </div>
+
   <div class="example-loading-shade" *ngIf="isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   </div>
+
   <form [formGroup]="statementForm">
+
+    <div class="dialog_container"> 
+    <div class="dialog_twin_header">
+        <div class="dialog_twin_title">Upload Statement</div>
+    </div>
+
     <div class="dialog_twin_container">
-      <!-- <div fxLayout="column" class="br_ltop"> -->
+
       <div class="dialog_left_container">
         <mat-form-field appearance="outline">
           <mat-label>Title</mat-label>
@@ -55,19 +60,9 @@
           </div>
       </div>
 
-      <!-- </div> -->
     </div>
-    <div class="mt-30" class="uploadBtn" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-      <div [hidden]="!isCanvas" class="button-container page-button-container">
-        <!-- <form class="page-form" (ngSubmit)="onGoToPage()">
-          <label for="num">페이지 이동 : </label>
-          <input placeholder="페이지 입력" type="number" [formControl]="pageNumForm" />
-          <button>Go</button>
-        </form> -->
-      </div>
-      <button mat-flat-button (click)="onSubmit()">
-        Upload
-      </button>
+    <button mat-flat-button class="uploadBtn2" (click)="onSubmit()">Upload</button>
     </div>
+
   </form>
 </div>

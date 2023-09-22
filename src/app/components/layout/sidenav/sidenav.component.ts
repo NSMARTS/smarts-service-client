@@ -31,22 +31,5 @@ export class SidenavComponent implements OnInit {
   // 나중에 타입을 알면 추가
   sidenavItems: any = [];
 
-  ngOnInit() {
-    const splittedUrl = this.router.url.split('/');
-
-    // company의 하위 url인 경우 sidebar update
-    if (splittedUrl[1] === 'company' && splittedUrl.length > 2) {
-      // companyId 저장
-      const companyId = splittedUrl[2];
-      const sidenavItems = structuredClone(this.navItems());
-
-      for (let item of sidenavItems) {
-        (item as any).children.map((element: any) => {
-          element.route = `company/${companyId}` + element.route;
-          return element;
-        });
-      }
-      this.sidenavItems = sidenavItems;
-    }
-  }
+  ngOnInit() {}
 }

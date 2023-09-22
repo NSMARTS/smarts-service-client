@@ -5,7 +5,7 @@
 
   <div class="side_nav_items" *ngIf="userInfo().isAdmin">
     <section class="scroll">
-        <app-sidenav-item *ngFor="let item of sidenavItems" [item]="item" [flag]="userInfo()" [level]="0"></app-sidenav-item>
+        <app-sidenav-item *ngFor="let item of navItems()" [item]="item" [flag]="userInfo()" [level]="0"></app-sidenav-item>
     </section>
   </div>
 </div>

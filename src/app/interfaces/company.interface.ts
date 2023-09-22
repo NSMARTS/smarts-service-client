@@ -5,7 +5,7 @@ export interface Company {
   leaveStandards: leaveStandards[];
   isRollover: boolean; // 휴가 이월을 할껀지 말껀지,
   rolloverMaxMonth: number; // 이월된 휴가가 언제까지 사용할껀지 ex) 남은 휴가 3달 더 보관가능
-  rolloverMaxDay: number; // 휴가 이월이 며칠까지 될건지 ex) 남은 휴가 최대 5일 보관가능
+  rolloverMaxLeaveDays: number; // 휴가 이월이 며칠까지 될건지 ex) 남은 휴가 최대 5일 보관가능
   isReplacementDay: boolean; // 대체 휴가를 할껀지 말껀지
   rdValidityTerm: number; // 대체 휴가 유효기간. 대체휴가가 생겼을 시 며칠안에 쓸껀지 기록
   annualPolicy: string; // 'byYear' 은 1월 1일 기준으로 휴가가 생김. 'byContract' 입사일 기준으로 휴가가 생김
@@ -20,7 +20,7 @@ export const InitialCompany: Company = {
   leaveStandards: [],
   isRollover: false,
   rolloverMaxMonth: 0,
-  rolloverMaxDay: 0, // 휴가 이월이 며칠까지 될건지 ex) 남은 휴가 최대 5일 보관가능
+  rolloverMaxLeaveDays: 0, // 휴가 이월이 며칠까지 될건지 ex) 남은 휴가 최대 5일 보관가능
   isReplacementDay: false, // 대체 휴가를 할껀지 말껀지
   rdValidityTerm: 0, // 대체 휴가 유효기간. 대체휴가가 생겼을 시 며칠안에 쓸껀지 기록
   annualPolicy: 'byContract', // 'byYear' 은 1월 1일 기준으로 휴가가 생김. 'byContract' 입사일 기준으로 휴가가 생김
