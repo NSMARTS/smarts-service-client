@@ -16,7 +16,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class InfoComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['date', 'content', 'enter'];
+  displayedColumns: string[] = ['date', 'chip', 'content', 'enter'];
   toggleValue: any = 'all';
   toggleList: any = new MatTableDataSource();
   allList: any[] = [];

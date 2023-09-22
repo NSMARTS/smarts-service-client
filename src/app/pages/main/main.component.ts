@@ -28,7 +28,7 @@ export interface PeriodicElement {
 })
 export class MainComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['date', 'content', 'company', 'openIn'];
+  displayedColumns: string[] = ['date', 'chip', 'content', 'company', 'openIn'];
   displayedColumns2: string[] = ['countryName', 'openIn'];
   allCount: any;
   toggleValue: any = 'all';

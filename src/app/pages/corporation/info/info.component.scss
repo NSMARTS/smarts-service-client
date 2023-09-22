@@ -3,8 +3,11 @@
     th:first-child {
       width: 15%;
     }
-
     th:nth-child(2) {
+      width: 0%;
+    }
+
+    th:nth-child(3) {
       width: 80%;
     }
   }

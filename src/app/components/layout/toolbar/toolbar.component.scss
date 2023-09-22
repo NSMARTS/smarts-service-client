@@ -35,7 +35,7 @@ h1 {display: inline-block;}
 
 @media screen and (max-width: 800px) {
     h1 {
-        font-size: 16px;  width: 150px; overflow: hidden; text-overflow: ellipsis;
+        font-size: 16px;  width: 150px; overflow: hidden; text-overflow: ellipsis; padding-top: 11px;
         span {display: none;}
     }
 }
@@ -43,6 +43,6 @@ h1 {display: inline-block;}
 
 @media screen and (max-width: 650px) {
     h1 {
-        font-size: 14px;
+        display: none;
     }
 }
