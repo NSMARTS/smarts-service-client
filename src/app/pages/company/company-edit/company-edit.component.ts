@@ -137,9 +137,9 @@ export class CompanyEditComponent implements OnInit {
     this.updateYears();
   }
 
-  cancelItem(i: any) {
-    if (this.leaveStandards) {
-      this.leaveStandards.removeAt(i);
+  cancelItem(index: number) {
+    if (this.leaveStandards.length > index) {
+      this.leaveStandards.removeAt(index);
       this.updateYears();
     }
   }
@@ -160,63 +160,46 @@ export class CompanyEditComponent implements OnInit {
   }
 
   //Edit 버튼 클릭
-  onSubmit() {
-    const companyData = {
-      ...this.editCompanyForm.value,
-    };
+  editCompany() {
+    if (this.editCompanyForm.valid) {
+      const isRollover = this.editCompanyForm.get('isRollover')?.value;
+      const isReplacementDay =
+        this.editCompanyForm.get('isReplacementDay')?.value;
 
-    this.companyService.editCompany(this.companyId, companyData).subscribe({
-      next: () => {
-        console.log(companyData);
-        this.router.navigate(['company']);
-      },
-      error: (err) => {
-        console.error(err);
-        if (err.status === 404) {
-          this.dialogService.openDialogNegative('Company not found');
-        } else {
-          this.dialogService.openDialogNegative(
-            'An error occurred while updating company'
+      const companyData = {
+        ...this.editCompanyForm.value,
+        // 연차날짜를 입력한 후 연차모드를 false로 바꿨을 시 0으로 초기화
+        rolloverMaxMonth: isRollover
+          ? this.editCompanyForm.get('rolloverMaxMonth')?.value
+          : 0,
+        rolloverMaxLeaveDays: isRollover
+          ? this.editCompanyForm.get('rolloverMaxLeaveDays')?.value
+          : 0,
+        rdValidityTerm: isReplacementDay
+          ? this.editCompanyForm.get('rdValidityTerm')?.value
+          : 0,
+      };
+
+      this.companyService.editCompany(this.companyId, companyData).subscribe({
+        next: () => {
+          console.log(companyData);
+          this.router.navigate(['company']);
+          this.dialogService.openDialogPositive(
+            'Successfully, the company has been edit.'
           );
-        }
-      },
-    });
-  }
-
-  //유효성 검사
-  isButtonDisabled(): any {
-    const companyNameError = this.editCompanyForm
-      .get('companyName')
-      ?.hasError('required');
-    const rolloverMaxMonthError = this.editCompanyForm
-      .get('rolloverMaxMonth')
-      ?.hasError('min');
-    const rolloverMaxLeaveDaysError = this.editCompanyForm
-      .get('rolloverMaxLeaveDays')
-      ?.hasError('min');
-    const rdValidityTermError = this.editCompanyForm
-      .get('rdValidityTerm')
-      ?.hasError('min');
-
-    const leaveStandardsArray = this.editCompanyForm.get(
-      'leaveStandards'
-    ) as FormArray;
-    let hasErrors = false;
-    leaveStandardsArray.controls.forEach((group) => {
-      const annualLeaveError = group.get('annualLeave')?.hasError('min');
-      const sickLeaveError = group.get('sickLeave')?.hasError('min');
-      if (annualLeaveError || sickLeaveError) {
-        hasErrors = true;
-      }
-    });
-
-    return (
-      companyNameError ||
-      rolloverMaxMonthError ||
-      rolloverMaxLeaveDaysError ||
-      rdValidityTermError ||
-      hasErrors
-    );
+        },
+        error: (err) => {
+          console.error(err);
+          if (err.status === 404) {
+            this.dialogService.openDialogNegative('Company not found');
+          } else {
+            this.dialogService.openDialogNegative(
+              'An error occurred while updating company'
+            );
+          }
+        },
+      });
+    }
   }
 
   //input type="number" 한글 안써지도록

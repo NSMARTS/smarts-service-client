@@ -3,7 +3,7 @@
         <div class="page_title">Edit Company</div>
       </div>
 
-  <form [formGroup]="editCompanyForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="editCompanyForm" (ngSubmit)="editCompany()">
     <div class="add_container">
 
       <!-- company name -->
@@ -15,6 +15,9 @@
           <mat-form-field appearance="outline" class="companyFormFieldBox">
             <mat-label>Company Name</mat-label>
             <input matInput type="text" formControlName="companyName" />
+            <mat-error *ngIf="editCompanyForm.controls['companyName'].hasError('required')">
+                Please enter company name.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -58,8 +61,12 @@
           </div>
           <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
             <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+              <mat-label>Rollover Max Month (month)</mat-label>
               <input matInput type="number" class="numeric-input" formControlName="rolloverMaxMonth"
                 placeholder="Rollover Max Month" />
+              <mat-error *ngIf="editCompanyForm.controls['rolloverMaxMonth'].hasError('min')">
+                  Please enter positive number.
+              </mat-error>    
             </mat-form-field>
           </div>
         </div>
@@ -70,9 +77,13 @@
           </div>
           <div class="rightTable" fxFlex>
             <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+              <mat-label>Rollover Max Leave Days</mat-label>
               <input matInput type="number" class="numeric-input" formControlName="rolloverMaxLeaveDays"
                 placeholder="Rollover Max Leave Days" />
             </mat-form-field>
+            <mat-error *ngIf="editCompanyForm.controls['rolloverMaxLeaveDays'].hasError('min')">
+                Please enter positive number.
+            </mat-error>
           </div>
         </div>
       </div>
@@ -101,9 +112,13 @@
           </div>
           <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
             <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+              <mat-label>RD Validity Term (month)</mat-label>
               <input matInput type="number" class="numeric-input" formControlName="rdValidityTerm"
                 placeholder="RD Validity Term" />
-            </mat-form-field> month(s)
+              <mat-error *ngIf="editCompanyForm.controls['rdValidityTerm'].hasError('min')">
+                  Please enter positive number.
+              </mat-error>
+            </mat-form-field>
           </div>
         </div>
       </div>
@@ -184,34 +199,40 @@
                   <div class="yearLabel"> {{ i + 1 }} year</div>
                 </div>
                 <div class="form-field">
-                  <mat-form-field appearance="outline" class="formFieldBox">
+                  <mat-form-field appearance="outline">
                     <mat-label>Annual Leave</mat-label>
                     <input matInput type="number" class="numeric-input" formControlName="annualLeave" />
+                    <mat-error *ngIf="leaveStandard.hasError('min', 'annualLeave')">
+                        Please enter positive number.
+                    </mat-error>
                   </mat-form-field>
+                  
                 </div>
                 <div class="form-field">
-                  <mat-form-field appearance="outline" class="formFieldBox">
+                  <mat-form-field appearance="outline">
                     <mat-label>Sick Leave</mat-label>
                     <input matInput type="number" class="numeric-input" formControlName="sickLeave" />
+                    <mat-error *ngIf="leaveStandard.hasError('min', 'sickLeave')">
+                        Please enter positive number.
+                    </mat-error>
                   </mat-form-field>
                 </div>
                 <div *ngIf="i <= 0" class="empty">
                 </div>
                 <div *ngIf="i > 0" class="clickBtn" (click)="cancelItem(i)">
-                  <mat-icon class="addMark">remove</mat-icon>
+                  <mat-icon>remove</mat-icon>
                 </div>
               </div>
             </div>
           </div>
           <div class="addclickBtn" (click)="addItem()">
-            <mat-icon class="addMark">add</mat-icon>
+            <mat-icon>add</mat-icon>
           </div>
         </div>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
-        <button mat-flat-button type="submit"
-          [disabled]="isButtonDisabled()">Edit</button>
+      <div fxLayoutAlign="center center" class="booterBtn">
+        <button mat-flat-button type="submit">Edit</button>
         <div style="width: 20px;"></div>
         <button mat-flat-button class="cencelBtn" (click)="toBack()">Cancel</button>
       </div>

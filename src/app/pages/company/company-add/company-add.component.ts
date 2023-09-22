@@ -97,89 +97,48 @@ export class CompanyAddComponent {
     this.router.navigate(['company']);
   }
 
-  // Request 버튼 클릭
-  onSubmit() {
-    if (this.hasErrors()) {
-      //유효성 검사 실패 시 빨갛게 나옴
-    } else {
-      // 유효성 검사 통과 시
-      this.addCompany();
-    }
-  }
-
   //회사 등록
   addCompany() {
-    const isRollover = this.addCompanyForm.get('isRollover')?.value;
-    const isReplacementDay = this.addCompanyForm.get('isReplacementDay')?.value;
+    if (this.addCompanyForm.valid) {
+      const isRollover = this.addCompanyForm.get('isRollover')?.value;
+      const isReplacementDay =
+        this.addCompanyForm.get('isReplacementDay')?.value;
 
-    const companyData = {
-      ...this.addCompanyForm.value,
-      // 연차날짜를 입력한 후 연차모드를 false로 바꿨을 시 0으로 초기화
-      rolloverMaxMonth: isRollover
-        ? this.addCompanyForm.get('rolloverMaxMonth')?.value
-        : 0,
-      rolloverMaxLeaveDays: isRollover
-        ? this.addCompanyForm.get('rolloverMaxLeaveDays')?.value
-        : 0,
-      rdValidityTerm: isReplacementDay
-        ? this.addCompanyForm.get('rdValidityTerm')?.value
-        : 0,
-    };
-    console.log(companyData);
-    this.companyService.addCompany(companyData).subscribe({
-      next: (res) => {
-        this.router.navigate(['company']);
-        this.dialogService.openDialogPositive(
-          'Successfully, the company has been add.'
-        );
-      },
-      error: (err) => {
-        console.error(err);
-        if (err.status === 409) {
-          this.dialogService.openDialogNegative('Company name is duplicated.');
-        } else {
-          this.dialogService.openDialogNegative(
-            'An error occurred while adding company.'
+      const companyData = {
+        ...this.addCompanyForm.value,
+        // 연차날짜를 입력한 후 연차모드를 false로 바꿨을 시 0으로 초기화
+        rolloverMaxMonth: isRollover
+          ? this.addCompanyForm.get('rolloverMaxMonth')?.value
+          : 0,
+        rolloverMaxLeaveDays: isRollover
+          ? this.addCompanyForm.get('rolloverMaxLeaveDays')?.value
+          : 0,
+        rdValidityTerm: isReplacementDay
+          ? this.addCompanyForm.get('rdValidityTerm')?.value
+          : 0,
+      };
+      console.log(companyData);
+      this.companyService.addCompany(companyData).subscribe({
+        next: (res) => {
+          this.router.navigate(['company']);
+          this.dialogService.openDialogPositive(
+            'Successfully, the company has been add.'
           );
-        }
-      },
-    });
-  }
-
-  // 유효성 검사 함수
-  private hasErrors(): boolean {
-    const companyNameError = this.addCompanyForm
-      .get('companyName')
-      ?.hasError('required');
-    const rolloverMaxMonthError = this.addCompanyForm
-      .get('rolloverMaxMonth')
-      ?.hasError('min');
-    const rolloverMaxLeaveDaysError = this.addCompanyForm
-      .get('rolloverMaxLeaveDays')
-      ?.hasError('min');
-    const rdValidityTermError = this.addCompanyForm
-      .get('rdValidityTerm')
-      ?.hasError('min');
-
-    const leaveStandardsArray = this.addCompanyForm.get(
-      'leaveStandards'
-    ) as FormArray;
-    let hasErrors = false;
-    leaveStandardsArray.controls.forEach((group) => {
-      const annualLeaveError = group.get('annualLeave')?.hasError('min');
-      const sickLeaveError = group.get('sickLeave')?.hasError('min');
-      if (annualLeaveError || sickLeaveError) {
-        hasErrors = true;
-      }
-    });
-
-    return (
-      companyNameError ||
-      rolloverMaxMonthError ||
-      rolloverMaxLeaveDaysError ||
-      rdValidityTermError ||
-      hasErrors
-    );
+        },
+        error: (err) => {
+          console.error(err);
+          if (err.status === 409) {
+            this.dialogService.openDialogNegative(
+              'Company name is duplicated.'
+            );
+          } else {
+            this.dialogService.openDialogNegative(
+              'An error occurred while adding company.'
+            );
+          }
+        },
+      });
+    }
   }
 
   //input type="number" 한글 안써지도록
