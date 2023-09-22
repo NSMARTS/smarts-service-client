@@ -42,8 +42,10 @@ body { margin: 0; font-family: 'Noto Sans KR', sans-serif;}
   --point-back: #DDF5F4;
   --text-color: #333333;
   --error-color: #FF4545;
+  --background-color: #F0F2F5;
   // --mat-sidenav-content-background-color: #EBEBEB;
   // --mat-sidenav-content-background-color: #F1F1F1;
+  --mat-sidenav-content-background-color: #F0F2F5;
 
   --mat-standard-button-toggle-selected-state-background-color: #ffffff;
   --mat-standard-button-toggle-background-color: #F0F2F5;
@@ -273,8 +275,8 @@ $smart_service_primary_color: var(--point-color);
         border-radius: 5px;
     }
     .btn.active {
-      color: var(--point-text-color);
-      background: var(--point-back);
+      color: #ffffff;
+      background: var(--point-color);
     }
 
     h1 {
@@ -342,7 +344,7 @@ $smart_service_primary_color: var(--point-color);
   }
 
   .mat-mdc-row:hover .mat-mdc-cell {
-    background-color: #f0f2f5; //row 위에 마우스 올라가면 어둡게
+    background-color: #F6F7F9; //row 위에 마우스 올라가면 어둡게
   }
 
   .mat-column-enter,
@@ -377,14 +379,14 @@ $smart_service_primary_color: var(--point-color);
 }
 
 .mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: var(--point-back);
-    --mdc-filled-button-label-text-color: var(--point-text-color);
+    --mdc-filled-button-container-color: var(--point-color);
+    --mdc-filled-button-label-text-color: #ffffff;
 }
 
 // cancel btn
 .table_delete_button.mat-mdc-unelevated-button.mat-unthemed {
-    --mdc-filled-button-container-color: var(--point-back);
-    --mdc-filled-button-label-text-color: var(--point-text-color);
+    --mdc-filled-button-container-color: var(--point-color);
+    --mdc-filled-button-label-text-color: #ffffff;
 }  
 
 @media screen and (max-width: 1650px) {
@@ -851,6 +853,8 @@ $smart_service_primary_color: var(--point-color);
     font-size: 14px;
   }
 
+  .mat-button-toggle-appearance-standard {background: #E6E8EB;}
+
   mat-icon {
     color: var(--point-text-color);
   }
@@ -912,8 +916,9 @@ $smart_service_primary_color: var(--point-color);
   }
 
   span {
-    color: #F0F2F5;
+    color: #E6E8EB ;
     font-size: 10px;
+    margin-right: 5px;
   }
 
   mat-card-content {
