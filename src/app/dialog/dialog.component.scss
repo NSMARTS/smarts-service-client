@@ -1,57 +1,139 @@
-.dialog_container {
-    color: #636363;
-	width: 400px;
-    padding: 20px;
-}
+// .dialog_container {
+//     color: #636363;
+// 	width: 400px;
+//     padding: 20px;
+// }
 
-.progress_dialog_container {
-    color: #636363;
-    width: 200px;
-    padding: 20px;
-}
+// .progress_dialog_container {
+//     color: #636363;
+//     width: 200px;
+//     padding: 20px;
+// }
 
-.making_sure {
-    font-size :30px;
-}
+// .making_sure {
+//     font-size :30px;
+// }
 
-.confirm_icon {
+// .confirm_icon {
+//     font-size: 80px;
+//     width: 80px;
+//     height: 80px;
+//     color: var(--point-color);
+// }
+
+// .confirm_content {
+//     color: #999;
+//     font-size : 14px;
+// }
+
+// .btn_box {
+//     margin-top: 20px;
+// }
+
+// .confirm_button {
+//     background-color: var(--point-color) !important;
+//     color: #fff !important;
+//     padding: 0 30px;
+// }
+
+// .cancel_button {
+//     // background-color: #c1c1c1 !important;
+//     // color: #fff !important;
+//     padding: 0 30px;
+// }
+//  //-------------------------------------
+// .ok_icon {
+//     font-size: 80px;
+//     width: 80px;
+//     height: 80px;
+//     color: var(--point-color); 
+// }
+
+// .ok_button_box {
+//     margin-top: 20px;
+//     width: 100%;
+// }
+
+// .ok_button {
+//     background: var(--point-color) !important;
+//     color: #fff !important;
+//     width: 100%;
+// }
+
+// //--------------------------------------
+// .negative_icon {
+//     font-size: 80px;
+//     width: 80px;
+//     height: 80px;
+//     color: var(--error-color);
+// }
+
+// .negative_button_box {
+//     margin-top: 20px;
+//     width: 100%;
+// }
+
+// .negative_button {
+//     background-color: var(--error-color) !important;
+//     color: #fff !important;
+//     width: 100%;
+// }
+
+// @media screen and (max-width: 780px){
+//     .dialog_container {
+//         width: 100%;
+//         padding: 0;
+//     }
+    
+//     .ok_button_box {
+//         width: 250px;
+//     }
+
+//     .negative_button_box {
+//         width: 250px;
+//     }
+// }
+
+// ::ng-deep .mat-dialog-container {
+//     @media screen and (max-width: 780px){
+//         padding: 15px !important;
+//         max-width: 94vw !important;
+//     }
+// }
+
+
+.confirm_icon, .ok_icon {
     font-size: 80px;
     width: 80px;
     height: 80px;
     color: var(--point-color);
 }
 
-.confirm_content {
-    color: #999;
-    font-size : 14px;
-}
-
-.btn_box {
-    margin-top: 20px;
-}
-
-.confirm_button {
-    background-color: var(--point-color) !important;
-    color: #fff !important;
-    padding: 0 30px;
-}
-
-.cancel_button {
-    // background-color: #c1c1c1 !important;
-    // color: #fff !important;
-    padding: 0 30px;
-}
- //-------------------------------------
-.ok_icon {
+.negative_icon {
     font-size: 80px;
     width: 80px;
     height: 80px;
-    color: var(--point-color); 
+    color: var(--error-color);
 }
 
-.ok_button_box {
-    margin-top: 20px;
-    width: 100%;
+.making_sure {
+    font-size :30px;
+}
+
+.confirm_content {
+    color: #999;
+    font-size : 14px;
+    margin: 40px 0;
+}
+
+.button_box {
+    display: flex;
+    gap: 20px;
+
+    .cancelBtn {
+        background: #F0F2F5!important;
+        color: #6A6E80!important;
+    }
 }
 
 .ok_button {
@@ -60,43 +142,7 @@
     width: 100%;
 }
 
-//--------------------------------------
-.negative_icon {
-    font-size: 80px;
-    width: 80px;
-    height: 80px;
-    color: var(--error-color);
-}
-
-.negative_button_box {
-    margin-top: 20px;
-    width: 100%;
-}
-
 .negative_button {
     background-color: var(--error-color) !important;
     color: #fff !important;
-    width: 100%;
-}
-
-@media screen and (max-width: 780px){
-    .dialog_container {
-        width: 100%;
-        padding: 0;
-    }
-    
-    .ok_button_box {
-        width: 250px;
-    }
-
-    .negative_button_box {
-        width: 250px;
-    }
-}
-
-::ng-deep .mat-dialog-container {
-    @media screen and (max-width: 780px){
-        padding: 15px !important;
-        max-width: 94vw !important;
-    }
 }

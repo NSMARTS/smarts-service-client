@@ -1,4 +1,103 @@
-<div>
+<div class="page">
+
+		<div class="dialog_container">
+            <div class="dialog_header">
+                <div class="dialog_title">Leave Request Details</div>
+            </div>
+
+            <div class="dialog_body">
+                <table class="modal-table">
+                    <colgroup>
+                      <col style="width:120px">
+                      <col style="width:380px">
+                    </colgroup>
+                    <tbody>
+                      <tr>
+                        <th>
+                          <b>Status</b>
+                        </th>
+                        <td>
+                          {{data.status}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          <b>Requestor</b>
+                        </th>
+                        <td>
+                          {{data?.requestor?.username}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          <b>Request day</b>
+                        </th>
+                        <td>
+                          {{data.createdAt | date}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          <b>Leave Type</b>
+                        </th>
+                        <td>
+                          {{data.leaveType}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          <b>Period</b>
+                        </th>
+                        <td>
+                          {{data.leaveStartDate | date }} ~ {{data.leaveEndDate |
+                          date}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          <b>Leave of used</b>
+                        </th>
+                        <td>
+                          {{data.leaveDuration}}day(s)
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          <b>Reason</b>
+                        </th>
+                        <td>
+                          {{data.leaveReason}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="data.rejector">
+                        <th>
+                          <b>Rejector</b>
+                        </th>
+                        <td>
+                          {{data.rejector.email}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="data.rejectedReason">
+                        <th>
+                          <b>Rejected Reason</b>
+                        </th>
+                        <td>
+                          {{data.rejectedReason}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="button_box">
+                  <button color="primary" mat-flat-button mat-dialog-close>Confirm</button>
+                  <button color="accent" mat-flat-button class="cancelBtn" (click)="cancelRequest()">Cancel</button>
+                  </div>
+            </div>
+		</div>
+
+</div>
+
+<!-- <div>
   <h1 mat-dialog-title>Leave Request Details</h1>
   <div mat-dialog-content>
     <table class="modal-table">
@@ -87,4 +186,4 @@
     <button color="primary" mat-flat-button mat-dialog-close>Confirm</button>
     <button color="accent" mat-flat-button (click)="cancelRequest()">Cancel</button>
   </div>
-</div>
+</div> -->

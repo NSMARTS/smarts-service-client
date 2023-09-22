@@ -30,3 +30,14 @@ td:first-child {
   border-top: none;
   border-left: none;
 }
+
+.button_box {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+
+    .cancelBtn {
+        background: #F0F2F5!important;
+        color: #6A6E80!important;
+    }
+}

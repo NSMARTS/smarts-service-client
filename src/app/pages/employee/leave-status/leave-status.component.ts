@@ -188,8 +188,6 @@ export class LeaveStatusComponent implements AfterViewInit {
   openLeaveStatusDetailDialog(data: LeaveRequest) {
     console.log(data);
     const dialogRef = this.dialog.open(LeaveStatusDetailDialogComponent, {
-      maxWidth: '600px',
-      width: '100%',
       data,
     });
   }

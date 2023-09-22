@@ -583,44 +583,58 @@ $smart_service_primary_color: var(--point-color);
   }
 }
 
-//공통 dialog
+/* 공통 dialog */
 .dialog_container {
-    width: 400px;
+    max-width: 380px;
     padding: 30px 20px 10px;
     text-align: center;
-    
-  .mat-mdc-form-field {
-    width: 100%; margin-bottom: 20px;
-  }
 
-  .mat-mdc-unelevated-button {
-    background: var(--point-back);
-    color: var(--point-text-color);
-    width: 100%;     
-    font-size: 17px;
-    padding: 22px 0;
-  }
+    .dialog_header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 40px;
+        
+        .dialog_title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    }
+
+    .dialog_body {
+        margin: 10px;
+        min-width: 320px;
+
+        .mat-mdc-form-field {
+            width: 100%; margin-bottom: 20px;
+          }
+        
+          .mat-mdc-unelevated-button {
+            background: var(--point-back);
+            color: var(--point-text-color);
+            width: 100%;     
+            font-size: 17px;
+            padding: 22px 0;
+          }
+    }
 }
 
-.dialog_header {
-
-    /* 남은 공간을 모두 차지하도록 설정 */
+.dialog_twin_header {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
-    height: 40px;
     
-    .dialog_title {
+    .dialog_twin_title {
         font-size: 24px;
         font-weight: bold;
-        margin-bottom: 20px;
     }
 }
 
 .dialog_twin_container {
   display: flex;
-  padding: 20px 30px;
+  padding: 30px 20px 10px;
+  text-align: center;
+  justify-content: space-around;
 
   .mat-mdc-form-field {
     width: 320px;
@@ -649,6 +663,15 @@ $smart_service_primary_color: var(--point-color);
   border: 1px solid #ccc;
   /* 1px 두께의 회색 선 추가 */
 }
+
+.uploadBtn2 {
+    background: var(--point-back);
+    color: var(--point-text-color);
+    width: 320px;
+    font-size: 17px;
+    padding: 22px 0;
+    margin-top: 30px;
+  }
 
 @media screen and (max-width: 900px) {
   .dialog_twin_container {
