@@ -9,7 +9,10 @@
             <div class="dialog_body">
                 <mat-form-field appearance="outline">
                     <mat-label>Holiday Name</mat-label>
-                        <input matInput type="text" formControlName="holidayName"/>
+                    <input matInput type="text" formControlName="holidayName"/>
+                    <mat-error *ngIf="companyHolidayForm.controls['holidayName'].hasError('required')">
+                        Please enter holiday name.
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -21,9 +24,12 @@
                         (dateChange)="datePickChange($event.value)">
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error *ngIf="companyHolidayForm.controls['holidayDate'].hasError('required')">
+                        Please enter holiday date.
+                    </mat-error>
                 </mat-form-field>
 
-                <button mat-flat-button (click)="onSubmit()">Create</button>
+                <button mat-flat-button (click)="addCompanyHoliday()">Create</button>
             </div>
 		</div>
 	</form>

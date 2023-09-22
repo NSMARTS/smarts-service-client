@@ -1,4 +1,43 @@
 <div class="page">
+
+	<form [formGroup]="countryHolidayForm" novalidate>
+		<div class="dialog_container">
+            <div class="dialog_header">
+                <div class="dialog_title">Add Holiday</div>
+            </div>
+
+            <div class="dialog_body">
+                <mat-form-field appearance="outline">
+                    <mat-label>Holiday Name</mat-label>
+                    <input matInput type="text" formControlName="holidayName"/>
+                    <mat-error *ngIf="countryHolidayForm.controls['holidayName'].hasError('required')">
+                        Please enter holiday name.
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Holiday Date</mat-label>
+                    <input 
+                        matInput 
+                        [matDatepicker]="picker1" 
+                        formControlName="holidayDate"
+                        (dateChange)="datePickChange($event.value)"
+                        >
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error *ngIf="countryHolidayForm.controls['holidayDate'].hasError('required')">
+                        Please enter holiday date.
+                    </mat-error>
+                </mat-form-field>
+
+                <button mat-flat-button (click)="addCountryHoliday()">Create</button>
+            </div>
+		</div>
+	</form>
+
+</div>
+
+<!-- <div class="page">
 	<div class="page_title" fxLayoutAlign="center">Add Holiday</div>
 
 	<form [formGroup]="countryHolidayForm" novalidate>
@@ -42,10 +81,9 @@
 						> 
 							Add Holiday
 						</button>
-						<!-- <button  mat-raised-button class="cancelBtn" mat-dialog-close> Cancel </button> -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
-</div>
+</div> -->

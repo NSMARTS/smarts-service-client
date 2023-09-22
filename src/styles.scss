@@ -491,6 +491,7 @@ $smart_service_primary_color: var(--point-color);
 
   .mat-mdc-form-field-subscript-wrapper {
     height: 0;
+    margin-bottom: 5px;
   }
 
   input[type=checkbox], input[type=radio] {
@@ -498,9 +499,9 @@ $smart_service_primary_color: var(--point-color);
   }
 }
 
-.formFieldBox {
-  max-width: 200px;
-}
+// .formFieldBox {
+//   max-width: 200px;
+// }
 
 .booterBtn {
   margin: 20px 0 0 0;

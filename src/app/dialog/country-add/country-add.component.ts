@@ -37,51 +37,32 @@ export class CountryAddComponent {
     });
   }
 
-  // 유효성 검사 함수
-  private hasErrors() {
-    const countryNameError = this.countryForm
-      .get('countryName')
-      ?.hasError('required');
-    const countryCodeError = this.countryForm
-      .get('countryCode')
-      ?.hasError('required');
-
-    return countryNameError || countryCodeError;
-  }
-
-  onSubmit() {
-    if (this.hasErrors()) {
-      //유효성 검사 실패 시 빨갛게 나옴
-    } else {
-      // 유효성 검사 통과 시
-      this.addCountry();
-    }
-  }
-
   addCountry() {
-    const countryData = {
-      countryName: this.countryForm.value.countryName,
-      countryCode: this.countryForm.value.countryCode,
-    };
+    if (this.countryForm.valid) {
+      const countryData = {
+        countryName: this.countryForm.value.countryName,
+        countryCode: this.countryForm.value.countryCode,
+      };
 
-    this.countryService.addCountry(countryData).subscribe({
-      next: (data: any) => {
-        if (data.message == 'Success add country') {
-          this.dialogRef.close();
-          this.dialogService.openDialogPositive('Success add country.');
-        }
-      },
-      error: (e) => {
-        if (e.error.message == 'The country code is duplicated.') {
-          this.dialogRef.close();
-          this.dialogService.openDialogNegative(
-            'The country code is duplicated.'
-          );
-        } else if (e.error.message == 'adding Country Error') {
-          this.dialogRef.close();
-          this.dialogService.openDialogNegative('An error has occured.');
-        }
-      },
-    });
+      this.countryService.addCountry(countryData).subscribe({
+        next: (data: any) => {
+          if (data.message == 'Success add country') {
+            this.dialogRef.close();
+            this.dialogService.openDialogPositive('Success add country.');
+          }
+        },
+        error: (e) => {
+          if (e.error.message == 'The country code is duplicated.') {
+            this.dialogRef.close();
+            this.dialogService.openDialogNegative(
+              'The country code is duplicated.'
+            );
+          } else if (e.error.message == 'adding Country Error') {
+            this.dialogRef.close();
+            this.dialogService.openDialogNegative('An error has occured.');
+          }
+        },
+      });
+    }
   }
 }

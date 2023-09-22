@@ -44,59 +44,42 @@ export class HolidayAddComponent implements OnInit {
     this.unsubscribe$.complete();
   }
 
-  onSubmit() {
-    if (this.hasErrors()) {
-      //유효성 검사 실패 시 빨갛게 나옴
-    } else {
-      // 유효성 검사 통과 시
-      this.addCompanyHoliday();
-    }
-  }
-
   addCompanyHoliday() {
-    const formValue = this.companyHolidayForm.value;
-    const convertDate = moment(formValue.holidayDate).format('YYYY-MM-DD');
-    const companyHolidayData = {
-      companyHolidayName: formValue.holidayName,
-      companyHolidayDate: convertDate,
-    };
+    if (this.companyHolidayForm.valid) {
+      const formValue = this.companyHolidayForm.value;
+      const convertDate = moment(formValue.holidayDate).format('YYYY-MM-DD');
+      const companyHolidayData = {
+        companyHolidayName: formValue.holidayName,
+        companyHolidayDate: convertDate,
+      };
 
-    this.CompanyHolidayService.addCompanyHoliday(
-      this.data.compnayId,
-      companyHolidayData
-    ).subscribe({
-      next: () => {
-        this.dialogRef.close();
-        this.dialogService.openDialogPositive(
-          'Successfully, a holiday has been added.'
-        );
-      },
-      error: (err) => {
-        console.error(err);
-        if (err.status === 409) {
-          this.dialogService.openDialogNegative(
-            'Company Holiday date is duplicated.'
+      this.CompanyHolidayService.addCompanyHoliday(
+        this.data.compnayId,
+        companyHolidayData
+      ).subscribe({
+        next: () => {
+          this.dialogRef.close();
+          this.dialogService.openDialogPositive(
+            'Successfully, a holiday has been added.'
           );
-        } else {
-          this.dialogService.openDialogNegative('Adding company holiday Error');
-        }
-      },
-    });
+        },
+        error: (err) => {
+          console.error(err);
+          if (err.status === 409) {
+            this.dialogService.openDialogNegative(
+              'Company Holiday date is duplicated.'
+            );
+          } else {
+            this.dialogService.openDialogNegative(
+              'Adding company holiday Error'
+            );
+          }
+        },
+      });
+    }
   }
 
   datePickChange(dateValue: any) {
     this.companyHolidayForm.get('holidayDate')?.setValue(dateValue);
-  }
-
-  // 유효성 검사 함수
-  private hasErrors() {
-    const holidayNameError = this.companyHolidayForm
-      .get('holidayName')
-      ?.hasError('required');
-    const holidayDateError = this.companyHolidayForm
-      .get('holidayDate')
-      ?.hasError('required');
-
-    return holidayNameError || holidayDateError;
   }
 }

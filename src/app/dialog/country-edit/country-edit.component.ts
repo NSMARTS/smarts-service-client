@@ -53,50 +53,32 @@ export class CountryEditComponent implements OnInit {
     });
   }
 
-  private hasErrors() {
-    const countryNameError = this.countryForm
-      .get('countryName')
-      ?.hasError('required');
-    const countryCodeError = this.countryForm
-      .get('countryCode')
-      ?.hasError('required');
-
-    return countryNameError || countryCodeError;
-  }
-
-  onSubmit() {
-    if (this.hasErrors()) {
-      //유효성 검사 실패 시 빨갛게 나옴
-    } else {
-      // 유효성 검사 통과 시
-      this.editCountry();
-    }
-  }
-
   editCountry() {
-    const formValue = this.countryForm.value;
-    const countryData = {
-      _id: this.data.countryId,
-      countryName: formValue.countryName,
-      countryCode: formValue.countryCode,
-    };
-    console.log(countryData);
-    this.countryService.editCountry(countryData).subscribe({
-      next: (data: any) => {
-        this.dialogRef.close();
-        this.dialogService.openDialogPositive('Success edit country.');
-      },
-      error: (e) => {
-        if (e.error.message == 'The country code is duplicated.') {
+    if (this.countryForm.valid) {
+      const formValue = this.countryForm.value;
+      const countryData = {
+        _id: this.data.countryId,
+        countryName: formValue.countryName,
+        countryCode: formValue.countryCode,
+      };
+      console.log(countryData);
+      this.countryService.editCountry(countryData).subscribe({
+        next: (data: any) => {
           this.dialogRef.close();
-          this.dialogService.openDialogNegative(
-            'The country code is duplicated.'
-          );
-        } else if (e.error.message == 'editing Country Error') {
-          this.dialogRef.close();
-          this.dialogService.openDialogNegative('An error has occured.');
-        }
-      },
-    });
+          this.dialogService.openDialogPositive('Success edit country.');
+        },
+        error: (e) => {
+          if (e.error.message == 'The country code is duplicated.') {
+            this.dialogRef.close();
+            this.dialogService.openDialogNegative(
+              'The country code is duplicated.'
+            );
+          } else if (e.error.message == 'editing Country Error') {
+            this.dialogRef.close();
+            this.dialogService.openDialogNegative('An error has occured.');
+          }
+        },
+      });
+    }
   }
 }

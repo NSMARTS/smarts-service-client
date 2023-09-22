@@ -57,36 +57,38 @@ export class CountryHolidayAddComponent implements OnInit {
 
   // 국가 공휴일 추가
   addCountryHoliday() {
-    const formValue = this.countryHolidayForm.value;
-    const convertDate = moment(formValue.holidayDate).format('YYYY-MM-DD');
-    const countryHolidayData = {
-      _id: this.countryId,
-      holidayName: formValue.holidayName,
-      holidayDate: convertDate,
-    };
-    console.log(countryHolidayData);
+    if (this.countryHolidayForm.valid) {
+      const formValue = this.countryHolidayForm.value;
+      const convertDate = moment(formValue.holidayDate).format('YYYY-MM-DD');
+      const countryHolidayData = {
+        _id: this.countryId,
+        holidayName: formValue.holidayName,
+        holidayDate: convertDate,
+      };
+      console.log(countryHolidayData);
 
-    if (this.wholeHolidayList) {
-      // 휴가 중복 체크
-      for (let i = 0; i < this.wholeHolidayList.length; i++) {
-        if (this.wholeHolidayList[i].holidayDate == convertDate) {
-          // this.dialogRef.close();
-          return this.dialogService.openDialogNegative(
-            'The holiday is duplicated.'
-          );
+      if (this.wholeHolidayList) {
+        // 휴가 중복 체크
+        for (let i = 0; i < this.wholeHolidayList.length; i++) {
+          if (this.wholeHolidayList[i].holidayDate == convertDate) {
+            // this.dialogRef.close();
+            return this.dialogService.openDialogNegative(
+              'The holiday is duplicated.'
+            );
+          }
         }
       }
-    }
 
-    this.countryService.addCountryHoliday(countryHolidayData).subscribe({
-      next: (data: any) => {
-        this.dialogRef.close();
-        this.dialogService.openDialogPositive('Success add country holiday.');
-      },
-      error: (err: any) => {
-        this.dialogRef.close();
-        this.dialogService.openDialogNegative('An error has occured.');
-      },
-    });
+      this.countryService.addCountryHoliday(countryHolidayData).subscribe({
+        next: (data: any) => {
+          this.dialogRef.close();
+          this.dialogService.openDialogPositive('Success add country holiday.');
+        },
+        error: (err: any) => {
+          this.dialogRef.close();
+          this.dialogService.openDialogNegative('An error has occured.');
+        },
+      });
+    }
   }
 }
