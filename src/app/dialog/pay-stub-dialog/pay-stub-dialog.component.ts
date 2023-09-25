@@ -158,7 +158,11 @@ export class PayStubDialogComponent implements OnInit {
     );
   }
 
-  selectFile(event: Event): void {
+  selectFile(event: Event) {
+    if (this.pdfInfo().pdfPages.length > 0) {
+      this.pdfService.memoryRelease()
+    }
+
     const inputElement = event.target as HTMLInputElement;
 
     if (!inputElement) {

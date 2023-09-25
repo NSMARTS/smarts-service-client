@@ -82,7 +82,7 @@ export class PdfService {
       canvasContext: context!,
       viewport: viewport,
     };
-    page.render(renderContext);
+    await page.render(renderContext);
   };
 
   /**
@@ -115,8 +115,14 @@ export class PdfService {
     for (const pdfPage of this.pdfInfo().pdfPages) {
       pdfPage.cleanup();
     }
-    this.pdfInfo().pdfDocument = {} as PDFDocumentProxy;
-    this.pdfInfo().pdfPages = [];
+    // this.pdfInfo().pdfDocument = {} as PDFDocumentProxy;
+    // this.pdfInfo().pdfPages = [];
+    this.pdfInfo.update(() => {
+      return {
+        pdfDocument: {} as PDFDocumentProxy,
+        pdfPages: []
+      }
+    })
   }
 
   /**
