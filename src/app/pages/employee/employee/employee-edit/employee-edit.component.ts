@@ -240,7 +240,7 @@ export class EmployeeEditComponent {
               next: (res) => {
                 if (res.success) {
                   this.dialogService.openDialogPositive(
-                    'Successfully, the password has been reset.'
+                    'Successfully, the password has been reset "qwer1234".'
                   );
                 }
               },

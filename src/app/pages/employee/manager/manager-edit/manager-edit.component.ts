@@ -124,14 +124,13 @@ export class ManagerEditComponent {
           this.managerService.resetManagerPassword(this.managerId).subscribe({
             next: () => {
               this.dialogService.openDialogPositive(
-                'Successfully, the manager password has been reset.'
+                'Successfully, the manager password has been reset "qwer1234".'
               );
               this.router.navigate(['company/' + this.companyId + '/manager']);
             },
             error: (err: any) => {
               console.error(err);
               this.dialogService.openDialogNegative('Loadings Docs Error');
-              alert(err.error.message);
             },
           });
         }
@@ -241,7 +240,6 @@ export class ManagerEditComponent {
             error: (err: any) => {
               console.error(err);
               this.dialogService.openDialogNegative('Loadings Docs Error');
-              alert(err.error.message);
             },
           });
         }

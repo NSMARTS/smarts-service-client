@@ -25,6 +25,9 @@
         <mat-form-field appearance="outline">
           <mat-label>Employee Email</mat-label>
           <input matInput [matAutocomplete]="auto" formControlName="employee" required>
+          <mat-error *ngIf="statementForm.controls['employee'].hasError('required')">
+            Please enter employee email.
+        </mat-error>
         </mat-form-field>
 
         <mat-autocomplete #auto="matAutocomplete">

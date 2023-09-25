@@ -179,25 +179,24 @@ export class PayStubDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.hasErrors() || this.fileName === 'Select File') {
-      return;
-    }
+    if (this.statementForm.valid) {
+      console.log(this.fileName);
+      this.progress = 0;
+      this.message = '';
 
-    this.progress = 0;
-    this.message = '';
+      const formData: PayStub = {
+        ...this.statementForm.value,
+        file: this.currentFile,
+        key: this.key,
+        company: this.data.companyId,
+        writer: this.userInfoStore()._id,
+      };
 
-    const formData: PayStub = {
-      ...this.statementForm.value,
-      file: this.currentFile,
-      key: this.key,
-      company: this.data.companyId,
-      writer: this.userInfoStore()._id,
-    };
-
-    if (this.data.isEditMode) {
-      this.edit(formData);
-    } else {
-      this.upload(formData);
+      if (this.data.isEditMode) {
+        this.edit(formData);
+      } else {
+        this.upload(formData);
+      }
     }
   }
 
@@ -245,16 +244,6 @@ export class PayStubDialogComponent implements OnInit {
         this.currentFile = undefined;
       },
     });
-  }
-
-  // 유효성 검사 함수
-  private hasErrors() {
-    const titleError = this.statementForm.get('title')?.hasError('required');
-    const employeeError = this.statementForm
-      .get('employee')
-      ?.hasError('required');
-
-    return titleError || employeeError;
   }
 
   renderPdf(file: File) {

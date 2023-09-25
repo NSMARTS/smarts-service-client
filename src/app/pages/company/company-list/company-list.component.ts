@@ -140,7 +140,6 @@ export class CompanyListComponent implements AfterViewInit {
             error: (err: any) => {
               console.error(err);
               this.dialogService.openDialogNegative('Loadings Docs Error');
-              alert(err.error.message);
             },
           });
         }
