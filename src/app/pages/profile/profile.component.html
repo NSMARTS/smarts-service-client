@@ -35,7 +35,7 @@
               <mat-label>Confirm Password</mat-label>
               <input type="password" class="data-input" matInput formControlName="confirmPassword">  
           </mat-form-field>
-          <mat-error *ngIf="editProfileForm.errors">{{getErrorMessage()}}</mat-error>
+          <mat-error *ngIf="editProfileForm.errors">Passwords do not match.</mat-error>
   
           <!-- Admin이라 지움 manager, user 시 사용 -->
           <!-- <mat-form-field appearance="outline">
