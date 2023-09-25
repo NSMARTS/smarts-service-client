@@ -32,7 +32,8 @@ import { Statment } from 'src/app/interfaces/statement.interface';
 import * as pdfjsLib from 'pdfjs-dist';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
-import { PdfService } from 'src/app/services/pdf.service';
+import { PdfInfo, PdfService } from 'src/app/services/pdf.service';
+import { PDFPageProxy } from 'pdfjs-dist/types/web/interfaces';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({
   selector: 'app-pay-stub-dialog',
@@ -58,9 +59,9 @@ export class PayStubDialogComponent implements OnInit {
   statementForm: FormGroup;
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
-  pdfDocument: WritableSignal<PDFDocumentProxy> = this.pdfService.pdfDocument;
-  currentPage: WritableSignal<number> = this.pdfService.currentPage;
-  pdfLength: WritableSignal<number> = this.pdfService.pdfLength;
+  pdfInfo: WritableSignal<PdfInfo> = this.pdfService.pdfInfo
+  currentPage: WritableSignal<number> = this.pdfService.currentPage
+  pdfLength: WritableSignal<number> = this.pdfService.pdfLength
 
   isCanvas = false; // 캔버스를 렌더링 했는지, 안했는지. 했으면 페이지 이동 버튼 보여줌
   isDialog = true; // 다이얼로그를 켰는지 안켰는지
@@ -157,25 +158,32 @@ export class PayStubDialogComponent implements OnInit {
     );
   }
 
-  selectFile(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].name.toLowerCase().endsWith('.pdf')) {
-        // Image resize and update
+  selectFile(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
 
-        this.isLoadingResults = true;
-        const file: File = event.target.files[0];
-        this.currentFile = file;
-
-        this.renderPdf(file);
-
-        this.fileName = this.currentFile.name;
-      } else {
-        // this.dialogService.openDialogNegative('Profile photos are only available for PNG and JPG.');
-        alert('PDF만 가능합니다.');
-      }
-    } else {
+    if (!inputElement) {
       this.fileName = 'Select File';
+      return;
     }
+
+    const files: FileList | null = inputElement.files;
+
+    if (!files || !files[0]) {
+      this.fileName = 'Select File';
+      return;
+    }
+
+    if (!files[0].name.toLowerCase().endsWith('.pdf')) {
+      this.dialogService.openDialogNegative('Only Pdf file');
+      return;
+    }
+
+    this.isLoadingResults = true;
+    const file: File = files[0];
+    this.currentFile = file;
+    this.renderPdf(file);
+    this.fileName = this.currentFile.name;
+
   }
 
   onSubmit() {
@@ -265,10 +273,12 @@ export class PayStubDialogComponent implements OnInit {
 
       if (arrayBuffer) {
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-        const pdfDocument = await loadingTask.promise;
-        this.pdfDocument.update(() => pdfDocument);
-        this.pdfLength.update(() => pdfDocument.numPages);
-        this.currentPage.set(1);
+        const pdfDocument = await loadingTask.promise
+
+        this.pdfService.storePdfInfo(pdfDocument)
+
+        this.pdfLength.update(() => pdfDocument.numPages)
+        this.currentPage.set(1)
         this.pdfService.pdfRender(this.pdfViewer, true);
         this.isLoadingResults = false;
         this.isCanvas = true;
@@ -281,10 +291,12 @@ export class PayStubDialogComponent implements OnInit {
     this.payStubService.getPdf(url).subscribe({
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
-        const pdfDocument = await loadingTask.promise;
-        this.pdfDocument.update(() => pdfDocument);
-        this.pdfLength.update(() => pdfDocument.numPages);
-        this.currentPage.set(1);
+        const pdfDocument = await loadingTask.promise
+        this.pdfInfo.update((prev) => {
+          return { ...prev, pdfDocument: pdfDocument }
+        })
+        this.pdfLength.update(() => pdfDocument.numPages)
+        this.currentPage.set(1)
         this.pdfService.pdfRender(this.pdfViewer, true);
         this.isLoadingResults = false;
         this.isCanvas = true;

@@ -1,4 +1,3 @@
-import { PdfDocument } from './../../../../services/pdf.service';
 import { DialogService } from './../../../../services/dialog.service';
 import {
   AfterViewInit,
@@ -30,8 +29,9 @@ import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSort } from '@angular/material/sort';
-import { PdfService } from 'src/app/services/pdf.service';
+import { PdfInfo, PdfService } from 'src/app/services/pdf.service';
 import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
+import { PDFPageProxy } from 'pdfjs-dist/types/web/interfaces';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 
 @Component({
@@ -71,7 +71,7 @@ export class PayStubListComponent implements AfterViewInit {
   destroyRef = inject(DestroyRef);
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
-  pdfDocument: WritableSignal<PDFDocumentProxy> = this.pdfService.pdfDocument
+  pdfInfo: WritableSignal<PdfInfo> = this.pdfService.pdfInfo
   currentPage: WritableSignal<number> = this.pdfService.currentPage
   pdfLength: WritableSignal<number> = this.pdfService.pdfLength
 
@@ -79,7 +79,7 @@ export class PayStubListComponent implements AfterViewInit {
 
   pageNumForm = new FormControl({ value: 0, disabled: true });
   isCanvas = false; // 캔버스를 렌더링 했는지, 안했는지. 했으면 페이지 이동 버튼 보여줌
-  isDialog = false; // 다이얼로그를 켰는지 안켰는지
+  isDialog = false; // 다이얼로그를 켰는지 안켰는지, 상태에 따라 캔버스가 사이즈가 달라진다.
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -233,9 +233,8 @@ export class PayStubListComponent implements AfterViewInit {
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
         const pdfDocument = await loadingTask.promise
-        this.pdfDocument.update(() => pdfDocument)
-        this.pdfLength.update(() => pdfDocument.numPages)
-        this.currentPage.set(1)
+        // PDF 정보를 가져옴
+        await this.pdfService.storePdfInfo(pdfDocument);
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
         this.isCanvas = true;
       },
@@ -312,4 +311,21 @@ export class PayStubListComponent implements AfterViewInit {
   //   await this.pdfService.pdfRender(this.pdfViewer);
   //   this.isCanvas = true;
   // }
+
+
+  /**
+   * Zoom Button에 대한 동작
+   * - viewInfoService의 zoomScale 값 update
+   *
+   * @param action : 'fitToWidth' , 'fitToPage', 'zoomIn', 'zoomOut'
+   */
+  clickZoom(action: any) {
+    // console.log(">> Click Zoom: ", action);
+    // const canvas = this.pdfViewer.nativeElement;
+
+    // const newZoomScale = this.pdfService.calcZoomScale(action, this.pdfViewer, this.isDialog, prevZoomScale);
+
+    // this.pdfService.updateZoomScale(newZoomScale);
+
+  }
 }

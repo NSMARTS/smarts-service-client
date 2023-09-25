@@ -63,6 +63,13 @@ export const SIDENAV_ROUTE_INFO: NavigationItem[] = [
         icon: 'receipt_long',
         isAdmin: true,
       },
+      // {
+      //   type: 'link',
+      //   label: 'Contract',
+      //   route: '/contract/',
+      //   icon: 'update',
+      //   isAdmin: true,
+      // },
     ],
   },
   // EMPLOYEE
