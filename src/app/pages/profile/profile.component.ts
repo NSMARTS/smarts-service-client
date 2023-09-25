@@ -141,7 +141,9 @@ export class ProfileComponent implements OnInit {
       next: (res) => {
         if (res.success) {
           this.refreshProfie();
-          this.dialogService.openDialogPositive('Successfully, Profile  has been updated')
+          this.dialogService.openDialogPositive(
+            'Successfully, Profile  has been updated'
+          );
         }
       },
       error: (error) => {
@@ -155,7 +157,7 @@ export class ProfileComponent implements OnInit {
     //   next: async (data) => await this.authService.setAccessToken(data),
     //   error: (error) => console.log(error),
     // });
-    this.authService.refreshToken().subscribe()
+    this.authService.refreshToken().subscribe();
   }
 
   getErrorMessage() {
