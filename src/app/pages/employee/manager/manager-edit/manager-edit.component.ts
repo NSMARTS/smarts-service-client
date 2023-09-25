@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -41,7 +41,7 @@ export class ManagerEditComponent {
         [Validators.required, Validators.email],
       ],
       username: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.pattern(/^[0-9]*$/)]],
+      phoneNumber: ['', [Validators.pattern(/^[0-9-]*$/)]],
       address: [''],
       isSuperManager: [''],
     });
@@ -136,6 +136,18 @@ export class ManagerEditComponent {
           });
         }
       });
+  }
+
+  //input type="number" 한글 안써지도록
+  @HostListener('input', ['$event'])
+  onInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+
+    if (inputElement.classList.contains('numeric-input')) {
+      const numericValue = inputValue.replace(/[^-\d]/g, '');
+      inputElement.value = numericValue;
+    }
   }
 
   //유효성 검사

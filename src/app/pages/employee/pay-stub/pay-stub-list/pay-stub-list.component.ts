@@ -71,11 +71,9 @@ export class PayStubListComponent implements AfterViewInit {
   destroyRef = inject(DestroyRef);
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
-  pdfDocument: WritableSignal<PDFDocumentProxy> = this.pdfService.pdfDocument
-  currentPage: WritableSignal<number> = this.pdfService.currentPage
-  pdfLength: WritableSignal<number> = this.pdfService.pdfLength
-
-
+  pdfDocument: WritableSignal<PDFDocumentProxy> = this.pdfService.pdfDocument;
+  currentPage: WritableSignal<number> = this.pdfService.currentPage;
+  pdfLength: WritableSignal<number> = this.pdfService.pdfLength;
 
   pageNumForm = new FormControl({ value: 0, disabled: true });
   isCanvas = false; // 캔버스를 렌더링 했는지, 안했는지. 했으면 페이지 이동 버튼 보여줌
@@ -88,7 +86,6 @@ export class PayStubListComponent implements AfterViewInit {
   //   isRateLimitReached = false;
   resultsLength = 0;
 
-
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -98,7 +95,7 @@ export class PayStubListComponent implements AfterViewInit {
     public dialog: MatDialog,
     private payStubService: PayStubService,
     private dialogService: DialogService,
-    private pdfService: PdfService,
+    private pdfService: PdfService
   ) {
     // 이번 달 기준 첫째날
     const startOfMonth = moment().startOf('month').format();
@@ -120,11 +117,10 @@ export class PayStubListComponent implements AfterViewInit {
 
     effect(() => {
       // 다이얼로그가 안켜지고, PDF 페이지 이동 시
-      if (this.currentPage() && !this.isDialog) {
+      if (this.pdfDocument.length > 0 && this.currentPage() && !this.isDialog) {
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
       }
-    })
-
+    });
   }
 
   ngAfterViewInit(): void {
@@ -225,17 +221,16 @@ export class PayStubListComponent implements AfterViewInit {
     const canvas = this.pdfViewer.nativeElement;
     this.pdfService.clearCanvas(canvas);
     this.isCanvas = false;
-
   }
 
   getPdf(url: string) {
     this.payStubService.getPdf(url).subscribe({
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
-        const pdfDocument = await loadingTask.promise
-        this.pdfDocument.update(() => pdfDocument)
-        this.pdfLength.update(() => pdfDocument.numPages)
-        this.currentPage.set(1)
+        const pdfDocument = await loadingTask.promise;
+        this.pdfDocument.update(() => pdfDocument);
+        this.pdfLength.update(() => pdfDocument.numPages);
+        this.currentPage.set(1);
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
         this.isCanvas = true;
       },
@@ -256,7 +251,7 @@ export class PayStubListComponent implements AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(() => {
       this.isDialog = false;
-      console.log(this.isDialog)
+      console.log(this.isDialog);
 
       this.getPayStubsByQuery();
     });
@@ -289,23 +284,23 @@ export class PayStubListComponent implements AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(() => {
       // pdf 초기화
-      this.pdfService.clearCanvas(this.pdfViewer.nativeElement)
+      this.pdfService.clearCanvas(this.pdfViewer.nativeElement);
       this.getPayStubsByQuery();
     });
   }
 
   onPrevPage() {
     if (this.currentPage() <= 1) return;
-    this.currentPage.update((prev) => prev -= 1);
-    console.log(this.isDialog)
-    console.log(this.currentPage())
+    this.currentPage.update((prev) => (prev -= 1));
+    console.log(this.isDialog);
+    console.log(this.currentPage());
   }
 
   onNextPage() {
     if (this.currentPage() >= this.pdfLength()) return;
-    this.currentPage.update((prev) => prev += 1)
-    console.log(this.isDialog)
-    console.log(this.currentPage())
+    this.currentPage.update((prev) => (prev += 1));
+    console.log(this.isDialog);
+    console.log(this.currentPage());
   }
 
   // async onResize() {

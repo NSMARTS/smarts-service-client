@@ -1,5 +1,5 @@
 import { EmployeeService } from 'src/app/services/employee.service';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import {
@@ -41,7 +41,7 @@ export class EmployeeAddComponent {
     this.addEmployeeForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl(''),
+      phoneNumber: new FormControl('', [Validators.pattern(/^[0-9-]*$/)]),
       country: new FormControl('', [Validators.required]), // 직원에게 적용할 나라 공휴일. Default Korea
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),
@@ -57,73 +57,63 @@ export class EmployeeAddComponent {
     });
   }
 
-  onSubmit() {
-    if (this.hasErrors()) {
-      //유효성 검사 실패 시 빨갛게 나옴
-    } else {
-      // 유효성 검사 통과 시
-      this.addEmployee();
+  addEmployee() {
+    if (this.addEmployeeForm.valid) {
+      const postData = {
+        ...this.addEmployeeForm.value,
+        company: this.companyId,
+        country: this.addEmployeeForm.value['country'],
+        empStartDate: this.commonService.dateFormatting(
+          this.addEmployeeForm.value['empStartDate']
+        ),
+        empEndDate: this.addEmployeeForm.value['empEndDate']
+          ? this.commonService.dateFormatting(
+              this.addEmployeeForm.value['empEndDate']
+            )
+          : null,
+      };
+
+      this.employeeService.addEmployee(postData).subscribe({
+        next: (res) => {
+          this.router.navigate([`/company/${this.companyId}/employee`]);
+          this.dialogService.openDialogPositive(
+            'Successfully, the employee has been add.'
+          );
+        },
+        error: (err) => {
+          console.error(err);
+          if (err.status === 409) {
+            this.dialogService.openDialogNegative(
+              'Employee email is duplicated.'
+            );
+          } else {
+            this.dialogService.openDialogNegative(
+              'An error occurred while adding employee.'
+            );
+          }
+        },
+      });
     }
   }
 
-  addEmployee() {
-    const postData = {
-      ...this.addEmployeeForm.value,
-      company: this.companyId,
-      country: this.addEmployeeForm.value['country'],
-      empStartDate: this.commonService.dateFormatting(
-        this.addEmployeeForm.value['empStartDate']
-      ),
-      empEndDate: this.addEmployeeForm.value['empEndDate']
-        ? this.commonService.dateFormatting(
-          this.addEmployeeForm.value['empEndDate']
-        )
-        : null,
-    };
+  //input type="number" 한글 안써지도록
+  @HostListener('input', ['$event'])
+  onInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
 
-    this.employeeService.addEmployee(postData).subscribe({
-      next: (res) => {
-        this.router.navigate([`/company/${this.companyId}/employee`]);
-        this.dialogService.openDialogPositive(
-          'Successfully, the employee has been add.'
-        );
-      },
-      error: (err) => {
-        console.error(err);
-        if (err.status === 409) {
-          this.dialogService.openDialogNegative(
-            'Employee email is duplicated.'
-          );
-        } else {
-          this.dialogService.openDialogNegative(
-            'An error occurred while adding employee.'
-          );
-        }
-      },
-    });
+    if (inputElement.classList.contains('numeric-input')) {
+      const numericValue = inputValue.replace(/[^-\d]/g, '');
+      inputElement.value = numericValue;
+    }
   }
 
-  // 유효성 검사 함수
-  private hasErrors() {
-    const emailError = this.addEmployeeForm.get('email')?.hasError('required');
-    const emailtypeError = this.addEmployeeForm.get('email')?.hasError('email');
-    const usernameError = this.addEmployeeForm
-      .get('username')
-      ?.hasError('required');
-    const countryError = this.addEmployeeForm
-      .get('country')
-      ?.hasError('required');
-    const empStartDateError = this.addEmployeeForm
-      .get('empStartDate')
-      ?.hasError('required');
+  datePickChange(dateValue: any) {
+    this.addEmployeeForm.get('empStartDate')?.setValue(dateValue);
+  }
 
-    return (
-      emailError ||
-      emailtypeError ||
-      usernameError ||
-      countryError ||
-      empStartDateError
-    );
+  datePickChange2(dateValue: any) {
+    this.addEmployeeForm.get('empEndDate')?.setValue(dateValue);
   }
 
   toBack() {
