@@ -68,6 +68,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
    * @returns
    */
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    console.log(request)
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       if (this.authService.isLoggedIn()) {
