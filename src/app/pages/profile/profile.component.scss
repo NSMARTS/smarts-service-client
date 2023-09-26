@@ -2,7 +2,7 @@
   position: relative;
   max-width: 400px;
   height: 100%;
-  margin: 30px auto;
+  margin: 15px auto;
   box-sizing: border-box;
 }
 
@@ -29,6 +29,9 @@ h1 {text-align: center; text-transform: uppercase; font-weight: 900; letter-spac
     border-radius: 100%;
     // max-width: 100%;
   }
+  .mdc-button{
+    height: 20px;
+  }
 }
 
 .profile-id h1 {
@@ -51,7 +54,9 @@ h1 {text-align: center; text-transform: uppercase; font-weight: 900; letter-spac
 
 .mat-mdc-form-field {width: 100%;}
 
-.mat-mdc-raised-button {background: var(--point-back); color: var(--point-text-color); width: 100%; box-shadow: none; font-size: 18px; font-weight: 700; height: 45px; margin-top: 20px;}
+.mdc-button {width: 100%; box-shadow: none; height: 45px; margin-top: 20px;}
+// font-size: 18px; 
+// font-weight: 700; 
 
 // button {
 //   font-size: 16px;
@@ -65,26 +70,25 @@ h1 {text-align: center; text-transform: uppercase; font-weight: 900; letter-spac
 //   color: rgb(182, 182, 182);
 // }
 
+// @media screen and (max-width: 780px) {
 
-@media screen and (max-width: 780px) {
-
-  h1 {
-    padding: 0 20px;
-  }
+//   h1 {
+//     padding: 0 20px;
+//   }
 
 
-  .profile-edit-title {
-    width: 100vw;
-  }
+//   .profile-edit-title {
+//     width: 100vw;
+//   }
 
-  .inputContainer {
-    width: 100vw;
-    display: flex;
-    flex-direction: column !important;
-  }
+//   .inputContainer {
+//     width: 100vw;
+//     display: flex;
+//     flex-direction: column !important;
+//   }
 
-  .profile_input {
-    margin: 0;
-    width: 100% !important;
-  }
-}
+//   .profile_input {
+//     margin: 0;
+//     width: 100% !important;
+//   }
+// }

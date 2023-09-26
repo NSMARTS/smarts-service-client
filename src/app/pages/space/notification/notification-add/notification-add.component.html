@@ -17,6 +17,9 @@
           <mat-form-field>
             <mat-label>Title</mat-label>
             <input matInput type="text" formControlName="title">
+            <mat-error *ngIf="addNotificationForm.controls['title'].hasError('required')">
+                Please enter title.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>

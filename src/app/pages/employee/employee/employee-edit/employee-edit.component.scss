@@ -5,6 +5,7 @@
 .form-row {
     display: flex; /* 수평으로 배열 */
     justify-content: space-between; /* 요소 사이의 간격을 넓혀줍니다 */
+    flex-wrap: wrap;
   }
 
   .form-field {
@@ -14,7 +15,7 @@
   }
 
   .formFieldBox {
-    width: 130PX;
+    width: 205PX;
 }
 
 @media screen and (max-width: 775px) {  
@@ -22,9 +23,9 @@
         font-size: 0.7em;
     }
 
-    .formFieldBox {
-            width: 80PX;
-        }
+    // .formFieldBox {
+    //         width: 80PX;
+    //     }
 }
 
 .addclickBtn {

@@ -18,6 +18,7 @@ import { CountryService } from 'src/app/services/country.service';
 import { Country } from 'src/app/interfaces/employee.interface';
 import { tap } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
+import { Router } from '@angular/router';
 
 export const comparePasswordValidator: ValidatorFn = (
   control: AbstractControl
@@ -46,11 +47,11 @@ export class ProfileComponent implements OnInit {
   profileService = inject(ProfileService);
   countryList: Country[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private router: Router, private fb: FormBuilder) {
     this.editProfileForm = this.fb.group(
       {
         username: new FormControl('', [Validators.required]),
-        country: new FormControl('', [Validators.required]),
+        country: new FormControl(''),
         // empStartDate: new FormControl('', [Validators.required]),
         // empEndDate: new FormControl(''),
         // department: new FormControl(''),
@@ -125,29 +126,36 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    const patchData = {
-      ...this.editProfileForm.value,
-      _id: this.userInfoStore()._id,
-    };
+    if (this.editProfileForm.valid) {
+      if (!this.editProfileForm.errors?.['isNotMatched']) {
+        const patchData = {
+          ...this.editProfileForm.value,
+          _id: this.userInfoStore()._id,
+        };
 
-    // updateForm 중 값이 ''이면 객체에서 삭제. patch 시 변경될 값만 설정
-    for (const key in patchData) {
-      if (patchData.hasOwnProperty(key) && patchData[key] === '') {
-        delete patchData[key];
+        // updateForm 중 값이 ''이면 객체에서 삭제. patch 시 변경될 값만 설정
+        for (const key in patchData) {
+          if (patchData.hasOwnProperty(key) && patchData[key] === '') {
+            delete patchData[key];
+          }
+        }
+
+        this.profileService.updateProfile(patchData).subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.refreshProfie();
+              this.router.navigate(['profile']);
+              this.dialogService.openDialogPositive(
+                'Successfully, Profile has been updated'
+              );
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
       }
     }
-
-    this.profileService.updateProfile(patchData).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.refreshProfie();
-          this.dialogService.openDialogPositive('Successfully, Profile  has been updated')
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
   }
 
   refreshProfie() {
@@ -155,18 +163,18 @@ export class ProfileComponent implements OnInit {
     //   next: async (data) => await this.authService.setAccessToken(data),
     //   error: (error) => console.log(error),
     // });
-    this.authService.refreshToken().subscribe()
+    this.authService.refreshToken().subscribe();
   }
 
-  getErrorMessage() {
-    if (
-      this.editProfileForm?.controls['password'].errors?.['required'] ||
-      this.editProfileForm?.controls['confirmPassword'].errors?.['required']
-    ) {
-      return 'You must enter a value';
-    }
-    return this.editProfileForm?.errors?.['isNotMatched']
-      ? 'Passwords do not match.'
-      : '';
-  }
+  //   getErrorMessage() {
+  //     if (
+  //       this.editProfileForm?.controls['password'].errors?.['required'] ||
+  //       this.editProfileForm?.controls['confirmPassword'].errors?.['required']
+  //     ) {
+  //       return 'You must enter a value';
+  //     }
+  //     return this.editProfileForm?.errors?.['isNotMatched']
+  //       ? 'Passwords do not match.'
+  //       : '';
+  //   }
 }

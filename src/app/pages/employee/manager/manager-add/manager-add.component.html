@@ -3,7 +3,7 @@
         <div class="page_title">Add Manager</div>
     </div>
 
-        <form [formGroup]="addManagerForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="addManagerForm" (ngSubmit)="addManager()">
             <div class="add_container">
 
                     <!-- manager email -->
@@ -16,8 +16,13 @@
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                             <mat-form-field appearance="outline" class="addManagerFormFieldBox">
                                 <mat-label>Email</mat-label>
-                                <input matInput type="text" placeholder="E-Mail *" name="email" formControlName="email"
-                                    autocomplete="email">
+                                <input matInput type="email" formControlName="email">
+                                <mat-error *ngIf="addManagerForm.controls['email'].hasError('required')">
+                                    Please enter email.
+                                </mat-error>
+                                <mat-error *ngIf="addManagerForm.controls['email'].hasError('email')">
+                                    Please enter a valid email
+                                </mat-error>    
                             </mat-form-field>
                         </div>
                     </div>
@@ -32,8 +37,10 @@
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                             <mat-form-field appearance="outline" class="addManagerFormFieldBox">
                                 <mat-label>Name</mat-label>
-                                <input matInput type="text" placeholder="Name" name="username"
-                                    formControlName="username" autocomplete="username">
+                                <input matInput formControlName="username">
+                                <mat-error *ngIf="addManagerForm.controls['username'].hasError('required')">
+                                    Please enter name.
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -48,8 +55,10 @@
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                             <mat-form-field appearance="outline" class="addManagerFormFieldBox">
                                 <mat-label>Phone</mat-label>
-                                <input matInput type="text" placeholder="Phone" name="phoneNumber"
-                                    formControlName="phoneNumber" autocomplete="phoneNumber">
+                                <input matInput class="numeric-input" formControlName="phoneNumber">
+                                <mat-error *ngIf="addManagerForm.controls['phoneNumber'].hasError('pattern')">
+                                    Please enter valid phone.
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -64,8 +73,7 @@
                         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                             <mat-form-field appearance="outline" class="addManagerFormFieldBox">
                                 <mat-label>Address</mat-label>
-                                <input matInput type="text" placeholder="Address" name="address"
-                                    formControlName="address" autocomplete="address">
+                                <input matInput name="address">
                             </mat-form-field>
                         </div>
                     </div>

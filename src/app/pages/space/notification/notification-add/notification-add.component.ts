@@ -95,32 +95,39 @@ export class NotificationAddComponent implements OnInit {
   }
 
   onSubmit() {
-    this.isLoadingResults = true;
+    if (this.addNotificationForm.valid) {
+      this.isLoadingResults = true;
 
-    // 텍스트를 UTF-8로 인코딩하여 바이트 수 계산
-    // 문자마다 바이트수가 달라서 변환 후 계산
-    const textBytes = new TextEncoder().encode(this.text);
-    if (textBytes.length > this.maxBytes) {
-      this.dialogService.openDialogNegative('Content has exceeded 5MB.');
+      // 텍스트를 UTF-8로 인코딩하여 바이트 수 계산
+      // 문자마다 바이트수가 달라서 변환 후 계산
+      const textBytes = new TextEncoder().encode(this.text);
+      if (textBytes.length > this.maxBytes) {
+        this.dialogService.openDialogNegative('Content has exceeded 5MB.');
+      }
+
+      const body = {
+        ...this.addNotificationForm.value,
+        company: this.companyId,
+        writer: this.authService.userInfoStore()._id,
+        contents: this.text,
+      };
+
+      this.notificationService.createNotification(body).subscribe({
+        next: (res) => {
+          if (res) {
+            this.isLoadingResults = false;
+            this.router.navigate([`/company/${this.companyId}/notification/`]);
+            this.dialogService.openDialogPositive(
+              'Successfully, the notification has been add.'
+            );
+          }
+        },
+        error: (error: any) =>
+          this.dialogService.openDialogNegative(
+            'An error occurred while adding notification.'
+          ),
+      });
     }
-
-    const body = {
-      ...this.addNotificationForm.value,
-      company: this.companyId,
-      writer: this.authService.userInfoStore()._id,
-      contents: this.text,
-    };
-
-    this.notificationService.createNotification(body).subscribe({
-      next: (res) => {
-        if (res) {
-          this.isLoadingResults = false;
-          this.router.navigate([`/company/${this.companyId}/notification/`]);
-        }
-      },
-      error: (error: any) =>
-        this.dialogService.openDialogNegative('Server Occur Error!'),
-    });
   }
 
   toBack() {

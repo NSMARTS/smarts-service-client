@@ -134,10 +134,15 @@ export class NotificationEditComponent implements AfterViewInit {
           if (res.success) {
             this.isLoadingResults = false;
             this.router.navigate([`/company/${this.companyId}/notification/`]);
+            this.dialogService.openDialogPositive(
+              'Successfully, the notification has been edit.'
+            );
           }
         },
         error: (error: any) =>
-          this.dialogService.openDialogNegative('Server Occur Error!'),
+          this.dialogService.openDialogNegative(
+            'An error occurred while adding notification.'
+          ),
       });
   }
 
