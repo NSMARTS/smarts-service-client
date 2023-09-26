@@ -1,102 +1,102 @@
 <div class="page">
-    <div class="page_header">
-        <div class="page_title">Add Manager</div>
+  <div class="page_header">
+    <div class="page_title">Add Manager</div>
+  </div>
+
+  <form [formGroup]="addManagerForm" (ngSubmit)="addManager()">
+    <div class="add_container">
+
+      <!-- manager email -->
+      <div class="lineDivider" fxLayout="row">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Email</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-form-field appearance="outline" class="addManagerFormFieldBox">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email">
+            <mat-error *ngIf="addManagerForm.controls['email'].hasError('required')">
+              Please enter email.
+            </mat-error>
+            <mat-error *ngIf="addManagerForm.controls['email'].hasError('email')">
+              Please enter a valid email
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- manager name -->
+      <div class="lineDivider" fxLayout="row">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Name</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-form-field appearance="outline" class="addManagerFormFieldBox">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="username">
+            <mat-error *ngIf="addManagerForm.controls['username'].hasError('required')">
+              Please enter name.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- manager phone -->
+      <div class="lineDivider" fxLayout="row">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Phone</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-form-field appearance="outline" class="addManagerFormFieldBox">
+            <mat-label>Phone</mat-label>
+            <input matInput class="numeric-input" formControlName="phoneNumber">
+            <mat-error *ngIf="addManagerForm.controls['phoneNumber'].hasError('pattern')">
+              Please enter valid phone.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- manager address -->
+      <div class="lineDivider" fxLayout="row">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Address</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-form-field appearance="outline" class="addManagerFormFieldBox">
+            <mat-label>Address</mat-label>
+            <input matInput name="address">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- super manager -->
+      <div class="lineDivider" fxLayout="row">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <div class="leftBox">
+            <span>Super Manager</span>
+          </div>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <mat-checkbox class="checkbox-margin" formControlName="isSuperManager"></mat-checkbox>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
+        <button mat-flat-button class="tableBtn" type="submit">Request</button>
+        <div style="width: 20px;"></div>
+        <button mat-flat-button class="cancelBtn" (click)="toBack()">Cancel</button>
+      </div>
+
     </div>
-
-        <form [formGroup]="addManagerForm" (ngSubmit)="addManager()">
-            <div class="add_container">
-
-                    <!-- manager email -->
-                    <div class="lineDivider" fxLayout="row">
-                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                            <div class="leftBox">
-                                <span>Email</span>
-                            </div>
-                        </div>
-                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="addManagerFormFieldBox">
-                                <mat-label>Email</mat-label>
-                                <input matInput type="email" formControlName="email">
-                                <mat-error *ngIf="addManagerForm.controls['email'].hasError('required')">
-                                    Please enter email.
-                                </mat-error>
-                                <mat-error *ngIf="addManagerForm.controls['email'].hasError('email')">
-                                    Please enter a valid email
-                                </mat-error>    
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                    <!-- manager name -->                    
-                    <div class="lineDivider" fxLayout="row">
-                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                            <div class="leftBox">
-                                <span>Name</span>
-                            </div>
-                        </div>
-                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="addManagerFormFieldBox">
-                                <mat-label>Name</mat-label>
-                                <input matInput formControlName="username">
-                                <mat-error *ngIf="addManagerForm.controls['username'].hasError('required')">
-                                    Please enter name.
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                    <!-- manager phone -->                    
-                    <div class="lineDivider" fxLayout="row">
-                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                            <div class="leftBox">
-                                <span>Phone</span>
-                            </div>
-                        </div>
-                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="addManagerFormFieldBox">
-                                <mat-label>Phone</mat-label>
-                                <input matInput class="numeric-input" formControlName="phoneNumber">
-                                <mat-error *ngIf="addManagerForm.controls['phoneNumber'].hasError('pattern')">
-                                    Please enter valid phone.
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                    <!-- manager address -->                    
-                    <div class="lineDivider" fxLayout="row">
-                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                            <div class="leftBox">
-                                <span>Address</span>
-                            </div>
-                        </div>
-                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-form-field appearance="outline" class="addManagerFormFieldBox">
-                                <mat-label>Address</mat-label>
-                                <input matInput name="address">
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                    <!-- super manager -->                    
-                    <div class="lineDivider" fxLayout="row">
-                        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-                            <div class="leftBox">
-                                <span>Super Manager</span>
-                            </div>
-                        </div>
-                        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-                            <mat-checkbox class="checkbox-margin" formControlName="isSuperManager"></mat-checkbox>
-                        </div>
-                    </div>
-
-                <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
-                    <button mat-flat-button class="tableBtn" type="submit">Request</button>
-                    <div style="width: 20px;"></div>
-                    <button mat-flat-button class="cencelBtn" (click)="toBack()">Cancel</button>
-                </div>
-
-            </div>
-        </form>
+  </form>
 
 </div>

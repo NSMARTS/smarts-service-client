@@ -54,7 +54,6 @@ export class ManagerEditComponent {
     this.managerService.getManagerInfo(this.managerId).subscribe({
       next: (res) => {
         const managerData = res.data;
-        console.log(managerData);
         this.editManagerForm.patchValue(managerData);
       },
       error: (err) => {

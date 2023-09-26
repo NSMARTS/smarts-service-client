@@ -17,10 +17,10 @@
             <input matInput type="email" formControlName="email">
             <mat-icon matSuffix>assignment_ind</mat-icon>
             <mat-error *ngIf="addEmployeeForm.controls['email'].hasError('required')">
-                Please enter email.
+              Please enter email.
             </mat-error>
             <mat-error *ngIf="addEmployeeForm.controls['email'].hasError('email')">
-                Please enter a valid email
+              Please enter a valid email
             </mat-error>
           </mat-form-field>
         </div>
@@ -37,7 +37,7 @@
             <input matInput formControlName="username">
             <mat-icon matSuffix>assignment_ind</mat-icon>
             <mat-error *ngIf="addEmployeeForm.controls['username'].hasError('required')">
-                Please enter name.
+              Please enter name.
             </mat-error>
           </mat-form-field>
         </div>
@@ -54,7 +54,7 @@
             <input matInput class="numeric-input" formControlName="phoneNumber">
             <mat-icon matSuffix>assignment_ind</mat-icon>
             <mat-error *ngIf="addEmployeeForm.controls['phoneNumber'].hasError('pattern')">
-                Please enter valid phone.
+              Please enter valid phone.
             </mat-error>
           </mat-form-field>
         </div>
@@ -75,7 +75,7 @@
             </mat-select>
             <mat-icon matSuffix>find_in_page</mat-icon>
             <mat-error *ngIf="addEmployeeForm.controls['country'].hasError('required')">
-                Please enter country.
+              Please enter country.
             </mat-error>
           </mat-form-field>
         </div>
@@ -89,11 +89,12 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline">
             <mat-label>Start Date</mat-label>
-            <input matInput [matDatepicker]="picker1" formControlName="empStartDate" (dateChange)="datePickChange($event.value)">
+            <input matInput [matDatepicker]="picker1" formControlName="empStartDate"
+              (dateChange)="datePickChange($event.value)">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
             <mat-error *ngIf="addEmployeeForm.controls['empStartDate'].hasError('required')">
-                Please enter start date.
+              Please enter start date.
             </mat-error>
           </mat-form-field>
         </div>
@@ -107,7 +108,8 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline">
             <mat-label>End Date</mat-label>
-            <input matInput [matDatepicker]="picker2" formControlName="empEndDate" (dateChange)="datePickChange2($event.value)">
+            <input matInput [matDatepicker]="picker2" formControlName="empEndDate"
+              (dateChange)="datePickChange2($event.value)">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
@@ -145,7 +147,7 @@
       <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
         <button mat-flat-button type="submit">Request</button>
         <div style="width: 20px;"></div>
-        <button mat-flat-button class="cencelBtn" (click)="toBack()">Cancel</button>
+        <button mat-flat-button class="cancelBtn" (click)="toBack()">Cancel</button>
       </div>
 
     </div>

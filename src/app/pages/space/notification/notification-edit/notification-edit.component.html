@@ -1,10 +1,10 @@
 <div class="page">
 
-    <form [formGroup]="editNotificationForm" (ngSubmit)="onSubmit()">
-      <div class="add_container">
-  
-    <div class="notification_header">
-      <div class="notification_category">
+  <form [formGroup]="editNotificationForm" (ngSubmit)="onSubmit()">
+    <div class="add_container">
+
+      <div class="notification_header">
+        <div class="notification_category">
           <mat-form-field>
             <mat-label>Category</mat-label>
             <mat-select matInput type="text" formControlName="category">
@@ -13,29 +13,29 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-      </div>
-      <div class="notification_title">
+        </div>
+        <div class="notification_title">
           <mat-form-field>
-              <mat-label>Title</mat-label>
-              <input matInput type="text" formControlName="title">
-              <mat-error *ngIf="editNotificationForm.controls['title'].hasError('required')">
-                Please enter title.
-              </mat-error>
+            <mat-label>Title</mat-label>
+            <input matInput type="text" formControlName="title">
+            <mat-error *ngIf="editNotificationForm.controls['title'].hasError('required')">
+              Please enter title.
+            </mat-error>
           </mat-form-field>
+        </div>
       </div>
-    </div>
-  
+
       <quill-editor #quillEditor [formControl]="form" [styles]="{'min-height': '560px'}" [modules]="quillConfig">
       </quill-editor>
-  
-  
-        <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
-          <button mat-flat-button class="tableBtn" type="submit">Edit</button>
-          <div style="width: 20px;"></div>
-          <button mat-flat-button class="cencelBtn" (click)="toBack()">Cancel</button>
-        </div>
-  
+
+
+      <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
+        <button mat-flat-button class="tableBtn" type="submit">Edit</button>
+        <div style="width: 20px;"></div>
+        <button mat-flat-button class="cancelBtn" (click)="toBack()">Cancel</button>
       </div>
-  
-    </form>
-  </div>
+
+    </div>
+
+  </form>
+</div>

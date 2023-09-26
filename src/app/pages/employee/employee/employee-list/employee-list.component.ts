@@ -19,7 +19,9 @@ import { Employee } from 'src/app/interfaces/employee.interface';
 import * as moment from 'moment';
 import { DialogService } from 'src/app/services/dialog.service';
 import { lastValueFrom, map, merge, startWith, switchMap } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 
 @Component({
   selector: 'app-employee-list',
@@ -66,10 +68,11 @@ export class EmployeeListComponent implements AfterViewInit {
 
   constructor(
     private employeeService: EmployeeService,
-    private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private _liveAnnouncer: LiveAnnouncer
+
   ) {
     this.companyId = this.route.snapshot.params['id'];
     this.employees = this.employeeService.employees;
@@ -80,35 +83,55 @@ export class EmployeeListComponent implements AfterViewInit {
   }
 
   async getEmployees() {
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.employeeService
-            .getEmployeesWithQueryParameters(
-              this.companyId,
-              this.sort.active,
-              this.sort.direction,
-              this.paginator.pageIndex,
-              this.paginator.pageSize
-            )
-            .pipe();
-        }),
-        map(async (res: any) => {
-          // https://material.angular.io/components/table/examples
-          console.log(res);
-          this.isLoadingResults = false;
-          this.isRateLimitReached = res.data === null;
-          this.resultsLength = res.total_count;
-          await this.employeeService.setEmployees(res.data);
-          this.dataSource = new MatTableDataSource<Employee>(this.employees());
+    // 페이지 네이션 sorting 예제
+    // this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    // merge(this.sort.sortChange, this.paginator.page)
+    //   .pipe(
+    //     startWith({}),
+    //     switchMap(() => {
+    //       this.isLoadingResults = true;
+    //       return this.employeeService
+    //         .getEmployeesWithQueryParameters(
+    //           this.companyId,
+    //           this.sort.active,
+    //           this.sort.direction,
+    //           this.paginator.pageIndex,
+    //           this.paginator.pageSize
+    //         )
+    //         .pipe();
+    //     }),
+    //     map(async (res: any) => {
+    //       // https://material.angular.io/components/table/examples
+    //       console.log(res);
+    //       this.isLoadingResults = false;
+    //       this.isRateLimitReached = res.data === null;
+    //       this.resultsLength = res.total_count;
+    //       await this.employeeService.setEmployees(res.data);
+    //       this.dataSource = new MatTableDataSource<Employee>(this.employees());
 
-          return this.employees();
-        })
-      )
-      .subscribe();
+    //       return this.employees();
+    //     })
+    //   )
+    //   .subscribe();
+
+    this.employeeService.getEmployees(this.companyId).subscribe({
+      next: async (res: HttpResMsg<Employee[]>) => {
+        await this.employeeService.setEmployees(res.data);
+        this.dataSource = new MatTableDataSource<Employee>(this.employees());
+        this.isLoadingResults = false;
+        this.isRateLimitReached = res.data === null;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status === 404) {
+          console.error('No companies found');
+        } else {
+          console.error('An error occurred while fetching company list');
+        }
+      },
+    });
   }
 
   applyFilter(event: Event) {
@@ -142,9 +165,22 @@ export class EmployeeListComponent implements AfterViewInit {
               );
               console.log(data);
             },
-            error: (err: any) => {},
+            error: (err: any) => { },
           });
         }
       });
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 }

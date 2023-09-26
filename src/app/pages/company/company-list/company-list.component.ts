@@ -58,7 +58,6 @@ export class CompanyListComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.sort.active = 'createdAt'
     this.getCompanyList();
   }
 
