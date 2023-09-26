@@ -145,6 +145,6 @@ export class ToolbarComponent {
 
   signout() {
     this.authService.signOut();
-    this.router.navigate(['welcome']);
+    this.router.navigate(['sign-in']);
   }
 }

@@ -13,8 +13,9 @@ import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/interfaces/company.interface';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { DialogService } from 'src/app/services/dialog.service';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { map, merge, startWith, switchMap } from 'rxjs';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-company-list',
@@ -50,62 +51,66 @@ export class CompanyListComponent implements AfterViewInit {
   constructor(
     private router: Router,
     private companyService: CompanyService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private _liveAnnouncer: LiveAnnouncer
   ) {
     this.companyId = this.companyService.companyId;
   }
 
   ngAfterViewInit(): void {
+    this.sort.active = 'createdAt'
     this.getCompanyList();
   }
 
   // 회사 목록 조회
   getCompanyList() {
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.companyService
-            .getCompanyListWith(
-              this.sort.active,
-              this.sort.direction,
-              this.paginator.pageIndex,
-              this.paginator.pageSize
-            )
-            .pipe();
-        }),
-        map(async (res: any) => {
-          console.log(res.data);
-          // https://material.angular.io/components/table/examples
-          this.isLoadingResults = false;
-          this.dataSource = new MatTableDataSource(res.data);
-          this.resultsLength = res.totalCount;
-          this.isRateLimitReached = res.data === null;
+    // this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    // merge(this.sort.sortChange, this.paginator.page)
+    //   .pipe(
+    //     startWith({}),
+    //     switchMap(() => {
+    //       this.isLoadingResults = true;
+    //       return this.companyService
+    //         .getCompanyListWith(
+    //           this.sort.active,
+    //           this.sort.direction,
+    //           this.paginator.pageIndex,
+    //           this.paginator.pageSize
+    //         )
+    //         .pipe();
+    //     }),
+    //     map(async (res: any) => {
+    //       console.log(res.data);
+    //       // https://material.angular.io/components/table/examples
+    //       this.isLoadingResults = false;
+    //       this.dataSource = new MatTableDataSource(res.data);
+    //       this.resultsLength = res.totalCount;
+    //       this.isRateLimitReached = res.data === null;
+    //       this.dataSource.sort = this.sort;
 
-          return;
-        })
-      )
-      .subscribe();
+    //       return;
+    //     })
+    //   )
+    //   .subscribe();
 
-    // this.companyService.getCompanyListWith().subscribe({
-    //   next: (res: HttpResMsg<Company[]>) => {
-    //     this.company = res.data;
-    //     this.isLoadingResults = false;
-    //     this.isRateLimitReached = res.data === null;
-    //     this.dataSource = new MatTableDataSource(this.company);
-    //     this.dataSource.paginator = this.paginator;
-    //   },
-    //   error: (err) => {
-    //     console.error(err);
-    //     if (err.status === 404) {
-    //       console.error('No companies found');
-    //     } else {
-    //       console.error('An error occurred while fetching company list');
-    //     }
-    //   },
-    // });
+    this.companyService.getCompanyListWith().subscribe({
+      next: (res: HttpResMsg<Company[]>) => {
+        this.company = res.data;
+        this.isLoadingResults = false;
+        this.isRateLimitReached = res.data === null;
+        this.dataSource = new MatTableDataSource(this.company);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status === 404) {
+          console.error('No companies found');
+        } else {
+          console.error('An error occurred while fetching company list');
+        }
+      },
+    });
   }
 
   // 회사 등록
@@ -154,6 +159,19 @@ export class CompanyListComponent implements AfterViewInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
     }
   }
 }
