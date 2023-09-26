@@ -95,7 +95,11 @@ export class ManagerListComponent {
             },
             error: (err: any) => {
               console.error(err);
-              this.dialogService.openDialogNegative('Loadings Docs Error');
+              if (err.status === 404) {
+                this.dialogService.openDialogNegative('Cannot delete manager with assigned employees');
+              } else {
+                this.dialogService.openDialogNegative('Internet Server Error');
+              }
             },
           });
         }

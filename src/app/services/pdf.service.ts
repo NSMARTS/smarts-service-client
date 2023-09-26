@@ -61,7 +61,9 @@ export class PdfService {
    */
   async pdfRender(pdfViewer: ElementRef<HTMLCanvasElement>, isEditMode: boolean) {
 
+    console.log(this.pdfInfo())
     const page = await this.pdfInfo().pdfPages[this.currentPage() - 1]
+    console.log(page)
     const viewport = page.getViewport({ scale: 1 });
     const canvas = pdfViewer.nativeElement;
     const context = canvas.getContext('2d')!;

@@ -10,6 +10,7 @@ import {
   effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { lastValueFrom, map, merge, startWith, switchMap } from 'rxjs';
@@ -121,6 +122,7 @@ export class PayStubListComponent implements AfterViewInit {
     });
 
     effect(() => {
+      untracked(() => this.pdfInfo())
       // 다이얼로그가 안켜지고, PDF 페이지 이동 시
       if (this.pdfInfo().pdfPages.length > 0 && this.currentPage() && !this.isDialog) {
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
@@ -236,7 +238,6 @@ export class PayStubListComponent implements AfterViewInit {
         const pdfDocument = await loadingTask.promise
         // PDF 정보를 가져옴
         await this.pdfService.storePdfInfo(pdfDocument);
-        this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
         this.isCanvas = true;
       },
       error: (error) => {
@@ -315,15 +316,11 @@ export class PayStubListComponent implements AfterViewInit {
   onPrevPage() {
     if (this.currentPage() <= 1) return;
     this.currentPage.update((prev) => (prev -= 1));
-    console.log(this.isDialog);
-    console.log(this.currentPage());
   }
 
   onNextPage() {
     if (this.currentPage() >= this.pdfLength()) return;
     this.currentPage.update((prev) => (prev += 1));
-    console.log(this.isDialog);
-    console.log(this.currentPage());
   }
 
   // async onResize() {

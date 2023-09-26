@@ -11,6 +11,7 @@ import {
   effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
@@ -44,7 +45,6 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 })
 export class PayStubDialogComponent implements OnInit {
   currentFile?: File; // 파일 업로드 시 여기에 관리
-  progress = 0;
   message = '';
   fileName = 'Select File';
   fileInfos?: Observable<any>;
@@ -85,7 +85,7 @@ export class PayStubDialogComponent implements OnInit {
         Validators.required,
         Validators.email,
       ]),
-      writer: new FormControl('', [Validators.required]),
+      writer: new FormControl(''),
     });
     if (!this.data.isEditMode) {
       this.isLoadingResults = false;
@@ -93,7 +93,8 @@ export class PayStubDialogComponent implements OnInit {
 
     effect(() => {
       // 다이얼로그가 켜지고, PDF 페이지 이동 시
-      if (this.currentPage() && this.isDialog) {
+      untracked(() => this.pdfInfo())
+      if (this.pdfInfo().pdfPages.length > 0 && this.currentPage() && this.isDialog) {
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
       }
     });
@@ -192,10 +193,6 @@ export class PayStubDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.statementForm.valid) {
-      console.log(this.fileName);
-      this.progress = 0;
-      this.message = '';
-
       const formData: PayStub = {
         ...this.statementForm.value,
         file: this.currentFile,
@@ -203,6 +200,7 @@ export class PayStubDialogComponent implements OnInit {
         company: this.data.companyId,
         writer: this.userInfoStore()._id,
       };
+
 
       if (this.data.isEditMode) {
         this.edit(formData);
@@ -223,8 +221,6 @@ export class PayStubDialogComponent implements OnInit {
           });
       },
       error: (err: any) => {
-        console.log(err);
-        this.progress = 0;
         if (err.error && err.error.message) {
           this.message = err.error.message;
         } else {
@@ -247,7 +243,6 @@ export class PayStubDialogComponent implements OnInit {
       },
       error: (err: any) => {
         console.log(err);
-        this.progress = 0;
         if (err.error && err.error.message) {
           this.message = err.error.message;
         } else {
@@ -268,11 +263,10 @@ export class PayStubDialogComponent implements OnInit {
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
         const pdfDocument = await loadingTask.promise
 
-        this.pdfService.storePdfInfo(pdfDocument)
-
+        await this.pdfService.storePdfInfo(pdfDocument)
         this.pdfLength.update(() => pdfDocument.numPages)
         this.currentPage.set(1)
-        this.pdfService.pdfRender(this.pdfViewer, true);
+        // this.pdfService.pdfRender(this.pdfViewer, true);
         this.isLoadingResults = false;
         this.isCanvas = true;
       }
@@ -285,12 +279,7 @@ export class PayStubDialogComponent implements OnInit {
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
         const pdfDocument = await loadingTask.promise
-        this.pdfInfo.update((prev) => {
-          return { ...prev, pdfDocument: pdfDocument }
-        })
-        this.pdfLength.update(() => pdfDocument.numPages)
-        this.currentPage.set(1)
-        this.pdfService.pdfRender(this.pdfViewer, true);
+        await this.pdfService.storePdfInfo(pdfDocument);
         this.isLoadingResults = false;
         this.isCanvas = true;
       },
