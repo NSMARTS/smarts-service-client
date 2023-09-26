@@ -1,6 +1,7 @@
 import { PayStub } from './../../interfaces/pay-stub.interface';
 import { AuthService, UserInfo } from 'src/app/services/auth.service';
 import {
+  AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
@@ -43,7 +44,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
   templateUrl: './pay-stub-dialog.component.html',
   styleUrls: ['./pay-stub-dialog.component.scss'],
 })
-export class PayStubDialogComponent implements OnInit {
+export class PayStubDialogComponent implements AfterViewInit {
   currentFile?: File; // 파일 업로드 시 여기에 관리
   message = '';
   fileName = 'Select File';
@@ -119,8 +120,9 @@ export class PayStubDialogComponent implements OnInit {
       .subscribe();
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit() {
     this.getEmployees();
+
   }
 
   getEmployees() {
@@ -165,12 +167,6 @@ export class PayStubDialogComponent implements OnInit {
     }
 
     const inputElement = event.target as HTMLInputElement;
-
-    if (!inputElement) {
-      this.fileName = 'Select File';
-      return;
-    }
-
     const files: FileList | null = inputElement.files;
 
     if (!files || !files[0]) {
@@ -193,6 +189,13 @@ export class PayStubDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.statementForm.valid) {
+
+
+      if (!this.currentFile) {
+        this.dialogService.openDialogNegative('The PDF file was not uploaded.');
+        return;
+      }
+
       const formData: PayStub = {
         ...this.statementForm.value,
         file: this.currentFile,
@@ -217,6 +220,8 @@ export class PayStubDialogComponent implements OnInit {
         this.dialogService
           .openDialogPositive('Statement has successfully uploaded.')
           .subscribe(() => {
+            const canvas = this.pdfViewer.nativeElement;
+            this.pdfService.clearCanvas(canvas);
             this.dialogRef.close(true);
           });
       },
@@ -238,6 +243,8 @@ export class PayStubDialogComponent implements OnInit {
         this.dialogService
           .openDialogPositive('Statement has successfully uploaded.')
           .subscribe(() => {
+            const canvas = this.pdfViewer.nativeElement;
+            this.pdfService.clearCanvas(canvas);
             this.dialogRef.close(true);
           });
       },

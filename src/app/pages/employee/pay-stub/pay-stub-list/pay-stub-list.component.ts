@@ -125,6 +125,7 @@ export class PayStubListComponent implements AfterViewInit {
       untracked(() => this.pdfInfo())
       // 다이얼로그가 안켜지고, PDF 페이지 이동 시
       if (this.pdfInfo().pdfPages.length > 0 && this.currentPage() && !this.isDialog) {
+        console.log('뭐가 문제야')
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
       }
     });
@@ -228,6 +229,7 @@ export class PayStubListComponent implements AfterViewInit {
     // 쿼리할때 pdf 그려진거 초기화
     const canvas = this.pdfViewer.nativeElement;
     this.pdfService.clearCanvas(canvas);
+    this.pdfService.memoryRelease()
     this.isCanvas = false;
   }
 
@@ -257,8 +259,7 @@ export class PayStubListComponent implements AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(() => {
       this.isDialog = false;
-      console.log(this.isDialog);
-
+      this.pdfService.memoryRelease()
       this.getPayStubsByQuery();
     });
   }
@@ -308,7 +309,7 @@ export class PayStubListComponent implements AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(() => {
       // pdf 초기화
-      this.pdfService.clearCanvas(this.pdfViewer.nativeElement);
+      this.pdfService.memoryRelease()
       this.getPayStubsByQuery();
     });
   }

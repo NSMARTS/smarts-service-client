@@ -61,12 +61,10 @@ export class PdfService {
    */
   async pdfRender(pdfViewer: ElementRef<HTMLCanvasElement>, isEditMode: boolean) {
 
-    console.log(this.pdfInfo())
     const page = await this.pdfInfo().pdfPages[this.currentPage() - 1]
-    console.log(page)
     const viewport = page.getViewport({ scale: 1 });
-    const canvas = pdfViewer.nativeElement;
-    const context = canvas.getContext('2d')!;
+    const canvas = pdfViewer?.nativeElement;
+    const context = canvas?.getContext('2d')!;
 
     // Canvas의 크기와 내용 초기화
     this.clearCanvas(canvas)
@@ -107,18 +105,18 @@ export class PdfService {
    * {@link https://stackoverflow.com/questions/40890212/viewer-js-pdf-js-memory-usage-increases-every-time-a-pdf-is-rendered?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa}
    */
   memoryRelease() {
-    // console.log('PDF Memeory Release');
-
-    if (this.pdfInfo()) {
-      this.pdfInfo().pdfDocument.cleanup();
-      this.pdfInfo().pdfDocument.destroy();
+    // pdf 업로드 된게 없으면 취소
+    if (this.pdfInfo()?.pdfPages.length < 1) {
+      return
     }
 
-    for (const pdfPage of this.pdfInfo().pdfPages) {
+    this.pdfInfo().pdfDocument.cleanup();
+    this.pdfInfo().pdfDocument.destroy();
+
+    for (const pdfPage of this.pdfInfo()?.pdfPages) {
       pdfPage.cleanup();
     }
-    // this.pdfInfo().pdfDocument = {} as PDFDocumentProxy;
-    // this.pdfInfo().pdfPages = [];
+
     this.pdfInfo.update(() => {
       return {
         pdfDocument: {} as PDFDocumentProxy,
