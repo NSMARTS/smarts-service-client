@@ -205,7 +205,7 @@ export class MeetingComponent implements OnInit {
 
           // 참여 직원 id에 맞는 username 등록
           // meeting 에 member에는 퇴사한 정보가 남아있다.
-          // 퇴사 시 미팅에 있는 member도 삭제해야하는데 
+          // 퇴사 시 미팅에 있는 member도 삭제해야하는데
           // 임시로 안보이게함.
           // let newEmployee = item.employees.map((part: any) => {
           //   const userName = this.employees.filter((item) => {
@@ -218,10 +218,12 @@ export class MeetingComponent implements OnInit {
 
           // 참여 직원 id에 맞는 username 등록
           // meeting 에 member에는 퇴사한 정보가 남아있다.
-          // 퇴사 시 미팅에 있는 member도 삭제해야하는데 
+          // 퇴사 시 미팅에 있는 member도 삭제해야하는데
           // 임시로 안보이게함.
           let newEmployee = item.employees
-            .map((part: any) => this.employees.find((item) => part === item._id))
+            .map((part: any) =>
+              this.employees.find((item) => part === item._id)
+            )
             .filter((user: any) => user !== undefined)
             .map((user: any) => user.username);
 
@@ -237,6 +239,8 @@ export class MeetingComponent implements OnInit {
             new Date(a.meetingDate).getTime()
           );
         });
+
+        this.autoCloseMeeting();
       },
       error: (err: any) => {
         console.log(err);
