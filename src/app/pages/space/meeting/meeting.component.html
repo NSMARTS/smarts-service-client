@@ -13,21 +13,20 @@
         <ng-container *ngFor="let data of meetingArray; index as i;">
           <mat-card class="example-card" *ngIf="data.status === 'Open' || showAllMeetings === true">
 
-            <mat-card-header fxLayout="column">
-              <mat-card-title>
-                <div fxLayout="row" fxLayoutAlign="space-between center">
-                  <div fxFlex="90" class="card-title">
-                    {{ data.meetingTitle }}
-                  </div>
-                  <div fxFlex>
-                    <mat-slide-toggle [checked]="data.status === 'Open'" (change)="toggle(data, i);"
-                      [matTooltip]="data.status === 'Open' ? 'Meeting open' : 'Meeting close'"
-                      matTooltipPosition="above" matTooltipShowDelay="500"
-                      [disabled]="isToggleDisabled(data.startDate)">
-                    </mat-slide-toggle>
-                  </div>
-                </div>
-              </mat-card-title>
+                        <mat-card-header fxLayout="column">
+                            <mat-card-title>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                  <div fxFlex="90" class="card-title">
+                                    {{ data.meetingTitle }}
+                                  </div>
+                                  <div fxFlex>
+                                    <mat-slide-toggle [checked]="data.status === 'Open'" (change)="toggle(data, i);"
+                                      [matTooltip]="data.status === 'Open' ? 'Meeting open' : 'Meeting close'"
+                                      matTooltipPosition="above" matTooltipShowDelay="500" [disabled]="isToggleDisabled(data.startDate)">
+                                    </mat-slide-toggle>
+                                  </div>
+                                </div>
+                            </mat-card-title>
 
               <mat-card-subtitle>
                 <p [ngClass]="data.meetingDescription?'':'no-content'"> {{ data.meetingDescription || 'no

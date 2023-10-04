@@ -50,8 +50,6 @@ body {
   --text-color: #333333;
   --error-color: #FF4545;
   --background-color: #F0F2F5;
-  // --mat-sidenav-content-background-color: #EBEBEB;
-  // --mat-sidenav-content-background-color: #F1F1F1;
   --mat-sidenav-content-background-color: #F0F2F5;
 
   --mat-standard-button-toggle-selected-state-background-color: #ffffff;
@@ -958,7 +956,7 @@ $smart_service_primary_color: var(--point-color);
 
   .example-container {
     margin: 0 auto;
-    width: 230px;
+    width: 270px;
   }
 
   .mat-mdc-card-content {
