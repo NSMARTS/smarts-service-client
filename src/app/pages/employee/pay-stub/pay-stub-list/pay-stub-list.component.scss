@@ -2,9 +2,12 @@
     background-color: transparent !important;
   }
 
-.mat-icon {
-    color: var(--point-color)!important;
-  }
+.page-buttons {
+    .mat-icon {
+        color: white;
+    }
+}
+
 
 .hidden {
   display: none;
