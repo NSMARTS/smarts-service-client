@@ -51,7 +51,7 @@
         </div>
         <div class="dialog_right_container">
           <canvas id="myCanvas" #pdfViewer></canvas>
-          <div class="page-buttons" *ngIf="currentFile">
+          <div class="page-buttons" *ngIf="currentFile || data.isEditMode">
             <button mat-flat-button (click)="onPrevPage()"
               (click)="$event.stopPropagation()"><mat-icon>chevron_left</mat-icon></button>
             <div>{{currentPage()}} / <strong>{{pdfLength()}}</strong></div>

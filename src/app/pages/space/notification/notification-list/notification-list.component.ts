@@ -155,22 +155,34 @@ export class NotificationListComponent implements AfterViewInit {
     ]);
   }
   deleteNotification(notificationId: string) {
-    this.notificationService.deleteNotification(notificationId).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.dialogService.openDialogPositive(
-            'Notification deleted successfully'
-          );
-          this.getNotifications();
+    this.dialogService
+      .openDialogConfirm('Do you want delete this notification?')
+      .subscribe((result: any) => {
+        if (result) {
+          this.notificationService
+            .deleteNotification(notificationId)
+            .subscribe({
+              next: (res) => {
+                if (res.success) {
+                  this.dialogService.openDialogPositive(
+                    'Notification deleted successfully'
+                  );
+                  this.getNotifications();
+                }
+              },
+              error: (error) => {
+                if (error.status === 404) {
+                  this.dialogService.openDialogNegative(
+                    'Notification was not found'
+                  );
+                } else {
+                  this.dialogService.openDialogNegative(
+                    'Internet Server Error'
+                  );
+                }
+              },
+            });
         }
-      },
-      error: (error) => {
-        if (error.status === 404) {
-          this.dialogService.openDialogNegative('Notification was not found');
-        } else {
-          this.dialogService.openDialogNegative('Internet Server Error');
-        }
-      },
-    });
+      });
   }
 }

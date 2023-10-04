@@ -267,21 +267,29 @@ export class PayStubListComponent implements AfterViewInit {
   }
 
   deletePayStub(payStubId: string) {
-    this.payStubService.deletePayStub(this.companyId, payStubId).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.getPayStubsByQuery();
-          this.dialogService.openDialogPositive(
-            'Statement deleted successfully.'
-          );
+    this.dialogService
+      .openDialogConfirm('Do you want delete this pay stub?')
+      .subscribe((result: any) => {
+        if (result) {
+          this.payStubService
+            .deletePayStub(this.companyId, payStubId)
+            .subscribe({
+              next: (res) => {
+                if (res.success) {
+                  this.getPayStubsByQuery();
+                  this.dialogService.openDialogPositive(
+                    'Statement deleted successfully.'
+                  );
+                }
+              },
+              error: (error) => {
+                this.dialogService.openDialogNegative(
+                  'An error occurred on the Internet server.'
+                );
+              },
+            });
         }
-      },
-      error: (error) => {
-        this.dialogService.openDialogNegative(
-          'An error occurred on the Internet server.'
-        );
-      },
-    });
+      });
   }
 
   download(key: string) {
