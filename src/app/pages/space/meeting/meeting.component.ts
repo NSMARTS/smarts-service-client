@@ -226,7 +226,8 @@ export class MeetingComponent implements OnInit {
           );
         });
         
-        
+        this.autoCloseMeeting();
+
       },
       error: (err: any) => {
         console.log(err);
