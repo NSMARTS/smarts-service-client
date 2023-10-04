@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -8,6 +9,7 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
@@ -26,16 +28,21 @@ import { ManagerService } from 'src/app/services/manager.service';
 })
 export class ManagerEmployeesAddComponent implements OnInit {
   displayedColumns: string[] = [
+    // 'profile',
     'name',
     'email',
+    'phoneNumber',
     'year',
-    'entitlement',
-    'sickLeave',
-    'replacementDay',
-    'rollover',
-    'advanceLeave',
-    'annualPolicy',
+    // 'entitlement',
+    // 'sickLeave',
+    // 'replacementDay',
+    // 'rollover',
+    // 'advanceLeave',
+    // 'annualPolicy',
     'empStartDate',
+    // 'menu',
+    // 'edit',
+    // 'retire',
   ];
 
   companyId: string; // 회사아이디 params
@@ -58,7 +65,8 @@ export class ManagerEmployeesAddComponent implements OnInit {
     private managerService: ManagerService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ManagerEmployeesAddComponent>,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private _liveAnnouncer: LiveAnnouncer
   ) {
     this.companyId = data.companyId;
     this.managerId = data.managerId;
@@ -133,6 +141,19 @@ export class ManagerEmployeesAddComponent implements OnInit {
       if (index !== -1) {
         this.clickRowIds.splice(index, 1);
       }
+    }
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
     }
   }
 }

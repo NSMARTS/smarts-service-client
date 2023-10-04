@@ -1,0 +1,207 @@
+<div class="page">
+  <div class="page_header">
+    <div class="page_title">Manager Information</div>
+  </div>
+
+  <div class="edit_twin_container">
+
+    <div class="edit_left_container">
+      <p class="edit_title">Edit Manager</p>
+      <form [formGroup]="editManagerForm" (ngSubmit)="onSubmit()" fxLayoutAlign="center">
+
+        <div fxLayout="column" class="br_ltop">
+
+          <!-- manager email -->
+          <p>
+            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email">
+              <!-- <mat-error *ngIf="editManagerForm.controls['email'].hasError('required')">
+                Please enter email.
+            </mat-error>
+            <mat-error *ngIf="editManagerForm.controls['email'].hasError('email')">
+                Please enter a valid email
+            </mat-error>   -->
+            </mat-form-field>
+          </p>
+
+          <!-- manager name -->
+          <p>
+            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="username">
+              <mat-error *ngIf="editManagerForm.controls['username'].hasError('required')">
+                Please enter name.
+              </mat-error>
+            </mat-form-field>
+          </p>
+
+          <!-- manager phone -->
+          <p>
+            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
+              <mat-label>Phone</mat-label>
+              <input matInput class="numeric-input" formControlName="phoneNumber">
+              <mat-error *ngIf="editManagerForm.controls['phoneNumber'].hasError('pattern')">
+                Please enter valid phone.
+              </mat-error>
+            </mat-form-field>
+          </p>
+
+          <!-- manager Address -->
+          <p>
+            <mat-form-field appearance="outline" class="editManagerFormFieldBox">
+              <mat-label>Address</mat-label>
+              <input matInput formControlName="address">
+            </mat-form-field>
+          </p>
+
+          <!-- super manager -->
+          <p>
+            <mat-checkbox class="checkbox-margin" formControlName="isSuperManager">Super Manager</mat-checkbox>
+          </p>
+
+          <!-- password reset -->
+          <div style="color:#56B1AC;" (click)="resetManagerPassword()">
+            Would you like to reset password?
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="center" class="booterBtn">
+            <button mat-flat-button class="tableBtn" type="submit">Edit</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+
+    <div class="edit_right_container">
+      <div class="edit_header">
+        <p class="edit_title">Employees managed by managers</p>
+        <button mat-flat-button class="table_add_button" (click)="addManagerEmployees()">Add Manager's
+          Employees</button>
+      </div>
+      <div class="historyTableBox2">
+        <div class="filter">
+          <div class="selectContent">
+            <mat-form-field appearance="outline">
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="manager's Employees" #input>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="year">
+            <th mat-header-cell *matHeaderCellDef> Year </th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container>
+                {{ element.year + 1}} year(s)
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="entitlement">
+            <th mat-header-cell *matHeaderCellDef> Taken/Entitlement </th>
+            <td mat-cell *matCellDef="let element"> {{element.usedLeaveData}} /
+              {{element.totalAnnualLeave}} </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="sickLeave">
+            <th mat-header-cell *matHeaderCellDef> Taken/Sick Leave </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.usedSickLeave }} / {{
+              element.totalSickLeave }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="rollover">
+            <th mat-header-cell *matHeaderCellDef> Taken/Rollover </th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container *ngIf="element.personalLeave.isRollover; else noRollover">
+                {{ element.usedRollover }} / {{
+                element.totalRollover }}
+              </ng-container>
+              <ng-template #noRollover>
+                X
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="replacementDay">
+            <th mat-header-cell *matHeaderCellDef> Taken/RD </th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.personalLeave.isReplacementDay">
+                {{ element.usedReplacement }} / {{
+                element.totalReplacement }}
+              </span>
+              <span *ngIf="!element.personalLeave.isReplacementDay">
+                X
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="advanceLeave">
+            <th mat-header-cell *matHeaderCellDef> Used Advance Leave </th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.personalLeave.isAdvanceLeave">
+                O
+              </span>
+              <span *ngIf="!element.personalLeave.isAdvanceLeave">
+                X
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="annualPolicy">
+            <th mat-header-cell *matHeaderCellDef> Annual Policy </th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.personalLeave.annualPolicy === 'byContract'">
+                byContract
+              </span>
+              <span *ngIf="element.personalLeave.annualPolicy==='byYear'">
+                byYear
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="empStartDate">
+            <th mat-header-cell *matHeaderCellDef> Contract Start </th>
+            <td mat-cell *matCellDef="let element">
+              <span>
+                {{element.empStartDate}}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-flat-button class="table_delete_button"
+                (click)="deleteManagerEmployees(element?._id)">Delete</button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef=" displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="9999">
+              No data
+            </td>
+          </tr>
+        </table>
+        <mat-paginator [length]="100" [pageSize]="7" [pageSizeOptions]="[7, 10, 30]" aria-label="Select page">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

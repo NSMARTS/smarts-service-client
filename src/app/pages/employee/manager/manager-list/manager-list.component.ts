@@ -40,7 +40,7 @@ export class ManagerListComponent {
     private managerService: ManagerService,
     public dialogService: DialogService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.companyId = this.route.snapshot.params['id'];
@@ -55,7 +55,6 @@ export class ManagerListComponent {
         this.dataSource = new MatTableDataSource(manager);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-
       },
       error: (err) => {
         console.error(err);
@@ -80,6 +79,13 @@ export class ManagerListComponent {
     ]);
   }
 
+  //회사 수정
+  managementManager(managerId: any) {
+    this.router.navigate([
+      'company/' + this.companyId + '/manager/management/' + managerId,
+    ]);
+  }
+
   // // 회사 삭제
   deleteManager(managerId: any) {
     this.dialogService
@@ -96,7 +102,9 @@ export class ManagerListComponent {
             error: (err: any) => {
               console.error(err);
               if (err.status === 404) {
-                this.dialogService.openDialogNegative('Cannot delete manager with assigned employees');
+                this.dialogService.openDialogNegative(
+                  'Cannot delete manager with assigned employees'
+                );
               } else {
                 this.dialogService.openDialogNegative('Internet Server Error');
               }

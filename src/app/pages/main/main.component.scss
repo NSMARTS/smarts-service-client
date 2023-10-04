@@ -16,6 +16,14 @@
       }
 }
 
+.dashboard_right_container {
+    table {
+        th:nth-child(2) {
+          width: 0%;
+        }
+      }
+}
+
 .button {
     flex-wrap: wrap;
   }
