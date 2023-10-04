@@ -194,19 +194,26 @@ export class MeetingComponent implements OnInit {
           // console.log(meetingDate);
 
           // 참여 매니저 id에 맞는 username 등록
-          let newManager = item.managers.map((part: any) => {
-            const userName = this.managers.filter((item) => {
-              return part === item._id;
-            })[0]?.username;
+          // let newManager = item.managers
+        //    .map((part: any) => {
+          //   const userName = this.managers.filter((item) => {
+          //     return part === item._id;
+          //   })[0]?.username;
 
-            // console.log(userName);
-            return userName;
-          });
+          //   // console.log(userName);
+          //   return userName;
+          // });
+          let newManager = item.managers
+            .map((part: any) => this.managers.find((item) => part === item._id))
+            .filter((user: any) => user !== undefined)
+            .map((user: any) => user.username);
+
 
           // 참여 직원 id에 맞는 username 등록
           // meeting 에 member에는 퇴사한 정보가 남아있다.
           // 퇴사 시 미팅에 있는 member도 삭제해야하는데
           // 임시로 안보이게함.
+          
           // let newEmployee = item.employees.map((part: any) => {
           //   const userName = this.employees.filter((item) => {
           //     return part === item._id;
