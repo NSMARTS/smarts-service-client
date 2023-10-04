@@ -8,6 +8,7 @@ import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ManagerService } from 'src/app/services/manager.service';
 import { Manager } from 'src/app/interfaces/manager.interface';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-manager-list',
@@ -30,6 +31,7 @@ export class ManagerListComponent {
 
   dataSource: MatTableDataSource<Manager> = new MatTableDataSource<Manager>([]);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   destroyRef = inject(DestroyRef);
 
@@ -38,7 +40,7 @@ export class ManagerListComponent {
     private managerService: ManagerService,
     public dialogService: DialogService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.companyId = this.route.snapshot.params['id'];
@@ -52,6 +54,8 @@ export class ManagerListComponent {
         const manager = res.data;
         this.dataSource = new MatTableDataSource(manager);
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
       },
       error: (err) => {
         console.error(err);
@@ -91,8 +95,11 @@ export class ManagerListComponent {
             },
             error: (err: any) => {
               console.error(err);
-              this.dialogService.openDialogNegative('Loadings Docs Error');
-              alert(err.error.message);
+              if (err.status === 404) {
+                this.dialogService.openDialogNegative('Cannot delete manager with assigned employees');
+              } else {
+                this.dialogService.openDialogNegative('Internet Server Error');
+              }
             },
           });
         }

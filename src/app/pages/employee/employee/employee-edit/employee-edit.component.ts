@@ -1,5 +1,5 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -207,24 +207,26 @@ export class EmployeeEditComponent {
   }
 
   updateProfileInfo() {
-    const companyData = {
-      ...this.editEmployeeForm.value,
-      personalLeaveId: this.employee?.personalLeave._id,
-    };
+    if (this.editEmployeeForm.valid) {
+      const companyData = {
+        ...this.editEmployeeForm.value,
+        personalLeaveId: this.employee?.personalLeave._id,
+      };
 
-    this.employeeService
-      .updateEmployee(this.employeeId, companyData)
-      .subscribe({
-        next: () => {
-          this.router.navigate([`company/${this.companyId}/employee`]);
-          this.dialogService.openDialogPositive(
-            'Successfully, the employee has been edit.'
-          );
-        },
-        error: (err) => {
-          console.error(err);
-        },
-      });
+      this.employeeService
+        .updateEmployee(this.employeeId, companyData)
+        .subscribe({
+          next: () => {
+            this.router.navigate([`company/${this.companyId}/employee`]);
+            this.dialogService.openDialogPositive(
+              'Successfully, the employee has been edit.'
+            );
+          },
+          error: (err) => {
+            console.error(err);
+          },
+        });
+    }
   }
 
   resetPassword() {
@@ -238,7 +240,7 @@ export class EmployeeEditComponent {
               next: (res) => {
                 if (res.success) {
                   this.dialogService.openDialogPositive(
-                    'Successfully, the password has been reset.'
+                    'Successfully, the password has been reset "qwer1234".'
                   );
                 }
               },
@@ -257,4 +259,24 @@ export class EmployeeEditComponent {
   }
 
   updateLeaveInfo() {}
+
+  //input type="number" 한글 안써지도록
+  @HostListener('input', ['$event'])
+  onInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+
+    if (inputElement.classList.contains('numeric-input')) {
+      const numericValue = inputValue.replace(/[^-\d]/g, '');
+      inputElement.value = numericValue;
+    }
+  }
+
+  datePickChange(dateValue: any) {
+    this.editEmployeeForm.get('empStartDate')?.setValue(dateValue);
+  }
+
+  datePickChange2(dateValue: any) {
+    this.editEmployeeForm.get('empEndDate')?.setValue(dateValue);
+  }
 }

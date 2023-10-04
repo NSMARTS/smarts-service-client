@@ -31,15 +31,25 @@ export class CompanyService {
       .get<HttpResMsg<Company[]>>(this.baseUrl + '/companies')
   }
 
+  // sorting 예제 현재 sorting pagenation
   //회사 목록과 회사별 직원, 매니저 수 조회
-  getCompanyListWith(active: string, direction: string, pageIndex: number, pageSize: number): Observable<HttpResMsg<Company[]>> {
-    const queryParams = { 'active': active, 'direction': direction, 'pageIndex': pageIndex, 'pageSize': pageSize }
+  // getCompanyListWith(active: string, direction: string, pageIndex: number, pageSize: number): Observable<HttpResMsg<Company[]>> {
+  //   const queryParams = { 'active': active, 'direction': direction, 'pageIndex': pageIndex, 'pageSize': pageSize }
+  //   return this.http.get<HttpResMsg<Company[]>>(
+  //     this.baseUrl + '/companies/with', {
+  //     params: queryParams
+  //   }
+  //   );
+  // }
+
+  //회사 목록과 회사별 직원, 매니저 수 조회
+  getCompanyListWith(): Observable<HttpResMsg<Company[]>> {
+
     return this.http.get<HttpResMsg<Company[]>>(
-      this.baseUrl + '/companies/with', {
-      params: queryParams
-    }
+      this.baseUrl + '/companies/with'
     );
   }
+
 
   // 회사 상세 조회 HttpParams 방법
   getCompanyInfo(companyId: any): Observable<HttpResMsg<Company>> {

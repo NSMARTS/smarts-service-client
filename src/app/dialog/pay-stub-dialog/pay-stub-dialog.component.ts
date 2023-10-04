@@ -1,6 +1,7 @@
 import { PayStub } from './../../interfaces/pay-stub.interface';
 import { AuthService, UserInfo } from 'src/app/services/auth.service';
 import {
+  AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
@@ -11,6 +12,7 @@ import {
   effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
@@ -32,7 +34,8 @@ import { Statment } from 'src/app/interfaces/statement.interface';
 import * as pdfjsLib from 'pdfjs-dist';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
-import { PdfService } from 'src/app/services/pdf.service';
+import { PdfInfo, PdfService } from 'src/app/services/pdf.service';
+import { PDFPageProxy } from 'pdfjs-dist/types/web/interfaces';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({
   selector: 'app-pay-stub-dialog',
@@ -41,9 +44,8 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
   templateUrl: './pay-stub-dialog.component.html',
   styleUrls: ['./pay-stub-dialog.component.scss'],
 })
-export class PayStubDialogComponent implements OnInit {
+export class PayStubDialogComponent implements AfterViewInit {
   currentFile?: File; // 파일 업로드 시 여기에 관리
-  progress = 0;
   message = '';
   fileName = 'Select File';
   fileInfos?: Observable<any>;
@@ -58,9 +60,9 @@ export class PayStubDialogComponent implements OnInit {
   statementForm: FormGroup;
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
-  pdfDocument: WritableSignal<PDFDocumentProxy> = this.pdfService.pdfDocument;
-  currentPage: WritableSignal<number> = this.pdfService.currentPage;
-  pdfLength: WritableSignal<number> = this.pdfService.pdfLength;
+  pdfInfo: WritableSignal<PdfInfo> = this.pdfService.pdfInfo
+  currentPage: WritableSignal<number> = this.pdfService.currentPage
+  pdfLength: WritableSignal<number> = this.pdfService.pdfLength
 
   isCanvas = false; // 캔버스를 렌더링 했는지, 안했는지. 했으면 페이지 이동 버튼 보여줌
   isDialog = true; // 다이얼로그를 켰는지 안켰는지
@@ -84,7 +86,7 @@ export class PayStubDialogComponent implements OnInit {
         Validators.required,
         Validators.email,
       ]),
-      writer: new FormControl('', [Validators.required]),
+      writer: new FormControl(''),
     });
     if (!this.data.isEditMode) {
       this.isLoadingResults = false;
@@ -92,7 +94,8 @@ export class PayStubDialogComponent implements OnInit {
 
     effect(() => {
       // 다이얼로그가 켜지고, PDF 페이지 이동 시
-      if (this.currentPage() && this.isDialog) {
+      untracked(() => this.pdfInfo())
+      if (this.pdfInfo().pdfPages.length > 0 && this.currentPage() && this.isDialog) {
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
       }
     });
@@ -117,8 +120,9 @@ export class PayStubDialogComponent implements OnInit {
       .subscribe();
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit() {
     this.getEmployees();
+
   }
 
   getEmployees() {
@@ -157,47 +161,55 @@ export class PayStubDialogComponent implements OnInit {
     );
   }
 
-  selectFile(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].name.toLowerCase().endsWith('.pdf')) {
-        // Image resize and update
-
-        this.isLoadingResults = true;
-        const file: File = event.target.files[0];
-        this.currentFile = file;
-
-        this.renderPdf(file);
-
-        this.fileName = this.currentFile.name;
-      } else {
-        // this.dialogService.openDialogNegative('Profile photos are only available for PNG and JPG.');
-        alert('PDF만 가능합니다.');
-      }
-    } else {
-      this.fileName = 'Select File';
+  selectFile(event: Event) {
+    if (this.pdfInfo().pdfPages.length > 0) {
+      this.pdfService.memoryRelease()
     }
-  }
 
-  onSubmit() {
-    if (this.hasErrors() || this.fileName === 'Select File') {
+    const inputElement = event.target as HTMLInputElement;
+    const files: FileList | null = inputElement.files;
+
+    if (!files || !files[0]) {
+      this.fileName = 'Select File';
       return;
     }
 
-    this.progress = 0;
-    this.message = '';
+    if (!files[0].name.toLowerCase().endsWith('.pdf')) {
+      this.dialogService.openDialogNegative('Only Pdf file');
+      return;
+    }
 
-    const formData: PayStub = {
-      ...this.statementForm.value,
-      file: this.currentFile,
-      key: this.key,
-      company: this.data.companyId,
-      writer: this.userInfoStore()._id,
-    };
+    this.isLoadingResults = true;
+    const file: File = files[0];
+    this.currentFile = file;
+    this.renderPdf(file);
+    this.fileName = this.currentFile.name;
 
-    if (this.data.isEditMode) {
-      this.edit(formData);
-    } else {
-      this.upload(formData);
+  }
+
+  onSubmit() {
+    if (this.statementForm.valid) {
+
+
+      if (!this.currentFile) {
+        this.dialogService.openDialogNegative('The PDF file was not uploaded.');
+        return;
+      }
+
+      const formData: PayStub = {
+        ...this.statementForm.value,
+        file: this.currentFile,
+        key: this.key,
+        company: this.data.companyId,
+        writer: this.userInfoStore()._id,
+      };
+
+
+      if (this.data.isEditMode) {
+        this.edit(formData);
+      } else {
+        this.upload(formData);
+      }
     }
   }
 
@@ -208,12 +220,12 @@ export class PayStubDialogComponent implements OnInit {
         this.dialogService
           .openDialogPositive('Statement has successfully uploaded.')
           .subscribe(() => {
+            const canvas = this.pdfViewer.nativeElement;
+            this.pdfService.clearCanvas(canvas);
             this.dialogRef.close(true);
           });
       },
       error: (err: any) => {
-        console.log(err);
-        this.progress = 0;
         if (err.error && err.error.message) {
           this.message = err.error.message;
         } else {
@@ -231,12 +243,13 @@ export class PayStubDialogComponent implements OnInit {
         this.dialogService
           .openDialogPositive('Statement has successfully uploaded.')
           .subscribe(() => {
+            const canvas = this.pdfViewer.nativeElement;
+            this.pdfService.clearCanvas(canvas);
             this.dialogRef.close(true);
           });
       },
       error: (err: any) => {
         console.log(err);
-        this.progress = 0;
         if (err.error && err.error.message) {
           this.message = err.error.message;
         } else {
@@ -247,16 +260,6 @@ export class PayStubDialogComponent implements OnInit {
     });
   }
 
-  // 유효성 검사 함수
-  private hasErrors() {
-    const titleError = this.statementForm.get('title')?.hasError('required');
-    const employeeError = this.statementForm
-      .get('employee')
-      ?.hasError('required');
-
-    return titleError || employeeError;
-  }
-
   renderPdf(file: File) {
     const fileReader = new FileReader();
 
@@ -265,11 +268,12 @@ export class PayStubDialogComponent implements OnInit {
 
       if (arrayBuffer) {
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-        const pdfDocument = await loadingTask.promise;
-        this.pdfDocument.update(() => pdfDocument);
-        this.pdfLength.update(() => pdfDocument.numPages);
-        this.currentPage.set(1);
-        this.pdfService.pdfRender(this.pdfViewer, true);
+        const pdfDocument = await loadingTask.promise
+
+        await this.pdfService.storePdfInfo(pdfDocument)
+        this.pdfLength.update(() => pdfDocument.numPages)
+        this.currentPage.set(1)
+        // this.pdfService.pdfRender(this.pdfViewer, true);
         this.isLoadingResults = false;
         this.isCanvas = true;
       }
@@ -281,11 +285,8 @@ export class PayStubDialogComponent implements OnInit {
     this.payStubService.getPdf(url).subscribe({
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
-        const pdfDocument = await loadingTask.promise;
-        this.pdfDocument.update(() => pdfDocument);
-        this.pdfLength.update(() => pdfDocument.numPages);
-        this.currentPage.set(1);
-        this.pdfService.pdfRender(this.pdfViewer, true);
+        const pdfDocument = await loadingTask.promise
+        await this.pdfService.storePdfInfo(pdfDocument);
         this.isLoadingResults = false;
         this.isCanvas = true;
       },

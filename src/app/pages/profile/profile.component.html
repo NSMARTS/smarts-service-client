@@ -1,119 +1,100 @@
 <form [formGroup]="editProfileForm" novalidate>
 
-  <div class="profile-edit" fxLayout="column">
-    <div class="inputContainer">
-      <h1>Edit Profile</h1>
-      <div>
-        <div class="profile-photo">
-          <img [src]="userInfoStore().profileImgPath">
-          <label>
-            <input type="file" (change)="fileChangeEvent($event)" style="display:none" accept="image/*" />
-          </label>
+    <div class="profile-edit" fxLayout="column">
+      <div class="inputContainer">
+        <h1>Edit Profile</h1>
+        <div>
+          <div class="profile-photo">
+            <img [src]="userInfoStore().profileImgPath">
+            <label>
+              <input type="file" id="fileInput" #fileInputElement style="display: none;" (change)="fileChangeEvent($event)" accept="image/*" />
+              <button mat-flat-button type="button" class="custom-file-input-button"
+              (click)="fileInputElement.click()">change</button>
+            </label>
+          </div>
+          <div class="profile-id">
+            <h1>ID : {{ userInfoStore().email }}</h1>
+          </div>
         </div>
-        <div class="profile-id">
-          <h1>ID : {{ userInfoStore().email }}</h1>
-        </div>
-      </div>
-      <div class="profile_input">
-        <div class="inpurRow">
+        <div class="profile_input">
           <mat-form-field>
-            <mat-label>Name</mat-label>
-            <div fxLayout="row">
-              <div fxFlex>
-                <input class="data-input" matInput formControlName="username">
-              </div>
-            </div>
+              <mat-label>Name</mat-label>
+              <input class="data-input" matInput formControlName="username">
+              <mat-error *ngIf="editProfileForm.controls['username'].hasError('required')">
+                  Please enter name.
+              </mat-error>
           </mat-form-field>
-        </div>
-
-        <div class="inpurRow" fxLayout="row">
-
-          <div fxFlex>
-            <mat-form-field appearance="fill">
+  
+  
+          <mat-form-field appearance="fill">
               <mat-label>New Password</mat-label>
-              <div fxFlex>
-                <input type="password" class="data-input" matInput formControlName="password">
-              </div>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
+              <input type="password" class="data-input" matInput formControlName="password">
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill">
               <mat-label>Confirm Password</mat-label>
+              <input type="password" class="data-input" matInput formControlName="confirmPassword">  
+          </mat-form-field>
+          <mat-error *ngIf="editProfileForm.errors">Passwords do not match.</mat-error>
+  
+          <!-- Admin이라 지움 manager, user 시 사용 -->
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Location</mat-label>
+            <mat-select formControlName="country" required>
+              <mat-option *ngFor="let country of countryList" [value]="country._id">
+                {{country.countryName}}
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>find_in_page</mat-icon>
+          </mat-form-field> -->
+  
+          <mat-form-field appearance="fill">
+              <mat-label>Mobile</mat-label>
+              <input class="data-input" matInput formControlName="phoneNumber">
+              <div class="input-btn" fxFlex="25">
+                  <!-- <div *ngIf=".mobile; else elseMobile">
+                  <button (click)="onEdit('mobile')">edit</button>
+                </div> -->
+              </div>
+          </mat-form-field>
+  
+          <!-- Admin이라 지움 manager, user 시 사용 -->
+          <!-- <div class="inpurRow" fxLayout="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Department</mat-label>
               <div fxLayout="row">
                 <div fxFlex>
-                  <input type="password" class="data-input" matInput formControlName="confirmPassword">
+                  <input class="data-input" formControlName="empStartDate">
+                </div>
+  
+              </div>
+            </mat-form-field>
+          </div>
+  
+          <div class="inpurRow" fxLayout="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Department</mat-label>
+              <div fxLayout="row">
+                <div fxFlex>
+                  <input class="data-input" formControlName="empEndDate">
+                </div>
+  
+              </div>
+            </mat-form-field>
+          </div> -->
+          <!-- 
+          <div class="inpurRow" fxLayout="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Department</mat-label>
+              <div fxLayout="row">
+                <div fxFlex>
+                  <input class="data-input" matInput formControlName="department">
                 </div>
               </div>
             </mat-form-field>
-            <mat-error *ngIf="editProfileForm.errors">{{getErrorMessage()}}</mat-error>
-
-          </div>
+          </div> -->
+          <button mat-flat-button (click)="updateProfile()">Edit</button>
         </div>
-
-        <!-- Admin이라 지움 manager, user 시 사용 -->
-        <!-- <mat-form-field appearance="outline">
-          <mat-label>Location</mat-label>
-          <mat-select formControlName="country" required>
-            <mat-option *ngFor="let country of countryList" [value]="country._id">
-              {{country.countryName}}
-            </mat-option>
-          </mat-select>
-          <mat-icon matSuffix>find_in_page</mat-icon>
-        </mat-form-field> -->
-
-        <div class="inpurRow" fxLayout="row">
-          <mat-form-field appearance="fill">
-            <mat-label>Mobile</mat-label>
-            <div fxLayout="row">
-              <div fxFlex>
-                <input class="data-input" matInput formControlName="phoneNumber">
-              </div>
-              <div class="input-btn" fxFlex="25">
-                <!-- <div *ngIf=".mobile; else elseMobile">
-                <button (click)="onEdit('mobile')">edit</button>
-              </div> -->
-
-              </div>
-            </div>
-          </mat-form-field>
-        </div>
-
-        <!-- Admin이라 지움 manager, user 시 사용 -->
-        <!-- <div class="inpurRow" fxLayout="row">
-          <mat-form-field appearance="fill">
-            <mat-label>Department</mat-label>
-            <div fxLayout="row">
-              <div fxFlex>
-                <input class="data-input" formControlName="empStartDate">
-              </div>
-
-            </div>
-          </mat-form-field>
-        </div>
-
-        <div class="inpurRow" fxLayout="row">
-          <mat-form-field appearance="fill">
-            <mat-label>Department</mat-label>
-            <div fxLayout="row">
-              <div fxFlex>
-                <input class="data-input" formControlName="empEndDate">
-              </div>
-
-            </div>
-          </mat-form-field>
-        </div> -->
-        <!-- 
-        <div class="inpurRow" fxLayout="row">
-          <mat-form-field appearance="fill">
-            <mat-label>Department</mat-label>
-            <div fxLayout="row">
-              <div fxFlex>
-                <input class="data-input" matInput formControlName="department">
-              </div>
-            </div>
-          </mat-form-field>
-        </div> -->
-        <button mat-raised-button (click)="updateProfile()">Edit</button>
       </div>
     </div>
-  </div>
-</form>
+  </form>

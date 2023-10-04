@@ -173,8 +173,10 @@ table {
     border-color: currentColor;
   }
 
+  .mat-mdc-row:hover .mat-mdc-cell {
+    background-color: transparent;
+  }
+
   .click-row {
-    // font-weight: bold;
-    color: white;
     background-color: #96CDCA;
   }

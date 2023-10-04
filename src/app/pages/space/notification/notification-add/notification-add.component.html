@@ -17,6 +17,9 @@
           <mat-form-field>
             <mat-label>Title</mat-label>
             <input matInput type="text" formControlName="title">
+            <mat-error *ngIf="addNotificationForm.controls['title'].hasError('required')">
+              Please enter title.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -28,7 +31,7 @@
       <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
         <button mat-flat-button class="tableBtn" type="submit">Request</button>
         <div style="width: 20px;"></div>
-        <button mat-flat-button class="cencelBtn" (click)="toBack()">Cancel</button>
+        <button mat-flat-button class="cancelBtn" (click)="toBack()">Cancel</button>
       </div>
 
     </div>

@@ -59,7 +59,7 @@ mat-card-subtitle {
 
     .w-120px {
         min-width: 80px;
-        max-width: 88px;
+        // max-width: 88px;
     }
 } 
 
@@ -252,3 +252,6 @@ mat-card-content {
 
 }
 
+.dialog_container {
+    max-width: 420px;
+}

@@ -52,6 +52,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./pages/country/routes').then((m) => m.COUNTRY_ROUTES),
       },
+      {
+        path: '',
+        redirectTo: 'main',
+        pathMatch: 'full',
+      },
     ],
   },
   // 잘못된 URL을 사용했을때 메인으로 보냄

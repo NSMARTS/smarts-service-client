@@ -26,6 +26,9 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    req = req.clone({
+      withCredentials: true,
+    });
     if (this.isLoggedIn) {
       req = req.clone({
         withCredentials: true,
@@ -58,6 +61,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
    * @returns
    */
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    console.log(request)
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       if (this.authService.isLoggedIn()) {

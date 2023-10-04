@@ -6,62 +6,63 @@
 
   <form [formGroup]="statementForm">
 
-    <div class="dialog_container"> 
-    <div class="dialog_twin_header">
+    <div class="dialog_container">
+      <div class="dialog_twin_header">
         <div class="dialog_twin_title">Upload Statement</div>
-    </div>
-
-    <div class="dialog_twin_container">
-
-      <div class="dialog_left_container">
-        <mat-form-field appearance="outline">
-          <mat-label>Title</mat-label>
-          <input matInput formControlName="title" required>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Employee Email</mat-label>
-          <input matInput [matAutocomplete]="auto" formControlName="employee" required>
-        </mat-form-field>
-
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
-            {{ option.username }} ({{ option.email }})
-          </mat-option>
-        </mat-autocomplete>
-
-        <div class="upload-section">
-          <mat-toolbar *ngIf="currentFile" class="progress-bar" style="width: 320px;">
-            <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
-            <span class="progress">{{ progress }}%</span>
-          </mat-toolbar>
-
-          <div class="file-input">
-            <mat-form-field appearance="outline">
-              <input matInput [value]="fileName" [placeholder]="'Pdf upload'" disabled />
-            </mat-form-field>
-          </div>
-
-          <input type="file" id="fileInput" #fileInputElement style="display: none;" (change)="selectFile($event)"
-            name="fileInput" accept="application/pdf" />
-          <button mat-flat-button type="button" class="custom-file-input-button"
-            (click)="fileInputElement.click()">Choose PDF File</button>
-        </div>
       </div>
-      <div class="dialog_right_container">
-        <canvas id="myCanvas" #pdfViewer></canvas>
-        <div class="page-buttons" *ngIf="currentFile" >
+
+      <div class="dialog_twin_container">
+
+        <div class="dialog_left_container">
+          <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" required>
+            <mat-error *ngIf="statementForm.controls['title'].hasError('required')">
+              Please enter title.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Employee Email</mat-label>
+            <input matInput [matAutocomplete]="auto" formControlName="employee" required>
+            <mat-error *ngIf="statementForm.controls['employee'].hasError('required')">
+              Please enter employee email.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
+              {{ option.username }} ({{ option.email }})
+            </mat-option>
+          </mat-autocomplete>
+
+          <div class="upload-section">
+            <div class="file-input">
+              <mat-form-field appearance="outline">
+                <input matInput [value]="fileName" [placeholder]="'Pdf upload'" disabled />
+              </mat-form-field>
+            </div>
+
+            <input type="file" id="fileInput" #fileInputElement style="display: none;" (change)="selectFile($event)"
+              name="fileInput" accept="application/pdf" />
+            <button mat-flat-button type="button" class="custom-file-input-button"
+              (click)="fileInputElement.click()">Choose PDF File</button>
+          </div>
+        </div>
+        <div class="dialog_right_container">
+          <canvas id="myCanvas" #pdfViewer></canvas>
+          <div class="page-buttons" *ngIf="currentFile">
             <button mat-flat-button (click)="onPrevPage()"
               (click)="$event.stopPropagation()"><mat-icon>chevron_left</mat-icon></button>
             <div>{{currentPage()}} / <strong>{{pdfLength()}}</strong></div>
-  
-            <button mat-flat-button (click)="onNextPage()" 
+
+            <button mat-flat-button (click)="onNextPage()"
               (click)="$event.stopPropagation()"><mat-icon>chevron_right</mat-icon></button>
           </div>
-      </div>
+        </div>
 
-    </div>
-    <button mat-flat-button class="uploadBtn2" (click)="onSubmit()">Upload</button>
+      </div>
+      <button mat-flat-button class="uploadBtn2" (click)="onSubmit()">Upload</button>
     </div>
 
   </form>

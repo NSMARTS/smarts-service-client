@@ -30,7 +30,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from 'src/app/services/dialog.service';
 import * as moment from 'moment';
 
-import { FADE_IN} from 'src/app/animations/card.animation';
+import { FADE_IN } from 'src/app/animations/card.animation';
 
 //view table
 export interface PeriodicElement {
@@ -48,7 +48,7 @@ export interface Member {
   imports: [CommonModule, MaterialsModule],
   templateUrl: './meeting.component.html',
   styleUrls: ['./meeting.component.scss'],
-  animations: [ FADE_IN ]
+  animations: [FADE_IN],
 })
 export class MeetingComponent implements OnInit {
   spaceTime: any;
@@ -204,14 +204,28 @@ export class MeetingComponent implements OnInit {
           });
 
           // 참여 직원 id에 맞는 username 등록
-          let newEmployee = item.employees.map((part: any) => {
-            const userName = this.employees.filter((item) => {
-              return part === item._id;
-            })[0]?.username;
+          // meeting 에 member에는 퇴사한 정보가 남아있다.
+          // 퇴사 시 미팅에 있는 member도 삭제해야하는데
+          // 임시로 안보이게함.
+          // let newEmployee = item.employees.map((part: any) => {
+          //   const userName = this.employees.filter((item) => {
+          //     return part === item._id;
+          //   })[0]?.username;
 
-            // console.log(userName);
-            return userName;
-          });
+          //   // console.log(userName);
+          //   return userName;
+          // });
+
+          // 참여 직원 id에 맞는 username 등록
+          // meeting 에 member에는 퇴사한 정보가 남아있다.
+          // 퇴사 시 미팅에 있는 member도 삭제해야하는데
+          // 임시로 안보이게함.
+          let newEmployee = item.employees
+            .map((part: any) =>
+              this.employees.find((item) => part === item._id)
+            )
+            .filter((user: any) => user !== undefined)
+            .map((user: any) => user.username);
 
           // 객체를 반환하여 meetingList 변수에 순차적으로 저장
           return { ...item, newManager, newEmployee, meetingDate };
@@ -327,7 +341,7 @@ export class MeetingComponent implements OnInit {
     });
 
     if (closeType == 'auto') return;
-    
+
     this.snackbar.open('Meeting close', 'Close', {
       duration: 3000,
       horizontalPosition: 'center',
@@ -343,7 +357,7 @@ export class MeetingComponent implements OnInit {
   editMeeting(data: any) {
     const dialogRef = this.dialog.open(MeetingEditComponent, {
       data: {
-        meetingData :data,
+        meetingData: data,
         managers: this.managers,
         employees: this.employees,
       },
@@ -396,8 +410,8 @@ export class DialogMeetingSetComponent {
   today = new Date();
 
   setMeetingForm = new FormGroup({
-    startDate: new FormControl(this.today),
-    meetingTitle: new FormControl(),
+    startDate: new FormControl(this.today, [Validators.required]),
+    meetingTitle: new FormControl('', [Validators.required]),
     meetingDescription: new FormControl(),
     meetingLink: new FormControl(),
     startHour: new FormControl('12'),
@@ -446,50 +460,59 @@ export class DialogMeetingSetComponent {
 
   // 미팅 만들기
   createMeeting() {
-    this.dialogService
-      .openDialogConfirm('Do you want to set up a meeting?')
-      .subscribe((result) => {
-        if (result) {
-          const formValue = this.setMeetingForm.value;
+    if (this.setMeetingForm.valid) {
+      this.dialogService
+        .openDialogConfirm('Do you want to set up a meeting?')
+        .subscribe((result) => {
+          if (result) {
+            const formValue = this.setMeetingForm.value;
 
-          let setMeeting = {
-            company: this.data.companyId,
-            meetingTitle: formValue.meetingTitle,
-            meetingDescription: formValue.meetingDescription,
-            meetingLink: formValue.meetingLink,
-            startDate: formValue.startDate,
-            startTime:
-              formValue.startUnit +
-              ' ' +
-              formValue.startHour +
-              ' : ' +
-              formValue.startMin,
-            managers: formValue.managers,
-            employees: formValue.employees,
-            status: 'Open',
-          };
-          console.log(setMeeting);
+            let setMeeting = {
+              company: this.data.companyId,
+              meetingTitle: formValue.meetingTitle,
+              meetingDescription: formValue.meetingDescription,
+              meetingLink: formValue.meetingLink,
+              startDate: formValue.startDate,
+              startTime:
+                formValue.startUnit +
+                ' ' +
+                formValue.startHour +
+                ' : ' +
+                formValue.startMin,
+              managers: formValue.managers,
+              employees: formValue.employees,
+              status: 'Open',
+            };
+            console.log(setMeeting);
 
-          if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {
-            this.dialogService.openDialogNegative(
-              'Please, check the meeting title and date.'
-            );
-          } else {
-            this.meetingService.createMeeting(setMeeting).subscribe({
-              next: (data: any) => {
-                console.log(data);
-                this.dialogRef.close();
-                this.dialogService.openDialogPositive(
-                  'Successfully, the meeting has been set up.'
-                );
-              },
-              error: (err: any) => {
-                console.log(err);
-              },
-            });
+            if (
+              setMeeting.startDate == null ||
+              setMeeting.meetingTitle == null
+            ) {
+              this.dialogService.openDialogNegative(
+                'Please, check the meeting title and date.'
+              );
+            } else {
+              this.meetingService.createMeeting(setMeeting).subscribe({
+                next: (data: any) => {
+                  console.log(data);
+                  this.dialogRef.close();
+                  this.dialogService.openDialogPositive(
+                    'Successfully, the meeting has been set up.'
+                  );
+                },
+                error: (err: any) => {
+                  console.log(err);
+                },
+              });
+            }
           }
-        }
-      });
+        });
+    }
+  }
+
+  startDatePickChange(dateValue: any) {
+    this.setMeetingForm.get('startDate')?.setValue(dateValue);
   }
 
   // 달력 필터
@@ -584,49 +607,58 @@ export class MeetingEditComponent {
 
   // 미팅 수정
   editMeeting() {
-    this.dialogService
-      .openDialogConfirm('Do you want to edit a meeting?')
-      .subscribe((result) => {
-        if (result) {
-          const formValue = this.setMeetingForm.value;
-          let setMeeting = {
-            company: this.meetingData.company,
-            meetingTitle: formValue.meetingTitle,
-            meetingDescription: formValue.meetingDescription,
-            meetingLink: formValue.meetingLink,
-            startDate: formValue.startDate,
-            startTime:
-              formValue.startUnit +
-              ' ' +
-              formValue.startHour +
-              ' : ' +
-              formValue.startMin,
-            managers: formValue.managers,
-            employees: formValue.employees,
-          };
-          console.log(setMeeting);
-          if (setMeeting.startDate == null || setMeeting.meetingTitle == null) {
-            this.dialogService.openDialogNegative(
-              'Please, check the meeting title and date.'
-            );
-          } else {
-            this.meetingService
-              .editMeeting(this.meetingData._id, setMeeting)
-              .subscribe({
-                next: (data: any) => {
-                  console.log(data);
-                  this.dialogRef.close();
-                  this.dialogService.openDialogPositive(
-                    'Successfully, the meeting has been edit.'
-                  );
-                },
-                error: (err: any) => {
-                  console.log(err);
-                },
-              });
+    if (this.setMeetingForm.valid) {
+      this.dialogService
+        .openDialogConfirm('Do you want to edit a meeting?')
+        .subscribe((result) => {
+          if (result) {
+            const formValue = this.setMeetingForm.value;
+            let setMeeting = {
+              company: this.meetingData.company,
+              meetingTitle: formValue.meetingTitle,
+              meetingDescription: formValue.meetingDescription,
+              meetingLink: formValue.meetingLink,
+              startDate: formValue.startDate,
+              startTime:
+                formValue.startUnit +
+                ' ' +
+                formValue.startHour +
+                ' : ' +
+                formValue.startMin,
+              managers: formValue.managers,
+              employees: formValue.employees,
+            };
+            console.log(setMeeting);
+            if (
+              setMeeting.startDate == null ||
+              setMeeting.meetingTitle == null
+            ) {
+              this.dialogService.openDialogNegative(
+                'Please, check the meeting title and date.'
+              );
+            } else {
+              this.meetingService
+                .editMeeting(this.meetingData._id, setMeeting)
+                .subscribe({
+                  next: (data: any) => {
+                    console.log(data);
+                    this.dialogRef.close();
+                    this.dialogService.openDialogPositive(
+                      'Successfully, the meeting has been edit.'
+                    );
+                  },
+                  error: (err: any) => {
+                    console.log(err);
+                  },
+                });
+            }
           }
-        }
-      });
+        });
+    }
+  }
+
+  startDatePickChange(dateValue: any) {
+    this.setMeetingForm.get('startDate')?.setValue(dateValue);
   }
 
   // 달력 필터

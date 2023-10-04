@@ -29,6 +29,6 @@ export class SidenavService {
 
   openSidenav() {
     // 이벤트 전달용
-    this.isSideNavOpen.update((prev) => !prev)
+    this.isSideNavOpen.mutate((prev) => prev)
   }
 }

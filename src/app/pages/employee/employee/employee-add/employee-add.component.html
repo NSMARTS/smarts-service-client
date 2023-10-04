@@ -3,7 +3,7 @@
     <div class="page_title">Add Employee</div>
   </div>
 
-  <form [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()">
     <div class="add_container">
 
       <!-- employee email -->
@@ -14,7 +14,14 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input matInput type="text" formControlName="email">
+            <input matInput type="email" formControlName="email">
+            <mat-icon matSuffix>assignment_ind</mat-icon>
+            <mat-error *ngIf="addEmployeeForm.controls['email'].hasError('required')">
+              Please enter email.
+            </mat-error>
+            <mat-error *ngIf="addEmployeeForm.controls['email'].hasError('email')">
+              Please enter a valid email
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -27,12 +34,16 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
-            <input matInput type="text" formControlName="username">
+            <input matInput formControlName="username">
+            <mat-icon matSuffix>assignment_ind</mat-icon>
+            <mat-error *ngIf="addEmployeeForm.controls['username'].hasError('required')">
+              Please enter name.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
 
-      <!-- employee name -->
+      <!-- employee phone -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
           <span>Phone</span>
@@ -40,7 +51,11 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline">
             <mat-label>Phone</mat-label>
-            <input matInput type="text" formControlName="phoneNumber">
+            <input matInput class="numeric-input" formControlName="phoneNumber">
+            <mat-icon matSuffix>assignment_ind</mat-icon>
+            <mat-error *ngIf="addEmployeeForm.controls['phoneNumber'].hasError('pattern')">
+              Please enter valid phone.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -54,30 +69,17 @@
           <mat-form-field appearance="outline">
             <mat-label>Location</mat-label>
             <mat-select formControlName="country" required>
-              <!-- <mat-option value="Korea">Korea</mat-option>
-                            <mat-option value="Singapore">Singapore</mat-option>
-                            <mat-option value="England">England</mat-option> -->
               <mat-option *ngFor="let nation of nationList" [value]="nation._id">
                 {{nation.countryName}}
               </mat-option>
             </mat-select>
             <mat-icon matSuffix>find_in_page</mat-icon>
+            <mat-error *ngIf="addEmployeeForm.controls['country'].hasError('required')">
+              Please enter country.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
-
-      <!-- employee position -->
-      <!-- <div class="lineDivider">
-        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <span>Position</span>
-        </div>
-        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-          <mat-radio-group mat-radio-group name="isManager">
-            <input type="radio" [value]="true" formControlName="isManager" />MANAGER
-            <input type="radio" [value]="false" formControlName="isManager" />EMPLOYEE
-          </mat-radio-group>
-        </div>
-      </div> -->
 
       <!-- employee start date -->
       <div class="lineDivider">
@@ -87,9 +89,13 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline">
             <mat-label>Start Date</mat-label>
-            <input matInput [matDatepicker]="picker1" formControlName="empStartDate">
+            <input matInput [matDatepicker]="picker1" formControlName="empStartDate"
+              (dateChange)="datePickChange($event.value)">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
+            <mat-error *ngIf="addEmployeeForm.controls['empStartDate'].hasError('required')">
+              Please enter start date.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -102,7 +108,8 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline">
             <mat-label>End Date</mat-label>
-            <input matInput [matDatepicker]="picker2" formControlName="empEndDate">
+            <input matInput [matDatepicker]="picker2" formControlName="empEndDate"
+              (dateChange)="datePickChange2($event.value)">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
@@ -117,7 +124,8 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline">
             <mat-label>Department</mat-label>
-            <input matInput type="text" name="department" formControlName="department" autocomplete="department">
+            <input matInput name="department" formControlName="department" autocomplete="department">
+            <mat-icon matSuffix>work_outline</mat-icon>
           </mat-form-field>
         </div>
       </div>
@@ -130,7 +138,8 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline">
             <mat-label>Posiotion</mat-label>
-            <input matInput type="text" name="posiotion" formControlName="posiotion" autocomplete="posiotion">
+            <input matInput name="posiotion" formControlName="posiotion" autocomplete="posiotion">
+            <mat-icon matSuffix>work_outline</mat-icon>
           </mat-form-field>
         </div>
       </div>
@@ -138,7 +147,7 @@
       <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
         <button mat-flat-button type="submit">Request</button>
         <div style="width: 20px;"></div>
-        <button mat-flat-button class="cencelBtn" (click)="toBack()">Cancel</button>
+        <button mat-flat-button class="cancelBtn" (click)="toBack()">Cancel</button>
       </div>
 
     </div>

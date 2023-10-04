@@ -1,17 +1,17 @@
 <div class="page">
-    <div class="page_header">
-        <div class="page_title">Meeting</div>
-        <div>
-            <mat-checkbox [(ngModel)]="showAllMeetings">전체 회의</mat-checkbox>
-            <button mat-flat-button (click)="openDialogDocMeetingSet()">Schedule a meeting</button>
-        </div>
+  <div class="page_header">
+    <div class="page_title">Meeting</div>
+    <div>
+      <mat-checkbox [(ngModel)]="showAllMeetings">All</mat-checkbox>
+      <button mat-flat-button (click)="openDialogDocMeetingSet()">Schedule a meeting</button>
     </div>
+  </div>
 
-    <div class="cardContainer">
-        <div class="cardMgCtr">
-            <div class="meetingBox" [@fadeIn]="meetingArray.length && showAllMeetings">
-                <ng-container *ngFor="let data of meetingArray; index as i;" >
-                    <mat-card class="example-card" *ngIf ="data.status === 'Open' || showAllMeetings === true">
+  <div class="cardContainer">
+    <div class="cardMgCtr">
+      <div class="meetingBox" [@fadeIn]="meetingArray.length && showAllMeetings">
+        <ng-container *ngFor="let data of meetingArray; index as i;">
+          <mat-card class="example-card" *ngIf="data.status === 'Open' || showAllMeetings === true">
 
                         <mat-card-header fxLayout="column">
                             <mat-card-title>
@@ -28,63 +28,64 @@
                                 </div>
                             </mat-card-title>
 
-                            <mat-card-subtitle>
-                              <p [ngClass]="data.meetingDescription?'':'no-content'"> {{ data.meetingDescription || 'no description...' }}</p>
+              <mat-card-subtitle>
+                <p [ngClass]="data.meetingDescription?'':'no-content'"> {{ data.meetingDescription || 'no
+                  description...' }}</p>
 
-                            </mat-card-subtitle>
-                            <mat-divider> </mat-divider>
-                        </mat-card-header>
+              </mat-card-subtitle>
+              <mat-divider> </mat-divider>
+            </mat-card-header>
 
-                        <mat-card-content>
+            <mat-card-content>
 
-                          <div class="content-container meeting-date">
-                            <mat-icon svgIcon="matTwoTone:schedule"> </mat-icon>
-                            <!-- https://angular.io/api/common/DatePipe -->
-                            <p>{{ data.meetingDate | date: 'MMM d, y, h:mm a'}}</p>
-                          </div>
+              <div class="content-container meeting-date">
+                <mat-icon svgIcon="matTwoTone:schedule"> </mat-icon>
+                <!-- https://angular.io/api/common/DatePipe -->
+                <p>{{ data.meetingDate | date: 'MMM d, y, h:mm a'}}</p>
+              </div>
 
-                          <div class="content-container" [ngClass]="data.newManager.length>0?'':'no-content'">
-                            <mat-icon svgIcon="matOutlined:manage_accounts"> </mat-icon>
-                            <p> {{ data.newManager.length>0? data.newManager : 'no managers'}}</p>
-                          </div>
+              <div class="content-container" [ngClass]="data.newManager.length>0?'':'no-content'">
+                <mat-icon svgIcon="matOutlined:manage_accounts"> </mat-icon>
+                <p> {{ data.newManager.length>0? data.newManager : 'no managers'}}</p>
+              </div>
 
-                          <div class="content-container" [ngClass]="data.newEmployee.length>0?'':'no-content'">
-                            <mat-icon svgIcon="matOutlined:people"> </mat-icon>
-                            <p>  {{data.newEmployee.length>0? data.newEmployee : 'no employees'}}</p>
-                          </div>
+              <div class="content-container" [ngClass]="data.newEmployee.length>0?'':'no-content'">
+                <mat-icon svgIcon="matOutlined:people"> </mat-icon>
+                <p> {{data.newEmployee.length>0? data.newEmployee : 'no employees'}}</p>
+              </div>
 
-                          <div class="content-container meeting-link" [ngClass]="data.meetingLink?'':'no-content'">
-                            <mat-icon svgIcon="matTwoTone:videocam"> </mat-icon>
-                            <a *ngIf="data.meetingLink" [href]="data.meetingLink" target="_blank">{{data.meetingLink}}</a>
-                            <p *ngIf="!data.meetingLink">Please add a meeting link.</p>
-                          </div>
+              <div class="content-container meeting-link" [ngClass]="data.meetingLink?'':'no-content'">
+                <mat-icon svgIcon="matTwoTone:videocam"> </mat-icon>
+                <a *ngIf="data.meetingLink" [href]="data.meetingLink" target="_blank">{{data.meetingLink}}</a>
+                <p *ngIf="!data.meetingLink">Please add a meeting link.</p>
+              </div>
 
-                        </mat-card-content>
+            </mat-card-content>
 
-                        <mat-card-footer>
-                          <mat-card-actions align="end">
-                                <button mat-stroked-button [disabled]="!data.meetingLink" (click)="enterMeeting(data)"> Enter </button>
-                                <button mat-stroked-button (click)="editMeeting(data)"> Edit </button>
-                                <button mat-stroked-button (click)="deleteMeeting(data)"> Delete </button>
-                            </mat-card-actions>
-                        </mat-card-footer>
-                    </mat-card>
-                </ng-container>
-            </div>
-        </div>
+            <mat-card-footer>
+              <mat-card-actions align="end">
+                <button mat-stroked-button [disabled]="!data.meetingLink" (click)="enterMeeting(data)"> Enter </button>
+                <button mat-stroked-button (click)="editMeeting(data)"> Edit </button>
+                <button mat-stroked-button (click)="deleteMeeting(data)"> Delete </button>
+              </mat-card-actions>
+            </mat-card-footer>
+          </mat-card>
+        </ng-container>
+      </div>
     </div>
+  </div>
 
-    <div *ngIf="meetingArray === null || meetingArray.length < 1">
-        <div class="no-meeting-room" fxLayout="column" fxLayoutAlign="center center">
-            <mat-icon>
-              no_meeting_room
-            </mat-icon>
-            <div>
-              No meetings were created
-            </div>
-            <div>
-              Schedule a new meeting
-            </div>
-        </div>
+  <div *ngIf="meetingArray === null || meetingArray.length < 1">
+    <div class="no-meeting-room" fxLayout="column" fxLayoutAlign="center center">
+      <mat-icon>
+        no_meeting_room
+      </mat-icon>
+      <div>
+        No meetings were created
+      </div>
+      <div>
+        Schedule a new meeting
+      </div>
     </div>
+  </div>
 </div>

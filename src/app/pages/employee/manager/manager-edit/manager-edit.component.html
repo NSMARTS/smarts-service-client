@@ -15,8 +15,13 @@
           <p>
             <mat-form-field appearance="outline" class="editManagerFormFieldBox">
               <mat-label>Email</mat-label>
-              <input matInput placeholder="E-Mail" name="email" formControlName="email"
-                autocomplete="email" [disabled]="true">
+              <input matInput formControlName="email">
+              <!-- <mat-error *ngIf="editManagerForm.controls['email'].hasError('required')">
+                Please enter email.
+            </mat-error>
+            <mat-error *ngIf="editManagerForm.controls['email'].hasError('email')">
+                Please enter a valid email
+            </mat-error>   -->
             </mat-form-field>
           </p>
 
@@ -24,8 +29,10 @@
           <p>
             <mat-form-field appearance="outline" class="editManagerFormFieldBox">
               <mat-label>Name</mat-label>
-              <input matInput type="text" placeholder="Name" name="username" formControlName="username"
-                autocomplete="username">
+              <input matInput formControlName="username">
+              <mat-error *ngIf="editManagerForm.controls['username'].hasError('required')">
+                Please enter name.
+              </mat-error>
             </mat-form-field>
           </p>
 
@@ -33,8 +40,10 @@
           <p>
             <mat-form-field appearance="outline" class="editManagerFormFieldBox">
               <mat-label>Phone</mat-label>
-              <input matInput type="text" placeholder="Phone" name="phoneNumber" formControlName="phoneNumber"
-                autocomplete="phoneNumber">
+              <input matInput class="numeric-input" formControlName="phoneNumber">
+              <mat-error *ngIf="editManagerForm.controls['phoneNumber'].hasError('pattern')">
+                Please enter valid phone.
+              </mat-error>
             </mat-form-field>
           </p>
 
@@ -42,8 +51,7 @@
           <p>
             <mat-form-field appearance="outline" class="editManagerFormFieldBox">
               <mat-label>Address</mat-label>
-              <input matInput type="text" placeholder="Address" name="address" formControlName="address"
-                autocomplete="address">
+              <input matInput formControlName="address">
             </mat-form-field>
           </p>
 
@@ -69,16 +77,16 @@
       <div class="edit_header">
         <p class="edit_title">Employees managed by managers</p>
         <button mat-flat-button class="table_add_button" (click)="addManagerEmployees()">Add Manager's
-            Employees</button>
+          Employees</button>
       </div>
       <div class="historyTableBox2">
         <div class="filter">
-            <div class="selectContent">
-                <mat-form-field appearance="outline">
-                    <mat-label>Filter</mat-label>
-                    <input matInput (keyup)="applyFilter($event)" placeholder="manager's Employees" #input>
-                </mat-form-field>
-            </div>
+          <div class="selectContent">
+            <mat-form-field appearance="outline">
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="manager's Employees" #input>
+            </mat-form-field>
+          </div>
         </div>
 
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">

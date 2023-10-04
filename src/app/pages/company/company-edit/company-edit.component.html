@@ -1,7 +1,7 @@
 <div class="page">
-    <div class="page_header">
-        <div class="page_title">Edit Company</div>
-      </div>
+  <div class="page_header">
+    <div class="page_title">Edit Company</div>
+  </div>
 
   <form [formGroup]="editCompanyForm" (ngSubmit)="editCompany()">
     <div class="add_container">
@@ -9,14 +9,14 @@
       <!-- company name -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <span>Company Name</span>
+          <span>Company Name</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline" class="companyFormFieldBox">
             <mat-label>Company Name</mat-label>
             <input matInput type="text" formControlName="companyName" />
             <mat-error *ngIf="editCompanyForm.controls['companyName'].hasError('required')">
-                Please enter company name.
+              Please enter company name.
             </mat-error>
           </mat-form-field>
         </div>
@@ -25,7 +25,7 @@
       <!-- Annual Policy -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <span>Annual Policy</span>
+          <span>Annual Policy</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
@@ -42,7 +42,7 @@
       <!-- rollover -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <span>Rollover</span>
+          <span>Rollover</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
@@ -57,7 +57,7 @@
         <!-- rollover max month -->
         <div class="lineDivider">
           <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <span>Rollover Max Month</span>
+            <span>Rollover Max Month</span>
           </div>
           <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
             <mat-form-field appearance="outline" class="formFieldBox formSpacer">
@@ -65,15 +65,15 @@
               <input matInput type="number" class="numeric-input" formControlName="rolloverMaxMonth"
                 placeholder="Rollover Max Month" />
               <mat-error *ngIf="editCompanyForm.controls['rolloverMaxMonth'].hasError('min')">
-                  Please enter positive number.
-              </mat-error>    
+                Please enter positive number.
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
         <!-- rollover max leave day -->
         <div class="lineDivider">
           <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <span>Rollover Max Leave Days</span>
+            <span>Rollover Max Leave Days</span>
           </div>
           <div class="rightTable" fxFlex>
             <mat-form-field appearance="outline" class="formFieldBox formSpacer">
@@ -82,7 +82,7 @@
                 placeholder="Rollover Max Leave Days" />
             </mat-form-field>
             <mat-error *ngIf="editCompanyForm.controls['rolloverMaxLeaveDays'].hasError('min')">
-                Please enter positive number.
+              Please enter positive number.
             </mat-error>
           </div>
         </div>
@@ -91,7 +91,7 @@
       <!-- Replacement Day -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <span>Replacement Day</span>
+          <span>Replacement Day</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
@@ -108,7 +108,7 @@
       <div *ngIf="editCompanyForm.get('isReplacementDay')?.value == true">
         <div class="lineDivider">
           <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-              <span>RD Validity Term</span>
+            <span>RD Validity Term</span>
           </div>
           <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
             <mat-form-field appearance="outline" class="formFieldBox formSpacer">
@@ -116,7 +116,7 @@
               <input matInput type="number" class="numeric-input" formControlName="rdValidityTerm"
                 placeholder="RD Validity Term" />
               <mat-error *ngIf="editCompanyForm.controls['rdValidityTerm'].hasError('min')">
-                  Please enter positive number.
+                Please enter positive number.
               </mat-error>
             </mat-form-field>
           </div>
@@ -126,7 +126,7 @@
       <!-- Advance Annual Leave -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <span>Advance Annual Leave</span>
+          <span>Advance Annual Leave</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
@@ -142,7 +142,7 @@
       <!--  Approval of Leave -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <span>Approval of Leave</span>
+          <span>Approval of Leave</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-radio-group mat-radio-group name="grpName">
@@ -155,7 +155,7 @@
       <!-- Contract Date -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <span>Contract Date</span>
+          <span>Contract Date</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline" class="companyFormFieldBox">
@@ -171,7 +171,7 @@
       <!-- Pay Date -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <span>Pay Date</span>
+          <span>Pay Date</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline" class="companyFormFieldBox">
@@ -187,7 +187,7 @@
       <!-- leave standard -->
       <div class="lineDivider">
         <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-            <span>Leave Standard</span>
+          <span>Leave Standard</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <div formArrayName="leaveStandards" *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index">
@@ -203,17 +203,17 @@
                     <mat-label>Annual Leave</mat-label>
                     <input matInput type="number" class="numeric-input" formControlName="annualLeave" />
                     <mat-error *ngIf="leaveStandard.hasError('min', 'annualLeave')">
-                        Please enter positive number.
+                      Please enter positive number.
                     </mat-error>
                   </mat-form-field>
-                  
+
                 </div>
                 <div class="form-field">
                   <mat-form-field appearance="outline">
                     <mat-label>Sick Leave</mat-label>
                     <input matInput type="number" class="numeric-input" formControlName="sickLeave" />
                     <mat-error *ngIf="leaveStandard.hasError('min', 'sickLeave')">
-                        Please enter positive number.
+                      Please enter positive number.
                     </mat-error>
                   </mat-form-field>
                 </div>
@@ -234,7 +234,7 @@
       <div fxLayoutAlign="center center" class="booterBtn">
         <button mat-flat-button type="submit">Edit</button>
         <div style="width: 20px;"></div>
-        <button mat-flat-button class="cencelBtn" (click)="toBack()">Cancel</button>
+        <button mat-flat-button class="cancelBtn" (click)="toBack()">Cancel</button>
       </div>
 
     </div>
