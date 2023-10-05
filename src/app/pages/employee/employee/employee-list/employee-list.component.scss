@@ -15,6 +15,7 @@ table {
     th:nth-child(2), th:nth-child(3), th:nth-child(4) {
         width: 15%;
     }
+    th:nth-child(5) {width: 30%;}
 }
 
 @media screen and (max-width: 1500px) {
