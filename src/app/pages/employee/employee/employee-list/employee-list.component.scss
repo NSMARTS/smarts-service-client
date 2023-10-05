@@ -8,13 +8,27 @@
 }
 
 table {
-    th:first-child, th:nth-child(2), th:nth-child(3), th:nth-child(4) {
+    th:first-child {
+        width: 20%;
+    }
+
+    th:nth-child(2), th:nth-child(3), th:nth-child(4) {
         width: 15%;
     }
 }
 
 @media screen and (max-width: 1500px) {
+    th:first-child {
+        width: 30%;
+    }
+
     th {
         width: 20%!important;
     }
 }
+
+@media screen and (max-width: 800px) {
+    .page {
+        min-width: 700px;    
+    }
+  }

@@ -30,6 +30,10 @@
   
   /* 반응형 디자인을 위한 미디어 쿼리 */
   @media screen and (max-width: 1500px) {
+    td {
+        max-width: 400px;
+      }
+
       th:nth-child(1),th:nth-child(3),th:nth-child(4) {
           width: 30%!important;
       }
@@ -40,6 +44,12 @@
         min-width: 50px!important;
     }
   }
+
+  @media screen and (max-width: 1350px) {
+    td {
+        max-width: 300px;
+      }
+  }
   
   @media screen and (max-width: 900px) {
     .mat-button-toggle {
@@ -47,9 +57,27 @@
     }
   }
 
+  @media screen and (max-width: 800px) {
+    .page {
+        min-width: 700px;    
+    }
+  }
+
   @media screen and (max-width: 710px) {
     .mat-button-toggle {
         min-width: 50px!important;
     }
+
+    th {
+        font-size: 12px;
+      }
+  
+      td {
+        font-size: 12px;
+  
+        span {
+          font-size: 12px;
+        }
+      }
   }
   

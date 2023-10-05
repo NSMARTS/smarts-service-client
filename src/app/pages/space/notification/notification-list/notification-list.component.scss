@@ -89,3 +89,9 @@ label {
             min-width: 30px!important;
         }
       }
+
+      @media screen and (max-width: 800px) {
+        .page {
+            min-width: 700px;    
+        }
+      }

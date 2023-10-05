@@ -22,3 +22,9 @@ table {
         width: 15%!important;
     }
 }
+
+@media screen and (max-width: 1050px) {
+    .page {
+        min-width: 900px;
+    }
+}
