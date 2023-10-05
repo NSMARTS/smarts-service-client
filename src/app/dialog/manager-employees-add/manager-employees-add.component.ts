@@ -9,11 +9,12 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { Employee } from 'src/app/interfaces/employee.interface';
+import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { DialogService } from 'src/app/services/dialog.service';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -59,6 +60,12 @@ export class ManagerEmployeesAddComponent implements OnInit {
     []
   );
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+
+  @ViewChild(MatSort) sort!: MatSort;
+
+  isLoadingResults = true;
+  isRateLimitReached = false;
+  resultsLength = 0;
 
   constructor(
     private employeeService: EmployeeService,
@@ -114,19 +121,40 @@ export class ManagerEmployeesAddComponent implements OnInit {
   }
 
   async getManagerEmployeesWithout() {
-    // lastValueFrom은 rxjs 비동기 통신을하기위 사용
-    // 서버에 값을 받아올때까지 멈춘다.
-    const employees = await lastValueFrom(
-      this.managerService.getManagerEmployeesWithout(
-        this.companyId,
-        this.managerId
-      )
-    );
-    // signal을 통한 상태관리
-    await this.employeeService.setEmployees(employees.data);
-    console.log(employees.data);
-    this.dataSource.data = this.employeeService.employees();
-    this.dataSource.paginator = this.paginator;
+    // // lastValueFrom은 rxjs 비동기 통신을하기위 사용
+    // // 서버에 값을 받아올때까지 멈춘다.
+    // const employees = await lastValueFrom(
+    //   this.managerService.getManagerEmployeesWithout(
+    //     this.companyId,
+    //     this.managerId
+    //   )
+    // );
+    // // signal을 통한 상태관리
+    // await this.employeeService.setEmployees(employees.data);
+    // console.log(employees.data);
+    // this.dataSource.data = this.employeeService.employees();
+    // this.dataSource.paginator = this.paginator;
+
+    this.managerService
+      .getManagerEmployeesWithout(this.companyId, this.managerId)
+      .subscribe({
+        next: async (res: HttpResMsg<Employee[]>) => {
+          await this.employeeService.setEmployees(res.data);
+          this.dataSource = new MatTableDataSource<Employee>(this.employees());
+          this.isLoadingResults = false;
+          this.isRateLimitReached = res.data === null;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.error(err);
+          if (err.status === 404) {
+            console.error('No companies found');
+          } else {
+            console.error('An error occurred while fetching company list');
+          }
+        },
+      });
   }
 
   clickManagerEmployees(row: any) {

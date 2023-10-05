@@ -159,21 +159,18 @@
 }
 
 .table-container {
-    min-width: 1000px; /* 원하는 높이 설정 */
     max-height: 431px; /* 원하는 높이 설정 */
     overflow-y: auto; /* 세로 스크롤바 활성화 */
   }
-  
-table {
-    width: 100%; /* 테이블을 부모 컨테이너의 100% 너비로 확장 */
-}
 
 .table-container::-webkit-scrollbar {
     width: 6px;
+    height: 6px; /* 스크롤바의 높이 */
     /* 스크롤바의 너비 */
   }
 
   .table-container::-webkit-scrollbar-thumb {
+    width: 30%; /* 스크롤바의 길이 */
     height: 30%;
     /* 스크롤바의 길이 */
     background: #c2c5d0;
@@ -211,12 +208,12 @@ table {
 
 table {
     th:first-child, th:nth-child(2), th:nth-child(3), th:nth-child(4) {
-        // width: 15%;
+        min-width: 200px;
     }
 }
 
-@media screen and (max-width: 1500px) {
-    th {
-        width: 20%!important;
-    }
-}
+// @media screen and (max-width: 1500px) {
+//     th {
+//         width: 20%!important;
+//     }
+// }

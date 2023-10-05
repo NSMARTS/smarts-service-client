@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,9 +11,9 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogService } from 'src/app/services/dialog.service';
 
 import { Employee } from 'src/app/interfaces/employee.interface';
-import { lastValueFrom } from 'rxjs';
-import { Sort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 
 @Component({
   selector: 'app-manager-management',
@@ -25,6 +25,12 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 export class ManagerManagementComponent {
   managerId!: string; //params id
   companyId!: string; //params id
+  employees: WritableSignal<Employee[]>;
+
+  isLoadingResults = true;
+  isRateLimitReached = false;
+
+  @ViewChild(MatSort) sort!: MatSort;
 
   displayedColumns: string[] = [
     // 'profile',
@@ -55,6 +61,7 @@ export class ManagerManagementComponent {
   ) {
     this.companyId = this.route.snapshot.params['id'];
     this.managerId = this.route.snapshot.params['managerId'];
+    this.employees = this.employeeService.employees;
   }
 
   ngOnInit(): void {
@@ -89,16 +96,35 @@ export class ManagerManagementComponent {
   }
 
   async getManagerEmployees() {
-    // lastValueFrom은 rxjs 비동기 통신을하기위 사용
-    // 서버에 값을 받아올때까지 멈춘다.
-    const managerEmployees = await lastValueFrom(
-      this.managerService.getManagerEmployees(this.managerId)
-    );
-    // signal을 통한 상태관리
-    await this.employeeService.setEmployees(managerEmployees.data);
-    console.log(this.employeeService.employees());
-    this.dataSource.data = this.employeeService.employees();
-    this.dataSource.paginator = this.paginator;
+    // // lastValueFrom은 rxjs 비동기 통신을하기위 사용
+    // // 서버에 값을 받아올때까지 멈춘다.
+    // const managerEmployees = await lastValueFrom(
+    //   this.managerService.getManagerEmployees(this.managerId)
+    // );
+    // // signal을 통한 상태관리
+    // await this.employeeService.setEmployees(managerEmployees.data);
+    // console.log(this.employeeService.employees());
+    // this.dataSource.data = this.employeeService.employees();
+    // this.dataSource.paginator = this.paginator;
+
+    this.managerService.getManagerEmployees(this.managerId).subscribe({
+      next: async (res: HttpResMsg<Employee[]>) => {
+        await this.employeeService.setEmployees(res.data);
+        this.dataSource = new MatTableDataSource<Employee>(this.employees());
+        this.isLoadingResults = false;
+        this.isRateLimitReached = res.data === null;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status === 404) {
+          console.error('No companies found');
+        } else {
+          console.error('An error occurred while fetching company list');
+        }
+      },
+    });
   }
 
   cancelEmployees(employeeId: string) {
