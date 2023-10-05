@@ -46,7 +46,7 @@ export class EmployeeAddComponent {
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),
       department: new FormControl(''),
-      posiotion: new FormControl(''),
+      position: new FormControl(''),
     });
 
     this.countryService.getCountryList().subscribe({

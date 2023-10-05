@@ -44,6 +44,7 @@ export class EmployeeListComponent implements AfterViewInit {
     // 'advanceLeave',
     // 'annualPolicy',
     'empStartDate',
+    'detail',
     'menu',
     // 'edit',
     // 'retire',
@@ -72,7 +73,6 @@ export class EmployeeListComponent implements AfterViewInit {
     private router: Router,
     private dialogService: DialogService,
     private _liveAnnouncer: LiveAnnouncer
-
   ) {
     this.companyId = this.route.snapshot.params['id'];
     this.employees = this.employeeService.employees;
@@ -143,9 +143,24 @@ export class EmployeeListComponent implements AfterViewInit {
     }
   }
 
-  editEmployee(id: string) {
-    this.router.navigate([`/company/${this.companyId}/employee/edit/${id}`]);
+  detailPage(id: string) {
+    this.router.navigate([
+      `/company/${this.companyId}/employee/detail/${id}`,
+    ]);
   }
+
+  editEmployeeProfile(id: string) {
+    this.router.navigate([
+      `/company/${this.companyId}/employee/editEmployeeProfile/${id}`,
+    ]);
+  }
+
+  editEmployee(id: string) {
+    this.router.navigate([
+      `/company/${this.companyId}/employee/editEmployeeLeave/${id}`,
+    ]);
+  }
+
   addEmployee() {
     this.router.navigate([`/company/${this.companyId}/employee/add`]);
   }
@@ -165,7 +180,7 @@ export class EmployeeListComponent implements AfterViewInit {
               );
               console.log(data);
             },
-            error: (err: any) => { },
+            error: (err: any) => {},
           });
         }
       });

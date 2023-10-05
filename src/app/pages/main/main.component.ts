@@ -57,6 +57,8 @@ export class MainComponent {
     this.getAllCount();
     this.getAllList();
     this.getAllCountry();
+
+    console.log(this.allCountry);
   }
 
   // 모든 개수 조회
