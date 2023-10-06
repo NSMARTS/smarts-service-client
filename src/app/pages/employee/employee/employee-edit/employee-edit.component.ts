@@ -207,26 +207,26 @@ export class EmployeeEditComponent {
   }
 
   updateProfileInfo() {
-    if (this.editEmployeeForm.valid) {
-      const companyData = {
-        ...this.editEmployeeForm.value,
-        personalLeaveId: this.employee?.personalLeave._id,
-      };
+    // if (this.editEmployeeForm.valid) {
+    //   const companyData = {
+    //     ...this.editEmployeeForm.value,
+    //     personalLeaveId: this.employee?.personalLeave._id,
+    //   };
 
-      this.employeeService
-        .updateEmployee(this.employeeId, companyData)
-        .subscribe({
-          next: () => {
-            this.router.navigate([`company/${this.companyId}/employee`]);
-            this.dialogService.openDialogPositive(
-              'Successfully, the employee has been edit.'
-            );
-          },
-          error: (err) => {
-            console.error(err);
-          },
-        });
-    }
+    //   this.employeeService
+    //     .updateEmployee(this.employeeId, companyData)
+    //     .subscribe({
+    //       next: () => {
+    //         this.router.navigate([`company/${this.companyId}/employee`]);
+    //         this.dialogService.openDialogPositive(
+    //           'Successfully, the employee has been edit.'
+    //         );
+    //       },
+    //       error: (err) => {
+    //         console.error(err);
+    //       },
+    //     });
+    // }
   }
 
   resetPassword() {
