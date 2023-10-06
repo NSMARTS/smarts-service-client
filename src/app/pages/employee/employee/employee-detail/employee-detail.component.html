@@ -11,9 +11,9 @@
 
                 <mat-divider> </mat-divider>
 
-                <mat-card-content style="width: 100%; padding: 10px 20px; box-sizing: border-box; display: flex;">
+                <mat-card-content style="width: 100%; padding: 10px 35px; box-sizing: border-box; display: flex;">
                     <p class="img"><img [src]="employeeProfileImgPath" alt=""></p>
-                    <div>
+                    <div class="info">
                         <p>{{employeeEmail}} </p>
                         <p>{{employeePhoneNumber}} </p>
                     </div>
@@ -30,49 +30,51 @@
                 <mat-divider> </mat-divider>
 
                 <mat-card-content>
-                    <table mat-table class="demo-table table" [dataSource]="matchingData">
-                        <ng-container matColumnDef="managerImg">
-                            <th mat-header-cell *matHeaderCellDef></th>
-                            <td mat-cell *matCellDef="let element"><img [src]="element?.profileImgPath" alt="" style="width: 24px;"> </td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="managerName">
-                            <th mat-header-cell *matHeaderCellDef></th>
-                            <td mat-cell *matCellDef="let element"> {{element?.username}}</td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="managerEmail">
-                            <th mat-header-cell *matHeaderCellDef></th>
-                            <td mat-cell *matCellDef="let element"> ({{element?.email}})</td>
-                        </ng-container>
-
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
-                        <tr class="mat-row" *matNoDataRow>
-                            <td class="mat-cell" colspan="9999">
-                            No data
-                            </td>
-                        </tr>
-                    </table>
+                    <section>
+                        <table mat-table class="demo-table table" [dataSource]="matchingData">
+                            <ng-container matColumnDef="managerImg">
+                                <th mat-header-cell *matHeaderCellDef></th>
+                                <td mat-cell *matCellDef="let element"><img [src]="element?.profileImgPath" alt="" style="width: 24px; padding-top: 10px;"> </td>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="managerName">
+                                <th mat-header-cell *matHeaderCellDef></th>
+                                <td mat-cell *matCellDef="let element"> {{element?.username}}</td>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="managerEmail">
+                                <th mat-header-cell *matHeaderCellDef></th>
+                                <td mat-cell *matCellDef="let element"> ({{element?.email}})</td>
+                            </ng-container>
+                        
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="9999">
+                                    No data
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
                 </mat-card-content>
             </mat-card>
 
-            <mat-card>
+            <mat-card class="annualLeave">
                 <mat-card-title fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%; padding: 10px 20px;">
                     <p>Annual leave</p>
                 </mat-card-title>
 
                 <mat-divider> </mat-divider>
                 
-                <mat-card-content style="width: 100%; padding: 10px 20px;">
-                    <div class="annualLeave">
+                <mat-card-content style="width: 100%; padding: 10px 35px;">
+                    <div style="display: flex;">
                         <p>Annual policy</p> 
                         <mat-radio-group [(ngModel)]="annualPolicy" [disabled]="isRadioGroupDisabled">
                             <mat-radio-button value="byYear">by year</mat-radio-button>
                             <mat-radio-button value="byContract">by contract</mat-radio-button>
                         </mat-radio-group>
                     </div>
-                    <div class="annualLeave">
+                    <div style="display: flex;">
                         <p>Used Advance Leave</p>
                         <mat-radio-group [(ngModel)]="usedAdvanceLeave" [disabled]="isRadioGroupDisabled">
                             <mat-radio-button value="true">Yes</mat-radio-button>

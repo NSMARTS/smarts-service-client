@@ -88,12 +88,12 @@ export class EmployeeService {
     );
   }
 
-  updateEmployee(
+  updateEmployeeLeaves(
     id: string,
     updateData: any
   ): Observable<HttpResMsg<Employee[]>> {
     return this.http.patch<HttpResMsg<Employee[]>>(
-      this.baseUrl + '/employees/' + id,
+      this.baseUrl + '/employees/' + id + '/leaves',
       updateData
     );
   }

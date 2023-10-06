@@ -1,23 +1,61 @@
 .cardMgCtr {width: 100%; display: flex; justify-content: space-between;}
-mat-card {width: 32%; box-shadow: none;}
-mat-card-title p {font-size: 14px; color: var(--text-color); width: 80%; margin-bottom: 0;}
+mat-card {width: 32%; height: 168px; box-shadow: none;}
+mat-card-title {
+    margin-bottom: 0;
+
+    p {font-size: 15px; color: var(--text-color); width: 80%; margin-bottom: 0;}
+}
 
 mat-divider {margin-bottom: 20px;}
 
 mat-card-content {
+    font-size: 16px; overflow-y: auto;
 
-    .img {width: 60px; height: auto; margin-right: 20px;
+    .img {width: 60px; height: auto; margin-right: 30px;
         img {width: 100%;}
     }
-    p {font-weight: normal; font-size: 16px;}
-    .annualLeave {display: flex;
-        p {padding-top: 10px; width: 35%;}
+    .info {
+        p {font-weight: normal; margin-bottom: 20px;}
+        p:last-child {margin-bottom: 0;}
     }
+
+}
+.annualLeave {
+    .title {width: 35%;}
+    mat-card-content p:first-child {margin-bottom: 20px;}
+
+    p {width: 35%;}
 }
 
-.mat-mdc-radio-button .mdc-radio--disabled+label {
-    color: red;
+mat-radio-group {position: relative; bottom: 10px;}
+mat-radio-group mat-radio-button {height: 20px;}
+mat-radio {height: 20px;}
+
+.mat-mdc-radio-button .mdc-form-field {height: 20px;}
+
+mat-card-content::-webkit-scrollbar {
+  width: 6px;
+  /* 스크롤바의 너비 */
 }
+
+mat-card-content::-webkit-scrollbar-thumb {
+  height: 30%;
+  /* 스크롤바의 길이 */
+  background: #f0f2f5;
+  /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+.mdc-form-field {height: 20px;}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: #F6F7F9; //row 위에 마우스 올라가면 어둡게
+}
+
+.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell {height: 0; font-size: 16px; line-height: 26px;}
+
+
 .mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell {border: none;}
 
 .table_container {

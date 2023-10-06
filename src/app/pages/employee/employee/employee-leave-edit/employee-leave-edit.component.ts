@@ -104,13 +104,14 @@ export class EmployeeLeaveEditComponent {
 
   updateProfileInfo() {
     if (this.editEmployeeForm.valid) {
+      console.log('업데이트');
       const companyData = {
         ...this.editEmployeeForm.value,
         personalLeaveId: this.employee?.personalLeave._id,
       };
 
       this.employeeService
-        .updateEmployee(this.employeeId, companyData)
+        .updateEmployeeLeaves(this.employeeId, companyData)
         .subscribe({
           next: () => {
             this.router.navigate([`company/${this.companyId}/employee`]);
