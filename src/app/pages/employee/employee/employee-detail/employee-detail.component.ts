@@ -37,7 +37,15 @@ export class EmployeeDetailComponent {
   employees = this.employeeService.employees; // 상태관리 중인 직원리스트
   allManager: any;
   matchingData: any[] = [];
+  employeeData: any[] = [];
   displayedColumns2: string[] = ['managerImg', 'managerName', 'managerEmail'];
+  displayedColumns: string[] = [
+    'year',
+    'annualLeave',
+    'sickLeave',
+    'rollover',
+    'replacementDay',
+  ];
 
   annualPolicy: string | undefined;
   usedAdvanceLeave: any | undefined;
