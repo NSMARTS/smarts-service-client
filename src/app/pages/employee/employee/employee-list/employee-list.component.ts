@@ -143,10 +143,12 @@ export class EmployeeListComponent implements AfterViewInit {
     }
   }
 
+  onClick(id: string) {
+    this.router.navigate([`/company/${this.companyId}/employee/detail/${id}`]);
+  }
+
   detailPage(id: string) {
-    this.router.navigate([
-      `/company/${this.companyId}/employee/detail/${id}`,
-    ]);
+    this.router.navigate([`/company/${this.companyId}/employee/detail/${id}`]);
   }
 
   editEmployeeProfile(id: string) {
