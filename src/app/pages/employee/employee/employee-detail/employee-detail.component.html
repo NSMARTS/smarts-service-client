@@ -1,4 +1,7 @@
 <div class="page">
+    <div class="page_header">
+        <div class="page_title">{{employeeUsername}} <span style="font-weight: 400;">(Contract Date: {{empStartDate | date: 'YYYY-MM-dd'}})</span></div>
+    </div>
 
     <div class="cardContainer">
         <div class="cardMgCtr">
@@ -15,7 +18,7 @@
                     <p class="img"><img [src]="employeeProfileImgPath" alt=""></p>
                     <div class="info">
                         <p>{{employeeEmail}} </p>
-                        <p>{{employeePhoneNumber}} </p>
+                        <p>{{ employeePhoneNumber ? employeePhoneNumber : 'Phone not registered.'}}</p>
                     </div>
                 </mat-card-content>
             </mat-card>

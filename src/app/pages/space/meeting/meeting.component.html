@@ -20,7 +20,7 @@
                                     {{ data.meetingTitle }}
                                   </div>
                                   <div fxFlex>
-                                    <mat-slide-toggle [checked]="data.status === 'Open'" (change)="toggle(data, i);"
+                                    <mat-slide-toggle [checked]="data.status === 'Open'" (change)="toggle(data);"
                                       [matTooltip]="data.status === 'Open' ? 'Meeting open' : 'Meeting close'"
                                       matTooltipPosition="above" matTooltipShowDelay="500" [disabled]="isToggleDisabled(data.startDate)">
                                     </mat-slide-toggle>

@@ -26,6 +26,7 @@ export class ManagerManagementComponent {
   managerId!: string; //params id
   companyId!: string; //params id
   employees: WritableSignal<Employee[]>;
+  managerName: string | undefined;
 
   isLoadingResults = true;
   isRateLimitReached = false;
@@ -62,6 +63,10 @@ export class ManagerManagementComponent {
     this.companyId = this.route.snapshot.params['id'];
     this.managerId = this.route.snapshot.params['managerId'];
     this.employees = this.employeeService.employees;
+    
+    this.route.queryParams.subscribe((params) => {
+      this.managerName = params['name'];
+    });
   }
 
   ngOnInit(): void {
