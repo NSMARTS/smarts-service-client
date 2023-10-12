@@ -80,10 +80,14 @@ export class ManagerListComponent {
   }
 
   //회사 수정
-  managementManager(managerId: any) {
-    this.router.navigate([
-      'company/' + this.companyId + '/manager/management/' + managerId,
-    ]);
+  managementManager(managerId: any, managerName: string) {
+    console.log(managerId, managerName);
+    this.router.navigate(
+      ['company/' + this.companyId + '/manager/management/' + managerId],
+      {
+        queryParams: { name: managerName },
+      }
+    );
   }
 
   // // 회사 삭제

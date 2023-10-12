@@ -32,6 +32,7 @@ export class EmployeeDetailComponent {
   employeeEmail: any;
   employeePhoneNumber: any;
   employeeProfileImgPath: any;
+  empStartDate: any;
 
   numberOfManagers: number | undefined;
   employees = this.employeeService.employees; // 상태관리 중인 직원리스트
@@ -78,16 +79,16 @@ export class EmployeeDetailComponent {
           res.data.personalLeave.isAdvanceLeave.toString();
         console.log(this.annualPolicy, this.usedAdvanceLeave);
 
-        const empStartDate = new Date(res.data.empStartDate); // 직원의 입사일
+        this.empStartDate = new Date(res.data.empStartDate); // 직원의 입사일
         const currentDate = new Date(); // 현재 날짜
         let yearsOfWork =
-          currentDate.getFullYear() - empStartDate.getFullYear() + 1; // 입사일과 현재 날짜 사이의 년차 계산
+          currentDate.getFullYear() - this.empStartDate.getFullYear() + 1; // 입사일과 현재 날짜 사이의 년차 계산
 
         // 현재 날짜의 월과 입사일의 월 비교
         if (
-          currentDate.getMonth() < empStartDate.getMonth() ||
-          (currentDate.getMonth() === empStartDate.getMonth() &&
-            currentDate.getDate() < empStartDate.getDate())
+          currentDate.getMonth() < this.empStartDate.getMonth() ||
+          (currentDate.getMonth() === this.empStartDate.getMonth() &&
+            currentDate.getDate() < this.empStartDate.getDate())
         ) {
           // 아직 이번 해의 입사일이 오지 않았으면 1년을 빼줍니다.
           yearsOfWork--;
