@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -165,5 +172,9 @@ export class EmployeeLeaveEditComponent {
         this.getLeaveStandard(employee.personalLeave.leaveStandards[i])
       );
     }
+  }
+
+  toBack() {
+    this.router.navigate([`/company/${this.companyId}/employee/`]);
   }
 }

@@ -159,7 +159,9 @@ export class MainComponent {
         ]);
         break;
       default:
-        this.router.navigate(['/country/' + row._id]);
+        this.router.navigate(['/country/' + row._id], {
+          queryParams: { name: row.countryName },
+        });
         break;
     }
   }

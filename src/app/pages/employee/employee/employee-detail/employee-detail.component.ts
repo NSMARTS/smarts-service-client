@@ -132,6 +132,20 @@ export class EmployeeDetailComponent {
           console.error('An error occurred while fetching manager list');
         }
       },
+      complete: () => {
+        this.getLeaveData();
+      },
+    });
+  }
+
+  getLeaveData() {
+    this.employeeService.getEmployeeLeaveDetail(this.employeeId).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (error) => {
+        console.log(error);
+      },
     });
   }
 }
