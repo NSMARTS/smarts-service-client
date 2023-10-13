@@ -14,6 +14,13 @@ table {
     }
 }
 
+@media screen and (max-width: 1650px) {
+    .name {
+        p:first-child {float: left; margin-right: 0px; padding-top: 10px;}
+        p:last-child {padding-top: 19px;} 
+      }
+}
+
 @media screen and (max-width: 1500px) {
     th {
         width: 20%!important;

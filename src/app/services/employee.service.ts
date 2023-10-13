@@ -208,4 +208,13 @@ export class EmployeeService {
       { params: data }
     );
   }
+
+  /**
+   * employee의 연차별 휴가 사용 내역 조회.
+   */
+  getEmployeeLeaveDetail(id: string): Observable<HttpResMsg<any[]>> {
+    return this.http.get<HttpResMsg<any[]>>(
+      this.baseUrl + '/employees/' + id + '/leavesDetail'
+    );
+  }
 }
