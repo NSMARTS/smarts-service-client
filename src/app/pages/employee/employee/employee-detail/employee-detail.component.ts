@@ -5,6 +5,7 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ManagerService } from 'src/app/services/manager.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 interface EmployeeData {
   username: string;
@@ -14,6 +15,14 @@ interface EmployeeData {
   managers: any;
   empStartDate: any;
   personalLeave: any;
+}
+
+export interface leaveData {
+  year: any;
+  annualLeave: any;
+  sickLeave: any;
+  rollover: any;
+  replacementDay: any;
 }
 
 @Component({
@@ -38,7 +47,11 @@ export class EmployeeDetailComponent {
   employees = this.employeeService.employees; // 상태관리 중인 직원리스트
   allManager: any;
   matchingData: any[] = [];
-  employeeData: any[] = [];
+
+  leaveData: MatTableDataSource<leaveData> = new MatTableDataSource<leaveData>(
+    []
+  );
+
   displayedColumns2: string[] = ['managerImg', 'managerName', 'managerEmail'];
   displayedColumns: string[] = [
     'year',
@@ -142,7 +155,9 @@ export class EmployeeDetailComponent {
   getLeaveData() {
     this.employeeService.getEmployeeLeaveDetail(this.employeeId).subscribe({
       next: (res) => {
-        console.log(res);
+        this.leaveData = new MatTableDataSource(res.data);
+        // this.employeeData.paginator = this.paginator;
+        console.log(this.leaveData);
       },
       error: (error) => {
         console.log(error);
