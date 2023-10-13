@@ -3,6 +3,7 @@
         <div class="page_title">Employee Leave Status</div>
     </div>
 
+  <div class="table_container">
   <form [formGroup]="searchLeaveStatusForm" novalidate>
     <div class="filter">
 
@@ -56,7 +57,7 @@
     </div>
   </form>
 
-  <div class="table_container">
+
     <!-- <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
       <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
       <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
