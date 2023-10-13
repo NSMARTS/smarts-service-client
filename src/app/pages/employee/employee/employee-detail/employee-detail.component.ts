@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ManagerService } from 'src/app/services/manager.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 interface EmployeeData {
   username: string;
@@ -64,6 +65,8 @@ export class EmployeeDetailComponent {
   annualPolicy: string | undefined;
   usedAdvanceLeave: any | undefined;
   isRadioGroupDisabled: boolean = true;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private route: ActivatedRoute,
@@ -156,7 +159,7 @@ export class EmployeeDetailComponent {
     this.employeeService.getEmployeeLeaveDetail(this.employeeId).subscribe({
       next: (res) => {
         this.leaveData = new MatTableDataSource(res.data);
-        // this.employeeData.paginator = this.paginator;
+        this.leaveData.paginator = this.paginator;
         console.log(this.leaveData);
       },
       error: (error) => {
