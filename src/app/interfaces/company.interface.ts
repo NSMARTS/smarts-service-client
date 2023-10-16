@@ -3,6 +3,7 @@ export interface Company {
   companyCode: string; // asdqwe
   companyName: string; // KR
   leaveStandards: leaveStandards[];
+  leaveStandardsLength: number;
   isRollover: boolean; // 휴가 이월을 할껀지 말껀지,
   rolloverMaxMonth: number; // 이월된 휴가가 언제까지 사용할껀지 ex) 남은 휴가 3달 더 보관가능
   rolloverMaxLeaveDays: number; // 휴가 이월이 며칠까지 될건지 ex) 남은 휴가 최대 5일 보관가능
@@ -18,6 +19,7 @@ export const InitialCompany: Company = {
   companyCode: '',
   companyName: '',
   leaveStandards: [],
+  leaveStandardsLength: 0,
   isRollover: false,
   rolloverMaxMonth: 0,
   rolloverMaxLeaveDays: 0, // 휴가 이월이 며칠까지 될건지 ex) 남은 휴가 최대 5일 보관가능

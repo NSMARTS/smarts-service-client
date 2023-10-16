@@ -55,6 +55,8 @@ export class EmployeeLeaveEditComponent {
       rdValidityTerm: [0, [Validators.min(0)]],
       isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
+      subsequentAnnualLeave: [0, [Validators.min(0)]],
+      subsequentSickLeave: [0, [Validators.min(0)]],
     });
     this.leaveStandards = this.editEmployeeForm.get(
       'leaveStandards'
@@ -110,11 +112,31 @@ export class EmployeeLeaveEditComponent {
   }
 
   updateProfileInfo() {
+    const leaveStandards = this.editEmployeeForm.get('leaveStandards')?.value;
+    const leaveStandardsLength =
+      this.editEmployeeForm.get('leaveStandards')?.value.length;
+    const isSubsequentAnnualLeave = this.editEmployeeForm.get(
+      'subsequentAnnualLeave'
+    )?.value;
+    const isSubsequentSickLeave = this.editEmployeeForm.get(
+      'subsequentSickLeave'
+    )?.value;
+
     if (this.editEmployeeForm.valid) {
       console.log('업데이트');
       const companyData = {
         ...this.editEmployeeForm.value,
         personalLeaveId: this.employee?.personalLeave._id,
+        leaveStandards: leaveStandards.concat(
+          Array(100)
+            .fill(null)
+            .map((_, index) => ({
+              year: leaveStandardsLength + index + 1,
+              annualLeave: isSubsequentAnnualLeave,
+              sickLeave: isSubsequentSickLeave,
+            }))
+        ),
+        leaveStandardsLength: leaveStandardsLength,
       };
 
       this.employeeService
@@ -167,7 +189,7 @@ export class EmployeeLeaveEditComponent {
     // 기존 컨트롤 제거
     this.leaveStandards.clear();
     // 새로운 컨트롤 추가
-    for (let i = 0; i < employee.personalLeave.leaveStandards.length; i++) {
+    for (let i = 0; i < employee.personalLeave.leaveStandardsLength; i++) {
       this.leaveStandards.push(
         this.getLeaveStandard(employee.personalLeave.leaveStandards[i])
       );

@@ -231,6 +231,41 @@
         </div>
       </div>
 
+      <!-- Leave Standard -->
+      <div class="lineDivider">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <span>Leave Standard</span>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <div class="form-row">
+            <div class="form-field">
+                <input type="hidden"/>
+                <div class="yearLabel">subsequent years</div>
+              </div>
+            <div class="form-field">
+                <mat-form-field appearance="outline">
+                  <mat-label>Annual Leave</mat-label>
+                  <input matInput type="number" class="numeric-input" formControlName="subsequentAnnualLeave" />
+                  <mat-error *ngIf="editCompanyForm.controls['subsequentAnnualLeave'].hasError('min')">
+                    Please enter positive number.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-field">
+                <mat-form-field appearance="outline">
+                  <mat-label>Sick Leave</mat-label>
+                  <input matInput type="number" class="numeric-input" formControlName="subsequentSickLeave" />
+                  <mat-error *ngIf="editCompanyForm.controls['subsequentSickLeave'].hasError('min')">
+                    Please enter positive number.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="empty">
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div fxLayoutAlign="center center" class="booterBtn">
         <button mat-flat-button type="submit">Edit</button>
         <div style="width: 20px;"></div>
