@@ -190,9 +190,9 @@
           <span>Leave Standard</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+
           <div formArrayName="leaveStandards" *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index">
             <div [formGroupName]="i">
-
               <div class="form-row">
                 <div class="form-field">
                   <input type="hidden" formControlName="year" />
@@ -225,28 +225,20 @@
               </div>
             </div>
           </div>
-          <div class="addclickBtn" (click)="addItem()">
-            <mat-icon>add</mat-icon>
-          </div>
-        </div>
-      </div>
 
-      <!-- Leave Standard -->
-      <div class="lineDivider">
-        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
-          <span>Leave Standard</span>
-        </div>
-        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <div class="form-row">
             <div class="form-field">
                 <input type="hidden"/>
-                <div class="yearLabel">subsequent years</div>
+                <div class="yearLabel">default years</div>
               </div>
             <div class="form-field">
                 <mat-form-field appearance="outline">
                   <mat-label>Annual Leave</mat-label>
-                  <input matInput type="number" class="numeric-input" formControlName="subsequentAnnualLeave" />
-                  <mat-error *ngIf="editCompanyForm.controls['subsequentAnnualLeave'].hasError('min')">
+                  <input matInput type="number" class="numeric-input" formControlName="defaultAnnualLeave" />
+                  <mat-error *ngIf="editCompanyForm.controls['defaultAnnualLeave'].hasError('required')">
+                    Please enter annual leave.
+                  </mat-error>
+                  <mat-error *ngIf="editCompanyForm.controls['defaultAnnualLeave'].hasError('min')">
                     Please enter positive number.
                   </mat-error>
                 </mat-form-field>
@@ -254,14 +246,21 @@
               <div class="form-field">
                 <mat-form-field appearance="outline">
                   <mat-label>Sick Leave</mat-label>
-                  <input matInput type="number" class="numeric-input" formControlName="subsequentSickLeave" />
-                  <mat-error *ngIf="editCompanyForm.controls['subsequentSickLeave'].hasError('min')">
+                  <input matInput type="number" class="numeric-input" formControlName="defaultSickLeave" />
+                  <mat-error *ngIf="editCompanyForm.controls['defaultSickLeave'].hasError('required')">
+                    Please enter sick leave.
+                  </mat-error>
+                  <mat-error *ngIf="editCompanyForm.controls['defaultSickLeave'].hasError('min')">
                     Please enter positive number.
                   </mat-error>
                 </mat-form-field>
               </div>
               <div class="empty">
             </div>
+          </div>
+          default year는 +버튼을 눌러 추가로 설정한 연차 이후의 연차들을 의미합니다.
+          <div class="addclickBtn" (click)="addItem()">
+            <mat-icon>add</mat-icon>
           </div>
         </div>
       </div>

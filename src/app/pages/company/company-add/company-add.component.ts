@@ -44,8 +44,8 @@ export class CompanyAddComponent {
       contractDate: [''],
       payDate: [''],
       paymentRequired: [false],
-      subsequentAnnualLeave: [0, [Validators.min(0)]],
-      subsequentSickLeave: [0, [Validators.min(0)]],
+      defaultAnnualLeave: ['', [Validators.required, Validators.min(0)]],
+      defaultSickLeave: ['', [Validators.required, Validators.min(0)]],
     });
 
     this.leaveStandards = this.addCompanyForm.get(
@@ -109,12 +109,10 @@ export class CompanyAddComponent {
       const leaveStandards = this.addCompanyForm.get('leaveStandards')?.value;
       const leaveStandardsLength =
         this.addCompanyForm.get('leaveStandards')?.value.length;
-      const isSubsequentAnnualLeave = this.addCompanyForm.get(
-        'subsequentAnnualLeave'
-      )?.value;
-      const isSubsequentSickLeave = this.addCompanyForm.get(
-        'subsequentSickLeave'
-      )?.value;
+      const isDefaultAnnualLeave =
+        this.addCompanyForm.get('defaultAnnualLeave')?.value;
+      const isDefaultSickLeave =
+        this.addCompanyForm.get('defaultSickLeave')?.value;
 
       const companyData = {
         ...this.addCompanyForm.value,
@@ -133,13 +131,13 @@ export class CompanyAddComponent {
             .fill(null)
             .map((_, index) => ({
               year: leaveStandardsLength + index + 1,
-              annualLeave: isSubsequentAnnualLeave,
-              sickLeave: isSubsequentSickLeave,
+              annualLeave: isDefaultAnnualLeave,
+              sickLeave: isDefaultSickLeave,
             }))
         ),
         leaveStandardsLength: leaveStandardsLength,
-        subsequentAnnualLeave: isSubsequentAnnualLeave,
-        subsequentSickLeave: isSubsequentSickLeave,
+        defaultAnnualLeave: isDefaultAnnualLeave,
+        defaultSickLeave: isDefaultSickLeave,
       };
       console.log(companyData);
       this.companyService.addCompany(companyData).subscribe({

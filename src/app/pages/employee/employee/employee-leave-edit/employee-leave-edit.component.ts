@@ -55,8 +55,8 @@ export class EmployeeLeaveEditComponent {
       rdValidityTerm: [0, [Validators.min(0)]],
       isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
-      subsequentAnnualLeave: [0, [Validators.min(0)]],
-      subsequentSickLeave: [0, [Validators.min(0)]],
+      defaultAnnualLeave: ['', [Validators.required, Validators.min(0)]],
+      defaultSickLeave: ['', [Validators.required, Validators.min(0)]],
     });
     this.leaveStandards = this.editEmployeeForm.get(
       'leaveStandards'
@@ -121,12 +121,10 @@ export class EmployeeLeaveEditComponent {
     const leaveStandards = this.editEmployeeForm.get('leaveStandards')?.value;
     const leaveStandardsLength =
       this.editEmployeeForm.get('leaveStandards')?.value.length;
-    const isSubsequentAnnualLeave = this.editEmployeeForm.get(
-      'subsequentAnnualLeave'
-    )?.value;
-    const isSubsequentSickLeave = this.editEmployeeForm.get(
-      'subsequentSickLeave'
-    )?.value;
+    const isDefaultAnnualLeave =
+      this.editEmployeeForm.get('defaultAnnualLeave')?.value;
+    const isDefaultSickLeave =
+      this.editEmployeeForm.get('defaultSickLeave')?.value;
 
     if (this.editEmployeeForm.valid) {
       console.log('업데이트');
@@ -138,8 +136,8 @@ export class EmployeeLeaveEditComponent {
             .fill(null)
             .map((_, index) => ({
               year: leaveStandardsLength + index + 1,
-              annualLeave: isSubsequentAnnualLeave,
-              sickLeave: isSubsequentSickLeave,
+              annualLeave: isDefaultAnnualLeave,
+              sickLeave: isDefaultSickLeave,
             }))
         ),
         leaveStandardsLength: leaveStandardsLength,

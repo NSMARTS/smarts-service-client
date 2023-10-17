@@ -46,8 +46,8 @@ export class CompanyEditComponent implements OnInit {
       contractDate: [''],
       payDate: [''],
       paymentRequired: [false],
-      subsequentAnnualLeave: [0, [Validators.min(0)]],
-      subsequentSickLeave: [0, [Validators.min(0)]],
+      defaultAnnualLeave: ['', [Validators.required, Validators.min(0)]],
+      defaultSickLeave: ['', [Validators.required, Validators.min(0)]],
     });
     this.leaveStandards = this.editCompanyForm.get(
       'leaveStandards'
@@ -173,12 +173,10 @@ export class CompanyEditComponent implements OnInit {
       const leaveStandards = this.editCompanyForm.get('leaveStandards')?.value;
       const leaveStandardsLength =
         this.editCompanyForm.get('leaveStandards')?.value.length;
-      const isSubsequentAnnualLeave = this.editCompanyForm.get(
-        'subsequentAnnualLeave'
-      )?.value;
-      const isSubsequentSickLeave = this.editCompanyForm.get(
-        'subsequentSickLeave'
-      )?.value;
+      const isDefaultAnnualLeave =
+        this.editCompanyForm.get('defaultAnnualLeave')?.value;
+      const isDefaultSickLeave =
+        this.editCompanyForm.get('defaultSickLeave')?.value;
 
       const companyData = {
         ...this.editCompanyForm.value,
@@ -197,8 +195,8 @@ export class CompanyEditComponent implements OnInit {
             .fill(null)
             .map((_, index) => ({
               year: leaveStandardsLength + index + 1,
-              annualLeave: isSubsequentAnnualLeave,
-              sickLeave: isSubsequentSickLeave,
+              annualLeave: isDefaultAnnualLeave,
+              sickLeave: isDefaultSickLeave,
             }))
         ),
         leaveStandardsLength: leaveStandardsLength,
@@ -250,5 +248,3 @@ export class CompanyEditComponent implements OnInit {
     }
   }
 }
-
-
