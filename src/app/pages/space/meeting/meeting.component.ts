@@ -187,6 +187,7 @@ export class MeetingComponent implements OnInit {
           //   // console.log(userName);
           //   return userName;
           // });
+          
           let newManager = item.managers
             .map((part: any) => this.managers.find((item) => part === item._id))
             .filter((user: any) => user !== undefined)
@@ -245,8 +246,8 @@ export class MeetingComponent implements OnInit {
 
       if (itemStartDate < this.today && item.status == 'Open') {
         // console.log(item._id);
-        let obj = { _id: item._id };
-        this.closeMeeting(obj, 'auto');
+        // let obj = { _id: item._id };
+        this.closeMeeting(item._id, 'auto');
       }
     });
   }
@@ -306,7 +307,7 @@ export class MeetingComponent implements OnInit {
     };
     this.meetingService.editMeeting(meetingData._id, data).subscribe({
       next: (data: any) => {
-        console.log(data);
+        // console.log(data);
         meetingData.status = 'Close';
       },
       error: (err: any) => {
@@ -346,7 +347,7 @@ export class MeetingComponent implements OnInit {
       companyId: this.companyId,
       meetingId: data._id,
     };
-    console.log(companyMeetingData);
+    // console.log(companyMeetingData);
     this.dialogService
       .openDialogConfirm('Do you want to cancel the meeting?')
       .subscribe((result) => {

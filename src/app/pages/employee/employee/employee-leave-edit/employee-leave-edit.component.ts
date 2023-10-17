@@ -66,13 +66,19 @@ export class EmployeeLeaveEditComponent {
     const employee = this.employees()?.find(
       (employee) => employee._id === this.employeeId
     );
+
+    console.log(employee);
+
     if (employee) {
+      this.employee = employee;
       // 상태관리 중인 직원리스트 가 있으면
       this.editEmployeeForm.patchValue(employee.personalLeave);
       this.patchLeaveStadard(employee);
     } else {
       this.getEmployee(); // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
     }
+
+    // this.getEmployee();
   }
 
   // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출

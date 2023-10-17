@@ -134,7 +134,7 @@ export class EmployeeProfileEditComponent {
           next: (res) => {
             this.router.navigate([`/company/${this.companyId}/employee`]);
             this.dialogService.openDialogPositive(
-              'Successfully, the employee has been add.'
+              'Successfully, the employee has been edit.'
             );
           },
           error: (err) => {

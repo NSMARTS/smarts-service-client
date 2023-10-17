@@ -72,14 +72,14 @@
                 <mat-card-content style="width: 100%; padding: 10px 35px;">
                     <div style="display: flex;">
                         <p>Annual policy</p> 
-                        <mat-radio-group [(ngModel)]="annualPolicy" [disabled]="isRadioGroupDisabled">
+                        <mat-radio-group [(ngModel)]="annualPolicy" [disabled]="true">
                             <mat-radio-button value="byYear">by year</mat-radio-button>
                             <mat-radio-button value="byContract">by contract</mat-radio-button>
                         </mat-radio-group>
                     </div>
                     <div style="display: flex;">
                         <p>Used Advance Leave</p>
-                        <mat-radio-group [(ngModel)]="usedAdvanceLeave" [disabled]="isRadioGroupDisabled">
+                        <mat-radio-group [(ngModel)]="usedAdvanceLeave" [disabled]="true">
                             <mat-radio-button value="true">Yes</mat-radio-button>
                             <mat-radio-button value="false">No</mat-radio-button>
                         </mat-radio-group>

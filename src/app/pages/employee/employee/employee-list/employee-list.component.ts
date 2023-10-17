@@ -52,10 +52,10 @@ export class EmployeeListComponent implements AfterViewInit {
 
   companyId: string; // 회사아이디 params
 
-  filterValues: any = {};
-  filterSelectObj: any = [];
-  company_max_day: any;
-  isRollover = false;
+  // filterValues: any = {};
+  // filterSelectObj: any = [];
+  // company_max_day: any;
+  // isRollover = false;
   employees: WritableSignal<Employee[]>;
 
   dataSource = new MatTableDataSource<Employee>([]);
@@ -65,7 +65,7 @@ export class EmployeeListComponent implements AfterViewInit {
 
   isLoadingResults = true;
   isRateLimitReached = false;
-  resultsLength = 0;
+  // resultsLength = 0;
 
   constructor(
     private employeeService: EmployeeService,
@@ -188,16 +188,20 @@ export class EmployeeListComponent implements AfterViewInit {
       });
   }
 
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
+//   /** Announce the change in sort state for assistive technology. */
+//   announceSortChange(sortState: Sort) {
+//     // This example uses English messages. If your application supports
+//     // multiple language, you would internationalize these strings.
+//     // Furthermore, you can customize the message to add additional
+//     // details about the values being sorted.
+
+//     console.log("실행");
+//     if (sortState.direction) {
+//       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+//       console.log('성공');
+//     } else {
+//       this._liveAnnouncer.announce('Sorting cleared');
+//       console.log('성공아님');
+//     }
+//   }
 }

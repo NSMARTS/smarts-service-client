@@ -20,8 +20,9 @@
       </div>
     </div>
 
-    <table mat-table class="table" [dataSource]="dataSource" matSort matSortActive="empStartDate" matSortDisableClear
-      (matSortChange)="announceSortChange($event)" matSortDirection="desc">
+    <table mat-table class="table" [dataSource]="dataSource" matSort matSortActive="empStartDate" matSortDisableClear matSortDirection="desc">
+    <!-- 아래 한 줄 코드 table 안에 널어야 됌  -->
+    <!-- (matSortChange)="announceSortChange($event)"  -->
 
       <!-- <ng-container matColumnDef="profile">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -164,7 +165,7 @@
 
     </table>
 
-    <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 30]"
+    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 30]"
       showFirstLastButtons></mat-paginator>
 
   </div>
