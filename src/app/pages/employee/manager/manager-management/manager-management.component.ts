@@ -1,6 +1,6 @@
 import { Component, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
@@ -49,6 +49,7 @@ export class ManagerManagementComponent {
     // 'menu',
     // 'edit',
     // 'retire',
+    'detail',
     'cancel',
   ];
 
@@ -58,12 +59,13 @@ export class ManagerManagementComponent {
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    private router: Router
   ) {
     this.companyId = this.route.snapshot.params['id'];
     this.managerId = this.route.snapshot.params['managerId'];
     this.employees = this.employeeService.employees;
-    
+
     this.route.queryParams.subscribe((params) => {
       this.managerName = params['name'];
     });
@@ -130,6 +132,14 @@ export class ManagerManagementComponent {
         }
       },
     });
+  }
+
+  onClick(id: string) {
+    this.router.navigate([`/company/${this.companyId}/employee/detail/${id}`]);
+  }
+
+  detailPage(id: string) {
+    this.router.navigate([`/company/${this.companyId}/employee/detail/${id}`]);
   }
 
   cancelEmployees(employeeId: string) {

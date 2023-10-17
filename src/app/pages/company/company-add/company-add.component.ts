@@ -44,6 +44,8 @@ export class CompanyAddComponent {
       contractDate: [''],
       payDate: [''],
       paymentRequired: [false],
+      subsequentAnnualLeave: [0, [Validators.min(0)]],
+      subsequentSickLeave: [0, [Validators.min(0)]],
     });
 
     this.leaveStandards = this.addCompanyForm.get(
@@ -104,6 +106,16 @@ export class CompanyAddComponent {
       const isReplacementDay =
         this.addCompanyForm.get('isReplacementDay')?.value;
 
+      const leaveStandards = this.addCompanyForm.get('leaveStandards')?.value;
+      const leaveStandardsLength =
+        this.addCompanyForm.get('leaveStandards')?.value.length;
+      const isSubsequentAnnualLeave = this.addCompanyForm.get(
+        'subsequentAnnualLeave'
+      )?.value;
+      const isSubsequentSickLeave = this.addCompanyForm.get(
+        'subsequentSickLeave'
+      )?.value;
+
       const companyData = {
         ...this.addCompanyForm.value,
         // 연차날짜를 입력한 후 연차모드를 false로 바꿨을 시 0으로 초기화
@@ -116,6 +128,18 @@ export class CompanyAddComponent {
         rdValidityTerm: isReplacementDay
           ? this.addCompanyForm.get('rdValidityTerm')?.value
           : 0,
+        leaveStandards: leaveStandards.concat(
+          Array(100)
+            .fill(null)
+            .map((_, index) => ({
+              year: leaveStandardsLength + index + 1,
+              annualLeave: isSubsequentAnnualLeave,
+              sickLeave: isSubsequentSickLeave,
+            }))
+        ),
+        leaveStandardsLength: leaveStandardsLength,
+        subsequentAnnualLeave: isSubsequentAnnualLeave,
+        subsequentSickLeave: isSubsequentSickLeave,
       };
       console.log(companyData);
       this.companyService.addCompany(companyData).subscribe({

@@ -46,6 +46,8 @@ export class CompanyEditComponent implements OnInit {
       contractDate: [''],
       payDate: [''],
       paymentRequired: [false],
+      subsequentAnnualLeave: [0, [Validators.min(0)]],
+      subsequentSickLeave: [0, [Validators.min(0)]],
     });
     this.leaveStandards = this.editCompanyForm.get(
       'leaveStandards'
@@ -57,6 +59,7 @@ export class CompanyEditComponent implements OnInit {
     this.companyId = this.route.snapshot.params['id'];
     this.companyService.getCompanyInfo(this.companyId).subscribe({
       next: (res) => {
+        console.log(res.data);
         const companyData = res.data;
         this.editCompanyForm.patchValue(companyData);
         this.leaveStandards = this.editCompanyForm.get(
@@ -64,8 +67,9 @@ export class CompanyEditComponent implements OnInit {
         ) as FormArray;
         // 기존 컨트롤 제거
         this.leaveStandards.clear();
+        console.log(companyData);
         // 새로운 컨트롤 추가
-        for (let i = 0; i < companyData.leaveStandards.length; i++) {
+        for (let i = 0; i < companyData.leaveStandardsLength; i++) {
           this.leaveStandards.push(
             this.getLeaveStandard(companyData.leaveStandards[i])
           );
@@ -166,6 +170,16 @@ export class CompanyEditComponent implements OnInit {
       const isReplacementDay =
         this.editCompanyForm.get('isReplacementDay')?.value;
 
+      const leaveStandards = this.editCompanyForm.get('leaveStandards')?.value;
+      const leaveStandardsLength =
+        this.editCompanyForm.get('leaveStandards')?.value.length;
+      const isSubsequentAnnualLeave = this.editCompanyForm.get(
+        'subsequentAnnualLeave'
+      )?.value;
+      const isSubsequentSickLeave = this.editCompanyForm.get(
+        'subsequentSickLeave'
+      )?.value;
+
       const companyData = {
         ...this.editCompanyForm.value,
         // 연차날짜를 입력한 후 연차모드를 false로 바꿨을 시 0으로 초기화
@@ -178,6 +192,16 @@ export class CompanyEditComponent implements OnInit {
         rdValidityTerm: isReplacementDay
           ? this.editCompanyForm.get('rdValidityTerm')?.value
           : 0,
+        leaveStandards: leaveStandards.concat(
+          Array(100)
+            .fill(null)
+            .map((_, index) => ({
+              year: leaveStandardsLength + index + 1,
+              annualLeave: isSubsequentAnnualLeave,
+              sickLeave: isSubsequentSickLeave,
+            }))
+        ),
+        leaveStandardsLength: leaveStandardsLength,
       };
 
       this.companyService.editCompany(this.companyId, companyData).subscribe({

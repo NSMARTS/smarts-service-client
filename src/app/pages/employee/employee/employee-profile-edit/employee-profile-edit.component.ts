@@ -1,6 +1,13 @@
 import { Component, DestroyRef, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { Country, Employee } from 'src/app/interfaces/employee.interface';
 import { CountryService } from 'src/app/services/country.service';
@@ -9,6 +16,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { CommonService } from 'src/app/services/common.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-employee-profile-edit',
@@ -33,6 +41,8 @@ export class EmployeeProfileEditComponent {
 
   destroyRef = inject(DestroyRef);
 
+  leaveStandardsLength: any;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -40,7 +50,8 @@ export class EmployeeProfileEditComponent {
     private countryService: CountryService,
     private employeeService: EmployeeService,
     private commonService: CommonService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private companyService: CompanyService
   ) {
     this.companyId = this.route.snapshot.params['id'];
     this.employeeId = this.route.snapshot.params['employeeId'];
@@ -69,6 +80,8 @@ export class EmployeeProfileEditComponent {
       },
       error: (err: any) => console.error(err),
     });
+
+    this.getCompanyInfo();
   }
 
   ngOnInit(): void {
@@ -83,6 +96,19 @@ export class EmployeeProfileEditComponent {
     } else {
       this.getEmployee(); // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
     }
+  }
+
+  getCompanyInfo() {
+    this.companyService.getCompanyInfo(this.companyId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.leaveStandardsLength = res.data.leaveStandards.length;
+        console.log(this.leaveStandardsLength);
+      },
+      error: (err: any) => {
+        console.log(err.error.message);
+      },
+    });
   }
 
   // 상태저장중인 Employee가 있을 경우 호출
@@ -192,5 +218,26 @@ export class EmployeeProfileEditComponent {
           this.dialogService.openDialogNegative('Internet Server Error');
         },
       });
+  }
+
+  //leaveStandards가 만들어져있는 년도 보다 크게는 못만들도록
+  myFilter = (d: Date | null): boolean => {
+    const currentDate = new Date();
+    currentDate.setFullYear(
+      currentDate.getFullYear() - this.leaveStandardsLength
+    );
+    return !(d && d < currentDate);
+  };
+
+  //input type="number" 한글 안써지도록
+  @HostListener('input', ['$event'])
+  onInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+
+    if (inputElement.classList.contains('numeric-input')) {
+      const numericValue = inputValue.replace(/[^-\d]/g, '');
+      inputElement.value = numericValue;
+    }
   }
 }

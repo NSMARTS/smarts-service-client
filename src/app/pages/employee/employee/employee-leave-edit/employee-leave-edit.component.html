@@ -46,15 +46,16 @@
 
             <div *ngIf="editEmployeeForm.get('isRollover')?.value === true">
                 <!-- rollover max month -->
-                <div class="lineDivider" fxLayout="row wrap">
+                <div class="lineDivider">
                     <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                         <div class="leftBox">
                             <span>Rollover Max Month</span>
                         </div>
                     </div>
 
-                    <div class="rightTable" fxFlex>
+                    <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                         <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+                            <mat-label>Rollover Max Month (month)</mat-label>
                             <input matInput type="number" class="numeric-input" formControlName="rolloverMaxMonth"
                                 placeholder="Rollover Max Month" />
                             <mat-error *ngIf="editEmployeeForm.controls['rolloverMaxMonth'].hasError('min')">
@@ -65,14 +66,15 @@
                 </div>
 
                 <!-- rollover max leave days -->
-                <div class="lineDivider" fxLayout="row wrap">
+                <div class="lineDivider">
                     <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                         <div class="leftBox">
                         <span>Rollover Max Leave Days</span>
                         </div>
                     </div>
-                    <div class="rightTable" fxFlex>
+                    <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                         <mat-form-field appearance="outline" class="formFieldBox formSpacer">
+                            <mat-label>Rollover Max Leave Days</mat-label>
                             <input matInput type="number" class="numeric-input" formControlName="rolloverMaxLeaveDays"
                                 placeholder="Rollover Max Leave Days" />
                             <mat-error *ngIf="editEmployeeForm.controls['rolloverMaxLeaveDays'].hasError('min')">
@@ -195,6 +197,41 @@
                 </div>
             </div>
             
+      <!-- Leave Standard -->
+      <div class="lineDivider">
+        <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+          <span>Leave Standard</span>
+        </div>
+        <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+          <div class="form-row">
+            <div class="form-field">
+                <input type="hidden"/>
+                <div class="yearLabel">subsequent years</div>
+              </div>
+            <div class="form-field">
+                <mat-form-field appearance="outline">
+                  <mat-label>Annual Leave</mat-label>
+                  <input matInput type="number" class="numeric-input" formControlName="subsequentAnnualLeave" />
+                  <mat-error *ngIf="editEmployeeForm.controls['subsequentAnnualLeave'].hasError('min')">
+                    Please enter positive number.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-field">
+                <mat-form-field appearance="outline">
+                  <mat-label>Sick Leave</mat-label>
+                  <input matInput type="number" class="numeric-input" formControlName="subsequentSickLeave" />
+                  <mat-error *ngIf="editEmployeeForm.controls['subsequentSickLeave'].hasError('min')">
+                    Please enter positive number.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="empty">
+            </div>
+          </div>
+        </div>
+      </div>
+
             <mat-card-actions fxLayoutAlign="center" class="booterBtn">
                 <!-- <button mat-flat-button class="editBtn" (click)="updateLeaveInfo();">Edit</button> -->
                 <button mat-flat-button class="editBtn" (click)="updateProfileInfo();">Edit</button>
