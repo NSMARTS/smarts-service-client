@@ -55,8 +55,6 @@ export class EmployeeLeaveEditComponent {
       rdValidityTerm: [0, [Validators.min(0)]],
       isAdvanceLeave: [false],
       annualPolicy: ['byContract'],
-      defaultAnnualLeave: ['', [Validators.required, Validators.min(0)]],
-      defaultSickLeave: ['', [Validators.required, Validators.min(0)]],
     });
     this.leaveStandards = this.editEmployeeForm.get(
       'leaveStandards'
