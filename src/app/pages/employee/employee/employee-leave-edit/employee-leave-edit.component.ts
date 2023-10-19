@@ -119,12 +119,10 @@ export class EmployeeLeaveEditComponent {
 
   updateProfileInfo() {
     const leaveStandards = this.editEmployeeForm.get('leaveStandards')?.value;
-    const leaveStandardsLength =
-      this.editEmployeeForm.get('leaveStandards')?.value.length;
-    const isDefaultAnnualLeave =
-      this.editEmployeeForm.get('defaultAnnualLeave')?.value;
-    const isDefaultSickLeave =
-      this.editEmployeeForm.get('defaultSickLeave')?.value;
+    const leaveStandardsLength = leaveStandards.length;
+    const lastLeaveStandard = leaveStandards[leaveStandards.length - 1];
+    const lastAnnualLeave = lastLeaveStandard.annualLeave;
+    const lastSickLeave = lastLeaveStandard.sickLeave;
 
     if (this.editEmployeeForm.valid) {
       console.log('업데이트');
@@ -136,8 +134,8 @@ export class EmployeeLeaveEditComponent {
             .fill(null)
             .map((_, index) => ({
               year: leaveStandardsLength + index + 1,
-              annualLeave: isDefaultAnnualLeave,
-              sickLeave: isDefaultSickLeave,
+              annualLeave: lastAnnualLeave,
+              sickLeave: lastSickLeave,
             }))
         ),
         leaveStandardsLength: leaveStandardsLength,

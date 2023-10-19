@@ -44,8 +44,6 @@ export class CompanyAddComponent {
       contractDate: [''],
       payDate: [''],
       paymentRequired: [false],
-      defaultAnnualLeave: ['', [Validators.required, Validators.min(0)]],
-      defaultSickLeave: ['', [Validators.required, Validators.min(0)]],
     });
 
     this.leaveStandards = this.addCompanyForm.get(
@@ -107,12 +105,10 @@ export class CompanyAddComponent {
         this.addCompanyForm.get('isReplacementDay')?.value;
 
       const leaveStandards = this.addCompanyForm.get('leaveStandards')?.value;
-      const leaveStandardsLength =
-        this.addCompanyForm.get('leaveStandards')?.value.length;
-      const isDefaultAnnualLeave =
-        this.addCompanyForm.get('defaultAnnualLeave')?.value;
-      const isDefaultSickLeave =
-        this.addCompanyForm.get('defaultSickLeave')?.value;
+      const leaveStandardsLength = leaveStandards.length;
+      const lastLeaveStandard = leaveStandards[leaveStandards.length - 1];
+      const lastAnnualLeave = lastLeaveStandard.annualLeave;
+      const lastSickLeave = lastLeaveStandard.sickLeave;
 
       const companyData = {
         ...this.addCompanyForm.value,
@@ -127,17 +123,15 @@ export class CompanyAddComponent {
           ? this.addCompanyForm.get('rdValidityTerm')?.value
           : 0,
         leaveStandards: leaveStandards.concat(
-          Array(100)
+          Array(50)
             .fill(null)
             .map((_, index) => ({
               year: leaveStandardsLength + index + 1,
-              annualLeave: isDefaultAnnualLeave,
-              sickLeave: isDefaultSickLeave,
+              annualLeave: lastAnnualLeave,
+              sickLeave: lastSickLeave,
             }))
         ),
         leaveStandardsLength: leaveStandardsLength,
-        defaultAnnualLeave: isDefaultAnnualLeave,
-        defaultSickLeave: isDefaultSickLeave,
       };
       console.log(companyData);
       this.companyService.addCompany(companyData).subscribe({

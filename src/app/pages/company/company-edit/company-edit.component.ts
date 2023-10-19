@@ -171,12 +171,10 @@ export class CompanyEditComponent implements OnInit {
         this.editCompanyForm.get('isReplacementDay')?.value;
 
       const leaveStandards = this.editCompanyForm.get('leaveStandards')?.value;
-      const leaveStandardsLength =
-        this.editCompanyForm.get('leaveStandards')?.value.length;
-      const isDefaultAnnualLeave =
-        this.editCompanyForm.get('defaultAnnualLeave')?.value;
-      const isDefaultSickLeave =
-        this.editCompanyForm.get('defaultSickLeave')?.value;
+      const leaveStandardsLength = leaveStandards.length;
+      const lastLeaveStandard = leaveStandards[leaveStandards.length - 1];
+      const lastAnnualLeave = lastLeaveStandard.annualLeave;
+      const lastSickLeave = lastLeaveStandard.sickLeave;
 
       const companyData = {
         ...this.editCompanyForm.value,
@@ -191,12 +189,12 @@ export class CompanyEditComponent implements OnInit {
           ? this.editCompanyForm.get('rdValidityTerm')?.value
           : 0,
         leaveStandards: leaveStandards.concat(
-          Array(100)
+          Array(50)
             .fill(null)
             .map((_, index) => ({
               year: leaveStandardsLength + index + 1,
-              annualLeave: isDefaultAnnualLeave,
-              sickLeave: isDefaultSickLeave,
+              annualLeave: lastAnnualLeave,
+              sickLeave: lastSickLeave,
             }))
         ),
         leaveStandardsLength: leaveStandardsLength,
