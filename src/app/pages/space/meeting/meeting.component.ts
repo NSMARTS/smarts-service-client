@@ -245,9 +245,9 @@ export class MeetingComponent implements OnInit {
       //  console.log(this.today, itemStartDate);
 
       if (itemStartDate < this.today && item.status == 'Open') {
-        // console.log(item._id);
         // let obj = { _id: item._id };
-        this.closeMeeting(item._id, 'auto');
+        console.log(item)
+        this.closeMeeting(item, 'auto');
       }
     });
   }
@@ -302,6 +302,7 @@ export class MeetingComponent implements OnInit {
   }
 
   closeMeeting(meetingData: any, closeType: string) {
+    console.log(meetingData);
     let data = {
       status: 'Close',
     };
