@@ -210,8 +210,17 @@ export class MeetingComponent implements OnInit {
             .filter((user: any) => user !== undefined)
             .map((user: any) => user.username);
 
+          // https://stackoverflow.com/questions/10625497/regex-to-check-if-http-or-https-exists-in-the-string
+          let meetingLink = item.meetingLink;
+          if (
+            meetingLink.indexOf('http://') != 0 &&
+            meetingLink.indexOf('https://') != 0
+          ) {
+            meetingLink = 'http://' + meetingLink;
+          }
+
           // 객체를 반환하여 meetingList 변수에 순차적으로 저장
-          return { ...item, newManager, newEmployee, meetingDate };
+          return { ...item, newManager, newEmployee, meetingDate, meetingLink };
         });
 
         this.meetingArray = meetingList.sort((a: any, b: any) => {
@@ -240,9 +249,9 @@ export class MeetingComponent implements OnInit {
       //  console.log(this.today, itemStartDate);
 
       if (itemStartDate < this.today && item.status == 'Open') {
-        // console.log(item._id);
         // let obj = { _id: item._id };
-        this.closeMeeting(item._id, 'auto');
+        console.log(item)
+        this.closeMeeting(item, 'auto');
       }
     });
   }
@@ -297,6 +306,7 @@ export class MeetingComponent implements OnInit {
   }
 
   closeMeeting(meetingData: any, closeType: string) {
+    console.log(meetingData);
     let data = {
       status: 'Close',
     };
