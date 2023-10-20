@@ -210,17 +210,15 @@ export class MeetingComponent implements OnInit {
             .filter((user: any) => user !== undefined)
             .map((user: any) => user.username);
 
-          // https://stackoverflow.com/questions/10625497/regex-to-check-if-http-or-https-exists-in-the-string
-          let meetingLink = item.meetingLink;
-          if (
-            meetingLink.indexOf('http://') != 0 &&
-            meetingLink.indexOf('https://') != 0
-          ) {
-            meetingLink = 'http://' + meetingLink;
-          }
-
           // 객체를 반환하여 meetingList 변수에 순차적으로 저장
-          return { ...item, newManager, newEmployee, meetingDate, meetingLink };
+          return { ...item, newManager, newEmployee, meetingDate };
+        });
+
+        this.meetingArray = meetingList.sort((a: any, b: any) => {
+          return (
+            new Date(b.meetingDate).getTime() -
+            new Date(a.meetingDate).getTime()
+          );
         });
 
         this.autoCloseMeeting();
