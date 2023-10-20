@@ -121,6 +121,14 @@ export class ProfileComponent implements OnInit {
         },
         error: (error) => {
           console.log(error);
+          if (error.status === 413) {
+            this.router.navigate(['profile']);
+            this.dialogService.openDialogNegative(
+              'The file size is too large. Must be less than 15M.'
+            );
+          } else {
+            this.dialogService.openDialogNegative('change profile Error');
+          }
         },
       });
   }
