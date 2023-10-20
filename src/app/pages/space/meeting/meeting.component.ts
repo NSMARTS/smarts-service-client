@@ -179,7 +179,7 @@ export class MeetingComponent implements OnInit {
 
           // 참여 매니저 id에 맞는 username 등록
           // let newManager = item.managers
-        //    .map((part: any) => {
+          //    .map((part: any) => {
           //   const userName = this.managers.filter((item) => {
           //     return part === item._id;
           //   })[0]?.username;
@@ -187,18 +187,17 @@ export class MeetingComponent implements OnInit {
           //   // console.log(userName);
           //   return userName;
           // });
-          
+
           let newManager = item.managers
             .map((part: any) => this.managers.find((item) => part === item._id))
             .filter((user: any) => user !== undefined)
             .map((user: any) => user.username);
 
-
           // 참여 직원 id에 맞는 username 등록
           // meeting 에 member에는 퇴사한 정보가 남아있다.
           // 퇴사 시 미팅에 있는 member도 삭제해야하는데
           // 임시로 안보이게함.
-          
+
           // let newEmployee = item.employees.map((part: any) => {
           //   const userName = this.employees.filter((item) => {
           //     return part === item._id;
@@ -215,8 +214,17 @@ export class MeetingComponent implements OnInit {
             .filter((user: any) => user !== undefined)
             .map((user: any) => user.username);
 
+          // https://stackoverflow.com/questions/10625497/regex-to-check-if-http-or-https-exists-in-the-string
+          let meetingLink = item.meetingLink;
+          if (
+            meetingLink.indexOf('http://') != 0 &&
+            meetingLink.indexOf('https://') != 0
+          ) {
+            meetingLink = 'http://' + meetingLink;
+          }
+
           // 객체를 반환하여 meetingList 변수에 순차적으로 저장
-          return { ...item, newManager, newEmployee, meetingDate };
+          return { ...item, newManager, newEmployee, meetingDate, meetingLink };
         });
 
         this.meetingArray = meetingList.sort((a: any, b: any) => {
