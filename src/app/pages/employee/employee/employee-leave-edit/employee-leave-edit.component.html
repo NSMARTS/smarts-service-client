@@ -142,6 +142,19 @@
                 </div>
             </div>
 
+            <!--  Approval of Leave -->
+            <div class="lineDivider">
+                <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+                <span>Approval of Leave</span>
+                </div>
+                <div class="rightTable" fxFlex>
+                <mat-radio-group mat-radio-group name="grpName">
+                    <input type="radio" [value]="true" formControlName="isPending" />Yes
+                    <input type="radio" [value]="false" formControlName="isPending" />No
+                </mat-radio-group>
+                </div>
+            </div>
+
             <!-- leave standard -->
             <div class="lineDivider">
                 <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">

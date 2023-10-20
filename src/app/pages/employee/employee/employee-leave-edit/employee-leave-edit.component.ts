@@ -51,6 +51,7 @@ export class EmployeeLeaveEditComponent {
       rolloverMaxMonth: [0, [Validators.min(0)]],
       rolloverMaxLeaveDays: [0, [Validators.min(0)]],
       countryCode: [''],
+      isPending: [false],
       isReplacementDay: [false],
       rdValidityTerm: [0, [Validators.min(0)]],
       isAdvanceLeave: [false],
