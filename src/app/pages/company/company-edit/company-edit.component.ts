@@ -46,8 +46,6 @@ export class CompanyEditComponent implements OnInit {
       contractDate: [''],
       payDate: [''],
       paymentRequired: [false],
-      defaultAnnualLeave: ['', [Validators.required, Validators.min(0)]],
-      defaultSickLeave: ['', [Validators.required, Validators.min(0)]],
     });
     this.leaveStandards = this.editCompanyForm.get(
       'leaveStandards'
