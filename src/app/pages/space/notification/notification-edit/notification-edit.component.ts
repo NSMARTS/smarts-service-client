@@ -112,38 +112,46 @@ export class NotificationEditComponent implements AfterViewInit {
   }
 
   onSubmit() {
-    this.isLoadingResults = true;
+    if (this.editNotificationForm.valid) {
+      this.isLoadingResults = true;
 
-    // 텍스트를 UTF-8로 인코딩하여 바이트 수 계산
-    // 문자마다 바이트수가 달라서 변환 후 계산
-    const textBytes = new TextEncoder().encode(this.text);
-    if (textBytes.length > this.maxBytes) {
-      this.dialogService.openDialogNegative('Content has exceeded 5MB.');
+      // 텍스트를 UTF-8로 인코딩하여 바이트 수 계산
+      // 문자마다 바이트수가 달라서 변환 후 계산
+      const textBytes = new TextEncoder().encode(this.text);
+      if (textBytes.length > this.maxBytes) {
+        this.dialogService.openDialogNegative('Content has exceeded 5MB.');
+      }
+
+      if (this.text === null) {
+        this.text = '';
+      }
+
+      const body = {
+        ...this.editNotificationForm.value,
+        updator: this.authService.userInfoStore()._id,
+        contents: this.text,
+      };
+
+      this.notificationService
+        .updateNotification(this.companyId, this.notificationId, body)
+        .subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.isLoadingResults = false;
+              this.router.navigate([
+                `/company/${this.companyId}/notification/`,
+              ]);
+              this.dialogService.openDialogPositive(
+                'Successfully, the notification has been edit.'
+              );
+            }
+          },
+          error: (error: any) =>
+            this.dialogService.openDialogNegative(
+              'An error occurred while adding notification.'
+            ),
+        });
     }
-
-    const body = {
-      ...this.editNotificationForm.value,
-      updator: this.authService.userInfoStore()._id,
-      contents: this.text,
-    };
-
-    this.notificationService
-      .updateNotification(this.companyId, this.notificationId, body)
-      .subscribe({
-        next: (res) => {
-          if (res.success) {
-            this.isLoadingResults = false;
-            this.router.navigate([`/company/${this.companyId}/notification/`]);
-            this.dialogService.openDialogPositive(
-              'Successfully, the notification has been edit.'
-            );
-          }
-        },
-        error: (error: any) =>
-          this.dialogService.openDialogNegative(
-            'An error occurred while adding notification.'
-          ),
-      });
   }
 
   toBack() {
