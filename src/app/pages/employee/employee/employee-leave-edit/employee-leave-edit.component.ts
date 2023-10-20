@@ -129,7 +129,7 @@ export class EmployeeLeaveEditComponent {
         ...this.editEmployeeForm.value,
         personalLeaveId: this.employee?.personalLeave._id,
         leaveStandards: leaveStandards.concat(
-          Array(100)
+          Array(50)
             .fill(null)
             .map((_, index) => ({
               year: leaveStandardsLength + index + 1,
