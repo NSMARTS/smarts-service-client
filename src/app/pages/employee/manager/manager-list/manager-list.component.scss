@@ -9,7 +9,13 @@
 
 
 table {
-    th:first-child, th:nth-child(2), th:nth-child(3), th:nth-child(4) {
+    th:first-child {
+        width: 5%;
+    }
+    th:nth-child(2) {
+        min-width: 200px;
+    }
+    th:nth-child(3), th:nth-child(4) {
         width: 15%;
     }
 }
@@ -17,18 +23,21 @@ table {
 @media screen and (max-width: 1650px) {
     .name {
         p:first-child {float: left; margin-right: 0px; padding-top: 10px;}
-        p:last-child {padding-top: 19px;} 
+        p:last-child {padding-top: 14px;} 
       }
 }
 
 @media screen and (max-width: 1500px) {
-    th {
-        width: 20%!important;
+    th:first-child {
+        width: 5%;
+    }
+    th:nth-child(2), th:nth-child(3), th:nth-child(4) {
+        width: 20%;
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1100px) {
     .page {
-        min-width: 700px;    
+        min-width: 950px;
     }
-  }
+}

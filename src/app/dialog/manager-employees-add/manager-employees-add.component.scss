@@ -208,9 +208,19 @@
 
 table {
     th:first-child, th:nth-child(2), th:nth-child(3), th:nth-child(4) {
-        min-width: 200px;
+        min-width: 250px;
+    }
+    th:nth-child(4) {
+        min-width: 100px;
+    }
+    th:nth-child(5) {
+        min-width: 120px;
     }
 }
+
+// .formFieldBox {
+//   max-width: 200px;
+// }
 
 // @media screen and (max-width: 1500px) {
 //     th {

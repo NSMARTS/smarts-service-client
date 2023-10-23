@@ -36,6 +36,7 @@
     
     mat-card-content::-webkit-scrollbar {
       width: 6px;
+      height: 6px;
       /* 스크롤바의 너비 */
     }
     
@@ -73,4 +74,10 @@
     .page {
         min-width: 1400px;
     }
+}
+
+@media screen and (max-width: 1650px) {
+    td {
+        max-width: 300px;
+      }
 }

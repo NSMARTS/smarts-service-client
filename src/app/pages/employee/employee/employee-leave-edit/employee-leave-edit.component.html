@@ -105,14 +105,14 @@
 
             <!-- RD Validity Day -->
             <div *ngIf="editEmployeeForm.get('isReplacementDay')?.value == true">
-                <div class="lineDivider" fxLayout="row wrap">
+                <div class="lineDivider" >
                     <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
                         <div class="leftBox">
                             <span>RD Validity Term</span>
                         </div>
                     </div>
 
-                    <div class="rightTable" fxFlex>
+                    <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
                         <mat-form-field appearance="outline" class="formFieldBox formSpacer">
                             <input matInput type="number" class="numeric-input" formControlName="rdValidityTerm"
                                 placeholder="RD Validity Term" />
