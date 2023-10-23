@@ -212,11 +212,13 @@ export class MeetingComponent implements OnInit {
 
           // https://stackoverflow.com/questions/10625497/regex-to-check-if-http-or-https-exists-in-the-string
           let meetingLink = item.meetingLink;
-          if (
-            meetingLink.indexOf('http://') != 0 &&
-            meetingLink.indexOf('https://') != 0
-          ) {
-            meetingLink = 'http://' + meetingLink;
+          if (meetingLink != null) {
+            if (
+              meetingLink.indexOf('http://') !== 0 &&
+              meetingLink.indexOf('https://') !== 0
+            ) {
+              meetingLink = 'http://' + meetingLink;
+            }
           }
 
           // 객체를 반환하여 meetingList 변수에 순차적으로 저장
@@ -250,7 +252,7 @@ export class MeetingComponent implements OnInit {
 
       if (itemStartDate < this.today && item.status == 'Open') {
         // let obj = { _id: item._id };
-        console.log(item)
+        console.log(item);
         this.closeMeeting(item, 'auto');
       }
     });
