@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-} from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
@@ -135,7 +132,7 @@ export class CountryHolidayListComponent implements OnInit {
     console.log(countryHolidayData);
 
     this.dialogService
-      .openDialogConfirm('Do you delete this company?')
+      .openDialogConfirm('Do you delete this country holiday?')
       .subscribe((result: any) => {
         if (result) {
           this.countryService
@@ -163,7 +160,7 @@ export class CountryHolidayListComponent implements OnInit {
     dp.close();
     const ctrlValue = this.date.value!;
     ctrlValue.year(normalizedYear.year());
-    
+
     this.date.setValue(ctrlValue);
     this.applyFilterYear(ctrlValue.year());
     this.currentYear = ctrlValue.year();
