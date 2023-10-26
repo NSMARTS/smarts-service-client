@@ -64,7 +64,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     console.log(request);
     if (!this.isRefreshing) {
       this.isRefreshing = true;
-      if (this.authService.isLoggedIn()) {
+      if (this.isLoggedIn) {
         console.log(request);
         console.log('refresh token 재발급');
         // access token이 만료되면 재발행 요청
