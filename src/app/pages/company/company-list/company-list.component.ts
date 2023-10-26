@@ -144,11 +144,13 @@ export class CompanyListComponent implements AfterViewInit {
             error: (err) => {
               console.error(err);
               if (err.status === 406) {
-                console.error(
+                this.dialogService.openDialogNegative(
                   'Cannot be deleted if there is an employee or manager'
                 );
               } else {
-                console.error('An error occurred while fetching company list');
+                this.dialogService.openDialogNegative(
+                  'An error occurred while fetching company list'
+                );
               }
             },
           });
