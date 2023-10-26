@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   isLoggedIn = window.localStorage.getItem('isLoggedIn');
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -41,7 +41,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error)
+        console.log(error);
         if (
           error instanceof HttpErrorResponse &&
           !req.url.includes('auth/signin') &&
@@ -61,16 +61,16 @@ export class HttpRequestInterceptor implements HttpInterceptor {
    * @returns
    */
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    console.log(request)
+    console.log(request);
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       if (this.authService.isLoggedIn()) {
-        console.log(request)
+        console.log(request);
         console.log('refresh token 재발급');
         // access token이 만료되면 재발행 요청
         return this.authService.refreshToken().pipe(
           switchMap((data) => {
-            console.log('access token : ', data.accessToken)
+            console.log('access token : ', data.accessToken);
             this.isRefreshing = false;
             request = request.clone({
               withCredentials: true,
@@ -85,6 +85,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           }),
           catchError((error: HttpErrorResponse) => {
             console.error(error);
+            this.isRefreshing = false;
             if (
               // refresh token을 재발급할때
               // refresh token이 만료돼서 없거나,
@@ -108,5 +109,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 }
 
 export const httpInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, deps: [AuthService, Router], multi: true },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpRequestInterceptor,
+    deps: [AuthService, Router],
+    multi: true,
+  },
 ];
