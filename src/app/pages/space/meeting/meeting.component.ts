@@ -244,14 +244,13 @@ export class MeetingComponent implements OnInit {
     // console.log(this.meetingArray);
 
     const meetingList = this.meetingArray.map((item: any) => {
-      // console.log(this.today, new Date(item.startDate));
+      console.log(this.today, new Date(item.startDate));
       const itemStartDate = new Date(item.startDate);
       itemStartDate.setHours(0, 0, 0, 0);
-      this.today;
-      //  console.log(this.today, itemStartDate);
+      this.today.setHours(0, 0, 0, 0);
+      console.log(this.today, itemStartDate);
 
       if (itemStartDate < this.today && item.status == 'Open') {
-        // let obj = { _id: item._id };
         console.log(item);
         this.closeMeeting(item, 'auto');
       }
