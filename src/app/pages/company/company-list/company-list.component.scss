@@ -7,6 +7,8 @@ table {
     th:nth-child(7) {
         width: 35%;
     }
+
+    td {cursor: pointer;}
 }
 
 @media screen and (max-width: 1500px) {
