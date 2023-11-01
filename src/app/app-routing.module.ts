@@ -14,13 +14,13 @@ export const routes: Routes = [
         (m) => m.SignInComponent
       ),
   },
-  //   {
-  //     path: 'sign-up',
-  //     loadComponent: () =>
-  //       import('./pages/auth/sign-up/sign-up.component').then(
-  //         (m) => m.SignUpComponent
-  //       ),
-  //   },
+    // {
+    //   path: 'sign-up',
+    //   loadComponent: () =>
+    //     import('./pages/auth/sign-up/sign-up.component').then(
+    //       (m) => m.SignUpComponent
+    //     ),
+    // },
   //   {
   //     path: 'find-pw',
   //     loadComponent: () =>
