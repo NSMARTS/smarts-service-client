@@ -23,6 +23,40 @@ export class CompanyAddComponent {
   addCompanyForm: FormGroup;
   leaveStandards!: FormArray;
 
+  dateList = [
+    { value: '1' },
+    { value: '2' },
+    { value: '3' },
+    { value: '4' },
+    { value: '5' },
+    { value: '6' },
+    { value: '7' },
+    { value: '8' },
+    { value: '9' },
+    { value: '10' },
+    { value: '11' },
+    { value: '12' },
+    { value: '13' },
+    { value: '14' },
+    { value: '15' },
+    { value: '16' },
+    { value: '17' },
+    { value: '18' },
+    { value: '19' },
+    { value: '20' },
+    { value: '21' },
+    { value: '22' },
+    { value: '23' },
+    { value: '24' },
+    { value: '25' },
+    { value: '26' },
+    { value: '27' },
+    { value: '28' },
+    { value: '29' },
+    { value: '30' },
+    { value: '31' },
+  ];
+
   constructor(
     private router: Router,
     private dialogService: DialogService,
@@ -42,7 +76,7 @@ export class CompanyAddComponent {
       isPending: [false],
       annualPolicy: ['byContract'],
       contractDate: [''],
-      payDate: [''],
+      payDate: ['31'],
       paymentRequired: [false],
     });
 
@@ -56,9 +90,9 @@ export class CompanyAddComponent {
     this.addCompanyForm.get('contractDate')?.setValue(dateValue);
   }
 
-  payDatePickChange(dateValue: any) {
-    this.addCompanyForm.get('payDate')?.setValue(dateValue);
-  }
+  // payDatePickChange(dateValue: any) {
+  //   this.addCompanyForm.get('payDate')?.setValue(dateValue);
+  // }
 
   getLeaveStandardsControls() {
     return (this.addCompanyForm.get('leaveStandards') as FormArray).controls;
