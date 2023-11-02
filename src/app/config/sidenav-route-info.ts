@@ -46,6 +46,13 @@ export const SIDENAV_ROUTE_INFO: NavigationItem[] = [
         type: 'link',
         label: 'Retire Employee',
         route: '/retire-employee/',
+        icon: 'work_off',
+        isAdmin: true,
+      },
+      {
+        type: 'link',
+        label: 'Retire Manager',
+        route: '/retire-manager/',
         icon: 'domain_disabled',
         isAdmin: true,
       },

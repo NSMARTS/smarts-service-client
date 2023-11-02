@@ -1,0 +1,16 @@
+.mat-mdc-row:hover .mat-mdc-cell {
+    background-color: transparent !important;
+}
+
+table {
+    th:first-child, th:nth-child(2), th:nth-child(3) {
+        width: 25%;
+    }
+    th:nth-child(4) {width: 1%;}
+}
+
+@media screen and (max-width: 800px) {
+    .page {
+        min-width: 700px;    
+    }
+  }

@@ -51,8 +51,8 @@ export class ManagerService {
       .pipe(takeUntilDestroyed(this.destroyRef));
   }
 
-  // 매니저 삭제
-  deleteManager(managerId: any) {
+  // 매니저 퇴사
+  retireManager(managerId: any) {
     return this.http.delete(this.baseUrl + '/managers/' + managerId);
   }
 
@@ -87,5 +87,19 @@ export class ManagerService {
   // 매니저가 관리하고 있는 직원 삭제
   deleteManagerEmployees(employeeId: any) {
     return this.http.delete(this.baseUrl + '/managers/employee/' + employeeId);
+  }
+
+  // 퇴사 직원 목록
+  getRetireManagers(companyId: string) {
+    return this.http.get<HttpResMsg<Manager[]>>(
+      this.baseUrl + '/managers/' + companyId + '/retire'
+    );
+  }
+
+  // 퇴사 직원 취소
+  cancelRetireManager(managerId: string): Observable<HttpResMsg<Manager[]>> {
+    return this.http.delete<HttpResMsg<Manager[]>>(
+      this.baseUrl + '/managers/' + managerId + '/retire'
+    );
   }
 }

@@ -54,6 +54,13 @@ export const COMPANY_ROUTES: Route[] = [
           ),
       },
       {
+        path: ':id/retire-manager',
+        loadChildren: () =>
+          import('../employee/retire-manager/routes').then(
+            (m) => m.RETIRED_MANAGER_ROUTES
+          ),
+      },
+      {
         path: ':id/pay-stub',
         loadChildren: () =>
           import('../employee/pay-stub/routes').then((m) => m.PAY_STUB_ROUTES),
@@ -61,12 +68,16 @@ export const COMPANY_ROUTES: Route[] = [
       {
         path: ':id/leave-status',
         loadChildren: () =>
-          import('../employee/leave-status/routes').then((m) => m.LEAVE_STATUS_ROUTES),
+          import('../employee/leave-status/routes').then(
+            (m) => m.LEAVE_STATUS_ROUTES
+          ),
       },
       {
         path: ':id/notification',
         loadChildren: () =>
-          import('../space/notification/notification.module').then((m) => m.NotificationModule),
+          import('../space/notification/notification.module').then(
+            (m) => m.NotificationModule
+          ),
       },
     ],
   },
