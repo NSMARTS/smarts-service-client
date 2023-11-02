@@ -174,13 +174,21 @@
           <span>Pay Date</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
-          <mat-form-field appearance="outline" class="companyFormFieldBox">
+          <mat-form-field appearance="outline" class='w-120px'>
+            <mat-label>Pay Date</mat-label>
+            <mat-select formControlName="payDate">
+              <mat-option *ngFor="let date of dateList" [value]="date.value">
+                {{ date.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- <mat-form-field appearance="outline" class="companyFormFieldBox">
             <mat-label>Pay Date</mat-label>
             <input matInput [matDatepicker]="picker2" formControlName="payDate"
               (dateChange)="payDatePickChange($event.value)">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
-          </mat-form-field>
+          </mat-form-field> -->
         </div>
       </div>
 

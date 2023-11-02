@@ -17,6 +17,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CompanyService } from 'src/app/services/company.service';
+import { ManagerService } from 'src/app/services/manager.service';
 
 @Component({
   selector: 'app-employee-profile-edit',
@@ -43,12 +44,16 @@ export class EmployeeProfileEditComponent {
 
   leaveStandardsLength: any;
 
+  allManager: any;
+  matchingData: any[] = [];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private countryService: CountryService,
     private employeeService: EmployeeService,
+    private managerService: ManagerService,
     private commonService: CommonService,
     private dialogService: DialogService,
     private companyService: CompanyService
@@ -128,6 +133,9 @@ export class EmployeeProfileEditComponent {
       next: (res) => {
         console.log(res.data);
         this.employee = res.data;
+        this.allManager = res.data.managers;
+
+        this.getManager();
         this.email.patchValue(this.employee.email);
         this.manager.patchValue(this.employee.managers[0]?.email);
 
@@ -135,6 +143,39 @@ export class EmployeeProfileEditComponent {
         this.editEmployeeForm.patchValue(this.employee?.personalLeave);
       },
       error: (err) => console.error(err),
+    });
+  }
+
+  getManager() {
+    this.managerService.getManagerList(this.companyId).subscribe({
+      next: (res) => {
+        console.log(res.data);
+        let managerList = res.data;
+
+        this.matchingData = this.allManager.map((manager: any) => {
+          const matchingManager = managerList.find(
+            (item: any) => item.email === manager.email
+          ) as any;
+          if (matchingManager) {
+            return {
+              ...manager,
+              username: matchingManager.username,
+              // profileImgPath: matchingManager.profileImgPath,
+            };
+          } else {
+            return manager;
+          }
+        });
+        console.log(this.matchingData);
+      },
+      error: (err) => {
+        console.error(err);
+        if (err.status === 404) {
+          console.error('No companies found');
+        } else {
+          console.error('An error occurred while fetching manager list');
+        }
+      },
     });
   }
 

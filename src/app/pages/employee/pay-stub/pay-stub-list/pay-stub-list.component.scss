@@ -43,6 +43,8 @@ table {
         width: 15%;
     }
     th:nth-child(3) {width: 50%;}
+
+    td {cursor: pointer;}
 }
 
 @media screen and (max-width: 1500px) {

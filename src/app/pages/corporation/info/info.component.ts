@@ -6,6 +6,7 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-info',
@@ -24,6 +25,7 @@ export class InfoComponent {
   companyId: any;
   companyName: any;
   contractDate: any;
+  endOfMonth: any;
 
   constructor(
     private dashboardService: DashboardService,
@@ -31,6 +33,9 @@ export class InfoComponent {
     private router: Router,
   ) {
     this.companyId = this.route.snapshot.params['id'];
+
+    // 이번 달 기준 마지막날
+    this.endOfMonth = moment().endOf('month').format('D');
   }
 
   ngOnInit(): void {
@@ -46,6 +51,9 @@ export class InfoComponent {
         this.allCompanyCount = res.data;
         this.companyName = res.company.companyName;
         this.contractDate = res.company.contractDate;
+
+        console.log(this.endOfMonth, this.allCompanyCount.payDate);
+        if(this.endOfMonth < this.allCompanyCount.payDate) {this.allCompanyCount.payDate = this.endOfMonth;}
       },
       error: (err: any) => {
         console.error(err);
