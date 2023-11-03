@@ -30,11 +30,9 @@ import { httpLoadingInterceptorProviders } from './interceptors/http-loading-int
 export function appInitializer(authService: AuthService) {
   return () => {
     if (window.localStorage.getItem('isLoggedIn')) {
+      console.log('app initial')
       authService.isLoggedIn.set(true);
-      return authService.refreshToken().pipe(
-        tap(() => console.log('app initial : refresh token 재발급')),
-        catchError(() => of())
-      );
+      return authService.refreshToken().subscribe()
     }
     return;
   };
@@ -94,4 +92,4 @@ export function appInitializer(authService: AuthService) {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

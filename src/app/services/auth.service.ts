@@ -118,6 +118,7 @@ export class AuthService {
    * @returns 
    */
   async setAccessToken(data: AccessToken) {
+    console.log(data)
     this.accessToken.set(data)
     return await this.decode_jwt(data)
   }
