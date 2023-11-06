@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    apiUrl: 'productionIP:3000/api/v1/admin'
+  production: true,
+  apiUrl: 'https://ghrkservice.com/api/v1/admin',
 };

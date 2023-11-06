@@ -14,6 +14,7 @@ import { CountryService } from 'src/app/services/country.service';
 import { Country } from 'src/app/interfaces/employee.interface';
 import { CommonService } from 'src/app/services/common.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-employee-add',
@@ -26,6 +27,7 @@ export class EmployeeAddComponent {
   addEmployeeForm: FormGroup;
   companyId!: string; //params id
   nationList: Country[] = [];
+  leaveStandardsLength: any;
 
   constructor(
     private router: Router,
@@ -35,7 +37,8 @@ export class EmployeeAddComponent {
     private employeeService: EmployeeService,
     private countryService: CountryService,
     private commonService: CommonService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private companyService: CompanyService
   ) {
     this.companyId = this.route.snapshot.params['id'];
     this.addEmployeeForm = this.formBuilder.group({
@@ -46,7 +49,7 @@ export class EmployeeAddComponent {
       empStartDate: new FormControl('', [Validators.required]),
       empEndDate: new FormControl(''),
       department: new FormControl(''),
-      posiotion: new FormControl(''),
+      position: new FormControl(''),
     });
 
     this.countryService.getCountryList().subscribe({
@@ -54,6 +57,21 @@ export class EmployeeAddComponent {
         this.nationList = res.data;
       },
       error: (err: any) => console.error(err),
+    });
+
+    this.getCompanyInfo();
+  }
+
+  getCompanyInfo() {
+    this.companyService.getCompanyInfo(this.companyId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.leaveStandardsLength = res.data.leaveStandards.length;
+        console.log(this.leaveStandardsLength);
+      },
+      error: (err: any) => {
+        console.log(err.error.message);
+      },
     });
   }
 
@@ -95,6 +113,15 @@ export class EmployeeAddComponent {
       });
     }
   }
+
+  //leaveStandards가 만들어져있는 년도 보다 크게는 못만들도록
+  myFilter = (d: Date | null): boolean => {
+    const currentDate = new Date();
+    currentDate.setFullYear(
+      currentDate.getFullYear() - this.leaveStandardsLength
+    );
+    return !(d && d < currentDate);
+  };
 
   //input type="number" 한글 안써지도록
   @HostListener('input', ['$event'])

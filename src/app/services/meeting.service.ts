@@ -37,14 +37,4 @@ export class MeetingService {
     return this.http.patch(this.baseUrl + '/meetings/' + meetingId, setMeeting);
   }
 
-  // // 미팅 오픈
-  // openMeeting(data: any) {
-  //   return this.http.put(this.baseUrl + '/meetings', data);
-  // }
-
-  // // 미팅 클로즈
-  // closeMeeting(data: any) {
-  //   return this.http.put(this.baseUrl + '/meetings', data);
-  // }
-
 }

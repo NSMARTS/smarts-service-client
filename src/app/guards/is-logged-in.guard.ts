@@ -56,6 +56,6 @@ export const isLoggedInGuard: CanActivateFn = (
   }
 
   dialogService.openDialogNegative('Please login first');
-  router.navigate(['sign-in'], { queryParams: { 'redirectURL': state.url } });
+  router.navigate(['sign-in'], { queryParams: { redirectURL: state.url } });
   return false;
 };

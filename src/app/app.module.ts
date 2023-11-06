@@ -32,7 +32,14 @@ export function appInitializer(authService: AuthService) {
     if (window.localStorage.getItem('isLoggedIn')) {
       console.log('app initial')
       authService.isLoggedIn.set(true);
+<<<<<<< HEAD
       return authService.refreshToken().subscribe()
+=======
+      return authService.refreshToken().pipe(
+        // tap(() => console.log('app initial : refresh token 재발급')),
+        catchError(() => of())
+      );
+>>>>>>> V1
     }
     return;
   };

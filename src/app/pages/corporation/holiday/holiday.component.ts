@@ -82,7 +82,7 @@ export class HolidayComponent implements OnInit {
   // 회사 공휴일 삭제
   deleteCompanyHoliday(HolidayId: any) {
     this.dialogService
-      .openDialogConfirm('Do you want cancel this request?')
+      .openDialogConfirm('Do you want delete this holiday?')
       .subscribe((result: any) => {
         if (result) {
           this.holidayMngmtService

@@ -103,7 +103,11 @@ export class NotificationAddComponent implements OnInit {
       const textBytes = new TextEncoder().encode(this.text);
       if (textBytes.length > this.maxBytes) {
         this.dialogService.openDialogNegative('Content has exceeded 5MB.');
-        return
+        return;
+      }
+
+      if (this.text === null) {
+        this.text = '';
       }
 
       const body = {

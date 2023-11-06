@@ -34,8 +34,26 @@ table {
     th:nth-child(8)  {width: 5%;}
 }
 
-@media screen and (max-width: 1000px) { 
-    .mat-mdc-form-field{
-        width: 140px;
+// @media screen and (max-width: 1000px) { 
+//     .mat-mdc-form-field{
+//         width: 140px;
+//     }
+// }
+
+// @media screen and (max-width: 800px) {
+//     .page {
+//         min-width: 700px;    
+//     }
+//   }
+
+  @media screen and (max-width: 1500px) {
+    th {
+        width: 20%!important;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .page {
+        min-width: 950px;
     }
 }

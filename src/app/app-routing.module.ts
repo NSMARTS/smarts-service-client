@@ -14,20 +14,20 @@ export const routes: Routes = [
         (m) => m.SignInComponent
       ),
   },
-  {
-    path: 'sign-up',
-    loadComponent: () =>
-      import('./pages/auth/sign-up/sign-up.component').then(
-        (m) => m.SignUpComponent
-      ),
-  },
-  {
-    path: 'find-pw',
-    loadComponent: () =>
-      import(`./pages/auth/find-pw/find-pw.component`).then(
-        (m) => m.FindPwComponent
-      ),
-  },
+    // {
+    //   path: 'sign-up',
+    //   loadComponent: () =>
+    //     import('./pages/auth/sign-up/sign-up.component').then(
+    //       (m) => m.SignUpComponent
+    //     ),
+    // },
+  //   {
+  //     path: 'find-pw',
+  //     loadComponent: () =>
+  //       import(`./pages/auth/find-pw/find-pw.component`).then(
+  //         (m) => m.FindPwComponent
+  //       ),
+  //   },
   {
     path: '',
     component: LayoutComponent,
@@ -40,7 +40,10 @@ export const routes: Routes = [
       },
       {
         path: 'profile',
-        loadComponent: () => import(`./pages/profile/profile.component`).then(m => m.ProfileComponent),
+        loadComponent: () =>
+          import(`./pages/profile/profile.component`).then(
+            (m) => m.ProfileComponent
+          ),
       },
       {
         path: 'company',
@@ -73,4 +76,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class ApproutingModule { }
+export class ApproutingModule {}

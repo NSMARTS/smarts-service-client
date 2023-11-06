@@ -1,10 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
@@ -36,14 +31,13 @@ export class CountryHolidayListComponent implements OnInit {
   countryHolidayList: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   wholeHolidayList: any;
   countryId: any;
-  // countryHolidayForm!: FormGroup<any>;
+  countryName: any;
+
   currentYear = moment().year();
   minDate: Date = new Date(this.currentYear, 0, 1);
   maxDate: Date = new Date(this.currentYear, 11, 31);
-  countryName: any;
 
   constructor(
-    private fb: FormBuilder,
     private route: ActivatedRoute,
     private dialogService: DialogService,
     private countryService: CountryService,
@@ -57,10 +51,6 @@ export class CountryHolidayListComponent implements OnInit {
   date = new FormControl(moment());
 
   ngOnInit(): void {
-    // this.countryHolidayForm = this.fb.group({
-    //   holidayName: ['', [Validators.required]],
-    //   holidayDate: ['', [Validators.required]],
-    // });
     this.getCountryHolidayList();
   }
 
@@ -142,7 +132,7 @@ export class CountryHolidayListComponent implements OnInit {
     console.log(countryHolidayData);
 
     this.dialogService
-      .openDialogConfirm('Do you delete this company?')
+      .openDialogConfirm('Do you delete this country holiday?')
       .subscribe((result: any) => {
         if (result) {
           this.countryService
@@ -170,10 +160,10 @@ export class CountryHolidayListComponent implements OnInit {
     dp.close();
     const ctrlValue = this.date.value!;
     ctrlValue.year(normalizedYear.year());
+
     this.date.setValue(ctrlValue);
     this.applyFilterYear(ctrlValue.year());
     this.currentYear = ctrlValue.year();
-    console.log(this.currentYear);
   }
 
   applyFilterYear(year: number) {

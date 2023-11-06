@@ -104,6 +104,12 @@ export class CompanyAddComponent {
       const isReplacementDay =
         this.addCompanyForm.get('isReplacementDay')?.value;
 
+      const leaveStandards = this.addCompanyForm.get('leaveStandards')?.value;
+      const leaveStandardsLength = leaveStandards.length;
+      const lastLeaveStandard = leaveStandards[leaveStandards.length - 1];
+      const lastAnnualLeave = lastLeaveStandard.annualLeave;
+      const lastSickLeave = lastLeaveStandard.sickLeave;
+
       const companyData = {
         ...this.addCompanyForm.value,
         // 연차날짜를 입력한 후 연차모드를 false로 바꿨을 시 0으로 초기화
@@ -116,6 +122,16 @@ export class CompanyAddComponent {
         rdValidityTerm: isReplacementDay
           ? this.addCompanyForm.get('rdValidityTerm')?.value
           : 0,
+        leaveStandards: leaveStandards.concat(
+          Array(50)
+            .fill(null)
+            .map((_, index) => ({
+              year: leaveStandardsLength + index + 1,
+              annualLeave: lastAnnualLeave,
+              sickLeave: lastSickLeave,
+            }))
+        ),
+        leaveStandardsLength: leaveStandardsLength,
       };
       console.log(companyData);
       this.companyService.addCompany(companyData).subscribe({

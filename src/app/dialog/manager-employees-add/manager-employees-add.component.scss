@@ -154,14 +154,30 @@
 //     }
 // }
 
+.page {
+    margin: 20px;
+}
+
 .table-container {
-    max-height: 300px; /* 원하는 높이 설정 */
+    max-height: 431px; /* 원하는 높이 설정 */
     overflow-y: auto; /* 세로 스크롤바 활성화 */
   }
-  
-table {
-    width: 100%; /* 테이블을 부모 컨테이너의 100% 너비로 확장 */
-}
+
+.table-container::-webkit-scrollbar {
+    width: 6px;
+    height: 6px; /* 스크롤바의 높이 */
+    /* 스크롤바의 너비 */
+  }
+
+  .table-container::-webkit-scrollbar-thumb {
+    width: 30%; /* 스크롤바의 길이 */
+    height: 30%;
+    /* 스크롤바의 길이 */
+    background: #c2c5d0;
+    /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+  }
 
 .mat-mdc-row .mat-mdc-cell {
     border-bottom: 1px solid transparent;
@@ -180,3 +196,34 @@ table {
   .click-row {
     background-color: #96CDCA;
   }
+
+  .mat-mdc-row:hover .mat-mdc-cell {
+    background-color: transparent !important;
+}
+
+.name {
+  p:first-child {float: left; margin-right: 10px; padding-top: 10px;}
+  p:last-child {padding-top: 27px;} 
+}
+
+table {
+    th:first-child, th:nth-child(2), th:nth-child(3), th:nth-child(4) {
+        min-width: 250px;
+    }
+    th:nth-child(4) {
+        min-width: 100px;
+    }
+    th:nth-child(5) {
+        min-width: 120px;
+    }
+}
+
+// .formFieldBox {
+//   max-width: 200px;
+// }
+
+// @media screen and (max-width: 1500px) {
+//     th {
+//         width: 20%!important;
+//     }
+// }

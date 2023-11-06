@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
-    "build": "ng build --host 0.0.0.0",
+    "build": "ng build --configuration=production --base-href /admin/",
+    "test-ghrk": "ng build --configuration=test-ghrk --base-href /admin/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

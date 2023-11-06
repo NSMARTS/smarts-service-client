@@ -57,6 +57,8 @@ export class MainComponent {
     this.getAllCount();
     this.getAllList();
     this.getAllCountry();
+
+    console.log(this.allCountry);
   }
 
   // 모든 개수 조회
@@ -157,7 +159,9 @@ export class MainComponent {
         ]);
         break;
       default:
-        this.router.navigate(['/country/' + row._id]);
+        this.router.navigate(['/country/' + row._id], {
+          queryParams: { name: row.countryName },
+        });
         break;
     }
   }

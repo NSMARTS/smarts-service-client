@@ -41,10 +41,10 @@
                 -->
                 <mat-form-field class="example-full-width">
                     <input matInput type="password" placeholder="Password" name="password" minlength="4" maxlength="15"
-                        formControlName="password" required>
+                        formControlName="password" required autocomplete="current-password">
                     <mat-error
                         *ngIf="signInForm.controls['password'].hasError('minlength') || signInForm.controls['password'].hasError('maxlength') && !signInForm.controls['password'].hasError('required')">
-                        The password should be between 6 and 15 characters
+                        The password should be between 6 and 15
                     </mat-error>
                     <mat-error *ngIf="signInForm.controls['password'].hasError('required')">
                         Password is <strong>required</strong>
@@ -58,10 +58,10 @@
                 </div>
             </form>
         </mat-card-content>
-        <div fxLayout="row" fxLayoutAlign="center center">
+        <!-- <div fxLayout="row" fxLayoutAlign="center center">
             <div class="findPwBox" [routerLink]="['/find-pw']">
                 Forgot password?
             </div>
-        </div>
+        </div> -->
     </mat-card>
 </div>

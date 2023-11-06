@@ -25,10 +25,11 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const isLoggedIn = window.localStorage.getItem('isLoggedIn');
+    console.log(isLoggedIn);
     req = req.clone({
       withCredentials: true,
     });
-    const isLoggedIn = window.localStorage.getItem('isLoggedIn');
 
     if (isLoggedIn) {
       req = req.clone({
@@ -42,13 +43,13 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error)
+        console.log(error);
         if (
           error instanceof HttpErrorResponse &&
           !req.url.includes('auth/signin') &&
           error.status === 401
         ) {
-          return this.handle401Error(req, next);
+          return this.handle401Error(req, next, isLoggedIn);
         }
         return throwError(() => error);
       })
@@ -61,8 +62,12 @@ export class HttpRequestInterceptor implements HttpInterceptor {
    * @param next
    * @returns
    */
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    console.log(request)
+  private handle401Error(
+    request: HttpRequest<any>,
+    next: HttpHandler,
+    isLoggedIn: string | null
+  ) {
+    console.log(request);
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       console.log(request)
@@ -109,5 +114,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 }
 
 export const httpInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, deps: [AuthService, Router], multi: true },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpRequestInterceptor,
+    deps: [AuthService, Router],
+    multi: true,
+  },
 ];

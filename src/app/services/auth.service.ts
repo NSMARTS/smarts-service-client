@@ -98,29 +98,28 @@ export class AuthService {
   }
 
   /**
-   * access token이나 refresh token이 만료될 때, 
+   * access token이나 refresh token이 만료될 때,
    * 새로고침 시 재발급용
    * @returns
    */
   refreshToken() {
-    console.log('refresh token api 시작')
+    // console.log('refresh token api 시작')
     return this.http.get<AccessToken>(this.baseUrl + '/auth/refreshToken').pipe(
       tap(async (data) => await this.setAccessToken(data)),
       takeUntilDestroyed(this.destroyRef), // 컴포넌트가 삭제될때 까지 구독. 삭제되면 메모리를 지운다.
       shareReplay(1), // 데이터 캐싱
       catchError(this.handleError)
-    )
+    );
   }
 
   /**
    * 시그널로 access Token 보관
-   * @param data 
-   * @returns 
+   * @param data
+   * @returns
    */
   async setAccessToken(data: AccessToken) {
-    console.log(data)
-    this.accessToken.set(data)
-    return await this.decode_jwt(data)
+    this.accessToken.set(data);
+    return await this.decode_jwt(data);
   }
 
   private handleError(err: HttpErrorResponse): Observable<never> {

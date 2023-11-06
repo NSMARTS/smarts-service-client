@@ -178,9 +178,9 @@
           <span>Leave Standard</span>
         </div>
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+            
           <div formArrayName="leaveStandards" *ngFor="let leaveStandard of getLeaveStandardsControls(); let i = index">
             <div [formGroupName]="i">
-
               <div class="form-row">
                 <div class="form-field">
                   <input type="hidden" formControlName="year" />
@@ -212,6 +212,7 @@
               </div>
             </div>
           </div>
+
           <div class="addclickBtn" (click)="addItem()">
             <mat-icon>add</mat-icon>
           </div>
@@ -219,7 +220,7 @@
       </div>
 
       <div fxLayoutAlign="center center" class="booterBtn">
-        <button mat-flat-button type="submit">Request</button>
+        <button mat-flat-button type="submit">Submit</button>
         <div style="width: 20px;"></div>
         <button mat-flat-button class="cancelBtn" (click)="toBack()">Cancel</button>
       </div>

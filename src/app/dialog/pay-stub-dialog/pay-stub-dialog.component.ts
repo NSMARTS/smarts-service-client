@@ -60,9 +60,9 @@ export class PayStubDialogComponent implements AfterViewInit {
   statementForm: FormGroup;
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
-  pdfInfo: WritableSignal<PdfInfo> = this.pdfService.pdfInfo
-  currentPage: WritableSignal<number> = this.pdfService.currentPage
-  pdfLength: WritableSignal<number> = this.pdfService.pdfLength
+  pdfInfo: WritableSignal<PdfInfo> = this.pdfService.pdfInfo;
+  currentPage: WritableSignal<number> = this.pdfService.currentPage;
+  pdfLength: WritableSignal<number> = this.pdfService.pdfLength;
 
   isCanvas = false; // 캔버스를 렌더링 했는지, 안했는지. 했으면 페이지 이동 버튼 보여줌
   isDialog = true; // 다이얼로그를 켰는지 안켰는지
@@ -94,8 +94,12 @@ export class PayStubDialogComponent implements AfterViewInit {
 
     effect(() => {
       // 다이얼로그가 켜지고, PDF 페이지 이동 시
-      untracked(() => this.pdfInfo())
-      if (this.pdfInfo().pdfPages.length > 0 && this.currentPage() && this.isDialog) {
+      untracked(() => this.pdfInfo());
+      if (
+        this.pdfInfo().pdfPages.length > 0 &&
+        this.currentPage() &&
+        this.isDialog
+      ) {
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
       }
     });
@@ -122,7 +126,6 @@ export class PayStubDialogComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.getEmployees();
-
   }
 
   getEmployees() {
@@ -163,7 +166,7 @@ export class PayStubDialogComponent implements AfterViewInit {
 
   selectFile(event: Event) {
     if (this.pdfInfo().pdfPages.length > 0) {
-      this.pdfService.memoryRelease()
+      this.pdfService.memoryRelease();
     }
 
     const inputElement = event.target as HTMLInputElement;
@@ -184,18 +187,10 @@ export class PayStubDialogComponent implements AfterViewInit {
     this.currentFile = file;
     this.renderPdf(file);
     this.fileName = this.currentFile.name;
-
   }
 
   onSubmit() {
     if (this.statementForm.valid) {
-
-
-      if (!this.currentFile) {
-        this.dialogService.openDialogNegative('The PDF file was not uploaded.');
-        return;
-      }
-
       const formData: PayStub = {
         ...this.statementForm.value,
         file: this.currentFile,
@@ -204,10 +199,15 @@ export class PayStubDialogComponent implements AfterViewInit {
         writer: this.userInfoStore()._id,
       };
 
-
       if (this.data.isEditMode) {
         this.edit(formData);
       } else {
+        if (!this.currentFile) {
+          this.dialogService.openDialogNegative(
+            'The PDF file was not uploaded.'
+          );
+          return;
+        }
         this.upload(formData);
       }
     }
@@ -232,6 +232,15 @@ export class PayStubDialogComponent implements AfterViewInit {
           this.message = 'Could not upload the file!';
         }
         this.currentFile = undefined;
+
+        if (err.status === 413) {
+          this.dialogRef.close(true);
+          this.dialogService.openDialogNegative(
+            'The file size is too large. Must be less than 15M.'
+          );
+        } else {
+          this.dialogService.openDialogNegative('upload file Error');
+        }
       },
     });
   }
@@ -256,6 +265,15 @@ export class PayStubDialogComponent implements AfterViewInit {
           this.message = 'Could not upload the file!';
         }
         this.currentFile = undefined;
+
+        if (err.status === 413) {
+          this.dialogRef.close(true);
+          this.dialogService.openDialogNegative(
+            'The file size is too large. Must be less than 15M.'
+          );
+        } else {
+          this.dialogService.openDialogNegative('upload file Error');
+        }
       },
     });
   }
@@ -268,11 +286,11 @@ export class PayStubDialogComponent implements AfterViewInit {
 
       if (arrayBuffer) {
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-        const pdfDocument = await loadingTask.promise
+        const pdfDocument = await loadingTask.promise;
 
-        await this.pdfService.storePdfInfo(pdfDocument)
-        this.pdfLength.update(() => pdfDocument.numPages)
-        this.currentPage.set(1)
+        await this.pdfService.storePdfInfo(pdfDocument);
+        this.pdfLength.update(() => pdfDocument.numPages);
+        this.currentPage.set(1);
         // this.pdfService.pdfRender(this.pdfViewer, true);
         this.isLoadingResults = false;
         this.isCanvas = true;
@@ -285,7 +303,7 @@ export class PayStubDialogComponent implements AfterViewInit {
     this.payStubService.getPdf(url).subscribe({
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
-        const pdfDocument = await loadingTask.promise
+        const pdfDocument = await loadingTask.promise;
         await this.pdfService.storePdfInfo(pdfDocument);
         this.isLoadingResults = false;
         this.isCanvas = true;

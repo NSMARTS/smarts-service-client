@@ -141,9 +141,17 @@ export class CompanyListComponent implements AfterViewInit {
               );
               this.getCompanyList();
             },
-            error: (err: any) => {
+            error: (err) => {
               console.error(err);
-              this.dialogService.openDialogNegative('Loadings Docs Error');
+              if (err.status === 406) {
+                this.dialogService.openDialogNegative(
+                  'Cannot be deleted if there is an employee or manager'
+                );
+              } else {
+                this.dialogService.openDialogNegative(
+                  'An error occurred while fetching company list'
+                );
+              }
             },
           });
         }

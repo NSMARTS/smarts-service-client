@@ -18,7 +18,7 @@ export class EmployeeService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
   employees = signal<Employee[]>([]);
-  constructor(private http: HttpClient, private commonService: CommonService) { }
+  constructor(private http: HttpClient, private commonService: CommonService) {}
 
   //회사 등록
   addEmployee(companyData: any) {
@@ -37,12 +37,25 @@ export class EmployeeService {
     );
   }
 
-  getEmployeesWithQueryParameters(id: string, active: string, direction: string, pageIndex: number, pageSize: number): Observable<HttpResMsg<Employee[]>> {
-    const queryParams = { 'active': active, 'direction': direction, 'pageIndex': pageIndex, 'pageSize': pageSize }
+  getEmployeesWithQueryParameters(
+    id: string,
+    active: string,
+    direction: string,
+    pageIndex: number,
+    pageSize: number
+  ): Observable<HttpResMsg<Employee[]>> {
+    const queryParams = {
+      active: active,
+      direction: direction,
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+    };
     return this.http.get<HttpResMsg<Employee[]>>(
-      this.baseUrl + '/employees/' + id, {
-      params: queryParams
-    });
+      this.baseUrl + '/employees/' + id,
+      {
+        params: queryParams,
+      }
+    );
   }
 
   /**
@@ -65,7 +78,7 @@ export class EmployeeService {
     );
   }
 
-  updateEmployee(
+  updateEmployeeProfile(
     id: string,
     updateData: any
   ): Observable<HttpResMsg<Employee[]>> {
@@ -75,11 +88,20 @@ export class EmployeeService {
     );
   }
 
-  resetPassword(
+  updateEmployeeLeaves(
     id: string,
-  ): Observable<HttpResMsg<Employee>> {
+    updateData: any
+  ): Observable<HttpResMsg<Employee[]>> {
+    return this.http.patch<HttpResMsg<Employee[]>>(
+      this.baseUrl + '/employees/' + id + '/leaves',
+      updateData
+    );
+  }
+
+  resetPassword(id: string): Observable<HttpResMsg<Employee>> {
     return this.http.patch<HttpResMsg<Employee>>(
-      this.baseUrl + '/employees/' + id + '/resetPassword', {}
+      this.baseUrl + '/employees/' + id + '/resetPassword',
+      {}
     );
   }
   // /**
@@ -172,12 +194,27 @@ export class EmployeeService {
   }
 
   /**
-   * 
+   *
    * @param id companyId
-   * @param data {emailFormControl: 'string', leaveStartDate: '2023-09-01', leaveEndDate: '2023-09-30', leaveType: 'all'} 
+   * @param data {emailFormControl: 'string', leaveStartDate: '2023-09-01', leaveEndDate: '2023-09-30', leaveType: 'all'}
    * @returns LeaveRequest[]
    */
-  getEmployeeLeaveListSearch(id: string, data: any): Observable<HttpResMsg<LeaveRequest[]>> {
-    return this.http.get<HttpResMsg<LeaveRequest[]>>(this.baseUrl + '/employees/' + id + '/leaves/', { params: data });
+  getEmployeeLeaveListSearch(
+    id: string,
+    data: any
+  ): Observable<HttpResMsg<LeaveRequest[]>> {
+    return this.http.get<HttpResMsg<LeaveRequest[]>>(
+      this.baseUrl + '/employees/' + id + '/leaves/',
+      { params: data }
+    );
+  }
+
+  /**
+   * employee의 연차별 휴가 사용 내역 조회.
+   */
+  getEmployeeLeaveDetail(id: string): Observable<HttpResMsg<any[]>> {
+    return this.http.get<HttpResMsg<any[]>>(
+      this.baseUrl + '/employees/' + id + '/leavesDetail'
+    );
   }
 }

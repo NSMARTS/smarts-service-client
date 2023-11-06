@@ -2,9 +2,12 @@
     background-color: transparent !important;
   }
 
-.mat-icon {
-    color: var(--point-color)!important;
-  }
+.page-buttons {
+    .mat-icon {
+        color: white;
+    }
+}
+
 
 .hidden {
   display: none;
@@ -53,6 +56,12 @@ table {
         width: 140px;
     }
 }
+
+@media screen and (max-width: 800px) {
+    .page {
+        min-width: 700px;    
+    }
+  }
 
 .page-buttons {
     display: flex;

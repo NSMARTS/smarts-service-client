@@ -75,11 +75,9 @@ export class PayStubListComponent implements AfterViewInit {
   destroyRef = inject(DestroyRef);
 
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
-  pdfInfo: WritableSignal<PdfInfo> = this.pdfService.pdfInfo
-  currentPage: WritableSignal<number> = this.pdfService.currentPage
-  pdfLength: WritableSignal<number> = this.pdfService.pdfLength
-
-
+  pdfInfo: WritableSignal<PdfInfo> = this.pdfService.pdfInfo;
+  currentPage: WritableSignal<number> = this.pdfService.currentPage;
+  pdfLength: WritableSignal<number> = this.pdfService.pdfLength;
 
   pageNumForm = new FormControl({ value: 0, disabled: true });
   isCanvas = false; // 캔버스를 렌더링 했는지, 안했는지. 했으면 페이지 이동 버튼 보여줌
@@ -122,10 +120,14 @@ export class PayStubListComponent implements AfterViewInit {
     });
 
     effect(() => {
-      untracked(() => this.pdfInfo())
+      untracked(() => this.pdfInfo());
       // 다이얼로그가 안켜지고, PDF 페이지 이동 시
-      if (this.pdfInfo().pdfPages.length > 0 && this.currentPage() && !this.isDialog) {
-        console.log('뭐가 문제야')
+      if (
+        this.pdfInfo().pdfPages.length > 0 &&
+        this.currentPage() &&
+        !this.isDialog
+      ) {
+        console.log('뭐가 문제야');
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
       }
     });
@@ -207,7 +209,7 @@ export class PayStubListComponent implements AfterViewInit {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           //   this.isRateLimitReached = res.data === null;
-          console.log(res.data)
+          console.log(res.data);
           this.resultsLength = res.total_count;
           this.dataSource = new MatTableDataSource<any>(res.data);
           return res.data;
@@ -229,7 +231,7 @@ export class PayStubListComponent implements AfterViewInit {
     // 쿼리할때 pdf 그려진거 초기화
     const canvas = this.pdfViewer.nativeElement;
     this.pdfService.clearCanvas(canvas);
-    this.pdfService.memoryRelease()
+    this.pdfService.memoryRelease();
     this.isCanvas = false;
   }
 
@@ -237,7 +239,7 @@ export class PayStubListComponent implements AfterViewInit {
     this.payStubService.getPdf(url).subscribe({
       next: async (res: ArrayBuffer) => {
         const loadingTask = pdfjsLib.getDocument({ data: res });
-        const pdfDocument = await loadingTask.promise
+        const pdfDocument = await loadingTask.promise;
         // PDF 정보를 가져옴
         await this.pdfService.storePdfInfo(pdfDocument);
         this.isCanvas = true;
@@ -259,27 +261,35 @@ export class PayStubListComponent implements AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(() => {
       this.isDialog = false;
-      this.pdfService.memoryRelease()
+      this.pdfService.memoryRelease();
       this.getPayStubsByQuery();
     });
   }
 
   deletePayStub(payStubId: string) {
-    this.payStubService.deletePayStub(this.companyId, payStubId).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.getPayStubsByQuery();
-          this.dialogService.openDialogPositive(
-            'Statement deleted successfully.'
-          );
+    this.dialogService
+      .openDialogConfirm('Do you want delete this pay stub?')
+      .subscribe((result: any) => {
+        if (result) {
+          this.payStubService
+            .deletePayStub(this.companyId, payStubId)
+            .subscribe({
+              next: (res) => {
+                if (res.success) {
+                  this.getPayStubsByQuery();
+                  this.dialogService.openDialogPositive(
+                    'Statement deleted successfully.'
+                  );
+                }
+              },
+              error: (error) => {
+                this.dialogService.openDialogNegative(
+                  'An error occurred on the Internet server.'
+                );
+              },
+            });
         }
-      },
-      error: (error) => {
-        this.dialogService.openDialogNegative(
-          'An error occurred on the Internet server.'
-        );
-      },
-    });
+      });
   }
 
   download(key: string) {
@@ -292,24 +302,24 @@ export class PayStubListComponent implements AfterViewInit {
         window.URL.revokeObjectURL(url);
       },
       error: (error) => {
-        console.error(error)
-        this.dialogService.openDialogNegative('Internet Server Error.')
-      }
-    })
+        console.error(error);
+        this.dialogService.openDialogNegative('Internet Server Error.');
+      },
+    });
   }
-
 
   openDialog() {
     this.isDialog = true;
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
       data: {
         companyId: this.companyId,
-        employees: this.employees()
+        employees: this.employees(),
       },
     });
     dialogRef.afterClosed().subscribe(() => {
+      this.isDialog = false;
       // pdf 초기화
-      this.pdfService.memoryRelease()
+      this.pdfService.memoryRelease();
       this.getPayStubsByQuery();
     });
   }
@@ -329,7 +339,6 @@ export class PayStubListComponent implements AfterViewInit {
   //   this.isCanvas = true;
   // }
 
-
   /**
    * Zoom Button에 대한 동작
    * - viewInfoService의 zoomScale 값 update
@@ -339,10 +348,7 @@ export class PayStubListComponent implements AfterViewInit {
   clickZoom(action: any) {
     // console.log(">> Click Zoom: ", action);
     // const canvas = this.pdfViewer.nativeElement;
-
     // const newZoomScale = this.pdfService.calcZoomScale(action, this.pdfViewer, this.isDialog, prevZoomScale);
-
     // this.pdfService.updateZoomScale(newZoomScale);
-
   }
 }

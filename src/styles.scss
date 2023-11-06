@@ -50,8 +50,6 @@ body {
   --text-color: #333333;
   --error-color: #FF4545;
   --background-color: #F0F2F5;
-  // --mat-sidenav-content-background-color: #EBEBEB;
-  // --mat-sidenav-content-background-color: #F1F1F1;
   --mat-sidenav-content-background-color: #F0F2F5;
 
   --mat-standard-button-toggle-selected-state-background-color: #ffffff;
@@ -311,6 +309,7 @@ $smart_service_primary_color: var(--point-color);
   }
 }
 
+
 //공통 table
 .page {
   padding: 0 20px;
@@ -418,66 +417,86 @@ $smart_service_primary_color: var(--point-color);
   --mdc-filled-button-label-text-color: #ffffff;
 }
 
+// @media screen and (max-width: 1650px) {
+//   .page {
+//     padding: 10px 10px;
+//   }
+
+//   .page_title {
+//     margin: 10px;
+//   }
+
+//   .table_container {
+//     word-break: break-all;
+
+//     th {
+//       //   padding: 3px 5px;
+//     }
+
+//     td {
+//       //   padding: 2px 5px;
+//       font-size: 1em;
+
+//       button {
+//         width: 70px;
+//         padding: 0;
+//       }
+
+//       img {
+//         width: 0px;
+//       }
+//     }
+//   }
+// }
+
+// @media screen and (max-width: 1000px) {
+//   .page {
+//     padding: 10px 10px;
+//   }
+
+//   .page_title {
+//     margin: 10px;
+//   }
+
+//   .table_container {
+//     word-break: break-all;
+
+
+//     th {
+//       padding: 3px 5px;
+//       font-size: 12px;
+//     }
+
+//     td {
+//       padding: 2px 5px;
+//       font-size: 12px;
+
+//       button {
+//         width: 70px;
+//         padding: 0;
+//       }
+//     }
+//   }
+// }
+
 @media screen and (max-width: 1650px) {
-  .page {
-    padding: 10px 10px;
-  }
-
-  .page_title {
-    margin: 10px;
-  }
-
-  .table_container {
-    word-break: break-all;
-
-    th {
-      //   padding: 3px 5px;
-    }
-
     td {
-      //   padding: 2px 5px;
-      font-size: 1em;
-
-      button {
-        width: 70px;
-        padding: 0;
+        max-width: 250px;
       }
 
-      img {
-        width: 0px;
+    .table_container {
+      td {
+        img {
+          width: 0px;
+        }
       }
     }
   }
-}
 
-@media screen and (max-width: 1000px) {
-  .page {
-    padding: 10px 10px;
-  }
-
-  .page_title {
-    margin: 10px;
-  }
-
-  .table_container {
-    word-break: break-all;
-
-
-    th {
-      padding: 3px 5px;
-      font-size: 0.8em;
-    }
-
+@media screen and (max-width: 800px) {
     td {
-      padding: 2px 5px;
-      font-size: 0.7em;
-
-      button {
-        width: 70px;
-        padding: 0;
-      }
+      max-width: 250px;
     }
-  }
 }
 
 //공통 add
@@ -958,7 +977,7 @@ $smart_service_primary_color: var(--point-color);
 
   .example-container {
     margin: 0 auto;
-    width: 230px;
+    width: 270px;
   }
 
   .mat-mdc-card-content {
@@ -1033,6 +1052,7 @@ $smart_service_primary_color: var(--point-color);
 
     section::-webkit-scrollbar {
       width: 6px;
+      height: 6px;
       /* 스크롤바의 너비 */
     }
 
@@ -1056,32 +1076,38 @@ $smart_service_primary_color: var(--point-color);
   }
 }
 
-@media screen and (max-width: 900px) {
-  .dashboard_twin_container {
-    flex-wrap: wrap;
-    /* 요소들이 줄바꿈을 허용하도록 설정 */
-  }
-
-  .dashboard_left_container {
-    width: 100%;
-  }
-
-  .dashboard_right_container {
-    width: 100%;
-
-    mat-card {
-      height: auto;
-      padding: 30px;
+@media screen and (max-width: 1500px) {
+    .dashboard_twin_container {
+        min-width: 1350px;
     }
-
-    mat-card-content {
-      mat-divider {
-        margin: 0 auto;
-        margin-top: 70px;
-        padding-bottom: 50px;
-        width: 403px;
-
-      }
-    }
-  }
 }
+
+// @media screen and (max-width: 900px) {
+//   .dashboard_twin_container {
+//     flex-wrap: wrap;
+//     /* 요소들이 줄바꿈을 허용하도록 설정 */
+//   }
+
+//   .dashboard_left_container {
+//     width: 100%;
+//   }
+
+//   .dashboard_right_container {
+//     width: 100%;
+
+//     mat-card {
+//       height: auto;
+//       padding: 30px;
+//     }
+
+//     mat-card-content {
+//       mat-divider {
+//         margin: 0 auto;
+//         margin-top: 70px;
+//         padding-bottom: 50px;
+//         width: 403px;
+
+//       }
+//     }
+//   }
+// }

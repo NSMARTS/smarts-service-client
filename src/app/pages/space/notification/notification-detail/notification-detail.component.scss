@@ -10,6 +10,8 @@
     font-weight: bold;
     padding: 50px;
     line-height: 1.5; /* 줄 간격을 1.5로 설정 */
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .notification_username {

@@ -73,7 +73,7 @@
         <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
           <mat-form-field appearance="outline" class="addManagerFormFieldBox">
             <mat-label>Address</mat-label>
-            <input matInput name="address">
+            <input matInput formControlName="address">
           </mat-form-field>
         </div>
       </div>
@@ -91,7 +91,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="center center" class="booterBtn">
-        <button mat-flat-button class="tableBtn" type="submit">Request</button>
+        <button mat-flat-button class="tableBtn" type="submit">Submit</button>
         <div style="width: 20px;"></div>
         <button mat-flat-button class="cancelBtn" (click)="toBack()">Cancel</button>
       </div>
