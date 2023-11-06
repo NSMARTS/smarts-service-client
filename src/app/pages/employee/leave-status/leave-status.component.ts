@@ -1,3 +1,4 @@
+import { DialogService } from './../../../services/dialog.service';
 import {
   AfterViewInit,
   Component,
@@ -23,9 +24,11 @@ import { CommonService } from 'src/app/services/common.service';
 import { MatPaginator } from '@angular/material/paginator';
 import {
   Observable,
+  catchError,
   lastValueFrom,
   map,
   merge,
+  of,
   startWith,
   switchMap,
 } from 'rxjs';
@@ -36,6 +39,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { LeaveRequest } from 'src/app/interfaces/leave-request.interface';
 import { MatSort } from '@angular/material/sort';
 import { LeaveStatusDetailDialogComponent } from 'src/app/dialog/leave-status-detail-dialog/leave-status-detail-dialog.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-leave-status',
@@ -79,6 +83,7 @@ export class LeaveStatusComponent implements AfterViewInit {
     private employeeService: EmployeeService,
     public dialog: MatDialog,
     private commonService: CommonService,
+    private dialogService: DialogService,
     private route: ActivatedRoute // private excelSrv: ExcelService,
   ) {
     // 이번 달 기준 첫째날
@@ -171,7 +176,15 @@ export class LeaveStatusComponent implements AfterViewInit {
 
           return this.employeeService
             .getEmployeeLeaveListSearch(this.companyId, myEmployeeInfo)
-            .pipe();
+            .pipe(
+              catchError((error: HttpErrorResponse) => {
+                // 에러 다이얼로그를 여는 코드
+                this.dialogService.openDialogNegative(
+                  error.error.message
+                );
+                return of(null);
+              })
+            );
         }),
         map((res: any) => {
           // Flip flag to show that loading has finished.
