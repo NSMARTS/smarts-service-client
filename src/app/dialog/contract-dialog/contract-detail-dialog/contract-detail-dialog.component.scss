@@ -1,0 +1,77 @@
+.dialog_container {
+  max-width: 400px;
+  padding: 25px 20px 10px;
+  text-align: center;
+}
+
+.dialog_header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-table {
+  font-size: 13px;
+  text-align: left;
+  border-top: 1px solid rgb(221, 221, 221);
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.modal-table tr {
+  height: 40px;
+}
+
+.modal-table th {
+  padding: 16px;
+  font-weight: 400;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  border-left: 1px solid rgb(221, 221, 221);
+}
+
+.modal-table td {
+  border-bottom: 1px solid rgb(221, 221, 221);
+  border-left: 1px solid rgb(221, 221, 221);
+  padding: 16px 24px 16px 16px;
+  white-space: pre-line;
+}
+
+
+
+.canvas-container {
+  position: relative;
+  border-left: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+
+  .canvasTeacher {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+.modal-table th:first-child,
+td:first-child {
+  border-top: none;
+  border-left: none;
+}
+
+.button_box {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+
+  .cancelBtn {
+    background: #F0F2F5 !important;
+    color: #6A6E80 !important;
+  }
+}

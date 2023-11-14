@@ -26,7 +26,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const isLoggedIn = window.localStorage.getItem('isLoggedIn');
-    console.log(isLoggedIn);
     req = req.clone({
       withCredentials: true,
     });

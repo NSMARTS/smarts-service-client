@@ -17,6 +17,10 @@ export const CONTRACT_ROUTES: Route[] = [
         path: 'add',
         component: ContractAddComponent,
       },
+      {
+        path: 'detail/:contractId',
+        component: ContractAddComponent,
+      },
       // {
       //   path: 'edit/:managerId',
       //   component: ManagerEditComponent,

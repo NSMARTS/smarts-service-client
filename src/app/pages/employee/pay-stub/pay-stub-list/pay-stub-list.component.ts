@@ -203,19 +203,19 @@ export class PayStubListComponent implements AfterViewInit {
             pageIndex: this.paginator.pageIndex,
             pageSize: this.paginator.pageSize,
           };
-          return this.payStubService.getPayStubs(this.companyId, query).pipe();
+          return this.payStubService.getPayStubs(this.companyId, query).pipe(
+            map((res: any) => {
+              // Flip flag to show that loading has finished.
+              this.isLoadingResults = false;
+              //   this.isRateLimitReached = res.data === null;
+              console.log(res.data);
+              this.resultsLength = res.total_count;
+              this.dataSource = new MatTableDataSource<any>(res.data);
+              return res.data;
+            })
+          );
         }),
-        map((res: any) => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          //   this.isRateLimitReached = res.data === null;
-          console.log(res.data);
-          this.resultsLength = res.total_count;
-          this.dataSource = new MatTableDataSource<any>(res.data);
-          return res.data;
-        })
-      )
-      .subscribe();
+      ).subscribe();
   }
 
   onRowClick(row: any) {

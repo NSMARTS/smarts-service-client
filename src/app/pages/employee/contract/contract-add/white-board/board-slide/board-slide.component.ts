@@ -116,18 +116,8 @@ export class BoardSlideComponent {
       return;
     }
 
-    const fileReader = new FileReader();
-    fileReader.onload = async (e) => {
-      const arrayBuffer: ArrayBuffer | null = fileReader.result as ArrayBuffer;
-      if (arrayBuffer) {
-        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-        const pdfDocument = await loadingTask.promise
-        await this.pdfService.storePdfInfo(pdfDocument)
-        this.pdfLength.update(() => pdfDocument.numPages)
-        this.currentPage.set(1)
-      }
-    };
-    fileReader.readAsArrayBuffer(file);
+
+    this.pdfService.readFile(file)
 
     this.zoomService.setInitZoomScale()
   }
@@ -145,8 +135,6 @@ export class BoardSlideComponent {
     this.currentPage.update(() => pageNum);
 
   }
-
-
 
 
   /**

@@ -1,0 +1,70 @@
+<div class="mainContentContainer">
+  <div class="mainContent" fxLayout="row">
+    <form [formGroup]="addContractForm">
+      <div>
+        <div class="mainTitle">Save Contract</div>
+      </div>
+      <div class="leaveTableContainer">
+        <div fxLayout="column" class="br_ltop">
+          <!-- title -->
+          <div class="lineDivider" fxLayout="row">
+            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+              <div class="leftBox">
+                <span>Title</span>
+              </div>
+            </div>
+            <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+              <mat-form-field appearance="outline" class="companyFormFieldBox">
+                <!-- <mat-label>Company Name</mat-label> -->
+                <input matInput type="text" name="title" formControlName="title" required />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- description -->
+          <div class="lineDivider" fxLayout="row">
+            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+              <div class="leftBox">
+                <span>Description</span>
+              </div>
+            </div>
+            <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+              <mat-form-field appearance="outline" class="companyFormFieldBox">
+                <!-- <mat-label>My Name</mat-label> -->
+                <input matInput type="text" name="description" formControlName="description" required
+                  [ngModel]="contractData?.description" />
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- Employee -->
+          <div class="lineDivider" fxLayout="row">
+            <div class="leftTable" fxFlex="30" fxFlex.gt-md="20">
+              <div class="leftBox">
+                <span>Employee</span>
+              </div>
+            </div>
+            <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
+              <mat-form-field appearance="outline" class="companyFormFieldBox">
+                <mat-label>Employee Email</mat-label>
+                <input matInput [matAutocomplete]="auto" formControlName="employee" required>
+                <mat-error *ngIf="addContractForm.controls['employee'].hasError('required')">
+                  Please enter employee email.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredEmployee()" [value]="option.email">
+                  {{ option.username }} ({{ option.email }})
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+          </div>
+          <div class="mt-30" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+            <button mat-raised-button class="saveBtn" (click)="addContract()">
+              save
+            </button>
+            <button mat-raised-button class="cancelBtn" mat-dialog-close> Cancel </button>
+          </div>
+        </div>
+      </div>
+    </form>

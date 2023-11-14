@@ -1,6 +1,7 @@
 import { ElementRef, Injectable, effect, signal } from '@angular/core';
 import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist';
-
+import * as pdfjsLib from 'pdfjs-dist';
+pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 
 export interface PdfInfo {
   pdfDocument: PDFDocumentProxy,
@@ -15,6 +16,7 @@ const InitPdfInfo = {
   providedIn: 'root'
 })
 export class PdfService {
+  pdfFile = signal<File | null>(null);
   pdfInfo = signal<PdfInfo>(InitPdfInfo);
   pdfLength = signal<number>(0)
   currentPage = signal<number>(1)
@@ -24,6 +26,22 @@ export class PdfService {
     effect(() => {
       console.log(this.pdfInfo())
     })
+  }
+
+  async readFile(file: File) {
+    this.pdfFile.update(() => file)
+    const fileReader = new FileReader();
+    fileReader.onload = async (e) => {
+      const arrayBuffer: ArrayBuffer | null = fileReader.result as ArrayBuffer;
+      if (arrayBuffer) {
+        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        const pdfDocument = await loadingTask.promise
+        await this.storePdfInfo(pdfDocument)
+        this.pdfLength.update(() => pdfDocument.numPages)
+        this.currentPage.set(1)
+      }
+    };
+    await fileReader.readAsArrayBuffer(file);
   }
 
 

@@ -46,7 +46,7 @@ export class MainComponent {
     private dashboardService: DashboardService,
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.ListForm = this.fb.group({

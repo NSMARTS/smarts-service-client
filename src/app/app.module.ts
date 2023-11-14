@@ -28,14 +28,11 @@ import { httpLoadingInterceptorProviders } from './interceptors/http-loading-int
  * @returns
  */
 export function appInitializer(authService: AuthService) {
-  return () => {
+  return async () => {
     if (window.localStorage.getItem('isLoggedIn')) {
       console.log('app initial')
       authService.isLoggedIn.set(true);
-      return authService.refreshToken().pipe(
-        // tap(() => console.log('app initial : refresh token 재발급')),
-        catchError(() => of())
-      );
+      return await lastValueFrom(authService.refreshToken())
     }
     return;
   };

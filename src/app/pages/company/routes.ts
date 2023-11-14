@@ -62,6 +62,10 @@ export const COMPANY_ROUTES: Route[] = [
         path: ':id/leave-status',
         loadChildren: () =>
           import('../employee/leave-status/routes').then((m) => m.LEAVE_STATUS_ROUTES),
+      }, {
+        path: ':id/contract',
+        loadChildren: () =>
+          import('../employee/contract/routes').then((m) => m.CONTRACT_ROUTES),
       },
       {
         path: ':id/notification',
