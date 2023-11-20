@@ -1,11 +1,11 @@
-import { PayStub } from './../interfaces/pay-stub.interface';
-import { CommonService } from './common.service';
+import { PayStub } from '../../interfaces/pay-stub.interface';
+import { CommonService } from '../common/common.service';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HttpResMsg } from '../interfaces/http-response.interfac';
-import { Statment } from '../interfaces/statement.interface';
+import { HttpResMsg } from '../../interfaces/http-response.interfac';
+import { Statment } from '../../interfaces/statement.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -77,8 +77,8 @@ export class PayStubService {
     });
   }
 
-  deletePayStub(compayId: string, payStubId: string): Observable<HttpResMsg<any>> {
-    return this.http.delete<HttpResMsg<any>>(this.baseUrl + '/statements/' + compayId + '/' + payStubId)
+  deletePayStub(companyId: string, payStubId: string): Observable<HttpResMsg<any>> {
+    return this.http.delete<HttpResMsg<any>>(this.baseUrl + '/statements/' + companyId + '/' + payStubId)
   }
 
   downloadPdf(key: string): Observable<Blob> {

@@ -3,7 +3,7 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeProfileEditComponent } from './employee-profile-edit/employee-profile-edit.component';
 
 import { EmployeeAddComponent } from './employee-add/employee-add.component';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { EmployeeLeaveEditComponent } from './employee-leave-edit/employee-leave-edit.component';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 

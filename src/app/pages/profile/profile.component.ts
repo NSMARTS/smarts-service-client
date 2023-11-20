@@ -1,9 +1,9 @@
-import { AuthService } from './../../services/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 
-import { ProfileService } from 'src/app/services/profile.service';
+import { ProfileService } from 'src/app/services/profile/profile.service';
 import {
   AbstractControl,
   FormBuilder,
@@ -14,10 +14,10 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { CountryService } from 'src/app/services/country.service';
+import { CountryService } from 'src/app/services/country/country.service';
 import { Country } from 'src/app/interfaces/employee.interface';
 import { tap } from 'rxjs';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { Router } from '@angular/router';
 
 export const comparePasswordValidator: ValidatorFn = (

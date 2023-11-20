@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
-import { CountryService } from 'src/app/services/country.service';
+import { CountryService } from 'src/app/services/country/country.service';
 import { CountryAddComponent } from '../../../dialog/country-add/country-add.component';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { CountryEditComponent } from 'src/app/dialog/country-edit/country-edit.component';
 
 // view table
@@ -42,7 +42,7 @@ export class CountryListComponent implements OnInit {
     private dialogService: DialogService,
     private countryService: CountryService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getCountryList();

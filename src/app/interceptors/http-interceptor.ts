@@ -8,7 +8,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, catchError, switchMap, tap, throwError } from 'rxjs';
-import { AccessToken, AuthService } from '../services/auth.service';
+import { AccessToken, AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
 
 /**

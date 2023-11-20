@@ -9,9 +9,9 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Observable, catchError, map, switchMap, tap, throwError } from 'rxjs';
-import { AccessToken, AuthService } from '../services/auth.service';
+import { AccessToken, AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
-import { LoadingService } from '../services/loading.service';
+import { LoadingService } from '../services/loading/loading.service';
 
 /**
  * https://medium.com/swlh/angular-loading-spinner-using-http-interceptor-63c1bb76517b

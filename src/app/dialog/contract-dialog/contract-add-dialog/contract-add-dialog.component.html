@@ -31,8 +31,7 @@
             <div class="rightTable" fxFlex="70" fxFlex.gt-md="70">
               <mat-form-field appearance="outline" class="companyFormFieldBox">
                 <!-- <mat-label>My Name</mat-label> -->
-                <input matInput type="text" name="description" formControlName="description" required
-                  [ngModel]="contractData?.description" />
+                <input matInput type="text" name="description" formControlName="description" />
               </mat-form-field>
             </div>
           </div>
@@ -60,7 +59,10 @@
             </div>
           </div>
           <div class="mt-30" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-            <button mat-raised-button class="saveBtn" (click)="addContract()">
+            <button *ngIf="contractMod()==='add'" mat-raised-button class="saveBtn" (click)="addContract()">
+              save
+            </button>
+            <button *ngIf="contractMod()==='edit'" mat-raised-button class="saveBtn" (click)="editContract()">
               save
             </button>
             <button mat-raised-button class="cancelBtn" mat-dialog-close> Cancel </button>

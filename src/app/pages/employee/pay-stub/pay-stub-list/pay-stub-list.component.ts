@@ -1,4 +1,4 @@
-import { DialogService } from './../../../../services/dialog.service';
+import { DialogService } from '../../../../services/dialog/dialog.service';
 import {
   AfterViewInit,
   Component,
@@ -14,8 +14,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { lastValueFrom, map, merge, startWith, switchMap } from 'rxjs';
-import { EmployeeService } from 'src/app/services/employee.service';
-import { CommonService } from 'src/app/services/common.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
+import { CommonService } from 'src/app/services/common/common.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Employee } from 'src/app/interfaces/employee.interface';
 import { MatTableDataSource } from '@angular/material/table';
@@ -23,14 +23,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatDialog } from '@angular/material/dialog';
 import { PayStubDialogComponent } from 'src/app/dialog/pay-stub-dialog/pay-stub-dialog.component';
-import { PayStubService } from 'src/app/services/pay-stub.service';
+import { PayStubService } from 'src/app/services/pay-stubs/pay-stub.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as pdfjsLib from 'pdfjs-dist';
 import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSort } from '@angular/material/sort';
-import { PdfInfo, PdfService } from 'src/app/services/pdf.service';
+import { PdfInfo, PdfService } from 'src/app/services/pdf/pdf.service';
 import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
 import { PDFPageProxy } from 'pdfjs-dist/types/web/interfaces';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';

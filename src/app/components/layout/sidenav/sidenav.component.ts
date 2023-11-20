@@ -4,7 +4,7 @@ import { SidenavItemComponent } from '../sidenav-item/sidenav-item.component';
 import { Router, RouterModule } from '@angular/router';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
 import { NavigationService } from 'src/app/stores/layout/navigation.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -31,5 +31,5 @@ export class SidenavComponent implements OnInit {
   // 나중에 타입을 알면 추가
   sidenavItems: any = [];
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

@@ -26,5 +26,7 @@ export interface ContractForm {
   description: string,
   employee: string,
   writer: string,
-  company: string
+  company: string,
+  contractId?: string,
+
 }

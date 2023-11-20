@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpResMsg } from '../interfaces/http-response.interfac';
-import { ContractForm } from '../interfaces/contract.interface';
+import { HttpResMsg } from '../../interfaces/http-response.interfac';
+import { ContractForm } from '../../interfaces/contract.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -29,8 +29,25 @@ export class ContractService {
     return this.http.post<HttpResMsg<any>>(this.baseUrl + '/contracts', formData)
   }
 
-  getContract(compayId: string, payStubId: any) {
-    return this.http.get<HttpResMsg<any[]>>(this.baseUrl + '/contracts/' + compayId + '/' + payStubId)
+  updateContract(contractId: string, { title, pdf, employee, writer, description, company }: ContractForm) {
+    const formData: FormData = new FormData();
+    formData.append("file", pdf, pdf?.name);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("employee", employee);
+    formData.append("writer", writer);
+    formData.append("company", company);
+    console.log(contractId)
+
+    return this.http.patch<HttpResMsg<any>>(this.baseUrl + '/contracts/' + contractId, formData)
+  }
+
+  deleteContract(contractId: string): Observable<HttpResMsg<any>> {
+    return this.http.delete<HttpResMsg<any>>(this.baseUrl + '/contracts/' + contractId)
+  }
+
+  getContract(companyId: string, payStubId: any) {
+    return this.http.get<HttpResMsg<any[]>>(this.baseUrl + '/contracts/' + companyId + '/' + payStubId)
   }
 
 
@@ -49,5 +66,9 @@ export class ContractService {
       headers: headers,
       responseType: 'blob'
     })
+  }
+
+  editContract() {
+
   }
 }

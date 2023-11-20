@@ -1,5 +1,5 @@
-import { CommonService } from 'src/app/services/common.service';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { CommonService } from 'src/app/services/common/common.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import {
   AfterViewInit,
   Component,
@@ -17,7 +17,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { Employee } from 'src/app/interfaces/employee.interface';
 import * as moment from 'moment';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { lastValueFrom, map, merge, startWith, switchMap } from 'rxjs';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -182,26 +182,26 @@ export class EmployeeListComponent implements AfterViewInit {
               );
               console.log(data);
             },
-            error: (err: any) => {},
+            error: (err: any) => { },
           });
         }
       });
   }
 
-//   /** Announce the change in sort state for assistive technology. */
-//   announceSortChange(sortState: Sort) {
-//     // This example uses English messages. If your application supports
-//     // multiple language, you would internationalize these strings.
-//     // Furthermore, you can customize the message to add additional
-//     // details about the values being sorted.
+  //   /** Announce the change in sort state for assistive technology. */
+  //   announceSortChange(sortState: Sort) {
+  //     // This example uses English messages. If your application supports
+  //     // multiple language, you would internationalize these strings.
+  //     // Furthermore, you can customize the message to add additional
+  //     // details about the values being sorted.
 
-//     console.log("실행");
-//     if (sortState.direction) {
-//       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-//       console.log('성공');
-//     } else {
-//       this._liveAnnouncer.announce('Sorting cleared');
-//       console.log('성공아님');
-//     }
-//   }
+  //     console.log("실행");
+  //     if (sortState.direction) {
+  //       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+  //       console.log('성공');
+  //     } else {
+  //       this._liveAnnouncer.announce('Sorting cleared');
+  //       console.log('성공아님');
+  //     }
+  //   }
 }

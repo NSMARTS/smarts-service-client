@@ -3,14 +3,14 @@ import { Component, OnInit, WritableSignal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { PdfInfo, PdfService } from 'src/app/services/pdf.service';
+import { PdfInfo, PdfService } from 'src/app/services/pdf/pdf.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatIconModule } from '@angular/material/icon';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { ContractAddDialogComponent } from 'src/app/dialog/contract-dialog/contract-add-dialog/contract-add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService, UserInfo } from 'src/app/services/auth.service';
-import { ContractService } from 'src/app/services/contract.service';
+import { AuthService, UserInfo } from 'src/app/services/auth/auth.service';
+import { ContractService } from 'src/app/services/contract/contract.service';
 import { ContractDetailDialogComponent } from 'src/app/dialog/contract-dialog/contract-detail-dialog/contract-detail-dialog.component';
 
 @Component({
@@ -55,7 +55,7 @@ export class BoardNavComponent {
   }
 
   async getPdf() {
-    if (this.contractMod() === 'edit' || this.contractMod() === 'detail') {
+    if (this.contractMod() !== 'add') {
       this.contractInfo = await lastValueFrom(this.contractService.getContract(this.companyId, this.contractId))
       this.contract = await lastValueFrom(this.contractService.downloadPdf(this.contractInfo.data.key))
       this.pdfService.readFile(this.contract)
@@ -87,12 +87,27 @@ export class BoardNavComponent {
     }
   }
 
+  // modal Contract save
+  openEditContract() {
+    if (this.pdfInfo().pdfPages.length === 0) {
+      this.dialogService.openDialogNegative('The contract document does not exist. Try again.');
+    } else {
+      const dialogRef = this.dialog.open(ContractAddDialogComponent, {
+        data: {
+          contractId: this.contractId,
+          companyId: this.companyId,
+          title: this.contractInfo.data.title,
+          description: this.contractInfo.data.description,
+        }
+      });
+    }
+  }
+
   openDetailContract() {
     const dialogRef = this.dialog.open(ContractDetailDialogComponent, {
       data: {
         ...this.contractInfo.data,
         companyId: this.companyId,
-
       }
     });
   }

@@ -2,8 +2,8 @@ import { Component, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { DashboardService } from 'src/app/services/dashboard.service';
-import { CompanyService } from 'src/app/services/company.service';
+import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
+import { CompanyService } from 'src/app/services/company/company.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 

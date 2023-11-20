@@ -5,16 +5,16 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { lastValueFrom, map, merge, startWith, switchMap } from 'rxjs';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Employee } from 'src/app/interfaces/employee.interface';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
-import { CommonService } from 'src/app/services/common.service';
-import { ContractService } from 'src/app/services/contract.service';
-import { DialogService } from 'src/app/services/dialog.service';
+import { CommonService } from 'src/app/services/common/common.service';
+import { ContractService } from 'src/app/services/contract/contract.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 
 @Component({
   selector: 'app-contract-list',
@@ -193,11 +193,27 @@ export class ContractListComponent {
 
   }
 
-  editContract(_id: string) {
 
+  openEditContractDialog(contractId: string, employeeStatus: string, managerStatus: string) {
+    if (employeeStatus !== 'pending' || managerStatus !== 'pending') {
+      this.dialogService.openDialogNegative('This document has been signed or declined. No further modifications are allowed.')
+    } else {
+      this.router.navigate([`company/${this.companyId}/contract/edit/${contractId}`]);
+    }
   }
 
-  deleteContract(_id: string) {
-
+  openDeleteContractDialog(_id: string, employeeStatus: string, managerStatus: string) {
+    if (employeeStatus !== 'pending' || managerStatus !== 'pending') {
+      this.dialogService.openDialogNegative('This document has been signed or declined. No further deleted are allowed.')
+    } else {
+      this.contractService.deleteContract(_id).subscribe({
+        next: (res) => {
+          this.dialogService.openDialogPositive(res.message).subscribe({
+            next: (res) => this.getContractsByQuery()
+          })
+        },
+        error: (err) => this.dialogService.openDialogNegative(err.error.message)
+      })
+    }
   }
 }

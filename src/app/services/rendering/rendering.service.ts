@@ -1,7 +1,8 @@
 import { Injectable, WritableSignal, inject } from '@angular/core';
-import { PdfInfo, PdfService } from './pdf.service';
+import { PdfInfo, PdfService } from '../pdf/pdf.service';
+import { CANVAS_CONFIG } from 'src/app/config/canvas-css';
 import { PDFPageProxy } from 'pdfjs-dist';
-import { CANVAS_CONFIG } from '../config/canvas-css';
+import { DrawingService } from '../drawing/drawing.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ import { CANVAS_CONFIG } from '../config/canvas-css';
 export class RenderingService {
 
   pdfService = inject(PdfService)
+  drawingService = inject(DrawingService)
+
 
   pdfInfo: WritableSignal<PdfInfo> = this.pdfService.pdfInfo
 
@@ -174,6 +177,7 @@ export class RenderingService {
  * @param {Object} drawingEvents 판서 event (tool, points, timeDiff)
  */
   renderBoard(targetCanvas: HTMLCanvasElement, zoomScale: number, drawingEvents: any) {
+    console.log('renderBoard')
     const targetCtx = targetCanvas.getContext('2d')!;
     const scale = zoomScale || 1;
     targetCtx.clearRect(0, 0, targetCanvas.width / scale, targetCanvas.height / scale);
@@ -186,7 +190,8 @@ export class RenderingService {
     // 전체 redraw
     if (drawingEvents?.drawingEvent && drawingEvents?.drawingEvent.length > 0) {
       for (const item of drawingEvents?.drawingEvent) {
-        // this.drawingService.end(targetCtx, item.points, item.tool);
+        console.log(drawingEvents)
+        this.drawingService.end(targetCtx, item.points, item.tool);
       }
     }
   }

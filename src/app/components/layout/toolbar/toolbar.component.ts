@@ -1,4 +1,4 @@
-import { AuthService } from './../../../services/auth.service';
+import { AuthService } from '../../../services/auth/auth.service';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ToolbarService } from 'src/app/services/toolbar.service';
 import { DataService } from 'src/app/stores/data/data.service';
 import { takeUntil } from 'rxjs';
 import { Subject } from 'rxjs';

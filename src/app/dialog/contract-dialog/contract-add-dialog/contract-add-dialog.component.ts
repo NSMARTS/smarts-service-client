@@ -1,19 +1,19 @@
-import { PdfInfo, PdfService } from './../../../services/pdf.service';
-import { AuthService } from '../../../services/auth.service';
-import { Component, DestroyRef, Inject, WritableSignal, inject, signal } from '@angular/core';
+import { PdfInfo, PdfService } from '../../../services/pdf/pdf.service';
+import { AuthService } from '../../../services/auth/auth.service';
+import { AfterViewInit, Component, DestroyRef, Inject, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { UserInfo } from 'src/app/services/auth.service';
+import { UserInfo } from 'src/app/services/auth/auth.service';
 import { Employee } from 'src/app/interfaces/employee.interface';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { lastValueFrom, map, startWith } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ContractService } from 'src/app/services/contract.service';
+import { ContractService } from 'src/app/services/contract/contract.service';
 
 @Component({
   selector: 'app-contract-add',
@@ -22,7 +22,7 @@ import { ContractService } from 'src/app/services/contract.service';
   templateUrl: './contract-add-dialog.component.html',
   styleUrls: ['./contract-add-dialog.component.scss']
 })
-export class ContractAddDialogComponent {
+export class ContractAddDialogComponent implements OnInit, AfterViewInit {
   // 상위 컴포넌트에서 받아온 값
   public dialogRef = inject(MatDialogRef<ContractAddDialogComponent>)
 
@@ -43,6 +43,7 @@ export class ContractAddDialogComponent {
   filteredEmployee = signal<Employee[]>([]);
   employees: WritableSignal<Employee[]>;
   pdfFile: WritableSignal<File | null>;
+  contractMod: WritableSignal<string>;
   // 변수
   addContractForm: FormGroup;
   contractData;
@@ -60,7 +61,7 @@ export class ContractAddDialogComponent {
       ]),
     });
     this.contractData = this.data
-
+    this.contractMod = this.contractService.contractMod
     // 상태저장된 로그인 정보 불러오기
     this.userInfoStore = this.authService.userInfoStore;
     // 상태저장된 employee 리스트 불러오기
@@ -71,10 +72,18 @@ export class ContractAddDialogComponent {
 
   }
 
+  ngOnInit(): void {
+    if (this.contractMod() === 'edit') {
+      this.addContractForm.patchValue({
+        ...this.data
+      });
+    }
+  }
 
   ngAfterViewInit(): void {
     this.getEmployees(this.contractData.companyId);
     // this.getPayStubs(this.companyId);
+    // 계약서가 edit 모드이면
   }
 
   async getEmployees(companyId: string) {
@@ -127,6 +136,27 @@ export class ContractAddDialogComponent {
     }
 
     this.contractService.createContract(body).subscribe({
+      next: (res) => {
+        this.dialogService.openDialogPositive('Contract created successfully.');
+        this.dialogRef.close(true);
+        this.router.navigate([`/company/${this.contractData.companyId}/contract`]);
+      },
+      error: (error) => {
+        this.dialogService.openDialogNegative(error.error.message);
+      }
+    })
+  }
+
+  editContract() {
+
+    const body = {
+      ...this.addContractForm.value,
+      company: this.contractData.companyId,
+      writer: this.userInfoStore()._id,
+      pdf: this.pdfFile()
+    }
+
+    this.contractService.updateContract(this.data.contractId, body).subscribe({
       next: (res) => {
         this.dialogService.openDialogPositive('Contract created successfully.');
         this.dialogRef.close(true);

@@ -5,8 +5,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
-import { DialogService } from 'src/app/services/dialog.service';
-import { ManagerService } from 'src/app/services/manager.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { ManagerService } from 'src/app/services/manager/manager.service';
 import { Manager } from 'src/app/interfaces/manager.interface';
 import { MatSort } from '@angular/material/sort';
 
@@ -40,7 +40,7 @@ export class ManagerListComponent {
     private managerService: ManagerService,
     public dialogService: DialogService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.companyId = this.route.snapshot.params['id'];

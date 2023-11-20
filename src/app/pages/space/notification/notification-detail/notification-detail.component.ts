@@ -1,12 +1,12 @@
-import { CommonService } from './../../../../services/common.service';
+import { CommonService } from '../../../../services/common/common.service';
 import { Notification } from './../../../../interfaces/notification.interface';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { FormBuilder, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuillViewComponent } from 'ngx-quill';
-import { AuthService } from 'src/app/services/auth.service';
-import { DialogService } from 'src/app/services/dialog.service';
-import { NotificationService } from 'src/app/services/notification.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
   selector: 'app-notification-detail',

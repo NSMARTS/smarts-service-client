@@ -1,8 +1,8 @@
 import { DestroyRef, Injectable, effect, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Company } from '../interfaces/company.interface';
-import { HttpResMsg } from '../interfaces/http-response.interfac';
+import { Company } from '../../interfaces/company.interface';
+import { HttpResMsg } from '../../interfaces/http-response.interfac';
 import { Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 

@@ -51,7 +51,7 @@
               <b>Employee</b>
             </th>
             <td>
-              {{data.employee.email}}
+              {{data.employee.email}} ({{data.employee.username}})
             </td>
           </tr>
           <tr>
@@ -62,7 +62,7 @@
               {{data.employeeStatus}}
             </td>
           </tr>
-          <tr>
+          <tr *ngIf="data.employeeStatus==='signed'">
             <th>
               <b> Employee Sign </b>
             </th>
@@ -75,12 +75,20 @@
               </div>
             </div>
           </tr>
+          <tr *ngIf="data.employeeRejectReason">
+            <th>
+              <b>Rejected Reason</b>
+            </th>
+            <td>
+              {{data.employeeRejectReason}}
+            </td>
+          </tr>
           <tr>
             <th>
               <b>Manager</b>
             </th>
             <td>
-              {{data?.manager?.email}}
+              {{data.manager ? data.manager.email + ' (' + data.manager.username + ')' : '-'}}
             </td>
           </tr>
           <tr>
@@ -91,7 +99,7 @@
               {{data.managerStatus}}
             </td>
           </tr>
-          <tr>
+          <tr *ngIf="data.managerStatus==='signed'">
             <th>
               <b> Manager Sign</b>
             </th>
@@ -104,38 +112,20 @@
               </div>
             </div>
           </tr>
-
-          <tr>
-            <th>
-              <b>Reason</b>
-            </th>
-            <td>
-              {{data.leaveReason}}
-            </td>
-          </tr>
-          <tr *ngIf="data.rejector">
-            <th>
-              <b>Rejector</b>
-            </th>
-            <td>
-              {{data.rejector.email}}
-            </td>
-          </tr>
-          <tr *ngIf="data.rejectedReason">
+          <tr *ngIf="data.managerRejectReason">
             <th>
               <b>Rejected Reason</b>
             </th>
             <td>
-              {{data.rejectedReason}}
+              {{data.managerRejectReason}}
             </td>
           </tr>
         </tbody>
       </table>
 
-      <div class="button_box">
+      <!-- <div class="button_box">
         <button mat-flat-button mat-dialog-close>Submit</button>
-        <!-- <button  mat-flat-button class="cancelBtn" (click)="cancelRequest()">Cancel</button> -->
-      </div>
+    </div> -->
     </div>
   </div>
 

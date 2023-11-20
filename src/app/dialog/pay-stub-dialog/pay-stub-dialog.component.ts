@@ -1,5 +1,5 @@
 import { PayStub } from './../../interfaces/pay-stub.interface';
-import { AuthService, UserInfo } from 'src/app/services/auth.service';
+import { AuthService, UserInfo } from 'src/app/services/auth/auth.service';
 import {
   AfterViewInit,
   Component,
@@ -24,17 +24,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { Observable, map, startWith, tap, filter, lastValueFrom } from 'rxjs';
 import { Employee } from 'src/app/interfaces/employee.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { PayStubService } from 'src/app/services/pay-stub.service';
+import { PayStubService } from 'src/app/services/pay-stubs/pay-stub.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Statment } from 'src/app/interfaces/statement.interface';
 import * as pdfjsLib from 'pdfjs-dist';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
-import { PdfInfo, PdfService } from 'src/app/services/pdf.service';
+import { PdfInfo, PdfService } from 'src/app/services/pdf/pdf.service';
 import { PDFPageProxy } from 'pdfjs-dist/types/web/interfaces';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 @Component({

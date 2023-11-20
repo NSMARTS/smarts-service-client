@@ -1,6 +1,6 @@
-import { PdfInfo, PdfService } from 'src/app/services/pdf.service';
+import { PdfInfo, PdfService } from 'src/app/services/pdf/pdf.service';
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
-import { CANVAS_CONFIG } from '../config/canvas-css';
+import { CANVAS_CONFIG } from '../../config/canvas-css';
 
 @Injectable({
   providedIn: 'root'

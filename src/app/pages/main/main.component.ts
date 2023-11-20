@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { DashboardService } from 'src/app/services/dashboard.service';
+import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
 import {
   FormBuilder,
   FormControl,

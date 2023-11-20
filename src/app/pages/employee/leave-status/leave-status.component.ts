@@ -1,4 +1,4 @@
-import { DialogService } from './../../../services/dialog.service';
+import { DialogService } from '../../../services/dialog/dialog.service';
 import {
   AfterViewInit,
   Component,
@@ -18,9 +18,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { Employee } from 'src/app/interfaces/employee.interface';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CommonService } from 'src/app/services/common.service';
+import { CommonService } from 'src/app/services/common/common.service';
 import { MatPaginator } from '@angular/material/paginator';
 import {
   Observable,

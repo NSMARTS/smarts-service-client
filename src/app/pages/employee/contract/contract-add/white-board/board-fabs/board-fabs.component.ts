@@ -1,5 +1,5 @@
-import { ZoomService } from './../../../../../../services/zoom.service';
-import { PdfService } from './../../../../../../services/pdf.service';
+import { ZoomService } from '../../../../../../services/zoom/zoom.service';
+import { PdfService } from '../../../../../../services/pdf/pdf.service';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';

@@ -8,6 +8,10 @@
     <button mat-raised-button class="saveBtn" (click)="openSaveContract()">Save</button>
   </div>
 
+  <div *ngIf="contractMod() === 'edit'">
+    <button mat-raised-button class="saveBtn" (click)="openEditContract()">Edit</button>
+  </div>
+
   <div *ngIf="contractMod() === 'detail'">
     <button mat-raised-button class="saveBtn" (click)="openDetailContract()">Detail</button>
   </div>

@@ -6,9 +6,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { CompanyHolidayService } from 'src/app/services/company-holiday.service';
+import { CompanyHolidayService } from 'src/app/services/company-holiday/company-holiday.service';
 
 @Component({
   selector: 'app-holiday-add',
@@ -29,7 +29,7 @@ export class HolidayAddComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogService: DialogService,
     private CompanyHolidayService: CompanyHolidayService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.companyHolidayForm = this.fb.group({

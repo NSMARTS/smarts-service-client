@@ -1,4 +1,4 @@
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { effect, inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -6,7 +6,7 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 
 export const isLoggedInGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,

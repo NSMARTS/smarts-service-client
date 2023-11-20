@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { catchError, lastValueFrom, of, tap } from 'rxjs';
-import { AccessToken, AuthService } from './services/auth.service';
+import { AccessToken, AuthService } from './services/auth/auth.service';
 import { provideRouter, withRouterConfig } from '@angular/router';
 import { LeaveStatusDetailDialogComponent } from './dialog/leave-status-detail-dialog/leave-status-detail-dialog.component';
 
