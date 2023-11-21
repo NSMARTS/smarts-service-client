@@ -144,7 +144,7 @@ export class PayStubDialogComponent implements AfterViewInit {
             this.getPdf(this.key);
           },
           error: (error) => {
-            console.log(error);
+            this.dialogService.openDialogNegative(error.error.message)
           },
         });
     }
@@ -194,7 +194,6 @@ export class PayStubDialogComponent implements AfterViewInit {
       const formData: PayStub = {
         ...this.statementForm.value,
         file: this.currentFile,
-        key: this.key,
         company: this.data.companyId,
         writer: this.userInfoStore()._id,
       };
@@ -258,14 +257,6 @@ export class PayStubDialogComponent implements AfterViewInit {
           });
       },
       error: (err: any) => {
-        console.log(err);
-        if (err.error && err.error.message) {
-          this.message = err.error.message;
-        } else {
-          this.message = 'Could not upload the file!';
-        }
-        this.currentFile = undefined;
-
         if (err.status === 413) {
           this.dialogRef.close(true);
           this.dialogService.openDialogNegative(
@@ -309,7 +300,7 @@ export class PayStubDialogComponent implements AfterViewInit {
         this.isCanvas = true;
       },
       error: (error) => {
-        console.log(error);
+        this.dialogService.openDialogNegative(error.statusText)
       },
     });
   }

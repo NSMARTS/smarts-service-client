@@ -127,7 +127,6 @@ export class PayStubListComponent implements AfterViewInit {
         this.currentPage() &&
         !this.isDialog
       ) {
-        console.log('뭐가 문제야');
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
       }
     });
@@ -250,7 +249,13 @@ export class PayStubListComponent implements AfterViewInit {
     });
   }
 
-  editPayStub(id: string) {
+  editPayStub(id: string, status: string) {
+    console.log(status)
+
+    if (status === 'signed') {
+      this.dialogService.openDialogNegative('This document has been signed or declined. No further deleted are allowed.')
+      return
+    }
     this.isDialog = true;
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
       data: {
@@ -264,9 +269,16 @@ export class PayStubListComponent implements AfterViewInit {
       this.pdfService.memoryRelease();
       this.getPayStubsByQuery();
     });
+
   }
 
-  deletePayStub(payStubId: string) {
+  deletePayStub(payStubId: string, status: string) {
+    console.log(status)
+    if (status === 'signed') {
+      this.dialogService.openDialogNegative('This document has been signed or declined. No further deleted are allowed.')
+      return
+    }
+
     this.dialogService
       .openDialogConfirm('Do you want delete this pay stub?')
       .subscribe((result: any) => {

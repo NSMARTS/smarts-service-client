@@ -32,12 +32,11 @@ export class PayStubService {
     })
   }
 
-  edit(payStubId: string, { key, title, employee, file, writer, company }: Statment): Observable<HttpResMsg<any>> {
+  edit(payStubId: string, { title, employee, file, writer, company }: Statment): Observable<HttpResMsg<any>> {
     const formData: FormData = new FormData();
     if (file) {
       formData.append("file", file, file?.name);
     }
-    formData.append("key", key);
     formData.append("title", title);
     formData.append("employee", employee);
     formData.append("writer", writer);
