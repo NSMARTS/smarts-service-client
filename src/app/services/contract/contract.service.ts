@@ -31,13 +31,13 @@ export class ContractService {
 
   updateContract(contractId: string, { title, pdf, employee, writer, description, company }: ContractForm) {
     const formData: FormData = new FormData();
-    formData.append("file", pdf, pdf?.name);
+
+    if (pdf) formData.append("file", pdf, pdf?.name);
     formData.append("title", title);
     formData.append("description", description);
     formData.append("employee", employee);
     formData.append("writer", writer);
     formData.append("company", company);
-    console.log(contractId)
 
     return this.http.patch<HttpResMsg<any>>(this.baseUrl + '/contracts/' + contractId, formData)
   }

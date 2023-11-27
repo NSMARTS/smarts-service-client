@@ -11,6 +11,7 @@ import {
 import { environment } from 'src/environments/environment';
 import jwt_decode from 'jwt-decode';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 interface SignIn {
   email: string;
@@ -54,6 +55,8 @@ const initUserInfo: UserInfo = {
 })
 export class AuthService {
   private baseUrl = environment.apiUrl;
+
+  router = inject(Router)
   accessToken = signal<AccessToken>({ accessToken: '' });
   userInfoStore = signal<UserInfo>(initUserInfo);
   isLoggedIn = signal<boolean>(false);
@@ -95,6 +98,8 @@ export class AuthService {
     this.isLoggedIn.set(false);
     this.userInfoStore.set(initUserInfo);
     this.accessToken.set({ accessToken: '' });
+    this.router.navigate(['sign-in']);
+
   }
 
   /**

@@ -99,7 +99,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           ) {
             // 로그아웃 하고 signin 페이지로 이동
             this.authService.signOut();
-            this.router.navigate(['sign-in']);
           }
 
           return throwError(() => error);
