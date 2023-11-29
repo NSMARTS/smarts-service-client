@@ -3,8 +3,10 @@ import { DestroyRef, Injectable, effect, inject, signal } from '@angular/core';
 import {
   Observable,
   catchError,
+  from,
   lastValueFrom,
   shareReplay,
+  switchMap,
   tap,
   throwError,
 } from 'rxjs';
@@ -75,9 +77,7 @@ export class AuthService {
     return this.http
       .post<AccessToken>(this.baseUrl + '/auth/signIn', signInForm)
       .pipe(
-        tap(
-          async (data) => await this.setAccessToken(data) // access token 등록
-        ),
+        switchMap((data) => this.setAccessToken(data)),
         takeUntilDestroyed(this.destroyRef), // 컴포넌트가 삭제될때 까지 구독. 삭제되면 메모리를 지운다.
         shareReplay(1), // 데이터 캐싱
         catchError(this.handleError)
@@ -92,13 +92,16 @@ export class AuthService {
   }
 
   signOut(): void {
-    this.http.get(this.baseUrl + '/auth/signOut').subscribe();
-    window.localStorage.clear();
-    this.isLoggedIn.set(false);
-    this.userInfoStore.set(initUserInfo);
-    this.accessToken.set({ accessToken: '' });
-    this.router.navigate(['sign-in']);
-
+    this.http.get(this.baseUrl + '/auth/signOut').subscribe({
+      next: () => {
+        window.localStorage.clear();
+        this.isLoggedIn.set(false);
+        this.userInfoStore.set(initUserInfo);
+        this.accessToken.set({ accessToken: '' });
+        this.router.navigate(['sign-in']);
+      },
+      error: () => { }
+    });
   }
 
   /**
@@ -109,7 +112,7 @@ export class AuthService {
   refreshToken() {
     // console.log('refresh token api 시작')
     return this.http.get<AccessToken>(this.baseUrl + '/auth/refreshToken').pipe(
-      tap(async (data) => await this.setAccessToken(data)),
+      switchMap((data) => this.setAccessToken(data)),
       takeUntilDestroyed(this.destroyRef), // 컴포넌트가 삭제될때 까지 구독. 삭제되면 메모리를 지운다.
       shareReplay(1), // 데이터 캐싱
       catchError(this.handleError)
@@ -123,7 +126,11 @@ export class AuthService {
    */
   async setAccessToken(data: AccessToken) {
     this.accessToken.set(data);
-    return await this.decode_jwt(data);
+    this.isLoggedIn.set(true);
+    const userInfo: UserInfo = await jwt_decode(data.accessToken);
+    this.userInfoStore.set(userInfo);
+    window.localStorage.setItem('isLoggedIn', 'true');
+    return data;
   }
 
   private handleError(err: HttpErrorResponse): Observable<never> {
@@ -136,16 +143,5 @@ export class AuthService {
     }
     console.error();
     return throwError(() => errorMessage);
-  }
-
-  /**
-   * 로그인 후 받은 jwt를 분해한 다음 상태관리
-   * @param data {accessToken:"accessToken"}
-   */
-  async decode_jwt(data: AccessToken) {
-    this.isLoggedIn.set(true);
-    const userInfo: UserInfo = await jwt_decode(data.accessToken);
-    this.userInfoStore.set(userInfo);
-    window.localStorage.setItem('isLoggedIn', 'true');
   }
 }
