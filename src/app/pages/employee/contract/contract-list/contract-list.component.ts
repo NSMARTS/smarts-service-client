@@ -56,6 +56,8 @@ export class ContractListComponent {
     'menu',
   ];
   resultsLength = 0;
+  pdfUrl: string | null = null;;
+
 
   // ---------- 시그널 변수 -----------------
   filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
@@ -89,6 +91,15 @@ export class ContractListComponent {
     this.getEmployees(this.companyId);
     // this.getPayStubs(this.companyId);
   }
+
+  ngOnDestroy() {
+    // 컴포넌트가 파괴될 때 Blob URL 해제, 안하면 다운로드한 pdf가 브라우저 메모리를 잡아먹는다.
+    if (this.pdfUrl) {
+      window.URL.revokeObjectURL(this.pdfUrl);
+      this.pdfUrl = null;
+    }
+  }
+
 
   async getEmployees(companyId: string) {
     // lastValueFrom은 rxjs 비동기 통신을하기위 사용
@@ -179,10 +190,8 @@ export class ContractListComponent {
     this.contractService.downloadPdf(key).subscribe({
       next: (res) => {
         const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
-        // 다운로드 후에는 URL을 해제합니다.
-        window.URL.revokeObjectURL(url);
+        this.pdfUrl = window.URL.createObjectURL(blob);
+        window.open(this.pdfUrl);
       },
       error: (error) => {
         console.error(error);

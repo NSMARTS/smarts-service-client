@@ -4,6 +4,7 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  OnDestroy,
   ViewChild,
   WritableSignal,
   computed,
@@ -42,7 +43,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
   templateUrl: './pay-stub-list.component.html',
   styleUrls: ['./pay-stub-list.component.scss'],
 })
-export class PayStubListComponent implements AfterViewInit {
+export class PayStubListComponent implements AfterViewInit, OnDestroy {
   selection = new SelectionModel<any>(false, []);
   imgSrc: string = '';
   displayedColumns: string[] = [
@@ -55,7 +56,7 @@ export class PayStubListComponent implements AfterViewInit {
   ];
 
   url: string = '';
-
+  pdfUrl: string | null = null;;
   filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
 
   searchPayStubForm: FormGroup;
@@ -135,6 +136,14 @@ export class PayStubListComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.getEmployees(this.companyId);
     // this.getPayStubs(this.companyId);
+  }
+
+  ngOnDestroy() {
+    // 컴포넌트가 파괴될 때 Blob URL 해제, 안하면 다운로드한 pdf가 브라우저 메모리를 잡아먹는다.
+    if (this.pdfUrl) {
+      window.URL.revokeObjectURL(this.pdfUrl);
+      this.pdfUrl = null;
+    }
   }
 
   async getEmployees(companyId: string) {
@@ -308,10 +317,8 @@ export class PayStubListComponent implements AfterViewInit {
     this.payStubService.downloadPdf(key).subscribe({
       next: (res) => {
         const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
-        // 다운로드 후에는 URL을 해제합니다.
-        window.URL.revokeObjectURL(url);
+        this.pdfUrl = window.URL.createObjectURL(blob);
+        window.open(this.pdfUrl);
       },
       error: (error) => {
         console.error(error);
