@@ -6,7 +6,7 @@ import { CompanyListComponent } from './company-list/company-list.component';
 import { CompanyAddComponent } from './company-add/company-add.component';
 import { CompanyEditComponent } from './company-edit/company-edit.component';
 
-import { CompanyService } from 'src/app/services/company.service';
+import { CompanyService } from 'src/app/services/company/company.service';
 
 export const COMPANY_ROUTES: Route[] = [
   {
@@ -71,6 +71,11 @@ export const COMPANY_ROUTES: Route[] = [
           import('../employee/leave-status/routes').then(
             (m) => m.LEAVE_STATUS_ROUTES
           ),
+      },
+      {
+        path: ':id/contract',
+        loadChildren: () =>
+          import('../employee/contract/routes').then((m) => m.CONTRACT_ROUTES),
       },
       {
         path: ':id/notification',

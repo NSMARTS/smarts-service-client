@@ -1,11 +1,11 @@
-import { PdfInfo, PdfService } from './../../../../../../services/pdf.service';
+import { PdfInfo, PdfService } from '../../../../../../services/pdf/pdf.service';
 import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild, WritableSignal, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CANVAS_CONFIG } from 'src/app/config/canvas-css';
-import { CanvasService } from 'src/app/services/canvas.service';
+import { CanvasService } from 'src/app/services/canvas/canvas.service';
 import { DragScrollDirective } from 'src/app/directives/drag-scroll.directive';
-import { RenderingService } from 'src/app/services/rendering.service';
 import { ContainerScroll, ContainerSize } from 'src/app/interfaces/white-board.interface';
+import { RenderingService } from 'src/app/services/rendering/rendering.service';
 
 @Component({
   selector: 'app-board-canvas',

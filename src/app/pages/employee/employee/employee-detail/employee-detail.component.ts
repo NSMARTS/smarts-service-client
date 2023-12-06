@@ -2,8 +2,8 @@ import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { EmployeeService } from 'src/app/services/employee.service';
-import { ManagerService } from 'src/app/services/manager.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
+import { ManagerService } from 'src/app/services/manager/manager.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 

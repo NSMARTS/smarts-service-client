@@ -23,8 +23,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
 import { NavigationService } from 'src/app/stores/layout/navigation.service';
-import { CompanyService } from 'src/app/services/company.service';
-import { LoadingService } from 'src/app/services/loading.service';
+import { CompanyService } from 'src/app/services/company/company.service';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-layout',
@@ -161,7 +161,7 @@ export class LayoutComponent {
         }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => {});
+      .subscribe(() => { });
 
     // url navigation
     this.router.events

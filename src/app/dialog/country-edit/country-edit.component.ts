@@ -8,9 +8,9 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { CountryService } from 'src/app/services/country.service';
+import { CountryService } from 'src/app/services/country/country.service';
 
 @Component({
   selector: 'app-country-edit',
@@ -32,7 +32,7 @@ export class CountryEditComponent implements OnInit {
     private countryService: CountryService,
     // countryId
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getCountry();

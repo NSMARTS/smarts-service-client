@@ -4,8 +4,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { ManagerService } from 'src/app/services/manager.service';
-import { DialogService } from 'src/app/services/dialog.service';
+import { ManagerService } from 'src/app/services/manager/manager.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 
 @Component({
   selector: 'app-manager-edit',

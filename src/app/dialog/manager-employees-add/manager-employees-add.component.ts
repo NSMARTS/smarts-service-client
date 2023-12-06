@@ -16,9 +16,9 @@ import { lastValueFrom } from 'rxjs';
 import { Employee } from 'src/app/interfaces/employee.interface';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { DialogService } from 'src/app/services/dialog.service';
-import { EmployeeService } from 'src/app/services/employee.service';
-import { ManagerService } from 'src/app/services/manager.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
+import { ManagerService } from 'src/app/services/manager/manager.service';
 
 @Component({
   selector: 'app-manager-employees-add',

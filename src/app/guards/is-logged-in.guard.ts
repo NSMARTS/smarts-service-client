@@ -1,4 +1,4 @@
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { effect, inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -6,7 +6,7 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 
 export const isLoggedInGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
@@ -16,7 +16,7 @@ export const isLoggedInGuard: CanActivateFn = (
   const dialogService = inject(DialogService);
   const router = inject(Router);
   const routePath = route.routeConfig?.path ?? ''; // ?? 은 타입스크립트 문법으로 undefined || null 이면 ''로 주겠다.
-
+  const isLoggedIn = window.localStorage.getItem('isLoggedIn')
   // if (authService.isLoggedIn()) {
   //   // 로그인이 되어있으면
   //   // 회원가입, 로그인, 비밀번호 찾기, 소개페이지는 전부
@@ -39,7 +39,7 @@ export const isLoggedInGuard: CanActivateFn = (
   //   return true;
   // }
 
-  if (authService.isLoggedIn()) {
+  if (isLoggedIn) {
     if (['sign-in', 'find-pw', 'sign-up'].includes(routePath)) {
       router.navigate(['main']);
     }

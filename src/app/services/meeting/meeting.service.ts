@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { shareReplay, tap } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Injectable } from "@angular/core";
-import { CommonService } from "./common.service";
+import { CommonService } from "../common/common.service";
 @Injectable({
   providedIn: 'root',
 })
@@ -11,7 +11,7 @@ export class MeetingService {
 
   constructor(
     private http: HttpClient,
-  ) {}
+  ) { }
   private baseUrl = environment.apiUrl;
 
   // 미팅 생성

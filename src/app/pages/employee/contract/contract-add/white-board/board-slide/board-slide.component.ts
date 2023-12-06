@@ -1,13 +1,14 @@
 import { MaterialsModule } from './../../../../../../materials/materials.module';
 import { Component, ElementRef, QueryList, ViewChildren, inject, WritableSignal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DialogService } from 'src/app/services/dialog.service';
-import { PdfInfo, PdfService } from 'src/app/services/pdf.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { PdfInfo, PdfService } from 'src/app/services/pdf/pdf.service';
 import * as pdfjsLib from 'pdfjs-dist';
-import { ZoomService } from 'src/app/services/zoom.service';
-import { CanvasService } from 'src/app/services/canvas.service';
-import { RenderingService } from 'src/app/services/rendering.service';
+import { ZoomService } from 'src/app/services/zoom/zoom.service';
+import { CanvasService } from 'src/app/services/canvas/canvas.service';
 import { ContainerScroll, ContainerSize, Size } from 'src/app/interfaces/white-board.interface';
+import { ContractService } from 'src/app/services/contract/contract.service';
+import { RenderingService } from 'src/app/services/rendering/rendering.service';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 
 @Component({
@@ -28,6 +29,8 @@ export class BoardSlideComponent {
   zoomService = inject(ZoomService)
   canvasService = inject(CanvasService)
   renderingService = inject(RenderingService)
+  contractService = inject(ContractService)
+
 
   thumbArray: Size[] = [];
 
@@ -40,6 +43,8 @@ export class BoardSlideComponent {
   pdfLength: WritableSignal<number> = this.pdfService.pdfLength
   currentPage: WritableSignal<number> = this.pdfService.currentPage
   zoomScale: WritableSignal<number> = this.zoomService.zoomScale
+  contractMod: WritableSignal<string> = this.contractService.contractMod
+
 
   thumbWindowSize = {
     width: '',
@@ -116,18 +121,8 @@ export class BoardSlideComponent {
       return;
     }
 
-    const fileReader = new FileReader();
-    fileReader.onload = async (e) => {
-      const arrayBuffer: ArrayBuffer | null = fileReader.result as ArrayBuffer;
-      if (arrayBuffer) {
-        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-        const pdfDocument = await loadingTask.promise
-        await this.pdfService.storePdfInfo(pdfDocument)
-        this.pdfLength.update(() => pdfDocument.numPages)
-        this.currentPage.set(1)
-      }
-    };
-    fileReader.readAsArrayBuffer(file);
+
+    this.pdfService.readFile(file)
 
     this.zoomService.setInitZoomScale()
   }
@@ -145,8 +140,6 @@ export class BoardSlideComponent {
     this.currentPage.update(() => pageNum);
 
   }
-
-
 
 
   /**

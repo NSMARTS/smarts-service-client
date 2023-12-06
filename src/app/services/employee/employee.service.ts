@@ -1,15 +1,15 @@
 // https://www.angulararchitects.io/aktuelles/angular-signals/
 
 import { Employee } from 'src/app/interfaces/employee.interface';
-import { CommonService } from 'src/app/services/common.service';
+import { CommonService } from 'src/app/services/common/common.service';
 import { HttpClient } from '@angular/common/http';
 import { DestroyRef, Injectable, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { environment } from 'src/environments/environment';
 import { Observable, tap } from 'rxjs';
-import { HttpResMsg } from '../interfaces/http-response.interfac';
+import { HttpResMsg } from '../../interfaces/http-response.interfac';
 import * as moment from 'moment';
-import { LeaveRequest } from '../interfaces/leave-request.interface';
+import { LeaveRequest } from '../../interfaces/leave-request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class EmployeeService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
   employees = signal<Employee[]>([]);
-  constructor(private http: HttpClient, private commonService: CommonService) {}
+  constructor(private http: HttpClient, private commonService: CommonService) { }
 
   //회사 등록
   addEmployee(companyData: any) {

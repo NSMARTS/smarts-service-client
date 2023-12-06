@@ -1,9 +1,10 @@
-import { DialogService } from './../../../../services/dialog.service';
+import { DialogService } from '../../../../services/dialog/dialog.service';
 import {
   AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
+  OnDestroy,
   ViewChild,
   WritableSignal,
   computed,
@@ -14,8 +15,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { lastValueFrom, map, merge, startWith, switchMap } from 'rxjs';
-import { EmployeeService } from 'src/app/services/employee.service';
-import { CommonService } from 'src/app/services/common.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
+import { CommonService } from 'src/app/services/common/common.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Employee } from 'src/app/interfaces/employee.interface';
 import { MatTableDataSource } from '@angular/material/table';
@@ -23,14 +24,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { MatDialog } from '@angular/material/dialog';
 import { PayStubDialogComponent } from 'src/app/dialog/pay-stub-dialog/pay-stub-dialog.component';
-import { PayStubService } from 'src/app/services/pay-stub.service';
+import { PayStubService } from 'src/app/services/pay-stubs/pay-stub.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as pdfjsLib from 'pdfjs-dist';
 import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSort } from '@angular/material/sort';
-import { PdfInfo, PdfService } from 'src/app/services/pdf.service';
+import { PdfInfo, PdfService } from 'src/app/services/pdf/pdf.service';
 import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
 import { PDFPageProxy } from 'pdfjs-dist/types/web/interfaces';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
@@ -42,7 +43,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
   templateUrl: './pay-stub-list.component.html',
   styleUrls: ['./pay-stub-list.component.scss'],
 })
-export class PayStubListComponent implements AfterViewInit {
+export class PayStubListComponent implements AfterViewInit, OnDestroy {
   selection = new SelectionModel<any>(false, []);
   imgSrc: string = '';
   displayedColumns: string[] = [
@@ -55,7 +56,7 @@ export class PayStubListComponent implements AfterViewInit {
   ];
 
   url: string = '';
-
+  pdfUrl: string | null = null;;
   filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
 
   searchPayStubForm: FormGroup;
@@ -127,7 +128,6 @@ export class PayStubListComponent implements AfterViewInit {
         this.currentPage() &&
         !this.isDialog
       ) {
-        console.log('뭐가 문제야');
         this.pdfService.pdfRender(this.pdfViewer, this.isDialog);
       }
     });
@@ -136,6 +136,14 @@ export class PayStubListComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.getEmployees(this.companyId);
     // this.getPayStubs(this.companyId);
+  }
+
+  ngOnDestroy() {
+    // 컴포넌트가 파괴될 때 Blob URL 해제, 안하면 다운로드한 pdf가 브라우저 메모리를 잡아먹는다.
+    if (this.pdfUrl) {
+      window.URL.revokeObjectURL(this.pdfUrl);
+      this.pdfUrl = null;
+    }
   }
 
   async getEmployees(companyId: string) {
@@ -203,19 +211,19 @@ export class PayStubListComponent implements AfterViewInit {
             pageIndex: this.paginator.pageIndex,
             pageSize: this.paginator.pageSize,
           };
-          return this.payStubService.getPayStubs(this.companyId, query).pipe();
+          return this.payStubService.getPayStubs(this.companyId, query).pipe(
+            map((res: any) => {
+              // Flip flag to show that loading has finished.
+              this.isLoadingResults = false;
+              //   this.isRateLimitReached = res.data === null;
+              console.log(res.data);
+              this.resultsLength = res.total_count;
+              this.dataSource = new MatTableDataSource<any>(res.data);
+              return res.data;
+            })
+          );
         }),
-        map((res: any) => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          //   this.isRateLimitReached = res.data === null;
-          console.log(res.data);
-          this.resultsLength = res.total_count;
-          this.dataSource = new MatTableDataSource<any>(res.data);
-          return res.data;
-        })
-      )
-      .subscribe();
+      ).subscribe();
   }
 
   onRowClick(row: any) {
@@ -250,7 +258,13 @@ export class PayStubListComponent implements AfterViewInit {
     });
   }
 
-  editPayStub(id: string) {
+  editPayStub(id: string, status: string) {
+    console.log(status)
+
+    if (status === 'signed') {
+      this.dialogService.openDialogNegative('This document has been signed or declined. No further deleted are allowed.')
+      return
+    }
     this.isDialog = true;
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
       data: {
@@ -264,9 +278,16 @@ export class PayStubListComponent implements AfterViewInit {
       this.pdfService.memoryRelease();
       this.getPayStubsByQuery();
     });
+
   }
 
-  deletePayStub(payStubId: string) {
+  deletePayStub(payStubId: string, status: string) {
+    console.log(status)
+    if (status === 'signed') {
+      this.dialogService.openDialogNegative('This document has been signed or declined. No further deleted are allowed.')
+      return
+    }
+
     this.dialogService
       .openDialogConfirm('Do you want delete this pay stub?')
       .subscribe((result: any) => {
@@ -296,10 +317,8 @@ export class PayStubListComponent implements AfterViewInit {
     this.payStubService.downloadPdf(key).subscribe({
       next: (res) => {
         const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
-        // 다운로드 후에는 URL을 해제합니다.
-        window.URL.revokeObjectURL(url);
+        this.pdfUrl = window.URL.createObjectURL(blob);
+        window.open(this.pdfUrl);
       },
       error: (error) => {
         console.error(error);

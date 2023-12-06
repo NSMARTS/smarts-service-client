@@ -5,8 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
-import { DialogService } from 'src/app/services/dialog.service';
-import { CompanyHolidayService } from 'src/app/services/company-holiday.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { CompanyHolidayService } from 'src/app/services/company-holiday/company-holiday.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { HolidayAddComponent } from '../../../dialog/holiday-add/holiday-add.component';
 
@@ -36,7 +36,7 @@ export class HolidayComponent implements OnInit {
     private dialogService: DialogService,
     private route: ActivatedRoute,
     private holidayMngmtService: CompanyHolidayService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.companyId = this.route.snapshot.params['id'];

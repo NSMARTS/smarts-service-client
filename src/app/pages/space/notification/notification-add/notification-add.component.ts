@@ -15,10 +15,10 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, startWith } from 'rxjs';
-import { DialogService } from 'src/app/services/dialog.service';
-import { NotificationService } from 'src/app/services/notification.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 import { QuillEditorComponent } from 'ngx-quill';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-notification-add',

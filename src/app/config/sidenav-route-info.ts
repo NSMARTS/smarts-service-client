@@ -63,13 +63,13 @@ export const SIDENAV_ROUTE_INFO: NavigationItem[] = [
         icon: 'event_note',
         isAdmin: true,
       },
-      {
-        type: 'link',
-        label: 'Pay Stub',
-        route: '/pay-stub/',
-        icon: 'receipt_long',
-        isAdmin: true,
-      },
+      // {
+      //   type: 'link',
+      //   label: 'Pay Stub',
+      //   route: '/pay-stub/',
+      //   icon: 'receipt_long',
+      //   isAdmin: true,
+      // },
       // {
       //   type: 'link',
       //   label: 'Contract',
@@ -80,6 +80,29 @@ export const SIDENAV_ROUTE_INFO: NavigationItem[] = [
     ],
   },
   // EMPLOYEE
+  // dashboard
+  // company
+  {
+    type: 'subheading',
+    label: 'Contract',
+    children: [
+      {
+        type: 'link',
+        label: 'Pay Stub',
+        route: '/pay-stub/',
+        icon: 'receipt_long',
+        isAdmin: true,
+      },
+      {
+        type: 'link',
+        label: 'Contract',
+        route: '/contract/',
+        icon: 'update',
+        isAdmin: true,
+      },
+    ],
+  },
+
   {
     type: 'subheading',
     label: 'SPACE',

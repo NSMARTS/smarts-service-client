@@ -5,7 +5,7 @@ import { BoardNavComponent } from './white-board/board-nav/board-nav.component';
 import { BoardSlideComponent } from './white-board/board-slide/board-slide.component';
 import { BoardFabsComponent } from './white-board/board-fabs/board-fabs.component';
 import { ActivatedRoute } from '@angular/router';
-import { PdfService } from 'src/app/services/pdf.service';
+import { PdfService } from 'src/app/services/pdf/pdf.service';
 import * as pdfjsLib from 'pdfjs-dist';
 pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
 

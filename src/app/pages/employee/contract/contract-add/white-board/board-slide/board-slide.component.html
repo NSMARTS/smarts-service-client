@@ -1,5 +1,5 @@
 <!-- Thumbnail -->
-<button mat-raised-button style="width: 100%;" (click)="pdfInput.click()">
+<button *ngIf="contractMod()!=='detail'" mat-raised-button style="width: 100%;" (click)="pdfInput.click()">
   <mat-icon>file_open</mat-icon> Open File
   <input #pdfInput type="file" (change)="handleUploadFileChanged($event)" style="display:none;" accept=".pdf" />
 </button>
