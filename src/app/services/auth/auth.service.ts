@@ -141,7 +141,6 @@ export class AuthService {
       errorMessage.status = err.status;
       errorMessage.message = `Server returned code: ${err.status}, error message is: ${err.message}`;
     }
-    console.error();
     return throwError(() => errorMessage);
   }
 }

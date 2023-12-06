@@ -66,7 +66,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     next: HttpHandler,
     isLoggedIn: string | null
   ) {
-    console.log(request);
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       console.log(request)
@@ -88,7 +87,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           return next.handle(request);
         }),
         catchError((error: HttpErrorResponse) => {
-          console.error(error);
+          console.log('재발급 실패');
           this.isRefreshing = false;
           if (
             // refresh token을 재발급할때
