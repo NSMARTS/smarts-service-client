@@ -28,7 +28,7 @@
   
           <mat-form-field appearance="fill">
               <mat-label>New Password</mat-label>
-              <input type="password" class="data-input" matInput formControlName="password"  minlength="4" maxlength="15">
+              <input type="password" class="data-input" matInput formControlName="password"  minlength="6" maxlength="15">
               <mat-error
               *ngIf="editProfileForm.controls['password'].hasError('minlength') || editProfileForm.controls['password'].hasError('maxlength')">
               The password should be between 6 and 15
@@ -37,7 +37,7 @@
   
           <mat-form-field appearance="fill">
               <mat-label>Confirm Password</mat-label>
-              <input type="password" class="data-input" matInput formControlName="confirmPassword"  minlength="4" maxlength="15">
+              <input type="password" class="data-input" matInput formControlName="confirmPassword"  minlength="6" maxlength="15">
               <mat-error
               *ngIf="editProfileForm.controls['confirmPassword'].hasError('minlength') || editProfileForm.controls['confirmPassword'].hasError('maxlength')">
               The password should be between 6 and 15

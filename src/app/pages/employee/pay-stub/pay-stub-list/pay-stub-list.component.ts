@@ -47,16 +47,16 @@ export class PayStubListComponent implements AfterViewInit, OnDestroy {
   selection = new SelectionModel<any>(false, []);
   imgSrc: string = '';
   displayedColumns: string[] = [
-    'employeeName',
-    'title',
     'uploadDate',
+    'title',
+    'employeeName',
     'download',
     'detail',
     'menu',
   ];
 
   url: string = '';
-  pdfUrl: string | null = null;;
+  pdfUrl: string | null = null;
   filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
 
   searchPayStubForm: FormGroup;
@@ -222,8 +222,9 @@ export class PayStubListComponent implements AfterViewInit, OnDestroy {
               return res.data;
             })
           );
-        }),
-      ).subscribe();
+        })
+      )
+      .subscribe();
   }
 
   onRowClick(row: any) {
@@ -259,11 +260,13 @@ export class PayStubListComponent implements AfterViewInit, OnDestroy {
   }
 
   editPayStub(id: string, status: string) {
-    console.log(status)
+    console.log(status);
 
     if (status === 'signed') {
-      this.dialogService.openDialogNegative('This document has been signed or declined. No further deleted are allowed.')
-      return
+      this.dialogService.openDialogNegative(
+        'This document has been signed or declined. No further deleted are allowed.'
+      );
+      return;
     }
     this.isDialog = true;
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
@@ -278,14 +281,15 @@ export class PayStubListComponent implements AfterViewInit, OnDestroy {
       this.pdfService.memoryRelease();
       this.getPayStubsByQuery();
     });
-
   }
 
   deletePayStub(payStubId: string, status: string) {
-    console.log(status)
+    console.log(status);
     if (status === 'signed') {
-      this.dialogService.openDialogNegative('This document has been signed or declined. No further deleted are allowed.')
-      return
+      this.dialogService.openDialogNegative(
+        'This document has been signed or declined. No further deleted are allowed.'
+      );
+      return;
     }
 
     this.dialogService

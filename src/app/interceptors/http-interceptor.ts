@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -48,7 +48,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           !req.url.includes('auth/signin') &&
           error.status === 401
         ) {
-          return this.handle401Error(req, next, isLoggedIn);
+          return this.handle401Error(req, next);
         }
         return throwError(() => error);
       })
@@ -61,19 +61,15 @@ export class HttpRequestInterceptor implements HttpInterceptor {
    * @param next
    * @returns
    */
-  private handle401Error(
-    request: HttpRequest<any>,
-    next: HttpHandler,
-    isLoggedIn: string | null
-  ) {
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
-      console.log(request)
+      console.log(request);
       console.log('refresh token 재발급');
       // access token이 만료되면 재발행 요청
       return this.authService.refreshToken().pipe(
         switchMap((data) => {
-          console.log('access token : ', data.accessToken)
+          console.log('access token : ', data.accessToken);
           this.isRefreshing = false;
           request = request.clone({
             withCredentials: true,
@@ -103,7 +99,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           return throwError(() => error);
         })
       );
-
     }
 
     return next.handle(request);

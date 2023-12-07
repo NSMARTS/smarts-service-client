@@ -39,19 +39,21 @@ label {
 }
 
 table {
-    th:first-child, th:nth-child(2) {
-        width: 15%;
-    }
-    th:nth-child(3) {width: 50%;}
+    th:first-child {width: 15%;}
+    th:nth-child(2) {width: 30%;}
+    th:nth-child(3) {width: 10%;}
+    th:nth-child(4) {width: 5%;}
+    th:nth-child(5) {width: 1%;}
+    th:nth-child(6) {width: 1%;}
 
     td {cursor: pointer;}
 }
 
-@media screen and (max-width: 1500px) {
-    th {
-        width: 20%!important;
-    }
-}
+// @media screen and (max-width: 1500px) {
+//     th {
+//         width: 20%!important;
+//     }
+// }
 
 @media screen and (max-width: 1000px) { 
     .mat-mdc-form-field{

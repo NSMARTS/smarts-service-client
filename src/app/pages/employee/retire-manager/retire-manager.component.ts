@@ -5,9 +5,9 @@ import { MaterialsModule } from 'src/app/materials/materials.module';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { Manager } from 'src/app/interfaces/manager.interface';
-import { ManagerService } from 'src/app/services/manager.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogService } from 'src/app/services/dialog.service';
+import { ManagerService } from 'src/app/services/manager/manager.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 
 @Component({
   selector: 'app-retire-manager',
