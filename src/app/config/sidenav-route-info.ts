@@ -63,6 +63,13 @@ export const SIDENAV_ROUTE_INFO: NavigationItem[] = [
         icon: 'event_note',
         isAdmin: true,
       },
+      {
+        type: 'link',
+        label: 'Log History',
+        route: '/log-history/',
+        icon: 'update',
+        isAdmin: true,
+      },
       // {
       //   type: 'link',
       //   label: 'Pay Stub',

@@ -266,6 +266,7 @@ export class LayoutComponent {
   ngOnDestroy() {
     // To protect you, we'll throw an error if it doesn't exist.
     // this.subscriptions.unsubscribe();
+
   }
 
   /**

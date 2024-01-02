@@ -1,0 +1,68 @@
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: transparent !important;
+}
+
+.selectContent {
+  .date {
+    display: flex;
+  }
+}
+
+.left {
+  mat-form-field {
+    margin-right: 5px;
+  }
+}
+
+label {
+  margin-top: 15px;
+}
+
+.right {
+  mat-form-field {
+    margin-left: 5px;
+  }
+}
+
+.searchBtn {
+  height: 50px;
+  background-color: white;
+}
+
+table {
+  th:first-child {
+    width: 14%;
+  }
+
+  th:nth-child(8) {
+    width: 5%;
+  }
+
+  td {
+    cursor: pointer;
+  }
+}
+
+// @media screen and (max-width: 1000px) { 
+//     .mat-mdc-form-field{
+//         width: 140px;
+//     }
+// }
+
+// @media screen and (max-width: 800px) {
+//     .page {
+//         min-width: 700px;    
+//     }
+//   }
+
+@media screen and (max-width: 1500px) {
+  th {
+    width: 20% !important;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .page {
+    min-width: 950px;
+  }
+}
