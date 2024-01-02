@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService, UserInfo } from 'src/app/services/auth/auth.service';
 import { ContractService } from 'src/app/services/contract/contract.service';
 import { ContractDetailDialogComponent } from 'src/app/dialog/contract-dialog/contract-detail-dialog/contract-detail-dialog.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-board-nav',
@@ -56,7 +57,14 @@ export class BoardNavComponent {
 
   async getPdf() {
     if (this.contractMod() !== 'add') {
-      this.contractInfo = await lastValueFrom(this.contractService.getContract(this.companyId, this.contractId))
+      try {
+        this.contractInfo = await lastValueFrom(this.contractService.getContract(this.companyId, this.contractId))
+      } catch (error: any) {
+        // 에러 발생시 네거티브 다이얼로그 실행
+        this.dialogService.openDialogNegative(error.error.message);
+      }
+
+
       this.contract = await lastValueFrom(this.contractService.downloadPdf(this.contractInfo.data.key))
       this.pdfService.readFile(this.contract)
     }

@@ -57,8 +57,8 @@ export class EmployeeDetailComponent {
     'year',
     'annualLeave',
     'sickLeave',
-    'rollover',
-    'replacementDay',
+    // 'rollover',
+    // 'replacementDay',
   ];
 
   annualPolicy: string | undefined;
@@ -156,7 +156,14 @@ export class EmployeeDetailComponent {
 
   getLeaveData() {
     this.employeeService.getEmployeeLeaveDetail(this.employeeId).subscribe({
-      next: (res) => {
+      next: (res: any) => {
+        console.log(res.data);
+        if (res.data[0].isRollover === true) {
+          this.displayedColumns.push('rollover');
+        }
+        if (res.data[0].isReplacementDay === true) {
+          this.displayedColumns.push('replacementDay');
+        }
         this.leaveData = new MatTableDataSource(res.data);
         this.leaveData.paginator = this.paginator;
         console.log(this.leaveData);

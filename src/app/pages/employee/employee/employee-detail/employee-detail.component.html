@@ -110,12 +110,20 @@
     
           <ng-container matColumnDef="rollover">
             <th mat-header-cell *matHeaderCellDef> Rollover </th>
-            <td mat-cell *matCellDef="let element"> {{element?.Rollover.taken}}/{{element?.Rollover.total}} </td>
+            <td mat-cell *matCellDef="let element">
+              <ng-container *ngIf="element.isRollover">
+                {{element.Rollover.taken}}/{{element.Rollover.total}}
+              </ng-container>
+            </td>
           </ng-container>
-    
+          
           <ng-container matColumnDef="replacementDay">
             <th mat-header-cell *matHeaderCellDef> Replacement Day </th>
-            <td mat-cell *matCellDef="let element"> {{element?.Replacement.taken}}/{{element?.Replacement.total}} </td>
+            <td mat-cell *matCellDef="let element"> 
+                <ng-container *ngIf="element.isReplacementDay">
+                    {{element?.Replacement.taken}}/{{element?.Replacement.total}}
+                </ng-container>
+            </td>
           </ng-container>
   
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

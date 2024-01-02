@@ -29,10 +29,14 @@ import { httpLoadingInterceptorProviders } from './interceptors/http-loading-int
  */
 export function appInitializer(authService: AuthService) {
   return async () => {
-    if (window.localStorage.getItem('isLoggedIn')) {
-      console.log('app initial')
-      authService.isLoggedIn.set(true);
-      return await lastValueFrom(authService.refreshToken())
+    try {
+      if (window.localStorage.getItem('isLoggedIn')) {
+        console.log('app initial')
+        authService.isLoggedIn.set(true);
+        return await lastValueFrom(authService.refreshToken())
+      }
+    } catch (error) {
+      authService.signOut()
     }
     return;
   };

@@ -4,38 +4,29 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
+import { Manager } from 'src/app/interfaces/manager.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { EmployeeService } from 'src/app/services/employee/employee.service';
-import { Employee } from 'src/app/interfaces/employee.interface';
+import { ManagerService } from 'src/app/services/manager/manager.service';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
 
 @Component({
-  selector: 'app-retire-employee',
+  selector: 'app-retire-manager',
   standalone: true,
   imports: [CommonModule, MaterialsModule, RouterModule],
-  templateUrl: './retire-employee.component.html',
-  styleUrls: ['./retire-employee.component.scss'],
+  templateUrl: './retire-manager.component.html',
+  styleUrls: ['./retire-manager.component.scss'],
 })
-export class RetiredEmployeeListComponent {
-  displayedColumns: string[] = [
-    'name',
-    'email',
-    'phone',
-    'dateOfEnter',
-    'resignationDate',
-    'cancel',
-  ];
+export class RetiredManagerListComponent {
+  displayedColumns: string[] = ['name', 'email', 'phone', 'cancel'];
 
-  dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>(
-    []
-  );
+  dataSource: MatTableDataSource<Manager> = new MatTableDataSource<Manager>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   companyId: string; // 회사아이디 params
 
   constructor(
     public dialog: MatDialog,
-    private employeeMngmtService: EmployeeService,
+    private managerService: ManagerService,
     private route: ActivatedRoute,
     private dialogService: DialogService
   ) {
@@ -43,31 +34,31 @@ export class RetiredEmployeeListComponent {
   }
 
   ngOnInit(): void {
-    this.getMyRetireEmployees();
+    this.getMyRetireManagers();
   }
 
   // 퇴사자 목록 출력
-  getMyRetireEmployees() {
-    this.employeeMngmtService.getRetireEmployees(this.companyId).subscribe({
+  getMyRetireManagers() {
+    this.managerService.getRetireManagers(this.companyId).subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource(data.data);
         this.dataSource.paginator = this.paginator;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.log(err);
       },
     });
   }
 
   // 퇴사자 퇴사 취소
-  cancelRetireEmployee(employeeId: string) {
+  cancelRetireManager(managerId: string) {
     this.dialogService
       .openDialogConfirm('Do you want cancel this request?')
       .subscribe((result: any) => {
         if (result) {
-          this.employeeMngmtService.cancelRetireEmployee(employeeId).subscribe({
+          this.managerService.cancelRetireManager(managerId).subscribe({
             next: () => {
-              this.getMyRetireEmployees();
+              this.getMyRetireManagers();
               this.dialogService.openDialogPositive(
                 'Successfully, the employee has been retire cancel.'
               );

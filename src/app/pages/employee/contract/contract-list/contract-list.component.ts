@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
-import { lastValueFrom, map, merge, startWith, switchMap } from 'rxjs';
+import { catchError, lastValueFrom, map, merge, of, startWith, switchMap } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Employee } from 'src/app/interfaces/employee.interface';
@@ -15,6 +15,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { CommonService } from 'src/app/services/common/common.service';
 import { ContractService } from 'src/app/services/contract/contract.service';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-contract-list',
@@ -55,6 +56,8 @@ export class ContractListComponent {
     'menu',
   ];
   resultsLength = 0;
+  pdfUrl: string | null = null;;
+
 
   // ---------- 시그널 변수 -----------------
   filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
@@ -88,6 +91,15 @@ export class ContractListComponent {
     this.getEmployees(this.companyId);
     // this.getPayStubs(this.companyId);
   }
+
+  ngOnDestroy() {
+    // 컴포넌트가 파괴될 때 Blob URL 해제, 안하면 다운로드한 pdf가 브라우저 메모리를 잡아먹는다.
+    if (this.pdfUrl) {
+      window.URL.revokeObjectURL(this.pdfUrl);
+      this.pdfUrl = null;
+    }
+  }
+
 
   async getEmployees(companyId: string) {
     // lastValueFrom은 rxjs 비동기 통신을하기위 사용
@@ -154,16 +166,23 @@ export class ContractListComponent {
             pageSize: this.paginator.pageSize,
           };
           return this.contractService.getContracts(this.companyId, query).pipe(
-            map((res: any) => {
-              // Flip flag to show that loading has finished.
-              //   this.isRateLimitReached = res.data === null;
-              console.log(res.data);
-              this.resultsLength = res.total_count;
-              this.dataSource = new MatTableDataSource<any>(res.data);
-              return res.data;
+            catchError((error: HttpErrorResponse) => {
+              // 에러 다이얼로그를 여는 코드
+              this.dialogService.openDialogNegative(
+                error.error.message
+              );
+              return of(null);
             })
           );
         }),
+        map((res: any) => {
+          // Flip flag to show that loading has finished.
+          //   this.isRateLimitReached = res.data === null;
+          console.log(res.data);
+          this.resultsLength = res.total_count;
+          this.dataSource = new MatTableDataSource<any>(res.data);
+          return res.data;
+        })
       ).subscribe();
   }
 
@@ -171,10 +190,8 @@ export class ContractListComponent {
     this.contractService.downloadPdf(key).subscribe({
       next: (res) => {
         const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
-        // 다운로드 후에는 URL을 해제합니다.
-        window.URL.revokeObjectURL(url);
+        this.pdfUrl = window.URL.createObjectURL(blob);
+        window.open(this.pdfUrl);
       },
       error: (error) => {
         console.error(error);

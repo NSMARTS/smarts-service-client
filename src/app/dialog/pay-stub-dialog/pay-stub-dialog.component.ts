@@ -191,11 +191,11 @@ export class PayStubDialogComponent implements AfterViewInit {
 
   onSubmit() {
     if (this.statementForm.valid) {
-      const formData: PayStub = {
+      const formData: any = {
         ...this.statementForm.value,
-        file: this.currentFile,
         company: this.data.companyId,
         writer: this.userInfoStore()._id,
+        file: this.currentFile
       };
 
       if (this.data.isEditMode) {

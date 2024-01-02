@@ -90,17 +90,18 @@ export class EmployeeProfileEditComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.employees);
-    const employee = this.employees()?.find(
-      (employee) => employee._id === this.employeeId
-    );
-    if (employee) {
-      // 상태관리 중인 직원리스트 가 있으면
-      this.getEmployeeStatus(employee);
-      // console.log(employee);
-    } else {
-      this.getEmployee(); // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
-    }
+    // console.log(this.employees);
+    // const employee = this.employees()?.find(
+    //   (employee) => employee._id === this.employeeId
+    // );
+    // if (employee) {
+    //   // 상태관리 중인 직원리스트 가 있으면
+    //   this.getEmployeeStatus(employee);
+    //   // console.log(employee);
+    // } else {
+    //   this.getEmployee(); // 상태관리 중인 직원 리스트가 없을 경우 rest api로 호출
+    // }
+    this.getEmployee();
   }
 
   getCompanyInfo() {
@@ -148,7 +149,7 @@ export class EmployeeProfileEditComponent {
 
   getManager() {
     this.managerService.getManagerList(this.companyId).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         console.log(res.data);
         let managerList = res.data;
 
@@ -168,7 +169,7 @@ export class EmployeeProfileEditComponent {
         });
         console.log(this.matchingData);
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error(err);
         if (err.status === 404) {
           console.error('No companies found');
@@ -190,8 +191,8 @@ export class EmployeeProfileEditComponent {
         ),
         empEndDate: this.editEmployeeForm.value['empEndDate']
           ? this.commonService.dateFormatting(
-            this.editEmployeeForm.value['empEndDate']
-          )
+              this.editEmployeeForm.value['empEndDate']
+            )
           : null,
       };
 

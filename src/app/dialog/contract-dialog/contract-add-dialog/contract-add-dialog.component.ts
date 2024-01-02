@@ -155,7 +155,6 @@ export class ContractAddDialogComponent implements OnInit, AfterViewInit {
       writer: this.userInfoStore()._id,
       pdf: this.pdfFile()
     }
-
     this.contractService.updateContract(this.data.contractId, body).subscribe({
       next: (res) => {
         this.dialogService.openDialogPositive('Contract created successfully.');

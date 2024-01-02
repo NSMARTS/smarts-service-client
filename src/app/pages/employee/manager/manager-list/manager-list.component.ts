@@ -47,7 +47,7 @@ export class ManagerListComponent {
     this.getManagerList();
   }
 
-  // 회사 목록 조회
+  // 매니저 목록 조회
   getManagerList() {
     this.managerService.getManagerList(this.companyId).subscribe({
       next: (res: HttpResMsg<Manager[]>) => {
@@ -67,19 +67,19 @@ export class ManagerListComponent {
     });
   }
 
-  // 회사 등록
+  // 매니저 등록
   addManager() {
     this.router.navigate(['company/' + this.companyId + '/manager/add']);
   }
 
-  //회사 수정
+  // 매니저 수정
   editManager(managerId: any) {
     this.router.navigate([
       'company/' + this.companyId + '/manager/edit/' + managerId,
     ]);
   }
 
-  //회사 수정
+  // 매니저 관리 수정
   managementManager(managerId: any, managerName: string) {
     console.log(managerId, managerName);
     this.router.navigate(
@@ -90,16 +90,16 @@ export class ManagerListComponent {
     );
   }
 
-  // // 회사 삭제
-  deleteManager(managerId: any) {
+  // 매니저 퇴사
+  retireManager(managerId: any) {
     this.dialogService
-      .openDialogConfirm('Do you delete this manager?')
+      .openDialogConfirm('Do you retire this manager?')
       .subscribe((result: any) => {
         if (result) {
-          this.managerService.deleteManager(managerId).subscribe({
+          this.managerService.retireManager(managerId).subscribe({
             next: () => {
               this.dialogService.openDialogPositive(
-                'Successfully, the manager has been delete.'
+                'Successfully, the manager has been retire.'
               );
               this.getManagerList();
             },
@@ -107,7 +107,7 @@ export class ManagerListComponent {
               console.error(err);
               if (err.status === 404) {
                 this.dialogService.openDialogNegative(
-                  'Cannot delete manager with assigned employees'
+                  'Cannot retire manager with assigned employees'
                 );
               } else {
                 this.dialogService.openDialogNegative('Internet Server Error');
@@ -118,7 +118,7 @@ export class ManagerListComponent {
       });
   }
 
-  // 회사 이름 필터
+  // 매니저 이름 필터
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

@@ -4,6 +4,7 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  OnDestroy,
   ViewChild,
   WritableSignal,
   computed,
@@ -42,20 +43,20 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = './assets/lib/build/pdf.worker.js';
   templateUrl: './pay-stub-list.component.html',
   styleUrls: ['./pay-stub-list.component.scss'],
 })
-export class PayStubListComponent implements AfterViewInit {
+export class PayStubListComponent implements AfterViewInit, OnDestroy {
   selection = new SelectionModel<any>(false, []);
   imgSrc: string = '';
   displayedColumns: string[] = [
-    'employeeName',
-    'title',
     'uploadDate',
+    'title',
+    'employeeName',
     'download',
     'detail',
     'menu',
   ];
 
   url: string = '';
-
+  pdfUrl: string | null = null;
   filteredEmployee = signal<Employee[]>([]); // 자동완성에 들어갈 emploeeList
 
   searchPayStubForm: FormGroup;
@@ -137,6 +138,14 @@ export class PayStubListComponent implements AfterViewInit {
     // this.getPayStubs(this.companyId);
   }
 
+  ngOnDestroy() {
+    // 컴포넌트가 파괴될 때 Blob URL 해제, 안하면 다운로드한 pdf가 브라우저 메모리를 잡아먹는다.
+    if (this.pdfUrl) {
+      window.URL.revokeObjectURL(this.pdfUrl);
+      this.pdfUrl = null;
+    }
+  }
+
   async getEmployees(companyId: string) {
     // lastValueFrom은 rxjs 비동기 통신을하기위 사용
     // 서버에 값을 받아올때까지 멈춘다.
@@ -213,8 +222,9 @@ export class PayStubListComponent implements AfterViewInit {
               return res.data;
             })
           );
-        }),
-      ).subscribe();
+        })
+      )
+      .subscribe();
   }
 
   onRowClick(row: any) {
@@ -250,11 +260,13 @@ export class PayStubListComponent implements AfterViewInit {
   }
 
   editPayStub(id: string, status: string) {
-    console.log(status)
+    console.log(status);
 
     if (status === 'signed') {
-      this.dialogService.openDialogNegative('This document has been signed or declined. No further deleted are allowed.')
-      return
+      this.dialogService.openDialogNegative(
+        'This document has been signed or declined. No further deleted are allowed.'
+      );
+      return;
     }
     this.isDialog = true;
     const dialogRef = this.dialog.open(PayStubDialogComponent, {
@@ -269,14 +281,15 @@ export class PayStubListComponent implements AfterViewInit {
       this.pdfService.memoryRelease();
       this.getPayStubsByQuery();
     });
-
   }
 
   deletePayStub(payStubId: string, status: string) {
-    console.log(status)
+    console.log(status);
     if (status === 'signed') {
-      this.dialogService.openDialogNegative('This document has been signed or declined. No further deleted are allowed.')
-      return
+      this.dialogService.openDialogNegative(
+        'This document has been signed or declined. No further deleted are allowed.'
+      );
+      return;
     }
 
     this.dialogService
@@ -308,10 +321,8 @@ export class PayStubListComponent implements AfterViewInit {
     this.payStubService.downloadPdf(key).subscribe({
       next: (res) => {
         const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
-        // 다운로드 후에는 URL을 해제합니다.
-        window.URL.revokeObjectURL(url);
+        this.pdfUrl = window.URL.createObjectURL(blob);
+        window.open(this.pdfUrl);
       },
       error: (error) => {
         console.error(error);

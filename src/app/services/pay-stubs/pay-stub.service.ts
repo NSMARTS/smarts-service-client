@@ -35,6 +35,7 @@ export class PayStubService {
   edit(payStubId: string, { title, employee, file, writer, company }: Statment): Observable<HttpResMsg<any>> {
     const formData: FormData = new FormData();
     if (file) {
+      console.log(file)
       formData.append("file", file, file?.name);
     }
     formData.append("title", title);
