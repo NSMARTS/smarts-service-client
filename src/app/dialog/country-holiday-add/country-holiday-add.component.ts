@@ -9,9 +9,9 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { CountryService } from 'src/app/services/country.service';
+import { CountryService } from 'src/app/services/country/country.service';
 import * as moment from 'moment';
 
 @Component({

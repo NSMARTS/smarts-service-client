@@ -1,4 +1,4 @@
-import { EmployeeService } from 'src/app/services/employee.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
@@ -10,11 +10,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CountryService } from 'src/app/services/country.service';
+import { CountryService } from 'src/app/services/country/country.service';
 import { Country } from 'src/app/interfaces/employee.interface';
-import { CommonService } from 'src/app/services/common.service';
-import { DialogService } from 'src/app/services/dialog.service';
-import { CompanyService } from 'src/app/services/company.service';
+import { CommonService } from 'src/app/services/common/common.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { CompanyService } from 'src/app/services/company/company.service';
 
 @Component({
   selector: 'app-employee-add',
@@ -86,8 +86,8 @@ export class EmployeeAddComponent {
         ),
         empEndDate: this.addEmployeeForm.value['empEndDate']
           ? this.commonService.dateFormatting(
-              this.addEmployeeForm.value['empEndDate']
-            )
+            this.addEmployeeForm.value['empEndDate']
+          )
           : null,
       };
 

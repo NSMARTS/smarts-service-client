@@ -1,0 +1,132 @@
+<div class="page">
+
+  <div class="dialog_container">
+    <div class="dialog_header">
+      <div class="dialog_title">Contract Details</div>
+    </div>
+
+    <div class="dialog_body">
+      <table class="modal-table">
+        <!-- <colgroup>
+          <col style="width:120px">
+          <col style="width:360px">
+        </colgroup> -->
+        <tbody>
+          <tr>
+            <th>
+              <b>Title</b>
+            </th>
+            <td>
+              {{data.title }}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Description</b>
+            </th>
+            <td>
+              {{data.description}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Upload Date</b>
+            </th>
+            <td>
+              {{data.createdAt| date}}
+            </td>
+          </tr>
+
+          <tr>
+            <th>
+              <b>Writer</b>
+            </th>
+            <td>
+              {{data?.writer?.email}}
+            </td>
+          </tr>
+
+          <tr>
+            <th>
+              <b>Employee</b>
+            </th>
+            <td>
+              {{data.employee.email}} ({{data.employee.username}})
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Status</b>
+            </th>
+            <td>
+              {{data.employeeStatus}}
+            </td>
+          </tr>
+          <tr *ngIf="data.employeeStatus==='signed'">
+            <th>
+              <b> Employee Sign </b>
+            </th>
+            <div #canvasContainer class="canvas-container">
+              <div class="canvasTeacher">
+                <canvas #employeeCanvas></canvas>
+              </div>
+              <div class="cover" id="canvas">
+                <canvas #employeeCanvasCover></canvas>
+              </div>
+            </div>
+          </tr>
+          <tr *ngIf="data.employeeRejectReason">
+            <th>
+              <b>Rejected Reason</b>
+            </th>
+            <td>
+              {{data.employeeRejectReason}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Manager</b>
+            </th>
+            <td>
+              {{data.manager ? data.manager.email + ' (' + data.manager.username + ')' : '-'}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Status</b>
+            </th>
+            <td>
+              {{data.managerStatus}}
+            </td>
+          </tr>
+          <tr *ngIf="data.managerStatus==='signed'">
+            <th>
+              <b> Manager Sign</b>
+            </th>
+            <div #canvasContainer class="canvas-container">
+              <div class="canvasTeacher">
+                <canvas #managerCanvas></canvas>
+              </div>
+              <div class="cover" id="canvas">
+                <canvas #managerCanvasCover></canvas>
+              </div>
+            </div>
+          </tr>
+          <tr *ngIf="data.managerRejectReason">
+            <th>
+              <b>Rejected Reason</b>
+            </th>
+            <td>
+              {{data.managerRejectReason}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- <div class="button_box">
+        <button mat-flat-button mat-dialog-close>Submit</button>
+    </div> -->
+    </div>
+  </div>
+
+</div>

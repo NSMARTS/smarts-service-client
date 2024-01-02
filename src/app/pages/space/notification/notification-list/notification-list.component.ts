@@ -16,13 +16,13 @@ import {
 } from '@angular/forms';
 import { map, merge, startWith, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogService } from 'src/app/services/dialog.service';
-import { NotificationService } from 'src/app/services/notification.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
-import { CommonService } from 'src/app/services/common.service';
+import { CommonService } from 'src/app/services/common/common.service';
 
 @Component({
   selector: 'app-notification-list',

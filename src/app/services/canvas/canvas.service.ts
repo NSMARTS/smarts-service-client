@@ -1,10 +1,12 @@
 import { DestroyRef, Injectable, WritableSignal, inject, signal } from '@angular/core';
-import { ZoomService } from './zoom.service';
-import { PdfService } from './pdf.service';
-import { CANVAS_CONFIG } from '../config/canvas-css';
+import { ZoomService } from '../zoom/zoom.service';
+import { PdfService } from '../pdf/pdf.service';
+import { CANVAS_CONFIG } from '../../config/canvas-css';
 import { fromEvent, merge, takeUntil, throttleTime } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ContainerScroll, ContainerSize, Listener, initContainerScroll, initContainerSize } from '../interfaces/white-board.interface';
+import { ContainerScroll, ContainerSize, Listener, initContainerScroll, initContainerSize } from '../../interfaces/white-board.interface';
+import { DrawingService } from '../drawing/drawing.service';
+import { DrawStoreService } from '../draw-store/draw-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,8 @@ export class CanvasService {
 
   pdfService = inject(PdfService)
   zoomService = inject(ZoomService)
+  drawingService = inject(DrawingService)
+  drawStoreService = inject(DrawStoreService)
 
   pdfInfo = this.pdfService.pdfInfo
   zoomScale: WritableSignal<number> = this.zoomService.zoomScale // 초기값은 1
@@ -181,6 +185,9 @@ export class CanvasService {
   addEventHandler(sourceCanvas: HTMLCanvasElement, targetCanvas: HTMLCanvasElement, tool: any, zoomScale: number) {
     console.log(">>>> Add Event handler:", tool, zoomScale);
 
+    const drawingService = this.drawingService;
+    const drawStoreService = this.drawStoreService;
+
     const sourceCtx = sourceCanvas.getContext("2d")!;
     const targetCtx = targetCanvas.getContext("2d");
 
@@ -251,7 +258,7 @@ export class CanvasService {
 
 
       points = oldPoint;
-      // drawingService.start(sourceCtx, points, tool);
+      drawingService.start(sourceCtx, points, tool);
 
       if (tool.type == 'pointer') {
         // eventBusService.emit(new EventData('gen:newDrawEvent', {
@@ -329,6 +336,8 @@ export class CanvasService {
         tool,
         timeDiff: endTime - startTime!
       };
+
+      drawStoreService.setDrawEvent(1, drawingEvent)
 
       // Generate Event Emitter: new Draw 알림
       // eventBusService.emit(new EventData('gen:newDrawEvent', drawingEvent));

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { ConfirmDialogComponent } from '../dialog/confirm-dialog/confirm-dialog.component';
-import { PositiveDialogComponent } from '../dialog/positive-dialog/positive-dialog.component';
-import { NegativeDialogComponent } from '../dialog/negative-dialog/negative-dialog.component';
+import { ConfirmDialogComponent } from '../../dialog/confirm-dialog/confirm-dialog.component';
+import { PositiveDialogComponent } from '../../dialog/positive-dialog/positive-dialog.component';
+import { NegativeDialogComponent } from '../../dialog/negative-dialog/negative-dialog.component';
 
 @Injectable({
   providedIn: 'root',

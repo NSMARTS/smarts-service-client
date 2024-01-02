@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { catchError, lastValueFrom, of, tap } from 'rxjs';
-import { AccessToken, AuthService } from './services/auth.service';
+import { AccessToken, AuthService } from './services/auth/auth.service';
 import { provideRouter, withRouterConfig } from '@angular/router';
 import { LeaveStatusDetailDialogComponent } from './dialog/leave-status-detail-dialog/leave-status-detail-dialog.component';
 
@@ -28,13 +28,11 @@ import { httpLoadingInterceptorProviders } from './interceptors/http-loading-int
  * @returns
  */
 export function appInitializer(authService: AuthService) {
-  return () => {
+  return async () => {
     if (window.localStorage.getItem('isLoggedIn')) {
+      console.log('app initial')
       authService.isLoggedIn.set(true);
-      return authService.refreshToken().pipe(
-        // tap(() => console.log('app initial : refresh token 재발급')),
-        catchError(() => of())
-      );
+      return await lastValueFrom(authService.refreshToken())
     }
     return;
   };
@@ -94,4 +92,4 @@ export function appInitializer(authService: AuthService) {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,1 +1,34 @@
-<p>board-nav works!</p>
+<div class="nav_container">
+
+  <div>
+    <button mat-raised-button class="backBtn" (click)="backPage()">Back</button>
+  </div>
+
+  <div *ngIf="contractMod() === 'add'">
+    <button mat-raised-button class="saveBtn" (click)="openSaveContract()">Save</button>
+  </div>
+
+  <div *ngIf="contractMod() === 'edit'">
+    <button mat-raised-button class="saveBtn" (click)="openEditContract()">Edit</button>
+  </div>
+
+  <div *ngIf="contractMod() === 'detail'">
+    <button mat-raised-button class="saveBtn" (click)="openDetailContract()">Detail</button>
+  </div>
+
+
+  <!-- receiver 경우 -->
+  <!-- <div *ngIf="flag && contractInfo?.contractResult.receiver.email == userInfo?.email">
+    <div
+      *ngIf="(contractId && (contractInfo?.contractResult.receiverSign[0] == undefined)) && (contractInfo?.contractResult.status != 'Reject')">
+      <button mat-raised-button class="rejectBtn" (click)="openRejectContract()">Reject</button>
+      <button mat-raised-button class="saveBtn" (click)="openSignContract()">Sign</button>
+    </div>
+
+    <div
+      *ngIf="(contractId && (contractInfo?.contractResult.receiverSign[0] != undefined)) || (contractInfo?.contractResult.status == 'Reject')">
+      <button mat-raised-button class="detailBtn" (click)="openContractDetail()">Detail</button>
+    </div>
+  </div> -->
+
+</div>

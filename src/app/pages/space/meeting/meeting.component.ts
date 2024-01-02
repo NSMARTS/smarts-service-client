@@ -11,11 +11,11 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Subject, forkJoin, map, startWith, takeUntil } from 'rxjs';
-import { MeetingService } from 'src/app/services/meeting.service';
-import { EmployeeService } from 'src/app/services/employee.service';
-import { ManagerService } from 'src/app/services/manager.service';
+import { MeetingService } from 'src/app/services/meeting/meeting.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
+import { ManagerService } from 'src/app/services/manager/manager.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogService } from 'src/app/services/dialog.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 import * as moment from 'moment';
 
 import { FADE_IN } from 'src/app/animations/card.animation';

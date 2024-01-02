@@ -16,9 +16,9 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuillEditorComponent } from 'ngx-quill';
 import { map, startWith } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { DialogService } from 'src/app/services/dialog.service';
-import { NotificationService } from 'src/app/services/notification.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
   selector: 'app-notification-edit',

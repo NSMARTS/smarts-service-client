@@ -9,8 +9,8 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
-import { CompanyService } from 'src/app/services/company.service';
-import { DialogService } from 'src/app/services/dialog.service';
+import { CompanyService } from 'src/app/services/company/company.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
 
 @Component({
   selector: 'app-company-add',

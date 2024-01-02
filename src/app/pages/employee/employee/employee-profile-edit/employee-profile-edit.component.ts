@@ -10,14 +10,14 @@ import {
 } from '@angular/forms';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { Country, Employee } from 'src/app/interfaces/employee.interface';
-import { CountryService } from 'src/app/services/country.service';
+import { CountryService } from 'src/app/services/country/country.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogService } from 'src/app/services/dialog.service';
-import { CommonService } from 'src/app/services/common.service';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { CommonService } from 'src/app/services/common/common.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CompanyService } from 'src/app/services/company.service';
-import { ManagerService } from 'src/app/services/manager.service';
+import { ManagerService } from 'src/app/services/manager/manager.service';
+import { CompanyService } from 'src/app/services/company/company.service';
 
 @Component({
   selector: 'app-employee-profile-edit',
@@ -190,8 +190,8 @@ export class EmployeeProfileEditComponent {
         ),
         empEndDate: this.editEmployeeForm.value['empEndDate']
           ? this.commonService.dateFormatting(
-              this.editEmployeeForm.value['empEndDate']
-            )
+            this.editEmployeeForm.value['empEndDate']
+          )
           : null,
       };
 

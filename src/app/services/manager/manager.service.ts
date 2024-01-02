@@ -1,11 +1,11 @@
 import { DestroyRef, Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpResMsg } from '../interfaces/http-response.interfac';
+import { HttpResMsg } from '../../interfaces/http-response.interfac';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Manager } from '../interfaces/manager.interface';
-import { Employee } from '../interfaces/employee.interface';
+import { Manager } from '../../interfaces/manager.interface';
+import { Employee } from '../../interfaces/employee.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class ManagerService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //매니저 등록
   addManager(managerData: any) {
@@ -77,10 +77,10 @@ export class ManagerService {
   ): Observable<HttpResMsg<Employee[]>> {
     return this.http.get<HttpResMsg<Employee[]>>(
       this.baseUrl +
-        '/managers/employees/' +
-        companyId +
-        '/without/' +
-        managerId
+      '/managers/employees/' +
+      companyId +
+      '/without/' +
+      managerId
     );
   }
 
