@@ -78,12 +78,14 @@ export class MainComponent {
         console.log(res);
         //date 최신이 가장 위로 오도록 정렬
         this.allList = await res.allList
-          .map((item: any) => {
+          .filter((item: any) => {
+            if (item.type !== 'pay') {
+              return item
+            }
             // type이 pay인 경우 date는 급여"일자"만 오기 때문에 Full Date로 변환처리해야함
             // 편의상 작년 12월 ~ 올해 12개월 ~ 내년 1월 월급일을 모두 생성하고
             // 현재 +7, -7 구간에 해당하는 날짜를 선택하여 date를 update함
-            if (item.type === 'pay') {
-
+            else if (item.type === 'pay') {
               let payDateAll = [];
               let payDate = item.date;
 
@@ -92,6 +94,7 @@ export class MainComponent {
                 .subtract(1, 'years')
                 .set('month', 11)
                 .set('date', payDate)
+                .startOf('day')
                 .toDate(); // 작년 12월
               // 올해 12개월 월급날
               for (let month = 1; month <= 12; month++) {
@@ -100,16 +103,16 @@ export class MainComponent {
                 payDateAll[month] = moment()
                   .set('month', month - 1)
                   .set('date', payDate)
+                  .startOf('day')
                   .toDate(); // 올해 1~12월
               }
-
               // 내년 1월 월급날
               payDate = item.date;
-
               payDateAll[13] = moment()
                 .add(1, 'years')
                 .set('month', 0)
                 .set('date', payDate)
+                .startOf('day')
                 .toDate(); // 내년 1월
 
               // 해당 구간의 급여일 날짜 찾기
@@ -124,6 +127,10 @@ export class MainComponent {
                   break;
                 }
               }
+              // 왠지는 모르겟는데 type === 'Pay' 면서 
+              // 급여일 기준 +-7 날짜에 포함되지 않는데도 값이 서버에서 온다.
+              // 우선 그런 데이터가 나올 경우 안보이게 return 한다. 
+              return null
             }
             return item;
           }
