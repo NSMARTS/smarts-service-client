@@ -46,21 +46,19 @@ export class MainComponent {
     private dashboardService: DashboardService,
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.ListForm = this.fb.group({
       holidayName: ['', [Validators.required]],
       holidayDate: ['', [Validators.required]],
     });
-
+  }
+  ngAfterViewInit() {
     this.getAllCount();
     this.getAllList();
     this.getAllCountry();
-
-    console.log(this.allCountry);
   }
-
   // 모든 개수 조회
   getAllCount() {
     this.dashboardService.getAllCount().subscribe({
@@ -76,15 +74,16 @@ export class MainComponent {
   // 모든 리스트 조회
   getAllList() {
     this.dashboardService.getAllList().subscribe({
-      next: (res: any) => {
+      next: async (res: any) => {
         console.log(res);
         //date 최신이 가장 위로 오도록 정렬
-        this.allList = res.allList
+        this.allList = await res.allList
           .map((item: any) => {
             // type이 pay인 경우 date는 급여"일자"만 오기 때문에 Full Date로 변환처리해야함
             // 편의상 작년 12월 ~ 올해 12개월 ~ 내년 1월 월급일을 모두 생성하고
             // 현재 +7, -7 구간에 해당하는 날짜를 선택하여 date를 update함
-            if (item.type == 'pay') {
+            if (item.type === 'pay') {
+
               let payDateAll = [];
               let payDate = item.date;
 
@@ -94,7 +93,6 @@ export class MainComponent {
                 .set('month', 11)
                 .set('date', payDate)
                 .toDate(); // 작년 12월
-
               // 올해 12개월 월급날
               for (let month = 1; month <= 12; month++) {
                 // 월별 일자를 고려한 payDate 계산
@@ -107,6 +105,7 @@ export class MainComponent {
 
               // 내년 1월 월급날
               payDate = item.date;
+
               payDateAll[13] = moment()
                 .add(1, 'years')
                 .set('month', 0)
@@ -115,8 +114,9 @@ export class MainComponent {
 
               // 해당 구간의 급여일 날짜 찾기
               // + - 7일 내에 현재 급여일이 어느 날짜에 해당하는지 찾기
-              let oneWeekAgo = moment().subtract(7, 'd').toDate();
-              let oneWeekLater = moment().add(7, 'd').toDate();
+              let oneWeekAgo = moment().subtract(7, 'd').startOf('day').toDate();
+              let oneWeekLater = moment().add(7, 'd').endOf('day').toDate();
+
               // 현재 구간에 해당하는 실제 월급일 찾기
               for (let payDateItem of payDateAll) {
                 if (oneWeekAgo <= payDateItem && payDateItem <= oneWeekLater) {
@@ -126,7 +126,8 @@ export class MainComponent {
               }
             }
             return item;
-          })
+          }
+          )
           .sort(
             (a: any, b: any) =>
               new Date(b.date).getTime() - new Date(a.date).getTime()
