@@ -78,6 +78,7 @@ export class MainComponent {
         console.log(res);
         //date 최신이 가장 위로 오도록 정렬
         this.allList = await res.allList
+          // map 에서 filter로 변경. 조건문과 일치하지 않으면 배열에서 제거
           .filter((item: any) => {
             if (item.type !== 'pay') {
               return item
@@ -119,20 +120,22 @@ export class MainComponent {
               // + - 7일 내에 현재 급여일이 어느 날짜에 해당하는지 찾기
               let oneWeekAgo = moment().subtract(7, 'd').startOf('day').toDate();
               let oneWeekLater = moment().add(7, 'd').endOf('day').toDate();
-
+              let isPayDateWithinRange = false;
               // 현재 구간에 해당하는 실제 월급일 찾기
               for (let payDateItem of payDateAll) {
                 if (oneWeekAgo <= payDateItem && payDateItem <= oneWeekLater) {
                   item.date = payDateItem;
+                  isPayDateWithinRange = true;
                   break;
                 }
               }
               // 왠지는 모르겟는데 type === 'Pay' 면서 
               // 급여일 기준 +-7 날짜에 포함되지 않는데도 값이 서버에서 온다.
               // 우선 그런 데이터가 나올 경우 안보이게 return 한다. 
-              return null
+              return isPayDateWithinRange; // 현재 구간 내 급여일이 있으면 true, 없으면 false 반환
+
             }
-            return item;
+
           }
           )
           .sort(
