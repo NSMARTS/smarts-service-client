@@ -6,7 +6,7 @@
   <div style="flex: 1">
     <h1 *ngIf="isSidenavRequired">
       {{companyInfo?.name}}
-      <span>({{companyInfo?.date | date: 'YYYY-MM-dd'}})</span>
+      <span>({{companyInfo?.date | date: 'yyyy-MM-dd'}})</span>
     </h1>
     <h1 *ngIf="!isSidenavRequired" [routerLink]="['/main']">GLOBAL HR KOREA</h1>
   </div>

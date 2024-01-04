@@ -31,7 +31,7 @@
       <ng-container matColumnDef="contractDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by contractDate"> ContractDate
         </th>
-        <td mat-cell *matCellDef="let element"> {{element?.contractDate | date: 'YYYY-MM-dd'}} </td>
+        <td mat-cell *matCellDef="let element"> {{element?.contractDate | date: 'yyyy-MM-dd'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="payDate">
