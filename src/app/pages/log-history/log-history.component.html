@@ -6,7 +6,7 @@
 
 
   <!-- 직원 & 매저 조회 -->
-  <div class="log__container">
+  <!-- <div class="log__container"> -->
     <div class="table_container">
       <form [formGroup]="searchLogsForm" novalidate>
         <div class="filter">
@@ -68,7 +68,8 @@
         API rate limit has been reached. It will be reset in one minute.
       </div>
     </div> -->
-
+  <div class="log__container">
+    <div class="margin">
       <table mat-table class="table" [dataSource]="dataSource" matSort matSortActive="leaveTime" matSortDisableClear
         matSortDirection="desc">
 
@@ -78,6 +79,13 @@
             {{ element?.employee?.email || element?.manager?.email || element?.admin?.email }}
           </td>
         </ng-container>
+
+        <ng-container matColumnDef="company">
+            <th mat-header-cell *matHeaderCellDef> Company </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.company ? element.company.companyName : 'Global HR KOREA' }}
+            </td>
+          </ng-container>
 
         <ng-container matColumnDef="leaveTime">
           <th mat-header-cell *matHeaderCellDef> Last Access Date </th>
@@ -93,7 +101,7 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row (click)="handleClick(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
-          *matRowDef="let row; columns: displayedColumns;"></tr>
+          *matRowDef="let row; columns: displayedColumns;" [ngClass]="{ 'click-row': row._id === selectedRowId }"></tr>
         <tr class=" mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="9999">
             No data
@@ -103,9 +111,13 @@
 
       <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 50]"
         showFirstLastButtons></mat-paginator>
-
     </div>
+<div class="margin">
     <app-find-user-logs />
+</div>
+</div>
 
-  </div>
+
+</div>
+  <!-- </div> -->
 </div>

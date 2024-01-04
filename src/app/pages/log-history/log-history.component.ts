@@ -1,14 +1,33 @@
-
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, ViewChild, WritableSignal, inject, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  DestroyRef,
+  ViewChild,
+  WritableSignal,
+  inject,
+  signal,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import * as moment from 'moment';
 import { CompanyService } from 'src/app/services/company/company.service';
-import { catchError, lastValueFrom, map, merge, of, startWith, switchMap } from 'rxjs';
+import {
+  catchError,
+  lastValueFrom,
+  map,
+  merge,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LogService } from 'src/app/services/log/log.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -24,34 +43,31 @@ import { PeriodicElement } from '../main/main.component';
     CommonModule,
     MaterialsModule,
     ReactiveFormsModule,
-    FindUserLogsComponent
+    FindUserLogsComponent,
   ],
   templateUrl: './log-history.component.html',
-  styleUrls: ['./log-history.component.scss']
+  styleUrls: ['./log-history.component.scss'],
 })
 export class LogHistoryComponent {
+  selectedRowId: string | null = null;
   // Dependency inject
-  private fb = inject(FormBuilder)
-  companyService = inject(CompanyService)
-  logService = inject(LogService)
-  dialogService = inject(DialogService)
+  private fb = inject(FormBuilder);
+  companyService = inject(CompanyService);
+  logService = inject(LogService);
+  dialogService = inject(DialogService);
 
-  filteredCompany = signal<any[]>([]); // 자동완성에 들어갈 
+  filteredCompany = signal<any[]>([]); // 자동완성에 들어갈
 
   companies = signal<any[]>([]);
 
   destroyRef = inject(DestroyRef);
 
-  displayedColumns: string[] = [
-    'employee', 'leaveTime', 'url'
-  ];
+  displayedColumns: string[] = ['employee', 'company', 'leaveTime', 'url'];
 
   dataSource = new MatTableDataSource<any>([]);
   searchLogsForm: FormGroup;
 
   clickedRows = new Set<PeriodicElement>();
-
-
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -68,8 +84,10 @@ export class LogHistoryComponent {
     this.startOfMonth = moment().startOf('month').toDate();
 
     // 이번 달의 마지막 날, 시간을 23:59:59로 설정
-    this.endOfMonth = moment().endOf('month').set({ hour: 23, minute: 59, second: 59 }).toDate();
-
+    this.endOfMonth = moment()
+      .endOf('month')
+      .set({ hour: 23, minute: 59, second: 59 })
+      .toDate();
 
     this.searchLogsForm = this.fb.group({
       companyFormControl: new FormControl(''),
@@ -83,11 +101,12 @@ export class LogHistoryComponent {
   }
 
   async getCompanies() {
-    const companies: any = await lastValueFrom(this.companyService.getCompanyList())
-    this.companies.set(companies.data)
+    const companies: any = await lastValueFrom(
+      this.companyService.getCompanyList()
+    );
+    this.companies.set(companies.data);
 
     this.setAutoComplete();
-
   }
 
   /**
@@ -111,19 +130,19 @@ export class LogHistoryComponent {
   }
   private _filterStates(company: string): any[] {
     const filterValue = company.toLowerCase();
-    return this.companies().filter(
-      (state) =>
-        state.companyName.toLowerCase().includes(filterValue));
+    return this.companies().filter((state) =>
+      state.companyName.toLowerCase().includes(filterValue)
+    );
   }
-
 
   getEmployeesByQuery() {
     const formValue = this.searchLogsForm.value;
 
-    this.startOfMonth = this.searchLogsForm.controls['startOfMonth'].value
+    this.startOfMonth = this.searchLogsForm.controls['startOfMonth'].value;
     // 선택한날 23:59:59초로 변경
-    this.endOfMonth = moment(this.searchLogsForm.controls['endOfMonth'].value).set({ hour: 23, minute: 59, second: 59 }).toDate();
-
+    this.endOfMonth = moment(this.searchLogsForm.controls['endOfMonth'].value)
+      .set({ hour: 23, minute: 59, second: 59 })
+      .toDate();
 
     // 조건에 따른 사원들 휴가 가져오기
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -143,9 +162,7 @@ export class LogHistoryComponent {
           return this.logService.getLogs(query).pipe(
             catchError((error: HttpErrorResponse) => {
               // 에러 다이얼로그를 여는 코드
-              this.dialogService.openDialogNegative(
-                error.error.message
-              );
+              this.dialogService.openDialogNegative(error.error.message);
               return of(null);
             })
           );
@@ -157,17 +174,18 @@ export class LogHistoryComponent {
           this.dataSource = new MatTableDataSource<any>(res.data);
           return res.data;
         })
-      ).subscribe();
+      )
+      .subscribe();
   }
-
 
   handleClick(row: any) {
     const setData = {
       ...row,
       startOfMonth: this.startOfMonth,
-      endOfMonth: this.endOfMonth
-    }
-    this.logService.setSelectedLog(setData)
-  }
+      endOfMonth: this.endOfMonth,
+    };
+    this.logService.setSelectedLog(setData);
 
+    this.selectedRowId = row._id;
+  }
 }
