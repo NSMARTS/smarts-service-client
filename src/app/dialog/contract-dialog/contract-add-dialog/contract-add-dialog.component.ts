@@ -54,7 +54,7 @@ export class ContractAddDialogComponent implements OnInit, AfterViewInit {
   ) {
     this.addContractForm = this.formBuilder.group({
       title: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      description: [''],
       employee: new FormControl<string>('', [
         Validators.required,
         Validators.email,
@@ -127,24 +127,27 @@ export class ContractAddDialogComponent implements OnInit, AfterViewInit {
 
 
   addContract() {
+if (this.addContractForm.valid) {
+  const body = {
+    ...this.addContractForm.value,
+    company: this.contractData.companyId,
+    writer: this.userInfoStore()._id,
+    pdf: this.pdfFile(),
+  };
 
-    const body = {
-      ...this.addContractForm.value,
-      company: this.contractData.companyId,
-      writer: this.userInfoStore()._id,
-      pdf: this.pdfFile()
-    }
-
-    this.contractService.createContract(body).subscribe({
-      next: (res) => {
-        this.dialogService.openDialogPositive('Contract created successfully.');
-        this.dialogRef.close(true);
-        this.router.navigate([`/company/${this.contractData.companyId}/contract`]);
-      },
-      error: (error) => {
-        this.dialogService.openDialogNegative(error.error.message);
-      }
-    })
+  this.contractService.createContract(body).subscribe({
+    next: (res) => {
+      this.dialogService.openDialogPositive('Contract created successfully.');
+      this.dialogRef.close(true);
+      this.router.navigate([
+        `/company/${this.contractData.companyId}/contract`,
+      ]);
+    },
+    error: (error) => {
+      this.dialogService.openDialogNegative(error.error.message);
+    },
+  });
+}
   }
 
   editContract() {

@@ -16,8 +16,8 @@ import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { CommonService } from 'src/app/services/common/common.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CompanyService } from 'src/app/services/company/company.service';
 import { ManagerService } from 'src/app/services/manager/manager.service';
+import { CompanyService } from 'src/app/services/company/company.service';
 
 @Component({
   selector: 'app-employee-profile-edit',

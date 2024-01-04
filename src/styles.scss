@@ -503,7 +503,7 @@ $smart_service_primary_color: var(--point-color);
 //공통 add
 .add_container {
   padding: 20px 20px;
-  // border: 1px solid rgba(238, 238, 238, 0.548);
+  border: 1px solid rgb(224 224 224);
   border: none;
   border-radius: 4px;
   background-color: #fff;
@@ -519,15 +519,19 @@ $smart_service_primary_color: var(--point-color);
 
 .lineDivider {
   border-bottom: 1px solid rgb(224 224 224);
+  border-right: 1px solid rgb(224 224 224);
+  border-left: 1px solid rgb(224 224 224);
 }
+
+.lineDivider:first-child {border-top: 1px solid rgb(224 224 224);}
 
 .leftTable {
   border-radius: 4px;
   margin: 1px;
   padding: 20px;
-  color: #fff;
+  color: #56B1AC;
   font-weight: 500;
-  background-color: var(--point-text-color);
+  background-color: #F0F2F5;
 }
 
 .rightTable {

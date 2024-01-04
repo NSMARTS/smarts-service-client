@@ -1,8 +1,11 @@
 <!-- Thumbnail -->
-<button *ngIf="contractMod()!=='detail'" mat-raised-button style="width: 100%;" (click)="pdfInput.click()">
-  <mat-icon>file_open</mat-icon> Open File
-  <input #pdfInput type="file" (change)="handleUploadFileChanged($event)" style="display:none;" accept=".pdf" />
-</button>
+<p>
+  <button *ngIf="contractMod()!=='detail'" mat-raised-button class="openFileBtn" (click)="pdfInput.click()">
+    <!-- <mat-icon>file_open</mat-icon>  -->
+    Choose PDF file
+    <input #pdfInput type="file" (change)="handleUploadFileChanged($event)" style="display:none;" accept=".pdf" />
+  </button>
+</p>
 
 <div class="thumbnail-container">
   <div class="thumb-item" *ngFor="let thumb of thumbArray; let i = index" (click)="clickThumb(i+1)">

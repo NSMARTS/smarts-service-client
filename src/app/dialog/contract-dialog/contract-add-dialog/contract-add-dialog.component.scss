@@ -3,44 +3,43 @@
   height: 100%;
 }
 
+.mainContent {padding: 40px;}
+
 .mainTitle {
-  font-size: 22px;
+  font-size: 26px;
+  text-align: center;
   font-weight: bold;
-  margin: 20px 0;
+  margin-bottom: 40px;
 }
 
 .leaveTableContainer {
   min-width: 600px;
   max-width: 1200px;
-  padding: 20px 20px;
-  border: 1px solid rgba(238, 238, 238, 0.548);
-  border-radius: 4px;
+  border: 1px solid #E0E0E0;
+  // border-radius: 4px;
   background-color: #fff;
   box-sizing: border-box;
   font-size: 15px;
-  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
 
   .br_ltop {
-    border-radius: 4px;
     margin-bottom: 15px;
   }
 }
 
 .lineDivider {
-  border-bottom: 1px solid #000;
+  // border-bottom: 1px solid #E0E0E0;
 }
 
 .leftTable {
-  border-radius: 4px;
   margin: 1px;
   padding: 20px;
-  color: #fff;
+  color: #6A6E80;
   font-weight: 700;
-  background-color: #273da0;
+  background-color: #F0F2F5;
 }
 
 .rightTable {
-  border-left: 1px solid #000;
+  // border-left: 1px solid #E0E0E0;
   padding: 20px;
 }
 
@@ -56,9 +55,16 @@
   width: 300px;
 }
 
+.mt-30 {margin: 30px 0 20px;}
+
 .saveBtn {
-  background: #00154F;
+  background: #96CDCA;
   color: #fff;
+  box-shadow: none;
+}
+
+.cancelBtn {
+  box-shadow: none;
 }
 
 .submit-form {
