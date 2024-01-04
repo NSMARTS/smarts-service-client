@@ -1,0 +1,173 @@
+
+import { CommonModule } from '@angular/common';
+import { Component, DestroyRef, ViewChild, WritableSignal, inject, signal } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MaterialsModule } from 'src/app/materials/materials.module';
+import * as moment from 'moment';
+import { CompanyService } from 'src/app/services/company/company.service';
+import { catchError, lastValueFrom, map, merge, of, startWith, switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LogService } from 'src/app/services/log/log.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+
+import { FindUserLogsComponent } from './find-user-logs/find-user-logs.component';
+import { PeriodicElement } from '../main/main.component';
+
+@Component({
+  selector: 'app-log-history',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MaterialsModule,
+    ReactiveFormsModule,
+    FindUserLogsComponent
+  ],
+  templateUrl: './log-history.component.html',
+  styleUrls: ['./log-history.component.scss']
+})
+export class LogHistoryComponent {
+  // Dependency inject
+  private fb = inject(FormBuilder)
+  companyService = inject(CompanyService)
+  logService = inject(LogService)
+  dialogService = inject(DialogService)
+
+  filteredCompany = signal<any[]>([]); // 자동완성에 들어갈 
+
+  companies = signal<any[]>([]);
+
+  destroyRef = inject(DestroyRef);
+
+  displayedColumns: string[] = [
+    'employee', 'leaveTime', 'url'
+  ];
+
+  dataSource = new MatTableDataSource<any>([]);
+  searchLogsForm: FormGroup;
+
+  clickedRows = new Set<PeriodicElement>();
+
+
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  isLoadingResults = true;
+  isRateLimitReached = false;
+  resultsLength = 0;
+
+  startOfMonth: Date;
+  endOfMonth: Date;
+
+  constructor() {
+    // string을 date 형식으로 바꿔야지 table에 나온다 ...
+    this.startOfMonth = moment().startOf('month').toDate();
+
+    // 이번 달의 마지막 날, 시간을 23:59:59로 설정
+    this.endOfMonth = moment().endOf('month').set({ hour: 23, minute: 59, second: 59 }).toDate();
+
+
+    this.searchLogsForm = this.fb.group({
+      companyFormControl: new FormControl(''),
+      emailFormControl: new FormControl(''),
+      startOfMonth: new FormControl(this.startOfMonth),
+      endOfMonth: new FormControl(this.endOfMonth),
+    });
+  }
+  ngAfterViewInit(): void {
+    this.getCompanies();
+  }
+
+  async getCompanies() {
+    const companies: any = await lastValueFrom(this.companyService.getCompanyList())
+    this.companies.set(companies.data)
+
+    this.setAutoComplete();
+
+  }
+
+  /**
+   * email 폼 자동완성 코드 ---------------------------------
+   */
+  setAutoComplete() {
+    // auto complete
+    this.searchLogsForm.controls['companyFormControl'].valueChanges
+      .pipe(
+        startWith(''),
+        map((company) =>
+          company ? this._filterStates(company) : this.companies().slice()
+        ),
+        // 배열로 가져온거 시그널에 등록
+        map((companies) => this.filteredCompany.set(companies)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.getEmployeesByQuery();
+  }
+  private _filterStates(company: string): any[] {
+    const filterValue = company.toLowerCase();
+    return this.companies().filter(
+      (state) =>
+        state.companyName.toLowerCase().includes(filterValue));
+  }
+
+
+  getEmployeesByQuery() {
+    const formValue = this.searchLogsForm.value;
+
+    this.startOfMonth = this.searchLogsForm.controls['startOfMonth'].value
+    // 선택한날 23:59:59초로 변경
+    this.endOfMonth = moment(this.searchLogsForm.controls['endOfMonth'].value).set({ hour: 23, minute: 59, second: 59 }).toDate();
+
+
+    // 조건에 따른 사원들 휴가 가져오기
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          const query = {
+            ...formValue,
+            startOfMonth: this.startOfMonth,
+            endOfMonth: this.endOfMonth,
+            active: this.sort.active,
+            direction: this.sort.direction,
+            pageIndex: this.paginator.pageIndex,
+            pageSize: this.paginator.pageSize,
+          };
+          return this.logService.getLogs(query).pipe(
+            catchError((error: HttpErrorResponse) => {
+              // 에러 다이얼로그를 여는 코드
+              this.dialogService.openDialogNegative(
+                error.error.message
+              );
+              return of(null);
+            })
+          );
+        }),
+        map((res: any) => {
+          // Flip flag to show that loading has finished.
+          //   this.isRateLimitReached = res.data === null;
+          this.resultsLength = res.total_count;
+          this.dataSource = new MatTableDataSource<any>(res.data);
+          return res.data;
+        })
+      ).subscribe();
+  }
+
+
+  handleClick(row: any) {
+    const setData = {
+      ...row,
+      startOfMonth: this.startOfMonth,
+      endOfMonth: this.endOfMonth
+    }
+    this.logService.setSelectedLog(setData)
+  }
+
+}

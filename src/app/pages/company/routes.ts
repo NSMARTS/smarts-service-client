@@ -73,13 +73,6 @@ export const COMPANY_ROUTES: Route[] = [
           ),
       },
       {
-        path: ':id/log-history',
-        loadChildren: () =>
-          import('../employee/log-history/routes').then(
-            (m) => m.LOG_HISTORY_ROUTES
-          ),
-      },
-      {
         path: ':id/contract',
         loadChildren: () =>
           import('../employee/contract/routes').then((m) => m.CONTRACT_ROUTES),

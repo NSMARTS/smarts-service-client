@@ -1,7 +1,9 @@
 import {
   Component,
   DestroyRef,
+  HostListener,
   ViewChild,
+  WritableSignal,
   effect,
   inject,
 } from '@angular/core';
@@ -25,6 +27,9 @@ import { SidenavService } from 'src/app/stores/layout/sidenav.service';
 import { NavigationService } from 'src/app/stores/layout/navigation.service';
 import { CompanyService } from 'src/app/services/company/company.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import { LogService } from 'src/app/services/log/log.service';
+import * as moment from 'moment';
+import { AuthService, UserInfo } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -129,11 +134,25 @@ export class LayoutComponent {
     },
   ];
 
+  authService = inject(AuthService);
+  logService = inject(LogService);
+
+  userInfo: WritableSignal<UserInfo> = this.authService.userInfoStore
+  //변수
+  prevUrl: string = this.router.url; // 새로고침 시 첫 url
+  enterTime: string = '';
+  leaveTime: string = '';
+
+
   constructor(
     private router: Router,
     private companyService: CompanyService,
     private _loading: LoadingService
   ) {
+
+    this.enterTime = moment().format('YYYY-MM-DD HH:mm:ss');
+
+
     /**
      * 1. 상단 햄버거 매뉴 클릭 시 사이드바가 나옴
      * this.isSideNavOpen()가 true면 실행
@@ -171,6 +190,11 @@ export class LayoutComponent {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((event: any) => {
+        // url 비교 후 로그생성
+        if (this.prevUrl !== event.urlAfterRedirects) {
+          this.createLog(event.urlAfterRedirects);
+        }
+
         // 최종 url
         const currentUrl = event.urlAfterRedirects;
         const splittedUrl = currentUrl.split('/');
@@ -266,7 +290,20 @@ export class LayoutComponent {
   ngOnDestroy() {
     // To protect you, we'll throw an error if it doesn't exist.
     // this.subscriptions.unsubscribe();
+  }
 
+  /**
+   * 새로고침 시 
+   * ngOnDestory에서 api 요청이 가능할 줄 알았는데
+   * 안된다...
+   * @HostListener('window:beforeunload', ['$event'])
+   * 사용해야한다.
+   * https://stackoverflow.com/questions/51494119/angular4-handle-browser-refresh-close-event
+   * @param $event 
+   */
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    this.createLog(this.prevUrl);
   }
 
   /**
@@ -279,5 +316,35 @@ export class LayoutComponent {
       .subscribe((loading) => {
         this.isLoadingResults = loading;
       });
+  }
+
+  /**
+ * 로그 남기는 api
+ * url이 변경되거나 새로고침 or 컴포넌트가 사라졌을 시(onDestroy) api 요청 
+ * 이전 url 주소, 회사, 유저정보, 입장시간, 나간시간 기록 (머문 페이지 시간 정보 기록)
+ */
+  createLog(currentUrl: string) {
+    this.leaveTime = moment().format('YYYY-MM-DD HH:mm:ss');
+
+    console.log(this.userInfo())
+    let body: any = {
+      admin: this.userInfo()._id,
+      company: this.companyId,
+      url: this.prevUrl,
+      enterTime: this.enterTime,
+      leaveTime: this.leaveTime,
+    };
+
+    console.log(body)
+    // 로그남기는 api 요청
+    this.logService.createLog(body).subscribe({
+      error: (err) => console.error('Error logging navigation', err),
+      complete: () => {
+        // api 요청 후 현재 url, 떠난 시간을 이전 url, 입장시간으로 변경 
+        this.enterTime = this.leaveTime;
+        this.prevUrl = currentUrl;
+
+      }
+    })
   }
 }

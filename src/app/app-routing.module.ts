@@ -56,6 +56,13 @@ export const routes: Routes = [
           import('./pages/country/routes').then((m) => m.COUNTRY_ROUTES),
       },
       {
+        path: 'log-history',
+        loadChildren: () =>
+          import('./pages/log-history/routes').then(
+            (m) => m.LOG_HISTORY_ROUTES
+          ),
+      },
+      {
         path: '',
         redirectTo: 'main',
         pathMatch: 'full',

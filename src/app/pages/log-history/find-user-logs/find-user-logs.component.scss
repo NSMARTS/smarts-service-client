@@ -1,3 +1,8 @@
+.log__container {
+  display: flex;
+  flex-direction: row;
+}
+
 .mat-mdc-row:hover .mat-mdc-cell {
   background-color: transparent !important;
 }
