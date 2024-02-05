@@ -44,7 +44,7 @@
 //   }
 
 .dialog_container {
-    max-width: 700px;
+  max-width: 700px;
 }
 
 .statement_pdf_container {
@@ -70,19 +70,34 @@
 }
 
 .page-buttons {
-    display: flex;
-    flex-direction: row; /* 가로 방향으로 정렬 */
-    align-items: center; /* 요소를 수직 가운데 정렬 (선택 사항) */
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  /* 가로 방향으로 정렬 */
+  align-items: center;
+  /* 요소를 수직 가운데 정렬 (선택 사항) */
+  justify-content: center;
 
-    button {
-        width: 64px;
-    }
+  button {
+    width: 64px;
+  }
 }
 
 .uploadBtn {
-    margin: 30px 0;
+  margin: 30px 0;
 }
+
+.saveBtn {
+  background: #96CDCA;
+  color: #fff;
+  box-shadow: none;
+  margin-top: 30px;
+}
+
+.cancelBtn {
+  margin-top: 30px;
+  box-shadow: none;
+}
+
 
 //   @media screen and (min-width: 768px) {
 //     flex-direction: row;

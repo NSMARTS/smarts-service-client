@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { RetiredManagerListComponent } from './retire-manager.component';
+import { RetiredManagerListComponent } from './retired-manager.component';
 
 export const RETIRED_MANAGER_ROUTES: Route[] = [
   {

@@ -314,4 +314,8 @@ export class PayStubDialogComponent implements AfterViewInit {
     if (this.currentPage() >= this.pdfLength()) return;
     this.currentPage.update((prev) => (prev += 1));
   }
+
+  exit() {
+    this.dialogRef.close()
+  }
 }

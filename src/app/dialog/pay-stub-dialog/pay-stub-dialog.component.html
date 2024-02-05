@@ -5,6 +5,7 @@
     <div class="dialog_container">
       <div class="dialog_twin_header">
         <div class="dialog_twin_title">Upload Statement</div>
+        <!-- <button mat-flat-button class="uploadBtn2" (click)="exit()">Exit</button> -->
       </div>
 
       <div class="dialog_twin_container">
@@ -58,7 +59,13 @@
         </div>
 
       </div>
-      <button mat-flat-button class="uploadBtn2" (click)="onSubmit()">Upload</button>
+      <!-- <button mat-flat-button class="uploadBtn2" (click)="onSubmit()">Upload</button> -->
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+        <button mat-raised-button class="saveBtn" (click)="onSubmit()">
+          Upload
+        </button>
+        <button mat-raised-button class="cancelBtn" mat-dialog-close> Cancel </button>
+      </div>
     </div>
 
   </form>

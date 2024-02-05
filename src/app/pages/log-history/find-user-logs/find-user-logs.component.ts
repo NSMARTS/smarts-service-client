@@ -115,9 +115,15 @@ export class FindUserLogsComponent {
         map((res: any) => {
           // Flip flag to show that loading has finished.
           //   this.isRateLimitReached = res.data === null;
-          console.log(res.data);
+          const updatedData = res.data.map((log: any) => {
+            return {
+              ...log,
+              enterTime: moment(log.enterTime, 'YYYY-MM-DD HH:mm:ss').toDate(),
+              leaveTime: moment(log.leaveTime, 'YYYY-MM-DD HH:mm:ss').toDate()
+            };
+          })
           this.resultsLength = res.total_count;
-          this.dataSource = new MatTableDataSource<any>(res.data);
+          this.dataSource = new MatTableDataSource<any>(updatedData);
           return res.data;
         })
       )

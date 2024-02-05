@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RetiredManagerListComponent } from './retire-manager.component';
+import { RetiredManagerListComponent } from './retired-manager.component';
 
 describe('RetiredManagerListComponent', () => {
   let component: RetiredManagerListComponent;

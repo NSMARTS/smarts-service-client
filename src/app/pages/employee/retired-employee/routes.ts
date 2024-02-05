@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { RetiredEmployeeListComponent } from './retire-employee.component';
+import { RetiredEmployeeListComponent } from './retired-employee.component';
 
 export const RETIRED_EMPLOYEE_ROUTES: Route[] = [
   {

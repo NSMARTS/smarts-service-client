@@ -47,16 +47,16 @@ export const COMPANY_ROUTES: Route[] = [
           import('../space/meeting/routes').then((m) => m.MEETING_ROUTES),
       },
       {
-        path: ':id/retire-employee',
+        path: ':id/retired-employee',
         loadChildren: () =>
-          import('../employee/retire-employee/routes').then(
+          import('../employee/retired-employee/routes').then(
             (m) => m.RETIRED_EMPLOYEE_ROUTES
           ),
       },
       {
-        path: ':id/retire-manager',
+        path: ':id/retired-manager',
         loadChildren: () =>
-          import('../employee/retire-manager/routes').then(
+          import('../employee/retired-manager/routes').then(
             (m) => m.RETIRED_MANAGER_ROUTES
           ),
       },

@@ -144,8 +144,10 @@ export class LogHistoryComponent {
       .set({ hour: 23, minute: 59, second: 59 })
       .toDate();
 
+    console.log(formValue)
+
     // 조건에 따른 사원들 휴가 가져오기
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.sort.sortChange.subscribe((res) => (this.paginator.pageIndex = 0));
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
@@ -170,9 +172,19 @@ export class LogHistoryComponent {
         map((res: any) => {
           // Flip flag to show that loading has finished.
           //   this.isRateLimitReached = res.data === null;
+          console.log(res)
+          const updatedData = res.data.map((log: any) => {
+            return {
+              ...log,
+              enterTime: moment(log.enterTime, 'YYYY-MM-DD HH:mm:ss').toDate(),
+              leaveTime: moment(log.leaveTime, 'YYYY-MM-DD HH:mm:ss').toDate()
+            };
+          })
+
+
           this.resultsLength = res.total_count;
-          this.dataSource = new MatTableDataSource<any>(res.data);
-          return res.data;
+          this.dataSource = new MatTableDataSource<any>(updatedData);
+          return updatedData;
         })
       )
       .subscribe();

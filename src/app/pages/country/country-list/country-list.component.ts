@@ -62,7 +62,9 @@ export class CountryListComponent implements OnInit {
   }
 
   openAddCountry() {
-    const dialogRef = this.dialog.open(CountryAddComponent);
+    const dialogRef = this.dialog.open(CountryAddComponent, {
+      // disableClose: true
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       this.getCountryList();
@@ -72,6 +74,7 @@ export class CountryListComponent implements OnInit {
   editCountry(countryId: any) {
     const dialogRef = this.dialog.open(CountryEditComponent, {
       data: { countryId: countryId },
+      // disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((result) => {

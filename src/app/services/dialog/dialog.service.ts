@@ -16,7 +16,8 @@ export class DialogService {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         content: data,
-      },
+      }, disableClose: true
+
     });
     return dialogRef.afterClosed();
   }
@@ -26,7 +27,8 @@ export class DialogService {
     const dialogRef = this.dialog.open(PositiveDialogComponent, {
       data: {
         content: data,
-      },
+      }, disableClose: true
+
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -41,7 +43,8 @@ export class DialogService {
     const dialogRef = this.dialog.open(NegativeDialogComponent, {
       data: {
         content: data,
-      },
+      }, disableClose: true
+
     });
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -86,7 +86,8 @@ export class BoardNavComponent {
         data: {
           companyId: this.companyId,
           date: convertDate,
-        }
+        },
+        disableClose: true
       });
 
       dialogRef.afterClosed().subscribe((data) => {
@@ -106,7 +107,8 @@ export class BoardNavComponent {
           companyId: this.companyId,
           title: this.contractInfo.data.title,
           description: this.contractInfo.data.description,
-        }
+        },
+        disableClose: true
       });
     }
   }
@@ -116,7 +118,8 @@ export class BoardNavComponent {
       data: {
         ...this.contractInfo.data,
         companyId: this.companyId,
-      }
+      },
+      disableClose: true
     });
   }
 }

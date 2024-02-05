@@ -273,6 +273,7 @@ export class MeetingComponent implements OnInit {
         managers: this.managers,
         employees: this.employees,
       },
+
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -341,6 +342,8 @@ export class MeetingComponent implements OnInit {
         managers: this.managers,
         employees: this.employees,
       },
+      disableClose: true
+
     });
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -275,6 +275,8 @@ export class PayStubListComponent implements AfterViewInit, OnDestroy {
         payStubId: id,
         isEditMode: true, // 명세서 등록인지, 수정인지. true면 명세서 수정이다.
       },
+      disableClose: true
+
     });
     dialogRef.afterClosed().subscribe(() => {
       this.isDialog = false;
@@ -338,6 +340,8 @@ export class PayStubListComponent implements AfterViewInit, OnDestroy {
         companyId: this.companyId,
         employees: this.employees(),
       },
+      disableClose: true
+
     });
     dialogRef.afterClosed().subscribe(() => {
       this.isDialog = false;

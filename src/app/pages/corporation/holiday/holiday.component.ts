@@ -56,6 +56,7 @@ export class HolidayComponent implements OnInit {
         companyHolidayList: this.companyHolidayList,
         compnayId: this.companyId,
       },
+      // disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((result) => {
