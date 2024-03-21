@@ -101,12 +101,25 @@ export class LogHistoryComponent {
   }
 
   async getCompanies() {
-    const companies: any = await lastValueFrom(
-      this.companyService.getCompanyList()
-    );
-    this.companies.set(companies.data);
+    try {
+      // 비동기 요청으로 회사 목록을 가져옵니다.
+      const companies: any = await lastValueFrom(this.companyService.getCompanyList().pipe(
+        catchError(error => {
+          console.error('Error fetching company list', error);
+          return of([]); // 오류가 발생하면 빈 배열 반환
+        })
+      ));
+      // 새 회사 정보 추가
+      const updatedData = [...companies.data, { companyName: 'Global HR KOREA' }];
 
-    this.setAutoComplete();
+      // 업데이트된 데이터 세팅
+      this.companies.set(updatedData);
+
+      // 자동 완성 설정
+      this.setAutoComplete();
+    } catch (error) {
+      console.error('Failed to fetch companies', error);
+    }
   }
 
   /**

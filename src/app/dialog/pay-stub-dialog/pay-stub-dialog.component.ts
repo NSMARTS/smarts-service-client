@@ -58,7 +58,7 @@ export class PayStubDialogComponent implements AfterViewInit {
   destroyRef = inject(DestroyRef);
 
   statementForm: FormGroup;
-
+  isSubmitting: boolean = false;
   @ViewChild('pdfViewer') pdfViewer!: ElementRef<HTMLCanvasElement>;
   pdfInfo: WritableSignal<PdfInfo> = this.pdfService.pdfInfo;
   currentPage: WritableSignal<number> = this.pdfService.currentPage;
@@ -144,6 +144,7 @@ export class PayStubDialogComponent implements AfterViewInit {
             this.getPdf(this.key);
           },
           error: (error) => {
+            this.dialogRef.close()
             this.dialogService.openDialogNegative(error.error.message)
           },
         });
@@ -197,11 +198,12 @@ export class PayStubDialogComponent implements AfterViewInit {
         writer: this.userInfoStore()._id,
         file: this.currentFile
       };
-
+      this.isSubmitting = true
       if (this.data.isEditMode) {
         this.edit(formData);
       } else {
         if (!this.currentFile) {
+          this.isSubmitting = false
           this.dialogService.openDialogNegative(
             'The PDF file was not uploaded.'
           );
@@ -225,6 +227,7 @@ export class PayStubDialogComponent implements AfterViewInit {
           });
       },
       error: (err: any) => {
+        this.isSubmitting = false
         if (err.error && err.error.message) {
           this.message = err.error.message;
         } else {
@@ -238,8 +241,12 @@ export class PayStubDialogComponent implements AfterViewInit {
             'The file size is too large. Must be less than 15M.'
           );
         } else {
+          this.dialogRef.close(true);
           this.dialogService.openDialogNegative('upload file Error');
         }
+      },
+      complete: () => {
+        this.isSubmitting = false
       },
     });
   }
@@ -263,8 +270,12 @@ export class PayStubDialogComponent implements AfterViewInit {
             'The file size is too large. Must be less than 15M.'
           );
         } else {
+          this.dialogRef.close(true);
           this.dialogService.openDialogNegative('upload file Error');
         }
+      },
+      complete: () => {
+        this.isSubmitting = false
       },
     });
   }

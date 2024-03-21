@@ -63,10 +63,12 @@
           </div>
           <div class="mt-30" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
             <button mat-raised-button class="cancelBtn" mat-dialog-close> Cancel </button>
-            <button *ngIf="contractMod()==='edit'" mat-raised-button class="saveBtn" (click)="editContract()">
-              Upload
+            <button *ngIf="contractMod()==='edit'" mat-raised-button class="saveBtn" (click)="editContract()"
+              [disabled]="isSubmitting">
+              Edit
             </button>
-            <button *ngIf="contractMod()==='add'" mat-raised-button class="saveBtn" (click)="addContract()">
+            <button *ngIf="contractMod()==='add'" mat-raised-button class="saveBtn" (click)="addContract()"
+              [disabled]="isSubmitting">
               Upload
             </button>
           </div>

@@ -48,7 +48,7 @@ export class ContractAddDialogComponent implements OnInit, AfterViewInit {
   addContractForm: FormGroup;
   contractData;
   receiverSearchChecked: boolean = false;
-
+  isSubmitting: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -128,6 +128,7 @@ export class ContractAddDialogComponent implements OnInit, AfterViewInit {
 
   addContract() {
     if (this.addContractForm.valid) {
+      this.isSubmitting = true
       const body = {
         ...this.addContractForm.value,
         company: this.contractData.companyId,
@@ -144,29 +145,40 @@ export class ContractAddDialogComponent implements OnInit, AfterViewInit {
           ]);
         },
         error: (error) => {
+          this.isSubmitting = false
           this.dialogService.openDialogNegative(error.error.message);
         },
+        complete: () => {
+          this.isSubmitting = false
+        }
       });
     }
   }
 
   editContract() {
+    if (this.addContractForm.valid) {
+      this.isSubmitting = true
 
-    const body = {
-      ...this.addContractForm.value,
-      company: this.contractData.companyId,
-      writer: this.userInfoStore()._id,
-      pdf: this.pdfFile()
-    }
-    this.contractService.updateContract(this.data.contractId, body).subscribe({
-      next: (res) => {
-        this.dialogService.openDialogPositive('Contract created successfully.');
-        this.dialogRef.close(true);
-        this.router.navigate([`/company/${this.contractData.companyId}/contract`]);
-      },
-      error: (error) => {
-        this.dialogService.openDialogNegative(error.error.message);
+      const body = {
+        ...this.addContractForm.value,
+        company: this.contractData.companyId,
+        writer: this.userInfoStore()._id,
+        pdf: this.pdfFile()
       }
-    })
+      this.contractService.updateContract(this.data.contractId, body).subscribe({
+        next: (res) => {
+          this.dialogService.openDialogPositive('Contract created successfully.');
+          this.dialogRef.close(true);
+          this.router.navigate([`/company/${this.contractData.companyId}/contract`]);
+        },
+        error: (error) => {
+          this.isSubmitting = false
+          this.dialogService.openDialogNegative(error.error.message);
+        },
+        complete: () => {
+          this.isSubmitting = false
+        }
+      })
+    }
   }
 }

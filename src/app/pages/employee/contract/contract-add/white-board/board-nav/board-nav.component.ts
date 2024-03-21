@@ -119,7 +119,6 @@ export class BoardNavComponent {
         ...this.contractInfo.data,
         companyId: this.companyId,
       },
-      disableClose: true
     });
   }
 }
