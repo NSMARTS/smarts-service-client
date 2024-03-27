@@ -1,16 +1,9 @@
 import { AuthService } from '../../../services/auth/auth.service';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  inject,
-} from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from 'src/app/materials/materials.module';
 import { SidenavService } from 'src/app/stores/layout/sidenav.service';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { DataService } from 'src/app/stores/data/data.service';
-import { takeUntil } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -39,16 +32,14 @@ export class ToolbarComponent {
   profileImg: string = '';
   companyId: any;
 
-  constructor() // private toolbarService: ToolbarService,
-  // public dataService: DataService // private route: ActivatedRoute,
-  {
+  constructor() {
+    // public dataService: DataService // private route: ActivatedRoute, // private toolbarService: ToolbarService,
     // this.companyId = this.route.snapshot.params['id'];
     // this.dataService.userCompanyProfile
     //   .pipe(takeUntil(this.unsubscribe$))
     //   .subscribe((res: any) => {
     //     this.companyId = res;
     //   });
-
   }
 
   ngOnInit(): void {

@@ -11,14 +11,15 @@ export const SIDENAV_ROUTE_INFO: NavigationItem[] = [
         label: 'Info',
         route: '/information',
         icon: 'dashboard',
-        // isAdmin: true
+        isAdmin: true,
       },
       {
         type: 'link',
         label: 'Holiday Management',
         route: '/holiday',
         icon: 'today',
-        // isAdmin: true
+        isAnnual: false,
+        isAdmin: true,
       },
     ],
   },
@@ -62,6 +63,7 @@ export const SIDENAV_ROUTE_INFO: NavigationItem[] = [
         route: '/leave-status/',
         icon: 'event_note',
         isAdmin: true,
+        isAnnual: false,
       },
       // {
       //   type: 'link',

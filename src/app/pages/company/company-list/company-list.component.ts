@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ViewChild,
-  WritableSignal,
-} from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,7 +9,6 @@ import { Company } from 'src/app/interfaces/company.interface';
 import { HttpResMsg } from 'src/app/interfaces/http-response.interfac';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MatSort, Sort } from '@angular/material/sort';
-import { map, merge, startWith, switchMap } from 'rxjs';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
@@ -38,7 +32,6 @@ export class CompanyListComponent implements AfterViewInit {
   ];
 
   company: Company[] = [];
-  companyId: WritableSignal<String>;
 
   dataSource: MatTableDataSource<Company> = new MatTableDataSource<Company>([]);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -53,9 +46,7 @@ export class CompanyListComponent implements AfterViewInit {
     private companyService: CompanyService,
     public dialogService: DialogService,
     private _liveAnnouncer: LiveAnnouncer
-  ) {
-    this.companyId = this.companyService.companyId;
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.getCompanyList();
@@ -94,6 +85,7 @@ export class CompanyListComponent implements AfterViewInit {
 
     this.companyService.getCompanyListWith().subscribe({
       next: (res: HttpResMsg<Company[]>) => {
+        console.log(res.data);
         this.company = res.data;
         this.isLoadingResults = false;
         this.isRateLimitReached = res.data === null;
@@ -119,7 +111,6 @@ export class CompanyListComponent implements AfterViewInit {
 
   // 회사 입장
   detailCompany(companyId: any) {
-    this.companyId.set(companyId);
     this.router.navigate(['company/' + companyId + '/information']);
   }
 

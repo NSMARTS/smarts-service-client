@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Company } from '../../interfaces/company.interface';
 import { HttpResMsg } from '../../interfaces/http-response.interfac';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -13,22 +13,29 @@ export class CompanyService {
   private baseUrl = environment.apiUrl;
   destroyRef = inject(DestroyRef);
 
-  companyId = signal<string>('');
+  companyInfoSignal = signal<any | null>(null);
 
   constructor(private http: HttpClient) {
-    effect(() => console.log('회사 ID :', this.companyId()));
+    effect(() => {
+      console.log('회사정보');
+      console.log(this.companyInfoSignal());
+    });
   }
 
   //회사 등록
   addCompany(companyData: any) {
-    return this.http
-      .post(this.baseUrl + '/companies', companyData)
+    return this.http.post(this.baseUrl + '/companies', companyData);
   }
 
   //회사 목록 조회
   getCompanyList(): Observable<HttpResMsg<Company[]>> {
     return this.http
       .get<HttpResMsg<Company[]>>(this.baseUrl + '/companies')
+      .pipe(
+        tap((res: any) => {
+          console.log(res);
+        })
+      );
   }
 
   // sorting 예제 현재 sorting pagenation
@@ -44,12 +51,14 @@ export class CompanyService {
 
   //회사 목록과 회사별 직원, 매니저 수 조회
   getCompanyListWith(): Observable<HttpResMsg<Company[]>> {
-
-    return this.http.get<HttpResMsg<Company[]>>(
-      this.baseUrl + '/companies/with'
-    );
+    return this.http
+      .get<HttpResMsg<Company[]>>(this.baseUrl + '/companies/with')
+      .pipe(
+        tap((res: any) => {
+          console.log(res);
+        })
+      );
   }
-
 
   // 회사 상세 조회 HttpParams 방법
   getCompanyInfo(companyId: any): Observable<HttpResMsg<Company>> {

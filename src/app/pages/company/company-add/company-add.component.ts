@@ -65,6 +65,7 @@ export class CompanyAddComponent {
   ) {
     this.addCompanyForm = this.formBuilder.group({
       companyName: ['', [Validators.required]],
+      isAnnual: [true, [Validators.required]],
       leaveStandards: this.formBuilder.array([]),
       isRollover: [false],
       rolloverMaxMonth: [0, [Validators.min(0)]],

@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, effect, signal } from '@angular/core';
 import { SIDENAV_ROUTE_INFO } from 'src/app/config/sidenav-route-info';
 import {
   NavigationCreatSpace,
@@ -21,7 +21,11 @@ export class NavigationService {
   // 이렇게 하면 안되는데 해결법을 몰라 어쩔 수 없이 했다.
   // item을 쓰는 함수에는 전부 타입 체크를 하니 에러는 나지 않을 것이다.
   selectedDropDownItem = signal<NavigationDropdown>({} as NavigationDropdown);
-  constructor() {}
+  constructor() {
+    effect(() => {
+      this.navItems();
+    });
+  }
 
   updateNavItems(companyId: string) {
     const newNavItems = structuredClone(SIDENAV_ROUTE_INFO);

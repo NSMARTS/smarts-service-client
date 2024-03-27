@@ -6,6 +6,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
+  WritableSignal,
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -29,6 +30,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { filter, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationService } from 'src/app/stores/layout/navigation.service';
+import { CompanyService } from 'src/app/services/company/company.service';
 
 @Component({
   selector: 'app-sidenav-item',
@@ -51,6 +53,10 @@ export class SidenavItemComponent implements OnInit, OnChanges {
 
   navigationService = inject(NavigationService);
   selectedDropDownItem = this.navigationService.selectedDropDownItem;
+
+  companyService = inject(CompanyService);
+  companyInfoSignal: WritableSignal<any | null> =
+    this.companyService.companyInfoSignal;
 
   isLink = this.navigationService.isLink;
   isDropdown = this.navigationService.isDropdown;

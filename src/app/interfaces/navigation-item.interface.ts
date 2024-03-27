@@ -18,6 +18,7 @@ export interface NavigationSubheading {
   label: string;
   children: Array<NavigationLink | NavigationDropdown | NavigationCreatSpace>;
   isAdmin?: boolean;
+  isAnnual?: boolean;
 }
 
 /**
@@ -29,6 +30,7 @@ export interface NavigationDropdown {
   icon?: string;
   children: Array<NavigationLink | NavigationDropdown>;
   isAdmin?: boolean;
+  isAnnual?: boolean;
 }
 
 /**
@@ -42,6 +44,7 @@ export interface NavigationLink {
   icon?: string;
   routerLinkActive?: { exact: boolean };
   isAdmin?: boolean;
+  isAnnual?: boolean;
 }
 
 /**
@@ -55,8 +58,10 @@ export interface NavigationCreatSpace {
   icon?: string;
   // routerLinkActive?: { exact: boolean };
   isAdmin?: boolean;
+  isAnnual?: boolean;
 }
 
 export interface SidenavViewPolicy {
   isAdmin?: boolean;
+  isAnnual?: boolean;
 }

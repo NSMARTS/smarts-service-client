@@ -2,6 +2,7 @@ export interface Company {
   _id: string;
   companyCode: string; // asdqwe
   companyName: string; // KR
+  isAnnual: boolean;
   leaveStandards: leaveStandards[];
   leaveStandardsLength: number;
   isRollover: boolean; // 휴가 이월을 할껀지 말껀지,
@@ -18,6 +19,7 @@ export const InitialCompany: Company = {
   _id: '',
   companyCode: '',
   companyName: '',
+  isAnnual: true,
   leaveStandards: [],
   leaveStandardsLength: 0,
   isRollover: false,

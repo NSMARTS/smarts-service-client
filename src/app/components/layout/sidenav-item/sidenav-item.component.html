@@ -1,41 +1,72 @@
 <!-- 소제목 -->
 <ng-container *ngIf="isSubheading(item)" class="item">
-    <div class="subheading">{{ item.label }}</div>
-    <app-sidenav-item class="side_nav_items" *ngFor="let subItem of item.children" [item]="subItem" [flag]="flag" [level]="0"></app-sidenav-item>
+  <div class="subheading">{{ item.label }}</div>
+  <app-sidenav-item
+    class="side_nav_items"
+    *ngFor="let subItem of item.children"
+    [item]="subItem"
+    [flag]="flag"
+    [level]="0"
+  ></app-sidenav-item>
 </ng-container>
-
 
 <!-- 링크 -->
 <div *ngIf="isLink(item)" matRipple>
-  <a *ngIf="(item.isAdmin == flag.isAdmin || flag.isAdmin)"
-    [routerLinkActiveOptions]="item.routerLinkActive || { exact: false }" [routerLink]="item.route" class="item" routerLinkActive="active">
-        <span class="left"></span>
-        <mat-icon [svgIcon]="'matTwoTone:'+item.icon" class="item_icon"></mat-icon>
-        <!-- <mat-icon class="item_icon"> {{item.icon}} </mat-icon> -->
-        <span class="item_label">{{ item.label }}</span>
+  <a
+    *ngIf="
+      item.isAdmin == flag.isAdmin &&
+      flag.isAdmin &&
+      companyInfoSignal() &&
+      !(
+        item.isAnnual == false && item.isAnnual == companyInfoSignal()?.isAnnual
+      )
+    "
+    [routerLinkActiveOptions]="item.routerLinkActive || { exact: false }"
+    [routerLink]="item.route"
+    class="item"
+    routerLinkActive="active"
+  >
+    <span class="left"></span>
+    <mat-icon
+      [svgIcon]="'matTwoTone:' + item.icon"
+      class="item_icon"
+    ></mat-icon>
+    <!-- <mat-icon class="item_icon"> {{item.icon}} </mat-icon> -->
+    <span class="item_label">{{ item.label }}</span>
   </a>
 </div>
 
-
 <!-- 드롭다운 -->
 <ng-container *ngIf="isDropdown(item)">
-  <div *ngIf="(item.isAdmin == flag.isAdmin || flag.isAdmin)">
-    <div matRipple class="item" (click)="toggleOpen()" [class.active]="isOpen || isActive" [class.open]="isOpen">
+  <div *ngIf="item.isAdmin == flag.isAdmin || flag.isAdmin">
+    <div
+      matRipple
+      class="item"
+      (click)="toggleOpen()"
+      [class.active]="isOpen || isActive"
+      [class.open]="isOpen"
+    >
       <!-- <mat-icon fontSet="material-icons-two-tone">{{item.icon}}</mat-icon> -->
-      <mat-icon [svgIcon]="'matTwoTone:'+item.icon" class="item_icon" *ngIf="level === 0"></mat-icon>
-      <span class="item_label" style="flex: 1;">{{ item.label }}</span>
+      <mat-icon
+        [svgIcon]="'matTwoTone:' + item.icon"
+        class="item_icon"
+        *ngIf="level === 0"
+      ></mat-icon>
+      <span class="item_label" style="flex: 1">{{ item.label }}</span>
 
       <mat-icon class="item_dropdown_icon">keyboard_arrow_right</mat-icon>
     </div>
 
     <!-- dropdown menu 하위 list: animation으로 처리 -->
-    <div [@dropdown]="isOpen?'open':'closed'" class="item_dropdown">
+    <div [@dropdown]="isOpen ? 'open' : 'closed'" class="item_dropdown">
       <!-- kje: recursive component (dropdown menu의 하위 children)
         https://netbasal.com/recursion-in-angular-components-1cd636269b12 -->
-      <app-sidenav-item *ngFor="let subItem of item.children" [item]="subItem" [flag]="flag"
-        [level]="level + 1"></app-sidenav-item>
+      <app-sidenav-item
+        *ngFor="let subItem of item.children"
+        [item]="subItem"
+        [flag]="flag"
+        [level]="level + 1"
+      ></app-sidenav-item>
     </div>
   </div>
 </ng-container>
-
-
